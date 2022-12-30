@@ -27,11 +27,13 @@ $ helm install connect \
     --create-namespace
 ```
 
-## Apply
+- [cert-manager](https://cert-manager.io/docs/installation/helm/)
 
 ```console
-$ kubectl kustomize \
-    --load-restrictor LoadRestrictionsNone \
-    $PATH_TO_DIRECTORY | 
-    kubectl apply -f -
+$ helm repo add jetstack https://charts.jetstack.io
+$ helm install \
+  cert-manager jetstack/cert-manager \
+  --set installCRDs=true \
+  -n cert-manager \
+  --create-namespace
 ```
