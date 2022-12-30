@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: 052-bot
+  template:
+    metadata:
+      labels:
+        app: 052-bot
+    spec:
+      containers:
+        - name: app
+          image: app-image:master
+          ports:
+            - containerPort: 5000
+          readinessProbe:
+            httpGet:
+              port: 5000
+              path: /api
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              port: 5000
+              path: /api
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+        - name: bot
+          image: ghcr.io/slashnephy/samekan052_bot:main
+          env:
+            - name: API_BASE_URL
+              value: http://api-service:5000
+            - name: TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: bot-secret
+                  key: discord-bot-token
+          envFrom:
+            - configMapRef:
+                name: bot-config
+      imagePullSecrets:
+        - name: ghcr-io-credentials
+      restartPolicy: Always

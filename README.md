@@ -10,6 +10,7 @@ $ helm install kubernetes-dashboard \
     kubernetes-dashboard/kubernetes-dashboard \
     -n kubernetes-dashboard \
     --create-namespace
+$ kubectl create token admin-user -n kubernetes-dashboard --duration=4294967296s
 ```
 
 - [1Password Connect Server & Operator](https://github.com/1Password/connect-helm-charts/tree/main/charts/connect)
@@ -24,4 +25,13 @@ $ helm install connect \
     --set operator.autoRestart=true \
     -n 1password \
     --create-namespace
+```
+
+## Apply
+
+```console
+$ kubectl kustomize \
+    --load-restrictor LoadRestrictionsNone \
+    $PATH_TO_DIRECTORY | 
+    kubectl apply -f -
 ```

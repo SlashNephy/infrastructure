@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: karasu052
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
+  - ../base
+
+commonLabels:
+  env: karasu052
+
+images:
+  - name: app-image
+    newName: ghcr.io/slashnephy/karasu052
+
+configMapGenerator:
+  - name: bot-config
+    literals:
+      - COMMAND=karasu
+      - DESCRIPTION=ばからす様を呼び寄せます。
+      # GAME: 進捗メイツ？
