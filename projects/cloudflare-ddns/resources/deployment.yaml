@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflare-ddns
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflare-ddns
+  template:
+    metadata:
+      labels:
+        app: cloudflare-ddns
+    spec:
+      containers:
+        - name: cloudflare-ddns
+          image: oznu/cloudflare-ddns
+          env:
+            - name: ZONE
+              value: starry.blue
+            - name: SUBDOMAIN
+              value: direct
+            - name: PROXIED
+              value: "false"
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-ddns-secret
+                  key: cloudflare-api-key
+      restartPolicy: Always
