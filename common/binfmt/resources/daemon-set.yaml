@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: binfmt
+
+spec:
+  selector:
+    matchLabels:
+      name: binfmt
+  template:
+    metadata:
+      labels:
+        name: binfmt
+    spec:
+      containers:
+        - name: binfmt
+          image: tonistiigi/binfmt
+          args:
+            - --install
+            - all
+          imagePullPolicy: Always
+          securityContext:
+            privileged: true
