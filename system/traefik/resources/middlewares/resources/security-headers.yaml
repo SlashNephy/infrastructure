@@ -1,0 +1,49 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: security-headers
+
+spec:
+  headers:
+    # Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+    stsSeconds: 63072000
+    stsIncludeSubdomains: true
+    stsPreload: true
+
+    # X-Frame-Options: SAMEORIGIN
+    customFrameOptionsValue: SAMEORIGIN
+
+    # X-Content-Type-Options: nosniff
+    contentTypeNosniff: true
+
+    # X-XSS-Protection: 1; mode=block
+    browserXssFilter: true
+
+    # Content-Security-Policy
+    contentSecurityPolicy: >-
+      upgrade-insecure-requests;
+      font-src 'self' blob: data: https://fonts.gstatic.com https://static2.sharepointonline.com https://spoppe-b.azureedge.net https://cdn.jsdelivr.net;
+      frame-src https://pilot.traefik.io;
+      manifest-src 'self';
+      media-src 'self' blob:;
+      object-src blob:;
+      worker-src 'self' blob:;
+      report-uri https://starryblue.report-uri.com/r/d/csp/enforce;
+      report-to default
+
+    # Referrer-Policy
+    referrerPolicy: same-origin
+
+    customResponseHeaders:
+      Content-Security-Policy-Report-Only: >-
+        connect-src 'self' https://www.google-analytics.com https://api.iconify.design;
+        img-src 'self' https: data:;
+        prefetch-src 'self';
+        script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://static.cloudflareinsights.com https://www.google-analytics.com https://www.googletagmanager.com;
+        style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com;
+        report-uri https://starryblue.report-uri.com/r/d/csp/enforce;
+        report-to default
+      Report-To: >-
+        {"group":"default","max_age":31536000,"endpoints":[{"url":"https://starryblue.report-uri.com/a/d/g"}],"include_subdomains":true}
+      NEL: >-
+        {"report_to":"default","max_age":31536000,"include_subdomains":true}

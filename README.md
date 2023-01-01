@@ -34,6 +34,22 @@ $ helm repo add jetstack https://charts.jetstack.io
 $ helm install \
   cert-manager jetstack/cert-manager \
   --set installCRDs=true \
-  -n cert-manager \
+  -n traefik \
   --create-namespace
+```
+
+- [traefik](https://doc.traefik.io/traefik/getting-started/install-traefik/#use-the-helm-chart)
+
+```console
+$ helm repo add traefik https://helm.traefik.io/traefik
+$ helm install traefik \
+    traefik/traefik \
+    -f system/traefik/values.yaml \
+    -n traefik \
+    --create-namespace
+# alter editing values.yaml
+$ helm upgrade traefik \
+    traefik/traefik \
+    -f system/traefik/values.yaml \
+    -n traefik
 ```

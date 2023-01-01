@@ -1,0 +1,34 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: TLSOption
+metadata:
+  name: default
+
+spec:
+  minVersion: VersionTLS12
+  maxVersion: VersionTLS13
+  cipherSuites:
+    # TLS 1.2
+    - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+    - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+    # TLS 1.3
+    - TLS_AES_256_GCM_SHA384
+    - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+    - TLS_CHACHA20_POLY1305_SHA256
+  curvePreferences:
+    - X25519
+# TODO: uncomment on production
+#  sniStrict: true
+#  clientAuth:
+#    secretNames:
+#      - cloudflare-ca-secret
+#    clientAuthType: RequireAndVerifyClientCert
+
+---
+
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: cloudflare-ca-secret
+
+spec:
+  itemPath: vaults/4mogpcwrvtvsnpooum4vcevwkm/items/neyppa4fdcfvags52umiawykt4

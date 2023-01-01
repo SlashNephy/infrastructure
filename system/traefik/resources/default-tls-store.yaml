@@ -1,0 +1,20 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: TLSStore
+metadata:
+  name: default
+
+spec:
+  defaultCertificate:
+    secretName: starry-blue-certificate-secret
+  certificates:
+    - secretName: horoscope-dev-certificate-secret
+
+---
+
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: horoscope-dev-certificate-secret
+
+spec:
+  itemPath: vaults/4mogpcwrvtvsnpooum4vcevwkm/items/femhmytusctweawnvab4sn5g24

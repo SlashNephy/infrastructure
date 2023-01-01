@@ -1,0 +1,26 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: apps
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`apps.starry.blue`)
+      services:
+        - name: noop@internal
+          kind: TraefikService
+      middlewares:
+        - name: redirect-to-cloudflare-access
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-cloudflare-access
+
+spec:
+  redirectRegex:
+    regex: ".*"
+    replacement: https://starrybluesky.cloudflareaccess.com

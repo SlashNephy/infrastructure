@@ -1,0 +1,26 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: custom-error-pages
+
+spec:
+  routes:
+    - kind: Rule
+      match: PathPrefix(`/`)
+      priority: 1
+      services:
+        - name: custom-error-pages
+      middlewares:
+        - name: redirect-to-404
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-404
+
+spec:
+  replacePathRegex:
+    regex: ".*"
+    replacement: /404.html

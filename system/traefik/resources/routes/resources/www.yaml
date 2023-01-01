@@ -1,0 +1,26 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: www
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`www.starry.blue`)
+      services:
+        - name: noop@internal
+          kind: TraefikService
+      middlewares:
+        - name: redirect-to-root
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-root
+
+spec:
+  redirectRegex:
+    regex: "https://www.starry.blue/(.*)"
+    replacement: https://starry.blue/$1

@@ -1,0 +1,15 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: custom-error-pages
+
+spec:
+  errors:
+    status:
+      - 403-404
+      - "429"
+      - "500"
+      - 502-503
+    service:
+      name: custom-error-pages
+    query: /{status}.html
