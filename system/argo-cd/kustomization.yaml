@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argo-cd
+
+helmCharts:
+  - name: argo-cd
+    releaseName: argo-cd
+    namespace: argo-cd
+    repo: https://argoproj.github.io/argo-helm
+    version: 5.16.13
+
+resources:
+  - ./resources/namespace.yaml
