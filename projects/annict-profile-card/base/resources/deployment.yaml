@@ -5,8 +5,8 @@ metadata:
     traefik.http.middlewares.annict-profile-card-stripprefix.stripprefix.prefixes: /annict-profile-card
     traefik.http.routers.annict-profile-card.middlewares: annict-profile-card-stripprefix
     traefik.http.routers.annict-profile-card.rule: Host(`apps.starry.blue`) && PathPrefix(`/annict-profile-card`)
-    traefik.http.routers.annict-profile-card.tls: 'true'
-    traefik.http.services.annict-profile-card.loadbalancer.server.port: '8080'
+    traefik.http.routers.annict-profile-card.tls: "true"
+    traefik.http.services.annict-profile-card.loadbalancer.server.port: "8080"
   name: app
 
 spec:
@@ -20,8 +20,8 @@ spec:
         traefik.http.middlewares.annict-profile-card-stripprefix.stripprefix.prefixes: /annict-profile-card
         traefik.http.routers.annict-profile-card.middlewares: annict-profile-card-stripprefix
         traefik.http.routers.annict-profile-card.rule: Host(`apps.starry.blue`) && PathPrefix(`/annict-profile-card`)
-        traefik.http.routers.annict-profile-card.tls: 'true'
-        traefik.http.services.annict-profile-card.loadbalancer.server.port: '8080'
+        traefik.http.routers.annict-profile-card.tls: "true"
+        traefik.http.services.annict-profile-card.loadbalancer.server.port: "8080"
     spec:
       containers:
         - name: app
