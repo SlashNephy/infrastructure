@@ -1,0 +1,26 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`apps.starry.blue`) && PathPrefix(`/annict-profile-card-dev`)
+      services:
+        - name: service
+          port: 8080
+      middlewares:
+        - name: strip-prefix-annict-profile-card-dev
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-prefix-annict-profile-card-dev
+
+spec:
+  stripPrefix:
+    prefixes:
+      - /annict-profile-card-dev
