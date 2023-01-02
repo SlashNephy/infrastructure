@@ -1,27 +1,19 @@
 {
   "name": "k8s-manifests",
   "version": "1.0.0",
-  "repository": "https://github.com/SlashNephy/k8s-manifests",
   "author": "SlashNephy <spica@starry.blue>",
+  "repository": "https://github.com/SlashNephy/k8s-manifests",
   "license": "MIT",
-  "engines": {
-    "node": ">=18"
-  },
   "scripts": {
     "build": "tsc",
-    "test": "jest",
     "format": "concurrently -n format: 'yarn:format:*'",
     "format:eslint": "yarn lint:eslint --fix",
     "format:prettier": "yarn lint:prettier --write",
     "lint": "concurrently -n lint: 'yarn:lint:*'",
     "lint:eslint": "eslint .",
-    "lint:prettier": "prettier --check ."
-  },
-  "packageManager": "yarn@3.3.1",
-  "eslintConfig": {
-    "extends": [
-      "@slashnephy/eslint-config"
-    ]
+    "lint:prettier": "prettier --check .",
+    "snapshot": "jest -u",
+    "test": "jest"
   },
   "devDependencies": {
     "@slashnephy/eslint-config": "0.2.33",
@@ -36,6 +28,15 @@
     "prettier": "2.8.1",
     "ts-jest": "29.0.3",
     "typescript": "4.9.4"
+  },
+  "packageManager": "yarn@3.3.1",
+  "engines": {
+    "node": ">=18"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@slashnephy/eslint-config"
+    ]
   },
   "jest": {
     "preset": "ts-jest"

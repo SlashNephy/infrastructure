@@ -22,7 +22,7 @@ spec:
             - name: SUBDOMAIN
               value: direct
             - name: PROXIED
-              value: "false"
+              value: 'false'
             - name: API_KEY
               valueFrom:
                 secretKeyRef:

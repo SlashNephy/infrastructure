@@ -15,7 +15,6 @@ spec:
         - name: redirect-to-404
 
 ---
-
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
@@ -23,5 +22,5 @@ metadata:
 
 spec:
   replacePathRegex:
-    regex: ".*"
+    regex: '.*'
     replacement: /404.html
