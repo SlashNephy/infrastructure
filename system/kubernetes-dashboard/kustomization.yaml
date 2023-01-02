@@ -1,6 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kubernetes-dashboard
+
+helmCharts:
+  # https://artifacthub.io/packages/helm/k8s-dashboard/kubernetes-dashboard
+  - name: kubernetes-dashboard
+    releaseName: kubernetes-dashboard
+    namespace: kubernetes-dashboard
+    version: 6.0.0
+    repo: https://kubernetes.github.io/dashboard/
+
 resources:
+  - ./resources/namespace.yaml
   - ./resources/account.yaml
   - ./resources/role-binding.yaml

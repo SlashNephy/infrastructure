@@ -3,10 +3,11 @@ kind: Kustomization
 namespace: traefik
 
 resources:
-  - ./resources/cert-manager
+  - ./resources/namespace.yaml
+  - ./resources/helm
   - ./resources/default-tls-store.yaml
   - ./resources/default-tls-option.yaml
   - ./resources/middlewares
   - ./resources/routes
   - ./resources/custom-error-pages
-  # - ./resources/whoami
+  - ./resources/whoami
