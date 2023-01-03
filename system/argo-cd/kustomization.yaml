@@ -12,3 +12,8 @@ helmCharts:
 resources:
   - ./resources/namespace.yaml
   - ./resources/secret-repository.yaml
+  - ./resources/ingress.yaml
+  - ./resources/applications
+
+patchesStrategicMerge:
+  - ./resources/config.yaml
