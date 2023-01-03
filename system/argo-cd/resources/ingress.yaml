@@ -1,0 +1,23 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argo-cd
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`argocd.starry.blue`)
+      services:
+        - name: argo-cd-argocd-server
+          port: https
+          scheme: https
+          serversTransport: allow-insecure
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: ServersTransport
+metadata:
+  name: allow-insecure
+
+spec:
+  insecureSkipVerify: true
