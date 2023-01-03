@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    app: traefik
+
+spec:
+  project: system
+  source:
+    repoURL: git@github.com:SlashNephy/k8s-manifests.git
+    targetRevision: HEAD
+    path: system/traefik
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: traefik
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

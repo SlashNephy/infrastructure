@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubernetes-dashboard
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    app: kubernetes-dashboard
+
+spec:
+  project: system
+  source:
+    repoURL: git@github.com:SlashNephy/k8s-manifests.git
+    targetRevision: HEAD
+    path: system/kubernetes-dashboard
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kubernetes-dashboard
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

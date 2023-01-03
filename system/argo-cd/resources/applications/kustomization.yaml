@@ -3,3 +3,6 @@ kind: Kustomization
 
 resources:
   - ./argo-cd.yaml
+  - ./cert-manager.yaml
+  - ./kubernetes-dashboard.yaml
+  - ./traefik.yaml
