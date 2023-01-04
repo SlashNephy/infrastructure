@@ -13,8 +13,8 @@ resources:
   - ./resources/namespace.yaml
   - ./resources/secret-repository.yaml
   - ./resources/ingress.yaml
-  - ./resources/projects
-  - ./resources/applications
+  - ./resources/projects.yaml
+  - ./resources/application-set.yaml
 
 patchesStrategicMerge:
   - ./resources/config.yaml

@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/annict2anilist:master
+          env:
+            - name: ANILIST_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: anilist-client-id
+            - name: ANILIST_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: anilist-client-secret
+            - name: ANNICT_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: annict-client-id
+            - name: ANNICT_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: annict-client-secret
+            - name: INTERVAL_MINUTES
+              value: "5"
+            - name: TOKEN_DIRECTORY
+              value: /app/token
+          volumeMounts:
+            - mountPath: /app/token
+              name: app-volume
+      restartPolicy: Always
+      volumes:
+        - name: app-volume
+          persistentVolumeClaim:
+            claimName: app-volume

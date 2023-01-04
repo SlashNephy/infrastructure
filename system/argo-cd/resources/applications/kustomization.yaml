@@ -1,9 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-  - ./system/argo-cd.yaml
-  - ./system/cert-manager.yaml
-  - ./system/kubernetes-dashboard.yaml
-  - ./system/traefik.yaml
-  - ./apps/052-bot.yaml
