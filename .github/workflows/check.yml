@@ -1,9 +1,9 @@
-name: "Check"
+name: 'Check'
 
 on:
   push:
     branches:
-      - "master"
+      - 'master'
 
   pull_request:
     types:
@@ -16,26 +16,26 @@ jobs:
   test:
     uses: SlashNephy/.github/.github/workflows/yarn-run.yml@master
     permissions:
-      contents: "read"
+      contents: 'read'
     with:
-      script: "test"
+      script: 'test'
 
   build:
     if: github.event_name != 'push'
     uses: SlashNephy/.github/.github/workflows/yarn-run.yml@master
     permissions:
-      contents: "read"
+      contents: 'read'
     with:
-      script: "build"
+      script: 'build'
 
   lint:
     uses: SlashNephy/.github/.github/workflows/yarn-lint.yml@master
     permissions:
-      contents: "read"
-      pull-requests: "write"
+      contents: 'read'
+      pull-requests: 'write'
 
   format:
     if: github.event_name == 'push'
     uses: SlashNephy/.github/.github/workflows/yarn-format.yml@master
     permissions:
-      contents: "write"
+      contents: 'write'

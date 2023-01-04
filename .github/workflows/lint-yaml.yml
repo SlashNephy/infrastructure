@@ -1,20 +1,20 @@
-name: "Lint *.yml"
+name: 'Lint *.yml'
 
 on:
   push:
     branches:
-      - "master"
+      - 'master'
     paths:
-      - "**/*.yml"
-      - "**/*.yaml"
+      - '**/*.yml'
+      - '**/*.yaml'
 
   pull_request:
     types:
       - opened
       - synchronize
     paths:
-      - "**/*.yml"
-      - "**/*.yaml"
+      - '**/*.yml'
+      - '**/*.yaml'
 
   workflow_dispatch:
 
@@ -22,5 +22,5 @@ jobs:
   lint:
     uses: SlashNephy/.github/.github/workflows/yamllint.yml@master
     permissions:
-      contents: "read"
-      pull-requests: "write"
+      contents: 'read'
+      pull-requests: 'write'
