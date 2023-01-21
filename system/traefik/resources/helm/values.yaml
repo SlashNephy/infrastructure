@@ -69,14 +69,14 @@ ports:
   web:
     port: 8000
     expose: true
-    exposedPort: 80
+    exposedPort: 8080
     protocol: TCP
 
   websecure:
     asDefault: true
     port: 8443
     expose: true
-    exposedPort: 443
+    exposedPort: 8443
     protocol: TCP
     http3:
       enabled: false
