@@ -40,9 +40,11 @@ spec:
                   name: app-secret
                   key: annict-client-secret
             - name: INTERVAL_MINUTES
-              value: "5"
+              value: "1"
             - name: TOKEN_DIRECTORY
               value: /app/token
+            - name: IGNORED_ANILIST_IDS
+              value: "148042"
           volumeMounts:
             - mountPath: /app/token
               name: app-volume
