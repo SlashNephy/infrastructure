@@ -27,8 +27,34 @@ $ helm install \
     --create-namespace
 ```
 
+## Commands
+
+- port-forward `kubernetes-dashboard`
+
+```console
+$ kubectl port-forward src/kubernetes-dashboard 8081:443 \
+    -n kubernetes-dashboard \
+    --address=0.0.0.0
+```
+
+- port-forward `argo-cd`
+
+```console
+$ kubectl port-forward svc/argo-cd-argocd-server 8082:443 \
+    -n argo-cd \
+    --address=0.0.0.0
+```
+
 - Generate bearer token for kubernetes-dashboard
 
 ```console
 $ kubectl create token admin-user -n kubernetes-dashboard --duration=4294967296s
+```
+
+- Check Argo CD initial password
+
+```console
+$ kubectl get secret argocd-initial-admin-secret \
+    -n argo-cd \
+    -o jsonpath="{.data.password}" | base64 -d; echo
 ```
