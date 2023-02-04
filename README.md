@@ -32,7 +32,7 @@ $ helm install \
 - port-forward `kubernetes-dashboard`
 
 ```console
-$ kubectl port-forward src/kubernetes-dashboard 8081:443 \
+$ kubectl port-forward svc/kubernetes-dashboard 8081:443 \
     -n kubernetes-dashboard \
     --address=0.0.0.0
 ```
