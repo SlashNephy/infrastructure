@@ -11,6 +11,9 @@ spec:
   strategy:
     type: Recreate
   template:
+    metadata:
+      labels:
+        app: app
     spec:
       containers:
         - name: app
@@ -20,14 +23,16 @@ spec:
               value: Asia/Tokyo
           volumeMounts:
             - mountPath: /app/config
-              name: asf-claim0
+              name: config-volume
             - mountPath: /app/NLog.config
-              name: asf-claim1
+              name: nlog-volume
       restartPolicy: Always
       volumes:
-        - name: asf-claim0
-          persistentVolumeClaim:
-            claimName: asf-claim0
-        - name: asf-claim1
-          persistentVolumeClaim:
-            claimName: asf-claim1
+        - name: config-volume
+          hostPath:
+            path: /opt/k8s-volumes/archi-steam-farm-config
+            type: DirectoryOrCreate
+        - name: nlog-volume
+          hostPath:
+            path: /opt/k8s-volumes/archi-steam-farm-nlog/NLog.config
+            type: FileOrCreate

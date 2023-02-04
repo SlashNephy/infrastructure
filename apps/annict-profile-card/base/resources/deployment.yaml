@@ -8,7 +8,12 @@ spec:
   selector:
     matchLabels:
       app: app
+  strategy:
+    type: Recreate
   template:
+    metadata:
+      labels:
+        app: app
     spec:
       containers:
         - name: app
