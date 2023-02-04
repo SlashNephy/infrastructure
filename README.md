@@ -29,6 +29,12 @@ $ helm install \
 
 ## Commands
 
+- Create Argo CD resources
+
+```console
+$ kubectl kustomize --enable-helm system/argo-cd | kubectl apply -f -
+```
+
 - port-forward `kubernetes-dashboard`
 
 ```console
