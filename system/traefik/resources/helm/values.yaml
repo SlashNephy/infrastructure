@@ -70,7 +70,7 @@ ports:
     port: 8000
     expose: true
     exposedPort: 80
-    nodePort: 32080
+    nodePort: 80
     protocol: TCP
 
   websecure:
@@ -78,7 +78,7 @@ ports:
     port: 8443
     expose: true
     exposedPort: 443
-    nodePort: 32443
+    nodePort: 443
     protocol: TCP
     http3:
       enabled: false

@@ -1,11 +1,14 @@
 # k8s-manifests
 
+[/slashnephy/k8s](https://scrapbox.io/slashnephy/k8s)
+
 ## Setup
 
 - [1Password Connect Server & Operator](https://github.com/1Password/connect-helm-charts/tree/main/charts/connect)
 
 ```console
 $ helm repo add 1password https://1password.github.io/connect-helm-charts
+$ helm repo update
 $ helm install connect \
     1password/connect \
     --set-file connect.credentials=1password-credentials.json \
@@ -20,6 +23,7 @@ $ helm install connect \
 
 ```console
 $ helm repo add jetstack https://charts.jetstack.io
+$ helm repo update
 $ helm install \
     cert-manager jetstack/cert-manager \
     --set installCRDs=true \
