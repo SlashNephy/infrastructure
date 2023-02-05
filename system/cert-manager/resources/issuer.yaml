@@ -6,9 +6,7 @@ metadata:
 spec:
   acme:
     email: webmaster@starry.blue
-    # TODO: change on production
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    # server: https://acme-v02.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-private-key
     solvers:
