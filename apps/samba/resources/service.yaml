@@ -5,12 +5,16 @@ metadata:
 
 spec:
   type: NodePort
+  selector:
+    app: app
   ports:
     - name: "139"
       port: 139
       targetPort: 139
       nodePort: 139
+      protocol: TCP
     - name: "445"
       port: 445
       targetPort: 445
       nodePort: 445
+      protocol: TCP

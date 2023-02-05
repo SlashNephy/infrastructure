@@ -36,7 +36,9 @@ spec:
                   key: user3
           ports:
             - containerPort: 139
+              protocol: TCP
             - containerPort: 445
+              protocol: TCP
           volumeMounts:
             - name: samba-config
               mountPath: /etc/samba/smb.conf
