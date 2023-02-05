@@ -6,9 +6,11 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 139
+    - name: "139"
+      port: 139
       targetPort: 139
       nodePort: 139
-    - port: 445
+    - name: "445"
+      port: 445
       targetPort: 445
       nodePort: 445
