@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: samba
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: samba
+          image: ghcr.io/slashnephy/samba:master
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+            - name: USER1
+              valueFrom:
+                secretKeyRef:
+                  name: samba-secret
+                  key: user1
+            - name: USER2
+              valueFrom:
+                secretKeyRef:
+                  name: samba-secret
+                  key: user2
+            - name: USER3
+              valueFrom:
+                secretKeyRef:
+                  name: samba-secret
+                  key: user3
+          ports:
+            - containerPort: 139
+            - containerPort: 445
+          volumeMounts:
+            - name: samba-config
+              mountPath: /etc/samba/smb.conf
+              readOnly: true
+            - name: records
+              mountPath: /mnt
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: samba-config
+          hostPath:
+            path: /opt/k8s-volumes/samba-config/smb.conf
+            type: File
+        - name: records
+          hostPath:
+            path: /mnt/records
+            type: Directory

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: samba
+
+spec:
+  type: NodePort
+  ports:
+    - port: 139
+      targetPort: 139
+      nodePort: 139
+    - port: 445
+      targetPort: 445
+      nodePort: 445
