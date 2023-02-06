@@ -126,6 +126,9 @@ ports:
       # - real-ip-plugin@kubernetescrd
       - traefik-ban-robots@kubernetescrd
 
+service:
+  type: NodePort
+
 autoscaling:
   enabled: false
   minReplicas: 1
