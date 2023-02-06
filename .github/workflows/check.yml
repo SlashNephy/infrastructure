@@ -13,21 +13,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    uses: SlashNephy/.github/.github/workflows/yarn-run.yml@master
-    permissions:
-      contents: 'read'
-    with:
-      script: 'test'
-
-  build:
-    if: github.event_name != 'push'
-    uses: SlashNephy/.github/.github/workflows/yarn-run.yml@master
-    permissions:
-      contents: 'read'
-    with:
-      script: 'build'
-
   lint:
     uses: SlashNephy/.github/.github/workflows/yarn-lint.yml@master
     permissions:
