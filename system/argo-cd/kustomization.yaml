@@ -8,6 +8,11 @@ helmCharts:
     namespace: argo-cd
     repo: https://argoproj.github.io/argo-helm
     version: 5.19.10
+    valuesInline:
+      server:
+        service:
+          type: NodePort
+          nodePortHttps: 8082
 
 resources:
   - ./resources/namespace.yaml
