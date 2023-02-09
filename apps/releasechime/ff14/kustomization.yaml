@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: releasechime-ff14
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
+  - ./resources/deployment.yaml
+
+configMapGenerator:
+  - name: releasechime-repositories-config
+    literals:
+      - TARGET_COMMIT_REPOSITORIES_1=goatcorp/DalamudAssets
+      - TARGET_PATH_COMMIT_REPOSITORIES_1=jayotterbein/FFXIV-Zoom-Hack,Offsets.xml
+      - TARGET_PATH_COMMIT_REPOSITORIES_2=imchillin/CMTool,ConceptMatrix/OffsetSettings.json
+      - TARGET_PATH_COMMIT_REPOSITORIES_3=qitana/sharlayan-resources,structures/latest/x64.json
+      - TARGET_PATH_COMMIT_REPOSITORIES_4=goatcorp/dalamud-distrib,version
+      - TARGET_RELEASE_REPOSITORIES_1=ravahn/FFXIV_ACT_Plugin
