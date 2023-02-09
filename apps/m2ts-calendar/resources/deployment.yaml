@@ -22,7 +22,7 @@ spec:
             - name: CHECK_INTERVAL_SECONDS
               value: "60"
             - name: CLASS_NAME_FORMAT
-              value: '%YEAR%-%MONTH%'
+              value: "%YEAR%-%MONTH%"
             - name: CLEANUP_BROKEN_LINKS
               value: "1"
             - name: CLEANUP_EMPTY_DIRECTORIES
@@ -32,15 +32,15 @@ spec:
             - name: DRYRUN
               value: "0"
             - name: FILENAME_FORMATS1
-              value: '[%SHORTYEAR%-%MONTH%-%DAY%(%DOW%)_%HOUR%-%MIN%][%TYPE%_%HALF_WIDTH_CHNAME%]%HALF_WIDTH_TITLE%'
+              value: "[%SHORTYEAR%-%MONTH%-%DAY%(%DOW%)_%HOUR%-%MIN%][%TYPE%_%HALF_WIDTH_CHNAME%]%HALF_WIDTH_TITLE%"
             - name: FILENAME_FORMATS2
-              value: '[%SHORTYEAR%-%MONTH%-%DAY%_%HOUR%-%MIN%][%CHNAME%]%TITLE%'
+              value: "[%SHORTYEAR%-%MONTH%-%DAY%_%HOUR%-%MIN%][%CHNAME%]%TITLE%"
             - name: INCLUDE_CHAPTER_FILE
               value: "1"
             - name: SOURCE_DIRECTORY
               value: /mnt/records
             - name: SOURCE_FILE_GLOB
-              value: '*.m2ts'
+              value: "*.m2ts"
             - name: TARGET_DIRECTORY
               value: /mnt/records_links
           volumeMounts:
