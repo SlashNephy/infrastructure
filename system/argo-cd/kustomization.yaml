@@ -20,6 +20,7 @@ resources:
   - ./resources/ingress.yaml
   - ./resources/projects.yaml
   - ./resources/application-set.yaml
+  - https://github.com/argoproj-labs/argocd-image-updater/manifests/base
 
 patchesStrategicMerge:
   - ./resources/config.yaml
