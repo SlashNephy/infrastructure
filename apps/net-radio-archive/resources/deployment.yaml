@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: mysql
+          image: mysql/mysql-server:5.7
+          env:
+            - name: MYSQL_DATABASE
+              value: net-radio-archive
+            - name: MYSQL_USER
+              value: user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: net-radio-archive-secret
+                  key: mysql-password
+            - name: TZ
+              value: Asia/Tokyo
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql
+        - name: app
+          image: ghcr.io/slashnephy/net-radio-archive
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+          volumeMounts:
+            - name: config
+              mountPath: /myapp/config
+              readOnly: true
+            - name: radio
+              mountPath: /mnt/records/radio
+      restartPolicy: Always
+      volumes:
+        - name: mysql
+          hostPath:
+            path: /opt/k8s-volumes/net-radio-archive-mysql
+            type: DirectoryOrCreate
+        - name: config
+          hostPath:
+            path: /opt/k8s-volumes/net-radio-archive-config
+            type: DirectoryOrCreate
+        - name: radio
+          hostPath:
+            path: /mnt/records/radio
+            type: DirectoryOrCreate
