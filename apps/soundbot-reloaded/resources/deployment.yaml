@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: soundbot-reloaded
+          image: ghcr.io/slashnephy/soundbot-reloaded:master
+          env:
+            - name: DISCORD_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: soundbot-reloaded-secret
+                  key: discord-bot-token
+            - name: INITIAL_VOLUME
+              value: "0.05"
+          volumeMounts:
+            - name: sounds
+              mountPath: /app/sounds
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: sounds
+          hostPath:
+            path: /opt/k8s-volumes/soundbot-sounds
