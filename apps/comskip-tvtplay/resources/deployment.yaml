@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/comskip-tvtplay:master
+          env:
+            - name: COMSKIP_CLEANUP
+              value: "0"
+            - name: COMSKIP_IGNORE_NAME_1
+              value: NHK総合
+            - name: COMSKIP_IGNORE_NAME_2
+              value: NHKEテレ
+            - name: COMSKIP_IGNORE_NAME_3
+              value: NHKBS1
+            - name: COMSKIP_IGNORE_NAME_4
+              value: NHKBSプレミアム
+            - name: COMSKIP_IGNORE_NAME_5
+              value: AT-X
+            - name: COMSKIP_IGNORE_NAME_6
+              value: WOWOW
+            - name: COMSKIP_INTERVAL_SEC
+              value: "180"
+            - name: COMSKIP_PROCESSES
+              value: "2"
+            - name: MOUNT_POINT
+              value: /mnt/records
+          volumeMounts:
+            - name: records
+              mountPath: /mnt/records
+            - name: comskip-config
+              mountPath: /comskip.ini
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: records
+          hostPath:
+            path: /mnt/records
+            type: Directory
+        - name: comskip-config
+          hostPath:
+            path: /opt/k8s-volumes/comskip-config/comskip.ini
+            type: File
