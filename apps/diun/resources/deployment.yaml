@@ -18,12 +18,12 @@ spec:
         - name: diun
           image: ghcr.io/crazy-max/diun
           imagePullPolicy: Always
-          args: ["serve"]
+          args: [serve]
           env:
             - name: TZ
-              value: "Asia/Tokyo"
+              value: Asia/Tokyo
             - name: LOG_LEVEL
-              value: "info"
+              value: info
             - name: LOG_JSON
               value: "false"
             - name: DIUN_WATCH_WORKERS
@@ -31,7 +31,7 @@ spec:
             - name: DIUN_WATCH_SCHEDULE
               value: "*/10 * * * *"
             - name: DIUN_WATCH_JITTER
-              value: "30s"
+              value: 30s
             - name: DIUN_PROVIDERS_KUBERNETES
               value: "true"
             - name: DIUN_PROVIDERS_KUBERNETES_WATCHBYDEFAULT
@@ -62,11 +62,11 @@ spec:
                   name: diun-secret
                   key: ghcr-io-token
           volumeMounts:
-            - mountPath: "/data"
-              name: "data"
+            - mountPath: /data
+              name: data
       restartPolicy: Always
       volumes:
         - name: data
           hostPath:
-            path: "/opt/k8s-volumes/diun-data"
+            path: /opt/k8s-volumes/diun-data
             type: DirectoryOrCreate
