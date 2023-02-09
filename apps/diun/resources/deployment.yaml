@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: diun
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: diun
+  template:
+    metadata:
+      labels:
+        app: diun
+    spec:
+      serviceAccountName: diun
+      containers:
+        - name: diun
+          image: ghcr.io/crazy-max/diun
+          imagePullPolicy: Always
+          args: ["serve"]
+          env:
+            - name: TZ
+              value: "Asia/Tokyo"
+            - name: LOG_LEVEL
+              value: "info"
+            - name: LOG_JSON
+              value: "false"
+            - name: DIUN_WATCH_WORKERS
+              value: "20"
+            - name: DIUN_WATCH_SCHEDULE
+              value: "*/10 * * * *"
+            - name: DIUN_WATCH_JITTER
+              value: "30s"
+            - name: DIUN_PROVIDERS_KUBERNETES
+              value: "true"
+            - name: DIUN_PROVIDERS_KUBERNETES_WATCHBYDEFAULT
+              value: "true"
+            - name: DIUN_NOTIF_DISCORD_WEBHOOKURL
+              valueFrom:
+                secretKeyRef:
+                  name: diun-secret
+                  key: discord-webhook-url
+            - name: DIUN_REGOPTS[0].NAME
+              value: docker.io
+            - name: DIUN_REGOPTS[0].SELECTOR
+              value: image
+            - name: DIUN_REGOPTS[0].USERNAME
+              value: slashnephy
+            - name: DIUN_REGOPTS[0].PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: diun-secret
+                  key: docker-hub-token
+            - name: DIUN_REGOPTS[1].NAME
+              value: ghcr.io
+            - name: DIUN_REGOPTS[1].USERNAME
+              value: slashnephy
+            - name: DIUN_REGOPTS[1].PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: diun-secret
+                  key: ghcr-io-token
+          volumeMounts:
+            - mountPath: "/data"
+              name: "data"
+      restartPolicy: Always
+      volumes:
+        - name: data
+          hostPath:
+            path: "/opt/k8s-volumes/diun-data"
+            type: DirectoryOrCreate
