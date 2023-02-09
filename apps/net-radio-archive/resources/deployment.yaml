@@ -39,8 +39,11 @@ spec:
             - name: TZ
               value: Asia/Tokyo
           volumeMounts:
-            - name: config
-              mountPath: /myapp/config
+            - name: config-database
+              mountPath: /myapp/config/database.yml
+              readOnly: true
+            - name: config-settings
+              mountPath: /myapp/config/settings.yml
               readOnly: true
             - name: radio
               mountPath: /mnt/records/radio
@@ -50,10 +53,14 @@ spec:
           hostPath:
             path: /opt/k8s-volumes/net-radio-archive-mysql
             type: DirectoryOrCreate
-        - name: config
+        - name: config-database
           hostPath:
-            path: /opt/k8s-volumes/net-radio-archive-config
-            type: DirectoryOrCreate
+            path: /opt/k8s-volumes/net-radio-archive-config/database.yml
+            type: File
+        - name: config-settings
+          hostPath:
+            path: /opt/k8s-volumes/net-radio-archive-config/settings.yml
+            type: File
         - name: radio
           hostPath:
             path: /mnt/records/radio
