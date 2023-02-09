@@ -41,22 +41,22 @@ spec:
                 secretKeyRef:
                   name: diun-secret
                   key: discord-webhook-url
-            - name: DIUN_REGOPTS[0].NAME
+            - name: DIUN_REGOPTS_0_NAME
               value: docker.io
-            - name: DIUN_REGOPTS[0].SELECTOR
+            - name: DIUN_REGOPTS_0_SELECTOR
               value: image
-            - name: DIUN_REGOPTS[0].USERNAME
+            - name: DIUN_REGOPTS_0_USERNAME
               value: slashnephy
-            - name: DIUN_REGOPTS[0].PASSWORD
+            - name: DIUN_REGOPTS_0_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: diun-secret
                   key: docker-hub-token
-            - name: DIUN_REGOPTS[1].NAME
+            - name: DIUN_REGOPTS_1_NAME
               value: ghcr.io
-            - name: DIUN_REGOPTS[1].USERNAME
+            - name: DIUN_REGOPTS_1_USERNAME
               value: slashnephy
-            - name: DIUN_REGOPTS[1].PASSWORD
+            - name: DIUN_REGOPTS_1_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: diun-secret
