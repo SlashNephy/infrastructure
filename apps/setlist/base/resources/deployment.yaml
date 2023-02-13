@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/setlist
+          env:
+            - name: TWITTER_CK
+              valueFrom:
+                secretKeyRef:
+                  name: setlist-twitter-secret
+                  key: twitter-ck
+            - name: TWITTER_CS
+              valueFrom:
+                secretKeyRef:
+                  name: setlist-twitter-secret
+                  key: twitter-cs
+            - name: TWITTER_AT
+              valueFrom:
+                secretKeyRef:
+                  name: setlist-twitter-secret
+                  key: twitter-at
+            - name: TWITTER_ATS
+              valueFrom:
+                secretKeyRef:
+                  name: setlist-twitter-secret
+                  key: twitter-ats
+          envFrom:
+            - configMapRef:
+                name: setlist-config
+          resources:
+            limits:
+              memory: 1Gi
+      restartPolicy: Always

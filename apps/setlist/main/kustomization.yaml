@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: setlist-main
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
+  - ./../base
+
+configMapGenerator:
+  - name: setlist-config
+    literals:
+      - SOURCE_LIST_IDS_0=1365307009038315521
+      - SOURCE_USER_INCLUDE_SELF=1
+      - TARGET_LIST_ID=1029532573783871488
