@@ -20,6 +20,7 @@ spec:
           args:
             - tunnel
             - --no-autoupdate
+            - --metrics=127.0.0.1:45934
             - run
           env:
             - name: TUNNEL_TOKEN
