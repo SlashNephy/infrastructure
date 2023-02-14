@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: atmos-token-distributor
+
+resources:
+  - ./resources/namespace.yaml
+  - ./../../common/registry-ghcr-io
+  - ./resources/secret.yaml
+  - ./resources/deployment.yaml
+  - ./resources/service.yaml
+  - ./resources/ingress.yaml

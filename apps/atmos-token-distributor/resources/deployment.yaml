@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: atmos-token-distributor
+          image: ghcr.io/starrybluesky/atmos-token-distributor:master
+          envFrom:
+            - secretRef:
+                name: app-secret
+          volumeMounts:
+            - name: token1
+              mountPath: /app/token1.htpasswd
+            - name: token2
+              mountPath: /app/token2.htpasswd
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-io-credentials
+      volumes:
+        - name: token1
+          hostPath:
+            path: /opt/k8s-volumes/atmos-proxy-config/token1.htpasswd
+            type: File
+        - name: token2
+          hostPath:
+            path: /opt/k8s-volumes/atmos-proxy-config/token2.htpasswd
+            type: File
