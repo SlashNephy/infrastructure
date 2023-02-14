@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     app: default
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      hostNetwork: true
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/wolweb
+          env:
+            - name: WOLWEBVDIR
+              value: /wolweb
+          volumeMounts:
+            - name: config
+              mountPath: /wolweb/devices.json
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: config
+          hostPath:
+            path: /opt/k8s-volumes/wolweb-config/devices.json
+            type: File
