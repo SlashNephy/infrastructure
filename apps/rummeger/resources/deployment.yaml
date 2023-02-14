@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/rummager
+          env:
+            - name: DISCORD_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: rummager-secret
+                  key: discord-webhook-url
+            - name: IGNORE_SOURCES
+              value: twittbot.net
+            - name: SEARCH_INTERVAL_SECONDS
+              value: "30"
+            - name: SEARCH_QUERY
+              valueFrom:
+                secretKeyRef:
+                  name: rummager-secret
+                  key: search-query
+            - name: TWITTER_CK
+              valueFrom:
+                secretKeyRef:
+                  name: rummager-secret
+                  key: twitter-ck
+            - name: TWITTER_CS
+              valueFrom:
+                secretKeyRef:
+                  name: rummager-secret
+                  key: twitter-cs
+            - name: TWITTER_AT
+              valueFrom:
+                secretKeyRef:
+                  name: rummager-secret
+                  key: twitter-at
+            - name: TWITTER_ATS
+              valueFrom:
+                secretKeyRef:
+                  name: rummager-secret
+                  key: twitter-ats
+            - name: USE_PRIVATE_API
+              value: "false"
+          resources:
+            limits:
+              memory: 512Mi
+      restartPolicy: Always
