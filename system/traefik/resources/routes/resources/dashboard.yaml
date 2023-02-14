@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: traefik-dashboard
+  name: traefik-dashboard-http
 
 spec:
   entryPoints:
@@ -9,6 +9,20 @@ spec:
   routes:
     - kind: Rule
       match: PathPrefix(`/dashboard/`) || PathPrefix(`/api/`)
+      services:
+        - name: api@internal
+          kind: TraefikService
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard-https
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`traefik.starry.blue`)
       services:
         - name: api@internal
           kind: TraefikService
