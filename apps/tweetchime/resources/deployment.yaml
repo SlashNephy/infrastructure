@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/tweetchime:master
+          env:
+            - name: DISCORD_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: tweetchime-secret
+                  key: discord-webhook-url
+            - name: INTERVAL_SEC
+              value: "30"
+            - name: LIMIT_NOTIFICATIONS
+              value: "1"
+            - name: LOG_LEVEL
+              value: TRACE
+            - name: TARGET_SCREEN_NAMES
+              valueFrom:
+                secretKeyRef:
+                  name: tweetchime-secret
+                  key: target-screen-names
+            - name: TWITTER_CK
+              valueFrom:
+                secretKeyRef:
+                  name: tweetchime-secret
+                  key: twitter-ck
+            - name: TWITTER_CS
+              valueFrom:
+                secretKeyRef:
+                  name: tweetchime-secret
+                  key: twitter-cs
+            - name: TWITTER_AT
+              valueFrom:
+                secretKeyRef:
+                  name: tweetchime-secret
+                  key: twitter-at
+            - name: TWITTER_ATS
+              valueFrom:
+                secretKeyRef:
+                  name: tweetchime-secret
+                  key: twitter-ats
+          volumeMounts:
+            - name: cache
+              mountPath: /app/data
+      restartPolicy: Always
+      volumes:
+        - name: cache
+          hostPath:
+            path: /opt/k8s-volumes/tweetchime-cache
+            type: DirectoryOrCreate
