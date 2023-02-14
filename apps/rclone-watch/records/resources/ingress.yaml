@@ -1,0 +1,26 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`apps.starry.blue`) && PathPrefix(`/rclone-records`)
+      services:
+        - name: service
+          port: 5572
+      middlewares:
+        - name: headers-rclone-watch-records
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: headers-rclone-watch-records
+
+spec:
+  headers:
+    customRequestHeaders:
+      # intended; not insecure
+      Authorization: Basic dXNlcjpwYXNz

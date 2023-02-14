@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: rclone-watch-records
+
+resources:
+  - ./resources/namespace.yaml
+  - ./../base
+  - ./resources/ingress.yaml
+
+configMapGenerator:
+  - name: rclone-watch-config
+    literals:
+      - INOTIFYWAIT_DIR=/mnt/records_links
+      - INOTIFYWAIT_EVENTS=create,move
+      - INOTIFYWAIT_OPTIONS=--timeout 1800 --recursive
+      - >-
+        RCLONE_COMMAND=copy
+        /mnt/records_links
+        atmos1:
+        --transfers=10
+        --use-mmap
+        --drive-stop-on-upload-limit
+        --drive-disable-http2=false
+        --copy-links
+        --order-by=name
+        --ignore-existing
+        --rc
+        --rc-addr=0.0.0.0:5572
+        --rc-baseurl=/rclone-records
+        --rc-no-auth
+        --rc-user=user
+        --rc-pass=pass
+        --rc-web-gui
+        --rc-web-gui-no-open-browser
+        --rc-web-gui-update

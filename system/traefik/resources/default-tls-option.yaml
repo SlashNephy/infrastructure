@@ -16,12 +16,11 @@ spec:
     - TLS_CHACHA20_POLY1305_SHA256
   curvePreferences:
     - X25519
-# TODO: uncomment on production
-#  sniStrict: true
-#  clientAuth:
-#    secretNames:
-#      - cloudflare-ca-secret
-#    clientAuthType: RequireAndVerifyClientCert
+  sniStrict: true
+  clientAuth:
+    secretNames:
+      - cloudflare-ca-secret
+    clientAuthType: RequireAndVerifyClientCert
 
 ---
 apiVersion: onepassword.com/v1

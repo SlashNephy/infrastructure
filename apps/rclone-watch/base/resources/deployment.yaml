@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/rclone-watch
+          envFrom:
+            - configMapRef:
+                name: rclone-watch-config
+          volumeMounts:
+            - name: mnt
+              mountPath: /mnt
+              readOnly: true
+            - name: config
+              mountPath: /config/rclone
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: mnt
+          hostPath:
+            path: /mnt
+            type: Directory
+        - name: config
+          hostPath:
+            path: /opt/k8s-volumes/rclone-config
+            type: Directory
