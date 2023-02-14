@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/farewell
+          env:
+            - name: INTERVAL_SECONDS
+              value: "300"
+            - name: DISCORD_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: farewell-secret
+                  key: discord-webhook-url
+            - name: IGNORE_USER_IDS
+              valueFrom:
+                secretKeyRef:
+                  name: farewell-secret
+                  key: ignore-user-ids
+            - name: TWITTER_CK
+              valueFrom:
+                secretKeyRef:
+                  name: farewell-secret
+                  key: twitter-ck
+            - name: TWITTER_CS
+              valueFrom:
+                secretKeyRef:
+                  name: farewell-secret
+                  key: twitter-cs
+            - name: TWITTER_AT
+              valueFrom:
+                secretKeyRef:
+                  name: farewell-secret
+                  key: twitter-at
+            - name: TWITTER_ATS
+              valueFrom:
+                secretKeyRef:
+                  name: farewell-secret
+                  key: twitter-ats
+          resources:
+            limits:
+              memory: 512Mi
+          volumeMounts:
+            - name: cache
+              mountPath: /app/data
+      restartPolicy: Always
+      volumes:
+        - name: cache
+          hostPath:
+            path: /opt/k8s-volumes/farewell-sub-cache
+            type: DirectoryOrCreate
