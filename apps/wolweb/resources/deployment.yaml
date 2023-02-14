@@ -7,7 +7,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-     app: default
+      app: default
   strategy:
     type: Recreate
   template:
