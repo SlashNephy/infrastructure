@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      imagePullSecrets:
+        - name: ghcr-io-credentials
+      containers:
+        - name: app
+          image: ghcr.io/starrybluesky/mirakurun-iptv-rewriter
+          env:
+            - name: BEFORE_URI
+              value: http://service.mirakurun:40772/api
+          envFrom:
+            - secretRef:
+                name: app-secret
+      restartPolicy: Always
