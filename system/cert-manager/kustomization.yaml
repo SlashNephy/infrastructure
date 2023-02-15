@@ -12,9 +12,6 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       installCRDs: true
-      global:
-        leaderElection:
-          namespace: cert-manager
 
 resources:
   - ./resources/namespace.yaml
