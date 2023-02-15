@@ -1,0 +1,12 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route
+
+spec:
+  routes:
+    - kind: Rule
+      match: (Host(`anemos.starry.blue`) && PathPrefix(`/api`)) || (Host(`atmos.starry.blue`) && PathPrefix(`/mirakurun`))
+      services:
+        - name: service
+          port: 80

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: deployment
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: nginx:stable
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+          volumeMounts:
+            - name: config
+              mountPath: /etc/nginx
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: config
+          hostPath:
+            path: /opt/k8s-volumes/atmos-proxy-config
+            type: Directory
