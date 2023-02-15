@@ -18,6 +18,8 @@ spec:
       containers:
         - name: app
           image: annict-profile-card
+          ports:
+            - containerPort: 8080
           env:
             - name: ANNICT_TOKEN
               valueFrom:
