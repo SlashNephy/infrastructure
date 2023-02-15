@@ -1,4 +1,20 @@
 apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: starry-blue-certificate
+
+spec:
+  secretName: starry-blue-certificate-secret
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-issuer
+  commonName: starry.blue
+  dnsNames:
+    - starry.blue
+    - "*.starry.blue"
+
+---
+apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-issuer
@@ -19,3 +35,12 @@ spec:
           dnsNames:
             - starry.blue
             - "*.starry.blue"
+
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: cert-manager-secret
+
+spec:
+  itemPath: vaults/4mogpcwrvtvsnpooum4vcevwkm/items/cbby4ugqm7ecnvyi7rqrd7fazy
