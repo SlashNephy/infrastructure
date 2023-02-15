@@ -46,11 +46,9 @@ providers:
 # https://docs.traefik.io/observability/logs/
 logs:
   general:
-    format: json
-    level: INFO
+    level: DEBUG
   access:
     enabled: true
-    format: json
     # https://docs.traefik.io/observability/access-logs/#filtering
     filters: {}
     # https://docs.traefik.io/observability/access-logs/#limiting-the-fieldsincluding-headers
