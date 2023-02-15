@@ -12,7 +12,11 @@ env:
 
 deployment:
   replicas: 2
-  additionalContainers: []
+  additionalVolumes:
+    - name: acme
+      hostPath:
+        path: /opt/k8s-volumes/traefik-acme
+        type: DirectoryOrCreate
 
 podDisruptionBudget:
   enabled: false
@@ -160,12 +164,9 @@ autoscaling:
           value: 1
           periodSeconds: 60
 
-persistence:
-  enabled: true
-  name: data
-  accessMode: ReadWriteOnce
-  size: 1Mi
-  path: /data
+additionalVolumeMounts:
+  - name: acme
+    mountPath: /etc/acme
 
 certResolvers:
   letsencrypt:
@@ -177,5 +178,5 @@ certResolvers:
       resolvers:
        - 1.1.1.1
        - 1.0.0.1
-    keyType: RSA4096
-    storage: /data/acme.json
+    keyType: RSA8192
+    storage: /etc/acme/acme.json
