@@ -1,0 +1,25 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`apps.starry.blue`) && PathPrefix(`/stella`)
+      services:
+        - name: service
+          port: 6742
+      middlewares:
+        - name: headers-stella
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: headers-stella
+
+spec:
+  headers:
+    customRequestHeaders:
+      X-Local-Access: "1"

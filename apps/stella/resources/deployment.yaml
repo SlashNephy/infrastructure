@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/stella
+          env:
+            - name: BEHIND_REVERSE_PROXY
+              value: "1"
+            - name: CORS_ACCEPT_HTTP
+              value: "1"
+            - name: DB_HOST
+              value: db
+            - name: DB_NAME
+              value: stella
+            - name: ENABLE_CORS
+              value: "1"
+            - name: ENABLE_DATABASE_MIGRATION
+              value: "1"
+            - name: ENABLE_REFETCH_MISSING_MEDIA
+              value: "1"
+            - name: ENABLE_REFRESH_ENTRY
+              value: "0"
+            - name: ENABLE_WATCH_NIJIE
+              value: "1"
+            - name: ENABLE_WATCH_PIXIV
+              value: "1"
+            - name: ENABLE_WATCH_TWITTER
+              value: "1"
+            - name: HTTP_BASE_URI
+              value: /stella/
+            - name: LOG_LEVEL
+              value: TRACE
+            - name: TZ
+              value: Asia/Tokyo
+            - name: WATCH_INTERVAL_SECONDS
+              value: "30"
+            - name: WATCH_THEN_FOLLOW_NIJIE
+              value: "1"
+            - name: WATCH_THEN_FOLLOW_PIXIV
+              value: "1"
+            - name: WATCH_THEN_FOLLOW_TWITTER
+              value: "1"
+          envFrom:
+            - secretRef:
+                name: app-secret
+          ports:
+            - containerPort: 6742
+          resources:
+            limits:
+              memory: 1Gi
+          volumeMounts:
+            - name: media
+              mountPath: /app/media
+        - name: db
+          image: mongo:5.0
+          env:
+            - name: MONGO_INITDB_DATABASE
+              value: stella
+            - name: TZ
+              value: Asia/Tokyo
+          envFrom:
+            - secretRef:
+                name: app-secret
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: db
+              mountPath: /data/db
+      restartPolicy: Always
+      volumes:
+        - name: media
+          hostPath:
+            path: /opt/k8s-volumes/stella-media
+            type: DirectoryOrCreate
+        - name: db
+          hostPath:
+            path: /opt/k8s-volumes/stella-db
+            type: DirectoryOrCreate
