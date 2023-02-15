@@ -4,6 +4,11 @@ image:
 env:
   - name: TZ
     value: Asia/Tokyo
+  - name: CLOUDFLARE_DNS_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: cloudflare-api-secret
+        key: cloudflare-api-token
 
 deployment:
   replicas: 2
@@ -87,6 +92,7 @@ ports:
     tls:
       enabled: true
       options: default
+      certResolver: letsencrypt
       domains:
         - main: starry.blue
           sans:
@@ -153,3 +159,23 @@ autoscaling:
         - type: Pods
           value: 1
           periodSeconds: 60
+
+persistence:
+  enabled: true
+  name: data
+  accessMode: ReadWriteOnce
+  size: 1Mi
+  path: /data
+
+certResolvers:
+  letsencrypt:
+    caServer: https://acme-v02.api.letsencrypt.org/directory
+    email: webmaster@starry.blue
+    dnsChallenge:
+      provider: cloudflare
+      delayBeforeCheck: 30
+      resolvers:
+       - 1.1.1.1
+       - 1.0.0.1
+    keyType: RSA4096
+    storage: /data/acme.json
