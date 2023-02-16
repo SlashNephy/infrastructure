@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rm-empty-files
+
+spec:
+  schedule: "0 4 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: app
+              image: debian:bullseye-slim
+              command:
+                - /bin/bash
+                - -c
+                - find /target -empty -delete
+              volumeMounts:
+                - name: target
+                  mountPath: /target
+          volumes:
+            - name: target
+              hostPath:
+                path: /mnt/records
+                type: Directory
+          restartPolicy: OnFailure

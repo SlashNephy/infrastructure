@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rm-caches
+
+spec:
+  schedule: "0 4 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: app
+              image: debian:bullseye-slim
+              command:
+                - /bin/bash
+                - -c
+                - rm -rf \
+                  /host/var/cache/pacman/pkg/* \
+                  /host/home/*/.cache \
+                  /host/root/.cache
+              volumeMounts:
+                - name: host
+                  mountPath: /host
+          volumes:
+            - name: host
+              hostPath:
+                path: /
+                type: Directory
+          restartPolicy: OnFailure

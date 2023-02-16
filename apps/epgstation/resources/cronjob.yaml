@@ -1,0 +1,44 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup
+
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: backup
+              image: ghcr.io/starrybluesky/epgstation-custom-hwaccel:master
+              command:
+                - node
+                - dist/DBTools.js
+                - -m
+                - backup
+                - -o
+                - /backup/epgstation.json
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+                - name: data
+                  mountPath: /app/data
+                  readOnly: true
+                - name: config
+                  mountPath: /app/config
+                  readOnly: true
+          volumes:
+            - name: backup
+              hostPath:
+                path: /opt/k8s-volumes/epgstation-backup
+                type: DirectoryOrCreate
+            - name: data
+              hostPath:
+                path: /opt/k8s-volumes/epgstation-data
+                type: DirectoryOrCreate
+            - name: config
+              hostPath:
+                path: /opt/k8s-volumes/epgstation-config
+                type: Directory
+          restartPolicy: OnFailure

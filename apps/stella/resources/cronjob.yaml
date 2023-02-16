@@ -1,0 +1,76 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup
+
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: pic-table
+              image: mongo:5.0
+              command:
+                - /bin/bash
+                - -c
+                - mongoexport \
+                  -h db
+                  -u $MONGODB_USER \
+                  -p $MONGODB_PASSWORD \
+                  --authenticationDatabase=admin \
+                  -d stella \
+                  -c Pic \
+                  --jsonArray \
+                  --jsonFormat=canonical \
+                  --quiet | jq > /backup/Pic.json
+              env:
+                - name: MONGODB_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: app-secret
+                      key: DB_USER
+                - name: MONGODB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: app-secret
+                      key: DB_PASSWORD
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+            - name: pic-tag-replace-table
+              image: mongo:5.0
+              command:
+                - /bin/bash
+                - -c
+                - mongoexport \
+                  -h db
+                  -u $MONGODB_USER \
+                  -p $MONGODB_PASSWORD \
+                  --authenticationDatabase=admin \
+                  -d stella \
+                  -c Pic \
+                  --jsonArray \
+                  --jsonFormat=canonical \
+                  --quiet | jq > /backup/PicTagReplace.json
+              env:
+                - name: MONGODB_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: app-secret
+                      key: DB_USER
+                - name: MONGODB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: app-secret
+                      key: DB_PASSWORD
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+          volumes:
+            - name: backup
+              hostPath:
+                path: /opt/k8s-volumes/stella-backup
+                type: DirectoryOrCreate
+          restartPolicy: OnFailure
