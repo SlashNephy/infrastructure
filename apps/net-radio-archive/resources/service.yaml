@@ -5,7 +5,8 @@ metadata:
 
 spec:
   ports:
-    - port: 3306
+    - name: "3306"
+      port: 3306
       targetPort: 3306
       protocol: TCP
 
