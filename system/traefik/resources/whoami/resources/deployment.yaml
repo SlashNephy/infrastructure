@@ -1,17 +1,17 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: whoami
+  name: deployment
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: whoami
+      app: default
   template:
     metadata:
       labels:
-        app: whoami
+        app: default
     spec:
       containers:
         - name: app

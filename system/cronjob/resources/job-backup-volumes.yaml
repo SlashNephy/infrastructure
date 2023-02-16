@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-volumes
+
+spec:
+  schedule: "0 4 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: app
+              image: rclone/rclone
+              imagePullPolicy: Always
+              command:
+                - /bin/ash
+                - -c
+                - apk add zstd \
+                  && tar -acpf /dist/volumes.zst /src || true \
+                  && rclone copy \
+                    /dist \
+                    horoscope:Backup \
+                    --config /rclone.conf \
+                  && rm -f /dist/volumes.zst
+              volumeMounts:
+                - name: src
+                  mountPath: /src
+                  readOnly: true
+                - name: dist
+                  mountPath: /dist
+                - name: config
+                  mountPath: /rclone.conf
+                  readOnly: true
+          volumes:
+            - name: src
+              hostPath:
+                path: /opt/k8s-volumes
+                type: Directory
+            - name: dist
+              hostPath:
+                path: /tmp
+                type: Directory
+            - name: config
+              hostPath:
+                path: /opt/k8s-volumes/rclone-config/onedrive.conf
+          restartPolicy: Never

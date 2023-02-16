@@ -4,9 +4,7 @@ metadata:
   name: kubernetes-dashboard
 
 spec:
-  type: NodePort
   ports:
     - name: https
       port: 443
-      nodePort: 8081
       targetPort: https

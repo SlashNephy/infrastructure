@@ -4,5 +4,7 @@ namespace: cronjob
 
 resources:
   - ./resources/namespace.yaml
+  - ./resources/job-backup-volumes.yaml
+  - ./resources/job-create-tvtest-release.yaml
   - ./resources/job-rm-caches.yaml
   - ./resources/job-rm-empty-files.yaml

@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: create-tvtest-release
+
+spec:
+  schedule: "0 0 * * 0"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: gh
+              image: maniator/gh
+              command:
+                - /bin/ash
+                - -c
+                - >
+                  gh api \
+                  --method POST \
+                  -H "Accept: application/vnd.github.v3+json" \
+                  /repos/SlashNephy/TVTest-builder/releases \
+                  -f tag_name=`date -Idate`
+              envFrom:
+                - secretRef:
+                    name: github-secret
+          restartPolicy: Never
+
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: github-secret
+
+spec:
+  itemPath: vaults/4mogpcwrvtvsnpooum4vcevwkm/items/jlexoj6grpvx3mpphbkwwyimo4

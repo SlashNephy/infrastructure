@@ -62,11 +62,7 @@ additionalArguments: []
 
 ports:
   web:
-    port: 8000
-    expose: true
-    exposedPort: 80
-    nodePort: 8080
-    protocol: TCP
+    expose: false
 
   websecure:
     asDefault: true
@@ -76,7 +72,7 @@ ports:
     nodePort: 8443
     protocol: TCP
     http3:
-      enabled: false
+      enabled: true
 
     # https://doc.traefik.io/traefik/routing/entrypoints/#tls
     tls:

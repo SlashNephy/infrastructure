@@ -1,14 +1,12 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: whoami
+  name: route
 
 spec:
-  entryPoints:
-    - web
   routes:
     - kind: Rule
-      match: PathPrefix(`/`)
+      match: Host(`whoami.starry.blue`)
       services:
-        - name: whoami
+        - name: app
           port: 80
