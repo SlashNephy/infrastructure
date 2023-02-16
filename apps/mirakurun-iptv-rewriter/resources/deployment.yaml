@@ -18,6 +18,8 @@ spec:
       containers:
         - name: app
           image: ghcr.io/starrybluesky/mirakurun-iptv-rewriter
+          ports:
+            - containerPort: 5000
           env:
             - name: BEFORE_URI
               value: http://service.mirakurun:40772/api

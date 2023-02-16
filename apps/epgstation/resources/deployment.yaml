@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    diun.regopt: ghcr.io
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      imagePullSecrets:
+        - name: ghcr-io-credentials
+      containers:
+        - name: app
+          image: ghcr.io/starrybluesky/epgstation-custom-hwaccel:master
+          ports:
+            - containerPort: 8888
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+            - name: config
+              mountPath: /app/config
+              readOnly: true
+            - name: records
+              mountPath: /mnt/records
+        - name: db
+          image: mariadb:10
+          ports:
+            - containerPort: 3306
+          args:
+            - mysqld
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_520_ci
+            - --performance-schema=false
+            - --expire-logs-days=1
+          env:
+            - name: MYSQL_DATABASE
+              value: epgstation
+            - name: TZ
+              value: Asia/Tokyo
+          envFrom:
+            - secretRef:
+                name: app-secret
+          volumeMounts:
+            - name: db
+              mountPath: /var/lib/mysql
+      restartPolicy: Always
+      volumes:
+        - name: data
+          hostPath:
+            path: /opt/k8s-volumes/epgstation-data
+            type: DirectoryOrCreate
+        - name: config
+          hostPath:
+            path: /opt/k8s-volumes/epgstation-config
+            type: Directory
+        - name: records
+          hostPath:
+            path: /mnt/records
+            type: Directory
+        - name: db
+          hostPath:
+            path: /opt/k8s-volumes/epgstation-db

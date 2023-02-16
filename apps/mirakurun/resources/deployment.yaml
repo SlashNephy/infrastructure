@@ -1,0 +1,161 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+  annotations:
+    diun.regopt: ghcr.io
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      imagePullSecrets:
+        - name: ghcr-io-credentials
+      containers:
+        - name: app
+          image: ghcr.io/starrybluesky/mirakurun-custom:master
+          env:
+            - name: EXTERNAL_JSON_PATH
+              value: /etc/mirakurun/services.yml
+            - name: TZ
+              value: Asia/Tokyo
+          envFrom:
+            - secretRef:
+                name: app-secret
+          ports:
+            - containerPort: 40772
+          resources:
+            limits:
+              memory: 4Gi
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - SYS_ADMIN
+                - SYS_NICE
+          volumeMounts:
+            - name: data
+              mountPath: /var/db/mirakurun
+            - name: config
+              mountPath: /etc/mirakurun
+              readOnly: true
+            - name: check-services
+              mountPath: /tmp/mirakurun-check-services
+            - name: dev-px4video0
+              mountPath: /dev/px4video0
+            - name: dev-px4video1
+              mountPath: /dev/px4video1
+            - name: dev-px4video2
+              mountPath: /dev/px4video2
+            - name: dev-px4video3
+              mountPath: /dev/px4video3
+            - name: dev-px4video4
+              mountPath: /dev/px4video4
+            - name: dev-px4video5
+              mountPath: /dev/px4video5
+            - name: dev-px4video6
+              mountPath: /dev/px4video6
+            - name: dev-px4video7
+              mountPath: /dev/px4video7
+            - name: dev-pxmlt8video0
+              mountPath: /dev/pxmlt8video0
+            - name: dev-pxmlt8video1
+              mountPath: /dev/pxmlt8video1
+            - name: dev-pxmlt8video2
+              mountPath: /dev/pxmlt8video2
+            - name: dev-pxmlt8video3
+              mountPath: /dev/pxmlt8video3
+            - name: dev-pxmlt8video4
+              mountPath: /dev/pxmlt8video4
+            - name: dev-pxmlt8video5
+              mountPath: /dev/pxmlt8video5
+            - name: dev-pxmlt8video6
+              mountPath: /dev/pxmlt8video6
+            - name: dev-pxmlt8video7
+              mountPath: /dev/pxmlt8video7
+      restartPolicy: Always
+      volumes:
+        - name: data
+          hostPath:
+            path: /opt/k8s-volumes/mirakurun-data
+            type: DirectoryOrCreate
+        - name: config
+          hostPath:
+            path: /opt/k8s-volumes/mirakurun-config
+            type: Directory
+        - name: check-services
+          hostPath:
+            path: /opt/k8s-volumes/mirakurun-check-services
+            type: DirectoryOrCreate
+        - name: dev-px4video0
+          hostPath:
+            path: /dev/px4video0
+            type: File
+        - name: dev-px4video1
+          hostPath:
+            path: /dev/px4video1
+            type: File
+        - name: dev-px4video2
+          hostPath:
+            path: /dev/px4video2
+            type: File
+        - name: dev-px4video3
+          hostPath:
+            path: /dev/px4video3
+            type: File
+        - name: dev-px4video4
+          hostPath:
+            path: /dev/px4video4
+            type: File
+        - name: dev-px4video5
+          hostPath:
+            path: /dev/px4video5
+            type: File
+        - name: dev-px4video6
+          hostPath:
+            path: /dev/px4video6
+            type: File
+        - name: dev-px4video7
+          hostPath:
+            path: /dev/px4video7
+            type: File
+        - name: dev-pxmlt8video0
+          hostPath:
+            path: /dev/pxmlt8video0
+            type: File
+        - name: dev-pxmlt8video1
+          hostPath:
+            path: /dev/pxmlt8video1
+            type: File
+        - name: dev-pxmlt8video2
+          hostPath:
+            path: /dev/pxmlt8video2
+            type: File
+        - name: dev-pxmlt8video3
+          hostPath:
+            path: /dev/pxmlt8video3
+            type: File
+        - name: dev-pxmlt8video4
+          hostPath:
+            path: /dev/pxmlt8video4
+            type: File
+        - name: dev-pxmlt8video5
+          hostPath:
+            path: /dev/pxmlt8video5
+            type: File
+        - name: dev-pxmlt8video6
+          hostPath:
+            path: /dev/pxmlt8video6
+            type: File
+        - name: dev-pxmlt8video7
+          hostPath:
+            path: /dev/pxmlt8video7
+            type: File
