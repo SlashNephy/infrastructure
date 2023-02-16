@@ -17,3 +17,7 @@ helmCharts:
       global:
         leaderElection:
           namespace: cert-manager
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
