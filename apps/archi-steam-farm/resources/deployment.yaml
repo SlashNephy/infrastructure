@@ -18,6 +18,8 @@ spec:
       containers:
         - name: app
           image: justarchi/archisteamfarm:main
+          ports:
+            - containerPort: 1242
           env:
             - name: TZ
               value: Asia/Tokyo
