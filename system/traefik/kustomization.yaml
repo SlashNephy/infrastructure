@@ -4,7 +4,8 @@ namespace: traefik
 
 resources:
   - ./resources/namespace.yaml
-  - ./resources/tls/secret.yaml
+  - ./resources/tls/certificate.yaml
+  - ./resources/tls/issuer.yaml
   - ./resources/helm
   - ./resources/tls/default-tls-store.yaml
   - ./resources/tls/default-tls-option.yaml

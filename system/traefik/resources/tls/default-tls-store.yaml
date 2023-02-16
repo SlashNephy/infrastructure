@@ -4,6 +4,8 @@ metadata:
   name: default
 
 spec:
+  defaultCertificate:
+    secretName: starry-blue-certificate-secret
   certificates:
     - secretName: horoscope-dev-certificate-secret
 

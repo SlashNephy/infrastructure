@@ -1,0 +1,30 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-issuer
+
+spec:
+  acme:
+    email: webmaster@starry.blue
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-private-key
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cert-manager-secret
+              key: cloudflare-api-token
+        selector:
+          dnsNames:
+            - starry.blue
+            - "*.starry.blue"
+
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: cert-manager-secret
+
+spec:
+  itemPath: vaults/4mogpcwrvtvsnpooum4vcevwkm/items/cbby4ugqm7ecnvyi7rqrd7fazy
