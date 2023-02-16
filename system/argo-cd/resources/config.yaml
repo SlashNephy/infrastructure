@@ -31,3 +31,42 @@ data:
     appID: 294358
     installationID: 34273348
     privateKey: $github-privateKey
+  template.github-success: |
+    message: Application {{.app.metadata.name}} is now running new version of deployments manifests.
+    github:
+      status:
+        state: success
+        label: "CD/{{.app.metadata.name}}"
+        targetURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
+  trigger.on-deployed: |
+    - when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+      oncePer: app.status.sync.revision
+      send: [github-success]
+
+  service.webhook.discord: |
+    url: $discord-webhook-url
+    headers:
+      - name: Content-Type
+        value: application/json
+  template.discord-status: |
+    webhook:
+      discord:
+        method: POST
+        body: |
+          {
+            "username": "Argo CD",
+            "embeds": [
+              {
+                {{if eq .app.status.operationState.phase "Succeeded"}}"color": 34628,{{end}}
+                {{if eq .app.status.operationState.phase "Running"}}"color": 16754432,{{end}}
+                {{if eq .app.status.operationState.phase "Error"}}"color": 14036256,{{end}}
+                {{if eq .app.status.operationState.phase "Failed"}}"color": 14036256,{{end}},
+                "title": "{{.app.metadata.name}}",
+                "description": "Application status is **{{.app.status.operationState.phase}}**.",
+                "url": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+              }
+            ]
+          }
+  trigger.on-status-change: |
+    - when: app.status.operationState.phase in ['Succeeded', 'Running', 'Error', 'Failed']
+      send: [discord-status]
