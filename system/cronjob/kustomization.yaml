@@ -3,5 +3,6 @@ kind: Kustomization
 namespace: cronjob
 
 resources:
+  - ./resources/namespace.yaml
   - ./resources/job-rm-caches.yaml
   - ./resources/job-rm-empty-files.yaml
