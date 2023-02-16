@@ -5,7 +5,8 @@ metadata:
 
 spec:
   ports:
-    - port: 8089
+    - name: "8089"
+      port: 8089
       targetPort: 8089
   selector:
     app: default

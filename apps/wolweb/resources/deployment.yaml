@@ -19,6 +19,8 @@ spec:
       containers:
         - name: app
           image: ghcr.io/slashnephy/wolweb
+          ports:
+            - containerPort: 8089
           env:
             - name: WOLWEBVDIR
               value: /wolweb

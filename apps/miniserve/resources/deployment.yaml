@@ -25,6 +25,8 @@ spec:
             - -t
             - starry.blue
             - /srv
+          ports:
+            - containerPort: 8080
           volumeMounts:
             - name: files
               mountPath: /srv/files

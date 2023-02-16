@@ -18,6 +18,8 @@ spec:
       containers:
         - name: app
           image: ghcr.io/slashnephy/rclone-watch
+          ports:
+            - containerPort: 5572
           envFrom:
             - configMapRef:
                 name: rclone-watch-config
