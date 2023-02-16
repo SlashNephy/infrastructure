@@ -9,10 +9,25 @@ metadata:
 data:
   url: https://argocd.starry.blue
 
-  statusbadge.enabled: "false"
+  statusbadge.enabled: "true"
   users.anonymous.enabled: "false"
   exec.enabled: true
 
   kustomize.enabled: "true"
   kustomize.buildOptions: --enable-helm --load-restrictor LoadRestrictionsNone
   helm.enabled: "true"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  labels:
+    app.kubernetes.io/name: argocd-notifications-controller
+    app.kubernetes.io/part-of: argocd
+
+data:
+  service.github: |
+    appID: 294358
+    installationID: 34273348
+    privateKey: $github-privateKey
