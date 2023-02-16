@@ -4,19 +4,9 @@ image:
 env:
   - name: TZ
     value: Asia/Tokyo
-  - name: CLOUDFLARE_DNS_API_TOKEN
-    valueFrom:
-      secretKeyRef:
-        name: cloudflare-api-secret
-        key: cloudflare-api-token
 
 deployment:
   replicas: 2
-  additionalVolumes:
-    - name: acme
-      hostPath:
-        path: /opt/k8s-volumes/traefik-acme
-        type: DirectoryOrCreate
 
 podDisruptionBudget:
   enabled: false
@@ -49,8 +39,6 @@ logs:
     level: DEBUG
   access:
     enabled: true
-    # https://docs.traefik.io/observability/access-logs/#filtering
-    filters: {}
     # https://docs.traefik.io/observability/access-logs/#limiting-the-fieldsincluding-headers
     fields:
       general:
@@ -94,7 +82,6 @@ ports:
     tls:
       enabled: true
       options: default
-      certResolver: letsencrypt
       domains:
         - main: starry.blue
           sans:
@@ -161,20 +148,3 @@ autoscaling:
         - type: Pods
           value: 1
           periodSeconds: 60
-
-additionalVolumeMounts:
-  - name: acme
-    mountPath: /etc/acme
-
-certResolvers:
-  letsencrypt:
-    caServer: https://acme-v02.api.letsencrypt.org/directory
-    email: webmaster@starry.blue
-    dnsChallenge:
-      provider: cloudflare
-      delayBeforeCheck: 30
-      resolvers:
-        - 1.1.1.1:53
-        - 1.0.0.1:53
-    keyType: RSA4096
-    storage: /etc/acme/acme.json
