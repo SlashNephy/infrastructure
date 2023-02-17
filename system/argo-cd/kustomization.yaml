@@ -8,6 +8,15 @@ helmCharts:
     namespace: argo-cd
     repo: https://argoproj.github.io/argo-helm
     version: 5.20.3
+    valuesInline:
+      server:
+        extensions:
+          enabled: true
+  - name: argocd-image-updater
+    releaseName: argocd-image-updater
+    namespace: argo-cd
+    repo: https://argoproj.github.io/argo-helm
+    version: 0.8.4
 
 resources:
   - ./resources/namespace.yaml
@@ -15,8 +24,24 @@ resources:
   - ./resources/ingress.yaml
   - ./resources/projects.yaml
   - ./resources/application-set.yaml
-  - https://github.com/argoproj-labs/argocd-image-updater/manifests/base
 
 patchesStrategicMerge:
   - ./resources/config.yaml
-  - ./resources/role.yaml
+
+# enable exec
+patchesJson6902:
+  - target:
+      group: rbac.authorization.k8s.io
+      version: v1
+      kind: Role
+      name: argo-cd-argocd-server
+    patch: |-
+      - op: add
+        path: /rules/-
+        value:
+          apiGroups:
+            - ""
+          resources:
+            - pods/exec
+          verbs:
+            - create

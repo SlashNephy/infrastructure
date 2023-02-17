@@ -10,7 +10,7 @@ data:
   url: https://argocd.starry.blue
 
   statusbadge.enabled: "true"
-  users.anonymous.enabled: "true"
+  users.anonymous.enabled: "false"
   exec.enabled: true
 
   kustomize.enabled: "true"
@@ -70,3 +70,16 @@ data:
   trigger.on-status-change: |
     - when: app.status.operationState.phase in ['Succeeded', 'Running', 'Error', 'Failed']
       send: [discord-status]
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  labels:
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+
+data:
+  # enable exec
+  policy.csv: p, role:admin, exec, create, */*, allow
