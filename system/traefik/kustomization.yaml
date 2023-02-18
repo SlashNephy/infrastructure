@@ -11,8 +11,8 @@ resources:
   - ./resources/tls/default-tls-option.yaml
   - ./resources/middlewares/ban-robots.yaml
   - ./resources/middlewares/circuit-breaker.yaml
-  - ./resources/middlewares/cloudflare.yaml
   - ./resources/middlewares/compress.yaml
   - ./resources/middlewares/security-headers.yaml
+  - ./resources/middlewares/trust-cloudflare-ips.yaml
   - ./resources/routes/dashboard.yaml
   - ./resources/custom-error-pages

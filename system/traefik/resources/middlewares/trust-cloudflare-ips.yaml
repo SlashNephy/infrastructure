@@ -1,0 +1,12 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: trust-cloudflare-ips
+
+spec:
+  plugin:
+    cloudflarewarp:
+      disableDefault: true
+      trustip:
+        # /run/flannel/subnet.env
+        - 10.244.0.0/16
