@@ -143,14 +143,14 @@ spec:
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
+      destination:
+        namespace: "{{name}}"
+        server: https://kubernetes.default.svc
       project: "{{project}}"
       source:
+        path: "{{path}}"
         repoURL: git@github.com:SlashNephy/k8s-manifests.git
         targetRevision: HEAD
-        path: "{{path}}"
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: "{{name}}"
       syncPolicy:
         automated:
           prune: true

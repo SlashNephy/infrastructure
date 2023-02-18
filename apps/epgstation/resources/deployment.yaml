@@ -1,24 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: deployment
   annotations:
     diun.regopt: ghcr.io
-  name: deployment
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         app: default
     spec:
-      imagePullSecrets:
-        - name: ghcr-io-credentials
       containers:
         - name: app
           image: ghcr.io/starrybluesky/epgstation-custom-hwaccel:master
@@ -36,8 +34,6 @@ spec:
               mountPath: /dev/dri
         - name: db
           image: mariadb:10
-          ports:
-            - containerPort: 3306
           args:
             - mysqld
             - --character-set-server=utf8mb4
@@ -52,10 +48,11 @@ spec:
           envFrom:
             - secretRef:
                 name: app-secret
+          ports:
+            - containerPort: 3306
           volumeMounts:
             - name: db
               mountPath: /var/lib/mysql
-      restartPolicy: Always
       volumes:
         - name: data
           hostPath:
@@ -76,3 +73,6 @@ spec:
         - name: dev-dri
           hostPath:
             path: /dev/dri
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-io-credentials

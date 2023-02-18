@@ -4,9 +4,9 @@ metadata:
   name: samba
 
 spec:
-  type: NodePort
   selector:
     app: app
+  type: NodePort
   ports:
     - name: "139"
       port: 139

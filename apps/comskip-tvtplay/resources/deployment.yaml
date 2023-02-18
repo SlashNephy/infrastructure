@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -45,7 +45,6 @@ spec:
             - name: comskip-config
               mountPath: /comskip.ini
               readOnly: true
-      restartPolicy: Always
       volumes:
         - name: records
           hostPath:
@@ -55,3 +54,4 @@ spec:
           hostPath:
             path: /opt/k8s-volumes/comskip-config/comskip.ini
             type: File
+      restartPolicy: Always

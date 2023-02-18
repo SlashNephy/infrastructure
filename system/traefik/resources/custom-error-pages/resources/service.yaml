@@ -4,8 +4,8 @@ metadata:
   name: custom-error-pages
 
 spec:
+  selector:
+    app: custom-error-pages
   ports:
     - port: 80
       targetPort: 80
-  selector:
-    app: custom-error-pages

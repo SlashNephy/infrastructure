@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: app
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -18,17 +18,16 @@ spec:
       containers:
         - name: app
           image: justarchi/archisteamfarm:main
-          ports:
-            - containerPort: 1242
           env:
             - name: TZ
               value: Asia/Tokyo
+          ports:
+            - containerPort: 1242
           volumeMounts:
-            - mountPath: /app/config
-              name: config-volume
-            - mountPath: /app/NLog.config
-              name: nlog-volume
-      restartPolicy: Always
+            - name: config-volume
+              mountPath: /app/config
+            - name: nlog-volume
+              mountPath: /app/NLog.config
       volumes:
         - name: config-volume
           hostPath:
@@ -38,3 +37,4 @@ spec:
           hostPath:
             path: /opt/k8s-volumes/archi-steam-farm-nlog/NLog.config
             type: File
+      restartPolicy: Always

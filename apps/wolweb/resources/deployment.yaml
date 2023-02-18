@@ -5,32 +5,32 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         app: default
     spec:
-      hostNetwork: true
       containers:
         - name: app
           image: ghcr.io/slashnephy/wolweb
-          ports:
-            - containerPort: 8089
           env:
             - name: WOLWEBVDIR
               value: /wolweb
+          ports:
+            - containerPort: 8089
           volumeMounts:
             - name: config
               mountPath: /wolweb/devices.json
               readOnly: true
-      restartPolicy: Always
       volumes:
         - name: config
           hostPath:
             path: /opt/k8s-volumes/wolweb-config/devices.json
             type: File
+      restartPolicy: Always
+      hostNetwork: true

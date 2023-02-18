@@ -13,11 +13,11 @@ spec:
         name: binfmt
     spec:
       containers:
-        - name: binfmt
+        - name: app
           image: tonistiigi/binfmt
+          imagePullPolicy: Always
           args:
             - --install
             - all
-          imagePullPolicy: Always
           securityContext:
             privileged: true

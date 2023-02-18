@@ -2,21 +2,21 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kashiwa052
 
-resources:
-  - ./resources/namespace.yaml
-  - ./resources/secret.yaml
-  - ../base
+images:
+  - name: app-image
+    newName: ghcr.io/slashnephy/kashiwa052
 
 commonLabels:
   env: kashiwa052
 
-images:
-  - name: app-image
-    newName: ghcr.io/slashnephy/kashiwa052
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
+  - ../base
 
 configMapGenerator:
   - name: bot-config
     literals:
       - COMMAND=kashiwa
       - DESCRIPTION=かしわさんを呼び寄せます。
-      # GAME: FINAL FANTASY XIV
+    # GAME: FINAL FANTASY XIV

@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -36,15 +36,15 @@ spec:
           envFrom:
             - configMapRef:
                 name: releasechime-repositories-config
-          resources:
-            limits:
-              memory: 512Mi
           volumeMounts:
             - name: cache
               mountPath: /app/data
-      restartPolicy: Always
+          resources:
+            limits:
+              memory: 512Mi
       volumes:
         - name: cache
           hostPath:
             path: /opt/k8s-volumes/releasechime-ff14-cache
             type: DirectoryOrCreate
+      restartPolicy: Always

@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -48,13 +48,12 @@ spec:
                   key: discord-bot-token
             - name: MONGO_DATABASE_URI
               value: mongodb://:@db:27017
-          resources:
-            limits:
-              memory: 512Mi
           volumeMounts:
             - name: data
               mountPath: /app/data
-      restartPolicy: Always
+          resources:
+            limits:
+              memory: 512Mi
       volumes:
         - name: db
           hostPath:
@@ -64,3 +63,4 @@ spec:
           hostPath:
             path: /opt/k8s-volumes/unveiler-data
             type: DirectoryOrCreate
+      restartPolicy: Always

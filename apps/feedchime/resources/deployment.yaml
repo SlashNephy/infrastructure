@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -24,7 +24,6 @@ spec:
               readOnly: true
             - name: cache
               mountPath: /app/data
-      restartPolicy: Always
       volumes:
         - name: config
           hostPath:
@@ -34,3 +33,4 @@ spec:
           hostPath:
             path: /opt/k8s-volumes/feedchime-cache
             type: DirectoryOrCreate
+      restartPolicy: Always

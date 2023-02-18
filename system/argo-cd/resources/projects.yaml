@@ -6,15 +6,14 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 
 spec:
-  orphanedResources:
-    warn: true
-
   clusterResourceWhitelist:
     - group: "*"
       kind: "*"
   destinations:
     - namespace: "*"
       server: "*"
+  orphanedResources:
+    warn: true
   sourceRepos:
     - "*"
 
@@ -27,14 +26,13 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 
 spec:
-  orphanedResources:
-    warn: true
-
   clusterResourceWhitelist:
     - group: "*"
       kind: "*"
   destinations:
     - namespace: "*"
       server: "*"
+  orphanedResources:
+    warn: true
   sourceRepos:
     - "*"

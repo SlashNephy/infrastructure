@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 2
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -25,9 +25,9 @@ spec:
             - name: config
               mountPath: /etc/nginx
               readOnly: true
-      restartPolicy: Always
       volumes:
         - name: config
           hostPath:
             path: /opt/k8s-volumes/atmos-proxy-config
             type: Directory
+      restartPolicy: Always

@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -32,7 +32,6 @@ spec:
             - name: mnt
               mountPath: /srv/mnt
               readOnly: true
-      restartPolicy: Always
       volumes:
         - name: files
           hostPath:
@@ -42,3 +41,4 @@ spec:
           hostPath:
             path: /mnt/records
             type: Directory
+      restartPolicy: Always

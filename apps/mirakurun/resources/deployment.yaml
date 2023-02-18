@@ -7,18 +7,16 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         app: default
     spec:
-      imagePullSecrets:
-        - name: ghcr-io-credentials
       containers:
         - name: app
           image: ghcr.io/starrybluesky/mirakurun-custom:master
@@ -32,15 +30,6 @@ spec:
                 name: app-secret
           ports:
             - containerPort: 40772
-          resources:
-            limits:
-              memory: 4Gi
-          securityContext:
-            privileged: true
-            capabilities:
-              add:
-                - SYS_ADMIN
-                - SYS_NICE
           volumeMounts:
             - name: data
               mountPath: /var/db/mirakurun
@@ -81,7 +70,15 @@ spec:
               mountPath: /dev/pxmlt8video6
             - name: dev-pxmlt8video7
               mountPath: /dev/pxmlt8video7
-      restartPolicy: Always
+          resources:
+            limits:
+              memory: 4Gi
+          securityContext:
+            capabilities:
+              add:
+                - SYS_ADMIN
+                - SYS_NICE
+            privileged: true
       volumes:
         - name: data
           hostPath:
@@ -143,3 +140,6 @@ spec:
         - name: dev-pxmlt8video7
           hostPath:
             path: /dev/pxmlt8video7
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-io-credentials

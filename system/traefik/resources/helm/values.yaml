@@ -1,46 +1,38 @@
-image:
-  tag: v3.0
-  pullPolicy: Always
+additionalArguments:
+  - --experimental.plugins.cloudflarewarp.modulename=github.com/BetterCorp/cloudflarewarp
+  - --experimental.plugins.cloudflarewarp.version=v1.3.3
+
+autoscaling:
+  enabled: false
+
+deployment:
+  replicas: 2
 
 env:
   - name: TZ
     value: Asia/Tokyo
 
-deployment:
-  replicas: 2
-
-podDisruptionBudget:
-  enabled: false
-
 experimental:
-  v3:
-    enabled: true
   plugins:
     enabled: true
+  v3:
+    enabled: true
+
+globalArguments:
+  - --global.checknewversion
+
+image:
+  pullPolicy: Always
+  tag: v3.0
 
 ingressRoute:
   dashboard:
     enabled: false
 
-updateStrategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxUnavailable: 0
-    maxSurge: 1
-
-providers:
-  kubernetesCRD:
-    enabled: true
-  kubernetesIngress:
-    enabled: false
-
 # https://docs.traefik.io/observability/logs/
 logs:
-  general:
-    level: INFO
   access:
     enabled: true
-    format: json
     # https://docs.traefik.io/observability/access-logs/#limiting-the-fieldsincluding-headers
     fields:
       general:
@@ -52,15 +44,15 @@ logs:
         names:
           Authorization: drop
 
+    format: json
+  general:
+    level: INFO
+
 metrics:
   prometheus: null
 
-globalArguments:
-  - --global.checknewversion
-
-additionalArguments:
-  - --experimental.plugins.cloudflarewarp.modulename=github.com/BetterCorp/cloudflarewarp
-  - --experimental.plugins.cloudflarewarp.version=v1.3.3
+podDisruptionBudget:
+  enabled: false
 
 ports:
   web:
@@ -68,22 +60,11 @@ ports:
 
   websecure:
     asDefault: true
-    port: 8443
     expose: true
     exposedPort: 443
-    nodePort: 8443
-    protocol: TCP
-    http3:
-      enabled: false
-
-    # https://doc.traefik.io/traefik/routing/entrypoints/#tls
-    tls:
-      enabled: true
-      options: default
-      domains:
-        - main: starry.blue
-          sans:
-            - "*.starry.blue"
+    # http3:
+    #   advertisedPort: 8443
+    #   enabled: true
 
     # https://doc.traefik.io/traefik/middlewares/overview/
     # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
@@ -93,30 +74,29 @@ ports:
       - traefik-ban-robots@kubernetescrd
       - traefik-trust-cloudflare-ips@kubernetescrd
 
+    nodePort: 8443
+    port: 8443
+
+    # https://doc.traefik.io/traefik/routing/entrypoints/#tls
+    tls:
+      domains:
+        - main: starry.blue
+          sans:
+            - "*.starry.blue"
+      enabled: true
+      options: default
+
+providers:
+  kubernetesCRD:
+    enabled: true
+  kubernetesIngress:
+    enabled: false
+
 service:
   type: NodePort
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 3
-  metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 60
-    - type: Resource
-      resource:
-        name: memory
-        target:
-          type: Utilization
-          averageUtilization: 60
-  behavior:
-    scaleDown:
-      stabilizationWindowSeconds: 300
-      policies:
-        - type: Pods
-          value: 1
-          periodSeconds: 60
+updateStrategy:
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+  type: RollingUpdate

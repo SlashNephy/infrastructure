@@ -4,12 +4,13 @@ metadata:
   name: service
 
 spec:
+  selector:
+    app: default
+
   ports:
     - name: "6742"
       port: 6742
       targetPort: 6742
-  selector:
-    app: default
 
 ---
 apiVersion: v1
@@ -18,11 +19,11 @@ metadata:
   name: db
 
 spec:
+  selector:
+    app: default
   type: NodePort
   ports:
     - name: "27017"
       port: 27017
-      nodePort: 27017
       targetPort: 27017
-  selector:
-    app: default
+      nodePort: 27017

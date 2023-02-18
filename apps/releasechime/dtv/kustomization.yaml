@@ -1,6 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: releasechime-dtv
+
 resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
@@ -25,7 +26,7 @@ configMapGenerator:
       - TARGET_COMMIT_REPOSITORIES_d=noriokun4649/TVTComment
       - TARGET_COMMIT_REPOSITORIES_e=xqq/BonDriver_EPGStation
       - TARGET_COMMIT_REPOSTTORIES_f=erikkaashoek/Comskip
-      # - TARGET_COMMIT_REPOSITORIES_g=logue/CasProcessor
-      # - TARGET_COMMIT_REPOSITORIES_h=logue/TvCas
-      # - TARGET_COMMIT_REPOSITORIES_i=nns779/px4_drv:winusb
-      # - TARGET_COMMIT_REPOSITORIES_j=mirakc/mirakc
+    # - TARGET_COMMIT_REPOSITORIES_g=logue/CasProcessor
+    # - TARGET_COMMIT_REPOSITORIES_h=logue/TvCas
+    # - TARGET_COMMIT_REPOSITORIES_i=nns779/px4_drv:winusb
+    # - TARGET_COMMIT_REPOSITORIES_j=mirakc/mirakc

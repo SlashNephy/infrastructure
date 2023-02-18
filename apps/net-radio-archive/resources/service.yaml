@@ -4,11 +4,10 @@ metadata:
   name: mysql
 
 spec:
+  selector:
+    app: default
   ports:
     - name: "3306"
       port: 3306
       targetPort: 3306
       protocol: TCP
-
-  selector:
-    app: default

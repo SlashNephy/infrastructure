@@ -4,13 +4,14 @@ metadata:
   name: app
 
 spec:
+  selector:
+    app: default
+
   ports:
     - name: "8888"
       port: 8888
       targetPort: 8888
       protocol: TCP
-  selector:
-    app: default
 
 ---
 apiVersion: v1
@@ -19,13 +20,14 @@ metadata:
   name: db
 
 spec:
+  selector:
+    app: default
+
   ports:
     - name: "3306"
       port: 3306
       targetPort: 3306
       protocol: TCP
-  selector:
-    app: default
 
 ---
 apiVersion: v1
@@ -34,12 +36,12 @@ metadata:
   name: app-node
 
 spec:
+  selector:
+    app: default
   type: NodePort
   ports:
     - name: "40773"
       port: 40773
-      nodePort: 40773
       targetPort: 8888
+      nodePort: 40773
       protocol: TCP
-  selector:
-    app: default

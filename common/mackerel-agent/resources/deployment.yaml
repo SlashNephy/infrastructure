@@ -17,9 +17,6 @@ spec:
         - name: mackerel-container-agent
           image: mackerel/mackerel-container-agent:latest
           imagePullPolicy: Always
-          resources:
-            limits:
-              memory: 128Mi
           env:
             - name: MACKEREL_KUBERNETES_KUBELET_READ_ONLY_PORT
               value: "0"
@@ -46,3 +43,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+          resources:
+            limits:
+              memory: 128Mi

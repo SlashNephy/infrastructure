@@ -7,15 +7,17 @@ metadata:
     app.kubernetes.io/part-of: argocd
 
 data:
-  url: https://argocd.starry.blue
-
-  statusbadge.enabled: "true"
-  users.anonymous.enabled: "false"
   exec.enabled: true
 
-  kustomize.enabled: "true"
-  kustomize.buildOptions: --enable-helm --load-restrictor LoadRestrictionsNone
   helm.enabled: "true"
+  kustomize.buildOptions: --enable-helm --load-restrictor LoadRestrictionsNone
+  kustomize.enabled: "true"
+
+  statusbadge.enabled: "true"
+
+  url: https://argocd.starry.blue
+
+  users.anonymous.enabled: "false"
 
 ---
 apiVersion: v1
@@ -31,23 +33,12 @@ data:
     appID: 294358
     installationID: 34273348
     privateKey: $github-privateKey
-  template.github-success: |
-    message: Application {{.app.metadata.name}} is now running new version of deployments manifests.
-    github:
-      status:
-        state: success
-        label: "CD/{{.app.metadata.name}}"
-        targetURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
-  trigger.on-deployed: |
-    - when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
-      oncePer: app.status.sync.revision
-      send: [github-success]
-
   service.webhook.discord: |
     url: $discord-webhook-url
     headers:
       - name: Content-Type
         value: application/json
+
   template.discord-status: |
     webhook:
       discord:
@@ -67,6 +58,18 @@ data:
               }
             ]
           }
+  template.github-success: |
+    message: Application {{.app.metadata.name}} is now running new version of deployments manifests.
+    github:
+      status:
+        state: success
+        label: "CD/{{.app.metadata.name}}"
+        targetURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
+
+  trigger.on-deployed: |
+    - when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+      oncePer: app.status.sync.revision
+      send: [github-success]
   trigger.on-status-change: |
     - when: app.status.operationState.phase in ['Succeeded', 'Running', 'Error', 'Failed']
       send: [discord-status]

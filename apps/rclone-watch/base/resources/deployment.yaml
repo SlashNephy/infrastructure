@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -18,11 +18,11 @@ spec:
       containers:
         - name: app
           image: ghcr.io/slashnephy/rclone-watch
-          ports:
-            - containerPort: 5572
           envFrom:
             - configMapRef:
                 name: rclone-watch-config
+          ports:
+            - containerPort: 5572
           volumeMounts:
             - name: mnt
               mountPath: /mnt
@@ -30,7 +30,6 @@ spec:
             - name: config
               mountPath: /config/rclone
               readOnly: true
-      restartPolicy: Always
       volumes:
         - name: mnt
           hostPath:
@@ -40,3 +39,4 @@ spec:
           hostPath:
             path: /opt/k8s-volumes/rclone-config
             type: Directory
+      restartPolicy: Always

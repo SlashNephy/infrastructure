@@ -6,8 +6,8 @@ helmCharts:
   - name: argo-cd
     releaseName: argo-cd
     namespace: argo-cd
-    repo: https://argoproj.github.io/argo-helm
     version: 5.20.3
+    repo: https://argoproj.github.io/argo-helm
     valuesInline:
       server:
         extensions:
@@ -15,8 +15,8 @@ helmCharts:
   - name: argocd-image-updater
     releaseName: argocd-image-updater
     namespace: argo-cd
-    repo: https://argoproj.github.io/argo-helm
     version: 0.8.4
+    repo: https://argoproj.github.io/argo-helm
 
 resources:
   - ./resources/namespace.yaml

@@ -19,13 +19,14 @@ $ helm install connect \
     --create-namespace
 ```
 
-## Commands
-
 - Create Argo CD resources
+  - Argo CD will create all resources in the repository.
 
 ```console
 $ kubectl kustomize --enable-helm system/argo-cd | kubectl apply -f -
 ```
+
+## Commands
 
 - Generate bearer token for kubernetes-dashboard
 
@@ -33,10 +34,17 @@ $ kubectl kustomize --enable-helm system/argo-cd | kubectl apply -f -
 $ kubectl create token admin-user -n kubernetes-dashboard --duration=4294967296s
 ```
 
-- Check Argo CD initial password
+- Obtain Argo CD initial password
 
 ```console
 $ kubectl get secret argocd-initial-admin-secret \
     -n argo-cd \
     -o jsonpath="{.data.password}" | base64 -d; echo
+```
+
+- Format / Lint manifest files
+
+```console
+$ yarn format
+$ yarn lint
 ```

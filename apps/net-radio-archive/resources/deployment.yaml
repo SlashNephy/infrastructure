@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -30,11 +30,11 @@ spec:
                   key: mysql-password
             - name: TZ
               value: Asia/Tokyo
-          volumeMounts:
-            - mountPath: /var/lib/mysql
-              name: mysql
           ports:
             - containerPort: 3306
+          volumeMounts:
+            - name: mysql
+              mountPath: /var/lib/mysql
         - name: app
           image: ghcr.io/slashnephy/net-radio-archive
           env:
@@ -49,7 +49,6 @@ spec:
               readOnly: true
             - name: radio
               mountPath: /mnt/records/radio
-      restartPolicy: Always
       volumes:
         - name: mysql
           hostPath:
@@ -67,3 +66,4 @@ spec:
           hostPath:
             path: /mnt/records/radio
             type: DirectoryOrCreate
+      restartPolicy: Always

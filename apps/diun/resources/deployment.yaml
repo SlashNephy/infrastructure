@@ -13,7 +13,6 @@ spec:
       labels:
         app: diun
     spec:
-      serviceAccountName: diun
       containers:
         - name: diun
           image: ghcr.io/crazy-max/diun
@@ -62,11 +61,12 @@ spec:
                   name: diun-secret
                   key: ghcr-io-token
           volumeMounts:
-            - mountPath: /data
-              name: data
-      restartPolicy: Always
+            - name: data
+              mountPath: /data
       volumes:
         - name: data
           hostPath:
             path: /opt/k8s-volumes/diun-data
             type: DirectoryOrCreate
+      restartPolicy: Always
+      serviceAccountName: diun

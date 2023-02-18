@@ -4,9 +4,9 @@ metadata:
   name: api-service
 
 spec:
+  selector:
+    app: 052-bot
   ports:
     - port: 5000
       targetPort: 5000
       protocol: TCP
-  selector:
-    app: 052-bot

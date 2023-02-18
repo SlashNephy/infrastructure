@@ -4,8 +4,8 @@ metadata:
   name: service
 
 spec:
+  selector:
+    app: default
   ports:
     - port: 5572
       targetPort: 5572
-  selector:
-    app: default

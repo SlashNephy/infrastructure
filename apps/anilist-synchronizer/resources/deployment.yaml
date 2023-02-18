@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: app
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -34,11 +34,11 @@ spec:
             - name: TOKEN_DIRECTORY
               value: /app/token
           volumeMounts:
-            - mountPath: /app/token
-              name: app-volume
-      restartPolicy: Always
+            - name: app-volume
+              mountPath: /app/token
       volumes:
         - name: app-volume
           hostPath:
             path: /opt/k8s-volumes/anilist-synchronizer-token
             type: DirectoryOrCreate
+      restartPolicy: Always

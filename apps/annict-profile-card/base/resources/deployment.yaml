@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: app
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -18,8 +18,6 @@ spec:
       containers:
         - name: app
           image: annict-profile-card
-          ports:
-            - containerPort: 8080
           env:
             - name: ANNICT_TOKEN
               valueFrom:
@@ -30,4 +28,6 @@ spec:
               value: full
             - name: RUST_LOG
               value: info,annict_profile_card=trace
+          ports:
+            - containerPort: 8080
       restartPolicy: Always

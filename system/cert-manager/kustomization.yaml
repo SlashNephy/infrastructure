@@ -7,16 +7,16 @@ helmCharts:
   - name: cert-manager
     releaseName: cert-manager
     namespace: cert-manager
-    repo: https://charts.jetstack.io
     version: 1.11.0
+    repo: https://charts.jetstack.io
     includeCRDs: true
     valuesInline:
-      installCRDs: true
-      prometheus:
-        enabled: false
       global:
         leaderElection:
           namespace: cert-manager
+      installCRDs: true
+      prometheus:
+        enabled: false
 
 resources:
   - ./resources/namespace.yaml

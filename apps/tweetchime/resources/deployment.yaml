@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -58,9 +58,9 @@ spec:
           volumeMounts:
             - name: cache
               mountPath: /app/data
-      restartPolicy: Always
       volumes:
         - name: cache
           hostPath:
             path: /opt/k8s-volumes/tweetchime-cache
             type: DirectoryOrCreate
+      restartPolicy: Always

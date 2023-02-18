@@ -1,0 +1,229 @@
+{
+  "extends": ["@slashnephy/eslint-config"],
+  "rules": {
+    "yml/sort-keys": [
+      "error",
+      {
+        "pathPattern": "^$",
+        "order": [
+          "apiVersion",
+          "kind",
+          "metadata",
+          "namespace",
+          "type",
+          "spec",
+          "images",
+          "helmCharts",
+          "commonLabels",
+          "resources",
+          "configMapGenerator",
+          "patchesStrategicMerge",
+          "patchesJson6902",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^metadata$",
+        "order": [
+          "name",
+          "annotations",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^helmCharts\\[\\d+\\]$",
+        "order": [
+          "name",
+          "releaseName",
+          "namespace",
+          "version",
+          "repo",
+          "includeCRDs",
+          "valuesFile",
+          "valuesInline",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^spec$",
+        "order": [
+          "replicas",
+          "strategy",
+          "selector",
+          "schedule",
+          "type",
+          "generators",
+          "template",
+          "jobTemplate",
+          "ports",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^spec\\.routes\\[\\d+\\]$",
+        "order": [
+          "kind",
+          "match",
+          "priority",
+          "services",
+          "middlewares",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^spec\\.ports\\[\\d+\\]$",
+        "order": [
+          "name",
+          "port",
+          "targetPort",
+          "nodePort",
+          "prorocol",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^spec\\.template$",
+        "order": [
+          "metadata",
+          "spec",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^(spec\\.template\\.spec|spec\\.jobTemplate\\.spec\\.template\\.spec)$",
+        "order": [
+          "containers",
+          "volumes",
+          "restartPolicy",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^(spec\\.template\\.spec\\.containers|spec\\.jobTemplate\\.spec\\.template\\.spec\\.containers)\\[\\d+\\]$",
+        "order": [
+          "name",
+          "image",
+          "imagePullPolicy",
+          "command",
+          "args",
+          "env",
+          "envFrom",
+          "ports",
+          "volumeMounts",
+          "resources",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^spec\\.template\\.spec\\.containers\\[\\d+\\]\\.volumeMounts\\[\\d+\\]$",
+        "order": [
+          "name",
+          "mountPath",
+          "readonly",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^spec\\.template\\.spec\\.volumes\\[\\d+\\]$",
+        "order": [
+          "name",
+          "hostPath",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^spec\\.template\\.spec\\.volumes\\[\\d+\\]\\.hostPath$",
+        "order": [
+          "path",
+          "type",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^patchesJson6902\\[\\d+\\]$",
+        "order": [
+          "target",
+          "patch",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^patchesJson6902\\[\\d+\\]\\.target$",
+        "order": [
+          "group",
+          "version",
+          "kind",
+          "name",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
+        "pathPattern": "^.+$",
+        "order": [
+          "name",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

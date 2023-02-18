@@ -13,7 +13,6 @@ spec:
       labels:
         app: default
     spec:
-      hostNetwork: true
       containers:
         - name: app
           image: cloudflare/cloudflared
@@ -29,3 +28,4 @@ spec:
                   name: cloudflared-secret
                   key: tunnel-token
       restartPolicy: Always
+      hostNetwork: true

@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -58,12 +58,12 @@ spec:
                 name: app-secret
           ports:
             - containerPort: 6742
-          resources:
-            limits:
-              memory: 1Gi
           volumeMounts:
             - name: media
               mountPath: /app/media
+          resources:
+            limits:
+              memory: 1Gi
         - name: db
           image: mongo:5.0
           env:
@@ -79,7 +79,6 @@ spec:
           volumeMounts:
             - name: db
               mountPath: /data/db
-      restartPolicy: Always
       volumes:
         - name: media
           hostPath:
@@ -89,3 +88,4 @@ spec:
           hostPath:
             path: /opt/k8s-volumes/stella-db
             type: DirectoryOrCreate
+      restartPolicy: Always

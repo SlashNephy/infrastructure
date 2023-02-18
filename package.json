@@ -5,7 +5,6 @@
   "repository": "https://github.com/SlashNephy/k8s-manifests",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
     "format": "concurrently -n format: 'yarn:format:*'",
     "format:eslint": "yarn lint:eslint --fix",
     "format:prettier": "yarn lint:prettier --write",
@@ -16,20 +15,14 @@
   "devDependencies": {
     "@slashnephy/eslint-config": "0.2.43",
     "@slashnephy/prettier-config": "0.1.13",
-    "@types/eslint": "8.21.1",
-    "@types/prettier": "2.7.2",
     "concurrently": "7.6.0",
     "eslint": "8.34.0",
+    "eslint-plugin-yml": "1.5.0",
     "prettier": "2.8.4",
     "typescript": "4.9.5"
   },
   "packageManager": "yarn@3.4.1",
   "engines": {
     "node": ">=18"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@slashnephy/eslint-config"
-    ]
   }
 }

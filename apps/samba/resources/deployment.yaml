@@ -46,7 +46,6 @@ spec:
             - name: records
               mountPath: /mnt
               readOnly: true
-      restartPolicy: Always
       volumes:
         - name: samba-config
           hostPath:
@@ -56,3 +55,4 @@ spec:
           hostPath:
             path: /mnt/records
             type: Directory
+      restartPolicy: Always
