@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`apps.starry.blue`) && PathPrefix(`/stella`)
+      match: Host(`stella.starry.blue`)
       services:
         - name: service
           port: 6742
