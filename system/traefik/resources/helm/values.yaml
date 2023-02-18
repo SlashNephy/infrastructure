@@ -58,7 +58,9 @@ metrics:
 globalArguments:
   - --global.checknewversion
 
-additionalArguments: []
+additionalArguments:
+  - --experimental.plugins.cloudflarewarp.modulename=github.com/BetterCorp/cloudflarewarp
+  - --experimental.plugins.cloudflarewarp.version=v1.3.3
 
 ports:
   web:
@@ -88,8 +90,8 @@ ports:
     middlewares:
       - traefik-security-headers@kubernetescrd
       # - traefik-custom-error-pages@kubernetescrd
-      # - real-ip-plugin@kubernetescrd
       - traefik-ban-robots@kubernetescrd
+      - traefik-trust-cloudflare-ips@kubernetescrd
 
 service:
   type: NodePort
