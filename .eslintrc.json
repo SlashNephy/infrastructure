@@ -225,5 +225,19 @@
         ]
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": "{apps,common,system}/**/*.yml",
+      "rules": {
+        "yml/file-extension": [
+          "error",
+          {
+            "extension": "yaml",
+            "caseSensitive": true
+          }
+        ]
+      }
+    }
+  ]
 }
