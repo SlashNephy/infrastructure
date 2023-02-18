@@ -15,7 +15,7 @@ experimental:
   v3:
     enabled: true
   plugins:
-    enabled: false
+    enabled: true
 
 ingressRoute:
   dashboard:
@@ -72,7 +72,7 @@ ports:
     nodePort: 8443
     protocol: TCP
     http3:
-      enabled: true
+      enabled: false
 
     # https://doc.traefik.io/traefik/routing/entrypoints/#tls
     tls:
