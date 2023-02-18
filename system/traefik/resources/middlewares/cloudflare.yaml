@@ -6,7 +6,10 @@ metadata:
 spec:
   plugin:
     cloudflarewarp:
-      disableDefault: false
+      disableDefault: true
+      trustip:
+        # /run/flannel/subnet.env
+        - 10.244.0.0/16
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
