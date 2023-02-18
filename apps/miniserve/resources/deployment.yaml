@@ -17,13 +17,11 @@ spec:
     spec:
       containers:
         - name: app
-          image: svenstaro/miniserve:0.22.0
+          image: svenstaro/miniserve
           args:
             - -D
-            - --route-prefix
-            - /miniserve/
             - -t
-            - starry.blue
+            - files.starry.blue
             - /srv
           ports:
             - containerPort: 8080
