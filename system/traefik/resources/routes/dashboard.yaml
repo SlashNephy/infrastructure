@@ -10,3 +10,14 @@ spec:
       services:
         - name: api@internal
           kind: TraefikService
+      middlewares:
+        - name: auto-detect-content-type
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: auto-detect-content-type
+
+spec:
+  contentType: {}
