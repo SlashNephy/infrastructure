@@ -6,13 +6,11 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: HostRegexp(`(.+\.)?starry\.blue$`)
+      match: HostRegexp(`*`)
       priority: 1
       services:
-        - name: custom-error-pages
-          port: 80
-      middlewares:
-        - name: redirect-to-404
+        - name: noop@internal
+          kind: TraefikService
 
 ---
 apiVersion: traefik.containo.us/v1alpha1

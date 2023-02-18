@@ -113,7 +113,7 @@ ports:
     # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
     middlewares:
       - traefik-security-headers@kubernetescrd
-      - traefik-custom-error-pages@kubernetescrd
+      # - traefik-custom-error-pages@kubernetescrd
       # - real-ip-plugin@kubernetescrd
       - traefik-ban-robots@kubernetescrd
 
