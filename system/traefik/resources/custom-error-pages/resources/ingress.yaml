@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: HostRegexp(`*`)
+      match: HostRegexp(`^(.+\.)?starry\.blue$`)
       priority: 1
       services:
         - name: noop@internal
