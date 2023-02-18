@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`apps.starry.blue`) && PathPrefix(`/wolweb`)
+      match: Host(`wol.starry.blue`)
       services:
         - name: service
           port: 8089
