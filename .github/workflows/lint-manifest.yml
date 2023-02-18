@@ -20,12 +20,12 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     runs-on: ubuntu-latest
-    permissions:
-      contents: 'read'
-      pull-requests: 'write'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
