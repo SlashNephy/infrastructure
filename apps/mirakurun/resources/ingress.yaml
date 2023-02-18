@@ -6,32 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`apps.starry.blue`) && PathPrefix(`/mirakurun/`)
+      match: Host(`mirakurun.starry.blue`)
       services:
         - name: app
           port: 40772
-      middlewares:
-        - name: static-replacepathregex
-        - name: api-replacepathregex
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: static-replacepathregex
-
-spec:
-  replacePathRegex:
-    regex: ^/mirakurun/(rpc|icon.+|.+\.bundle\.js)?$$
-    replacement: /$$1
-
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: api-replacepathregex
-
-spec:
-  replacePathRegex:
-    regex: ^/mirakurun(/api)?(.*)
-    replacement: /api$$2
