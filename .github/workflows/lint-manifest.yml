@@ -41,10 +41,4 @@ jobs:
         uses: docker://ghcr.io/yannh/kubeconform:master
         with:
           entrypoint: '/kubeconform'
-          args: |
-            -schema-location default
-            -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json'
-            -ignore-missing-schemas
-            -ignore-filename-pattern='values.yaml'
-            -ignore-filename-pattern='charts'
-            **/*.yaml
+          args: -schema-location default -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' -ignore-missing-schemas -ignore-filename-pattern='values.yaml' -ignore-filename-pattern='charts' **/*.yaml
