@@ -43,3 +43,4 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
+      serviceAccountName: service-account
