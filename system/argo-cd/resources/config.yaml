@@ -61,9 +61,9 @@ data:
                 {{if eq .app.status.operationState.phase "Succeeded"}}"color": 34628,{{end}}
                 {{if eq .app.status.operationState.phase "Running"}}"color": 16754432,{{end}}
                 {{if eq .app.status.operationState.phase "Error"}}"color": 14036256,{{end}}
-                {{if eq .app.status.operationState.phase "Failed"}}"color": 14036256,{{end}},
+                {{if eq .app.status.operationState.phase "Failed"}}"color": 14036256,{{end}}
                 "title": "{{.app.metadata.name}}",
-                "description": "Application status is **{{.app.status.operationState.phase}}**.",
+                "description": "Application state is now **{{.app.status.operationState.phase}}**.",
                 "url": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
               }
             ]
@@ -81,7 +81,8 @@ data:
       oncePer: app.status.sync.revision
       send: [github-success]
   trigger.on-status-change: |
-    - when: app.status.operationState.phase in ['Succeeded', 'Running', 'Error', 'Failed']
+    - when: app.status.operationState.phase in ['Succeeded', 'Error', 'Failed']
+      oncePer: app.status.sync.revision
       send: [discord-status]
 
 ---
