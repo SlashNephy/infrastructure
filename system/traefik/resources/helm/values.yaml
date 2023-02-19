@@ -78,7 +78,7 @@ ports:
           sans:
             - "*.starry.blue"
       enabled: true
-      options: direct
+      options: traefik-direct@kubernetescrd
 
   web:
     expose: false
