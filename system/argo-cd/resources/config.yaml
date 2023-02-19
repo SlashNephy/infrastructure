@@ -39,6 +39,16 @@ data:
       - name: Content-Type
         value: application/json
 
+  subscriptions: |
+    - recipients:
+        - github
+      triggers:
+        - on-deployed
+    - recipients:
+        - discord
+      triggers:
+        - on-status-change
+
   template.discord-status: |
     webhook:
       discord:
