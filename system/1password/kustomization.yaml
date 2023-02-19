@@ -13,3 +13,6 @@ helmCharts:
       operator:
         autoRestart: true
         create: true
+
+resources:
+  - ./resources/namespace.yaml
