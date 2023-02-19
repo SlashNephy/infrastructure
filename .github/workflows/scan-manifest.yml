@@ -1,0 +1,46 @@
+name: 'Scan k8s Manifest'
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'apps/**/*.yaml'
+      - 'common/**/*.yaml'
+      - 'init/**/*.yaml'
+      - 'system/**/*.yaml'
+
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    paths:
+      - 'apps/**/*.yaml'
+      - 'common/**/*.yaml'
+      - 'init/**/*.yaml'
+      - 'system/**/*.yaml'
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Result
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
