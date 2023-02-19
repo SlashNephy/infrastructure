@@ -16,25 +16,30 @@ spec:
         app: default
     spec:
       containers:
-        - name: atmos-token-distributor
+        - name: app
           image: ghcr.io/starrybluesky/atmos-token-distributor:master
-          envFrom:
-            - secretRef:
-                name: app-secret
-          volumeMounts:
-            - name: token1
-              mountPath: /app/token1.htpasswd
-            - name: token2
-              mountPath: /app/token2.htpasswd
-      volumes:
-        - name: token1
-          hostPath:
-            path: /opt/k8s-volumes/atmos-proxy-config/token1.htpasswd
-            type: File
-        - name: token2
-          hostPath:
-            path: /opt/k8s-volumes/atmos-proxy-config/token2.htpasswd
-            type: File
+          imagePullPolicy: Always
+          env:
+            - name: CF_TEAM_DOMAIN
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: cloudflare-access-domain
+            - name: CF_APP_AUDIENCE
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: cloudflare-app-audience
+            - name: MIRAKURUN_K8S_NAMESPACE
+              value: mirakurun
+            - name: MIRAKURUN_K8S_SECRET_NAME
+              value: basic-auth-credentials
+            - name: EPGSTATION_K8S_NAMESPACE
+              value: epgstation
+            - name: EPGSTATION_K8S_SECRET_NAME
+              value: basic-auth-credentials
+          ports:
+            - containerPort: 3000
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
