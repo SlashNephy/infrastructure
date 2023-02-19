@@ -7,7 +7,6 @@ on:
     paths:
       - 'apps/**/*.yaml'
       - 'common/**/*.yaml'
-      - 'init/**/*.yaml'
       - 'system/**/*.yaml'
 
   pull_request:
@@ -17,7 +16,6 @@ on:
     paths:
       - 'apps/**/*.yaml'
       - 'common/**/*.yaml'
-      - 'init/**/*.yaml'
       - 'system/**/*.yaml'
 
   workflow_dispatch:
@@ -43,4 +41,4 @@ jobs:
         uses: docker://ghcr.io/yannh/kubeconform
         with:
           entrypoint: '/kubeconform'
-          args: -schema-location default -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' -ignore-missing-schemas -ignore-filename-pattern='values.yaml' -ignore-filename-pattern='charts' **/*.yaml
+          args: -schema-location default -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' -ignore-missing-schemas -ignore-filename-pattern='values.yaml' -ignore-filename-pattern='charts' -ignore-filename-pattern='init' **/*.yaml
