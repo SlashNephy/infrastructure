@@ -7,6 +7,7 @@ on:
     paths:
       - 'apps/**/*.yaml'
       - 'common/**/*.yaml'
+      - 'init/**/*.yaml'
       - 'system/**/*.yaml'
 
   pull_request:
@@ -16,6 +17,7 @@ on:
     paths:
       - 'apps/**/*.yaml'
       - 'common/**/*.yaml'
+      - 'init/**/*.yaml'
       - 'system/**/*.yaml'
 
   workflow_dispatch:

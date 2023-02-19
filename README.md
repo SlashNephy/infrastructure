@@ -4,26 +4,8 @@
 
 ## Setup
 
-- [1Password Connect Server & Operator](https://github.com/1Password/connect-helm-charts/tree/main/charts/connect)
-
 ```console
-$ helm repo add 1password https://1password.github.io/connect-helm-charts
-$ helm repo update
-$ helm install connect \
-    1password/connect \
-    --set-file connect.credentials=1password-credentials.json \
-    --set operator.create=true \
-    --set operator.token.value=$OP_CONNECT_TOKEN \
-    --set operator.autoRestart=true \
-    -n 1password \
-    --create-namespace
-```
-
-- Create Argo CD resources
-  - Argo CD will create all resources in the repository.
-
-```console
-$ kubectl kustomize --enable-helm system/argo-cd | kubectl apply -f -
+$ kubectl kustomize --enable-helm init | kubectl apply -f -
 ```
 
 ## Commands
