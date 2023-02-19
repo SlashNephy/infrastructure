@@ -4,8 +4,11 @@ kind: Kustomization
 helmCharts:
   # https://github.com/1Password/connect-helm-charts/tree/main/charts/connect
   - name: connect
+    releaseName: connect
     namespace: 1password
+    version: 1.10.0
     repo: https://1password.github.io/connect-helm-charts
+    includeCRDs: true
     valuesInline:
       operator:
         autoRestart: true
