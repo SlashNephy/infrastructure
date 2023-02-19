@@ -22,7 +22,7 @@ spec:
     - direct
   routes:
     - kind: Rule
-      match: (Host(`mirakurun-api.starry.blue`) && PathPrefix(`/api`)) || (Host(`epgstation-api.starry.blue`) && PathPrefix(`/api`))
+      match: Host(`mirakurun-api.starry.blue`, `epgstation-api.starry.blue`)
       services:
         - name: service
           port: 80

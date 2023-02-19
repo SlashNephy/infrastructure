@@ -4,6 +4,9 @@ metadata:
   name: custom-error-pages
 
 spec:
+  entryPoints:
+    - websecure
+    - direct
   routes:
     - kind: Rule
       match: HostRegexp(`^(.+\.)?starry\.blue$`)
