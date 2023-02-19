@@ -10,3 +10,19 @@ spec:
       services:
         - name: service
           port: 80
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route-direct
+
+spec:
+  entryPoints:
+    - direct
+  routes:
+    - kind: Rule
+      match: (Host(`mirakurun-api.starry.blue`) && PathPrefix(`/api`)) || (Host(`epgstation-api.starry.blue`) && PathPrefix(`/api`))
+      services:
+        - name: service
+          port: 80

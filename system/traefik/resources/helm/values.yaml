@@ -58,13 +58,35 @@ podDisruptionBudget:
   enabled: false
 
 ports:
+  direct:
+    expose: true
+    exposedPort: 9443
+    # http3:
+    #   advertisedPort: 8443
+    #   enabled: true
+
+    middlewares:
+      - traefik-security-headers@kubernetescrd
+      - traefik-ban-robots@kubernetescrd
+
+    nodePort: 9443
+    port: 9443
+
+    tls:
+      domains:
+        - main: starry.blue
+          sans:
+            - "*.starry.blue"
+      enabled: true
+      options: direct
+
   web:
     expose: false
 
   websecure:
     asDefault: true
     expose: true
-    exposedPort: 443
+    exposedPort: 8443
     # http3:
     #   advertisedPort: 8443
     #   enabled: true
