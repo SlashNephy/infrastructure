@@ -10,3 +10,40 @@ spec:
       services:
         - name: app
           port: 40772
+    - kind: Rule
+      match: Host(`atmos.starry.blue`) && PathPrefix(`/mirakurun`)
+      services:
+        - name: app
+          port: 40772
+      middlewares:
+        - name: basic-auth
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route-direct
+
+spec:
+  entryPoints:
+    - direct
+  routes:
+    - kind: Rule
+      match: Host(`mirakurun-api.starry.blue`)
+      services:
+        - name: app
+          port: 40772
+      middlewares:
+        - name: basic-auth
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: basic-auth
+
+spec:
+  basicAuth:
+    realm: Access Restricted
+    removeHeader: true
+    secret: basic-auth-credentials

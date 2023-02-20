@@ -6,7 +6,44 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`atmos.starry.blue`)
+      match: Host(`epgstation.starry.blue`)
       services:
         - name: app
           port: 8888
+    - kind: Rule
+      match: Host(`anemos.starry.blue`) && PathPrefix(`/api`)
+      services:
+        - name: app
+          port: 8888
+      middlewares:
+        - name: basic-auth
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route-direct
+
+spec:
+  entryPoints:
+    - direct
+  routes:
+    - kind: Rule
+      match: Host(`epgstation-api.starry.blue`)
+      services:
+        - name: app
+          port: 8888
+      middlewares:
+        - name: basic-auth
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: basic-auth
+
+spec:
+  basicAuth:
+    realm: Access Restricted
+    removeHeader: true
+    secret: basic-auth-credentials
