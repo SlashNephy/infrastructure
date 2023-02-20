@@ -29,7 +29,7 @@ spec:
     - direct
   routes:
     - kind: Rule
-      match: Host(`epgstation-api.starry.blue`)
+      match: Host(`epgstation-api.starry.blue`) && PathPrefix(`/api`)
       services:
         - name: app
           port: 8888
