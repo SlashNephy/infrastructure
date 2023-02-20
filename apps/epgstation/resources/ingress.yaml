@@ -16,7 +16,7 @@ spec:
         - name: app
           port: 8888
       middlewares:
-        - name: basic-auth
+        - name: epgstation-basic-auth
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -34,13 +34,13 @@ spec:
         - name: app
           port: 8888
       middlewares:
-        - name: basic-auth
+        - name: epgstation-basic-auth
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: basic-auth
+  name: epgstation-basic-auth
 
 spec:
   basicAuth:

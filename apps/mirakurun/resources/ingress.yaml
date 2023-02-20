@@ -16,7 +16,7 @@ spec:
         - name: app
           port: 40772
       middlewares:
-        - name: basic-auth
+        - name: mirakurun-basic-auth
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -34,13 +34,13 @@ spec:
         - name: app
           port: 40772
       middlewares:
-        - name: basic-auth
+        - name: mirakurun-basic-auth
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: basic-auth
+  name: mirakurun-basic-auth
 
 spec:
   basicAuth:
