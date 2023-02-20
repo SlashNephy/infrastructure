@@ -143,8 +143,7 @@ spec:
   template:
     metadata:
       name: "{{name}}"
-      finalizers:
-        - resources-finalizer.argocd.argoproj.io
+
     spec:
       destination:
         namespace: "{{name}}"
@@ -152,11 +151,9 @@ spec:
       project: "{{project}}"
       source:
         path: "{{path}}"
-        repoURL: git@github.com:SlashNephy/k8s-manifests.git
+        repoURL: https://github.com:SlashNephy/k8s-manifests
         targetRevision: HEAD
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
-        syncOptions:
-          - CreateNamespace=true

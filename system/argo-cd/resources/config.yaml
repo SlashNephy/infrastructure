@@ -17,7 +17,32 @@ data:
 
   url: https://argocd.starry.blue
 
-  users.anonymous.enabled: "false"
+  users.anonymous.enabled: "true"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cmd-params-cm
+  labels:
+    app.kubernetes.io/name: argocd-cmd-params-cm
+    app.kubernetes.io/part-of: argocd
+
+data:
+  applicationsetcontroller.log.format: text
+  applicationsetcontroller.log.level: debug
+  controller.log.format: text
+  controller.log.level: debug
+  controller.operation.processors: "10"
+  controller.repo.server.timeout.seconds: "60"
+  controller.self.heal.timeout.seconds: "5"
+  controller.status.processors: "20"
+  reposerver.log.format: text
+  reposerver.log.level: debug
+  reposerver.parallelism.limit: "0"
+  server.disable.auth: "false"
+  server.log.format: text
+  server.log.level: debug
 
 ---
 apiVersion: v1
@@ -108,3 +133,15 @@ metadata:
 
 data:
   log.level: debug
+  registries.conf: |
+    registries:
+      - name: Docker Hub
+        prefix: docker.io
+        api_url: https://registry-1.docker.io
+        credentials: pullsecret:argo-cd/docker-hub-credentials
+        defaultns: library
+        default: true
+      - name: GitHub Container Registry
+        prefix: ghcr.io
+        api_url: https://ghcr.io/v2
+        credentials: pullsecret:argo-cd/ghcr-io-credentials
