@@ -10,6 +10,8 @@ spec:
       services:
         - name: app
           port: 40772
+      middlewares:
+        - name: mirakurun-auto-detect-content-type
     - kind: Rule
       match: Host(`atmos.starry.blue`) && PathPrefix(`/mirakurun`)
       services:
@@ -17,6 +19,15 @@ spec:
           port: 40772
       middlewares:
         - name: mirakurun-basic-auth
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mirakurun-auto-detect-content-type
+
+spec:
+  contentType: {}
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
