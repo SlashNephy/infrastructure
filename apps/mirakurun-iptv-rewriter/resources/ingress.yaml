@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route-direct
+
+spec:
+  entryPoints:
+    - direct
+  routes:
+    - kind: Rule
+      match: Host(`mirakurun-api.starry.blue`) && PathPrefix(`/api/playlist/iptv`)
+      services:
+        - name: app
+          port: 5000
+      middlewares:
+        - name: mirakurun-basic-auth
