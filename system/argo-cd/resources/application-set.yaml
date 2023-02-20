@@ -143,8 +143,7 @@ spec:
   template:
     metadata:
       name: "{{name}}"
-      finalizers:
-        - resources-finalizer.argocd.argoproj.io
+
     spec:
       destination:
         namespace: "{{name}}"
@@ -158,5 +157,3 @@ spec:
         automated:
           prune: true
           selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
