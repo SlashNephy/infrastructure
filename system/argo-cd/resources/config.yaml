@@ -7,6 +7,17 @@ metadata:
     app.kubernetes.io/part-of: argocd
 
 data:
+  dex.config: |
+    connectors:
+      - id: github
+        type: github
+        name: GitHub
+        config:
+          clientID: 69ad8e7f2745f1be9a45
+          clientSecret: $github.clientSecret
+          orgs:
+            - name: StarryBlueSky
+
   exec.enabled: "true"
 
   helm.enabled: "true"
@@ -29,19 +40,9 @@ metadata:
     app.kubernetes.io/part-of: argocd
 
 data:
-  applicationsetcontroller.log.format: text
   applicationsetcontroller.log.level: debug
-  controller.log.format: text
   controller.log.level: debug
-  controller.operation.processors: "10"
-  controller.repo.server.timeout.seconds: "60"
-  controller.self.heal.timeout.seconds: "5"
-  controller.status.processors: "20"
-  reposerver.log.format: text
   reposerver.log.level: debug
-  reposerver.parallelism.limit: "0"
-  server.disable.auth: "false"
-  server.log.format: text
   server.log.level: debug
 
 ---
@@ -122,6 +123,8 @@ metadata:
 data:
   # enable exec
   policy.csv: p, role:admin, exec, create, */*, allow
+
+  policy.default: role:readonly
 
 ---
 apiVersion: v1
