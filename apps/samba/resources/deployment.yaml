@@ -40,17 +40,17 @@ spec:
             - containerPort: 445
               protocol: TCP
           volumeMounts:
-            - name: samba-config
+            - name: config
               mountPath: /etc/samba/smb.conf
               readOnly: true
+              subPath: smb.conf
             - name: records
               mountPath: /mnt
               readOnly: true
       volumes:
-        - name: samba-config
-          hostPath:
-            path: /opt/k8s-volumes/samba-config/smb.conf
-            type: File
+        - name: config
+          configMap:
+            name: app-config
         - name: records
           hostPath:
             path: /mnt/records
