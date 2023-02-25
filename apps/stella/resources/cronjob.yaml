@@ -47,7 +47,7 @@ spec:
                 - -c
                 - >
                   mongoexport \
-                  -h db
+                  -h db \
                   -u $MONGODB_USER \
                   -p $MONGODB_PASSWORD \
                   --authenticationDatabase=admin \
