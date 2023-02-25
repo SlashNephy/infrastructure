@@ -4,7 +4,7 @@ metadata:
   name: create-tvtest-release
 
 spec:
-  schedule: "0 0 * * 0"
+  schedule: "0 0 * * *"
   jobTemplate:
     spec:
       template:
@@ -17,10 +17,10 @@ spec:
                 - -c
                 - >
                   gh api \
-                  --method POST \
-                  -H "Accept: application/vnd.github.v3+json" \
-                  /repos/SlashNephy/TVTest-builder/releases \
-                  -f tag_name=`date -Idate`
+                    --method POST \
+                    -H "Accept: application/vnd.github.v3+json" \
+                    /repos/SlashNephy/TVTest-builder/releases \
+                    -f tag_name=`date -Idate`
               envFrom:
                 - secretRef:
                     name: github-secret

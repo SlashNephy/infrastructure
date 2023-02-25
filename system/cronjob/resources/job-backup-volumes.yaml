@@ -16,13 +16,11 @@ spec:
               command:
                 - /bin/ash
                 - -c
-                - apk add zstd \
-                  && tar -acpf /dist/volumes.zst /src || true \
-                  && rclone copy \
-                  /dist \
-                  horoscope:Backup \
-                  --config /rclone.conf \
-                  && rm -f /dist/volumes.zst
+                - >
+                  apk add zstd
+                  tar -acpf /dist/volumes.zst /src || true
+                  rclone copy /dist horoscope:Backup --config /rclone.conf
+                  rm -f /dist/volumes.zst
               volumeMounts:
                 - name: src
                   mountPath: /src
@@ -31,7 +29,6 @@ spec:
                   mountPath: /dist
                 - name: config
                   mountPath: /rclone.conf
-                  readOnly: true
           volumes:
             - name: src
               hostPath:

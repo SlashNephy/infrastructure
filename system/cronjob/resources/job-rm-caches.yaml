@@ -15,10 +15,11 @@ spec:
               command:
                 - /bin/bash
                 - -c
-                - rm -rf \
-                  /host/var/cache/pacman/pkg/* \
-                  /host/home/*/.cache \
-                  /host/root/.cache
+                - >
+                  rm -rf \
+                    /host/var/cache/pacman/pkg/* \
+                    /host/home/*/.cache \
+                    /host/root/.cache
               volumeMounts:
                 - name: host
                   mountPath: /host
@@ -27,4 +28,4 @@ spec:
               hostPath:
                 path: /
                 type: Directory
-          restartPolicy: OnFailure
+          restartPolicy: Never

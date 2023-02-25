@@ -41,4 +41,4 @@ spec:
               hostPath:
                 path: /opt/k8s-volumes/epgstation-config
                 type: Directory
-          restartPolicy: OnFailure
+          restartPolicy: Never

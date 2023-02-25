@@ -15,16 +15,17 @@ spec:
               command:
                 - /bin/bash
                 - -c
-                - mongoexport \
-                  -h db
-                  -u $MONGODB_USER \
-                  -p $MONGODB_PASSWORD \
-                  --authenticationDatabase=admin \
-                  -d stella \
-                  -c Pic \
-                  --jsonArray \
-                  --jsonFormat=canonical \
-                  --quiet | jq > /backup/Pic.json
+                - >
+                  mongoexport \
+                    -h db
+                    -u $MONGODB_USER \
+                    -p $MONGODB_PASSWORD \
+                    --authenticationDatabase=admin \
+                    -d stella \
+                    -c Pic \
+                    --jsonArray \
+                    --jsonFormat=canonical \
+                    --quiet | jq > /backup/Pic.json
               env:
                 - name: MONGODB_USER
                   valueFrom:
