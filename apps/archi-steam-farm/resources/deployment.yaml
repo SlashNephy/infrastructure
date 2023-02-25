@@ -24,17 +24,18 @@ spec:
           ports:
             - containerPort: 1242
           volumeMounts:
-            - name: config-volume
+            - name: config
               mountPath: /app/config
-            - name: nlog-volume
+            - name: nlog
               mountPath: /app/NLog.config
+              readOnly: true
+              subPath: NLog.config
       volumes:
-        - name: config-volume
+        - name: config
           hostPath:
             path: /opt/k8s-volumes/archi-steam-farm-config
             type: DirectoryOrCreate
-        - name: nlog-volume
-          hostPath:
-            path: /opt/k8s-volumes/archi-steam-farm-nlog/NLog.config
-            type: File
+        - name: nlog
+          configMap:
+            name: app-config
       restartPolicy: Always
