@@ -45,13 +45,13 @@ spec:
             - name: comskip-config
               mountPath: /comskip.ini
               readOnly: true
+              subPath: comskip.ini
       volumes:
         - name: records
           hostPath:
             path: /mnt/records
             type: Directory
         - name: comskip-config
-          hostPath:
-            path: /opt/k8s-volumes/comskip-config/comskip.ini
-            type: File
+          configMap:
+            name: app-config
       restartPolicy: Always
