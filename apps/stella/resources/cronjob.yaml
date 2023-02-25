@@ -45,7 +45,8 @@ spec:
               command:
                 - /bin/bash
                 - -c
-                - mongoexport \
+                - >
+                  mongoexport \
                   -h db
                   -u $MONGODB_USER \
                   -p $MONGODB_PASSWORD \
