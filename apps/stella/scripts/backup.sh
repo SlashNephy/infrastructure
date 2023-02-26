@@ -6,7 +6,7 @@ mongoexport \
   -p $MONGODB_PASSWORD \
   --authenticationDatabase=admin \
   -d stella \
-  -c Pic \
+  -c $MONGODB_COLLECTION \
   --jsonArray \
   --jsonFormat=canonical \
-  --quiet | jq > /backup/PicTagReplace.json
+  --quiet | jq > /backup/${MONGODB_COLLECTION}.json

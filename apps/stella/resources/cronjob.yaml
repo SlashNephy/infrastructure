@@ -13,19 +13,7 @@ spec:
             - name: pic-table
               image: mongo:5.0
               command:
-                - /bin/bash
-                - -c
-                - >
-                  mongoexport \
-                    -h db
-                    -u $MONGODB_USER \
-                    -p $MONGODB_PASSWORD \
-                    --authenticationDatabase=admin \
-                    -d stella \
-                    -c Pic \
-                    --jsonArray \
-                    --jsonFormat=canonical \
-                    --quiet | jq > /backup/Pic.json
+                - /entrypoint.sh
               env:
                 - name: MONGODB_USER
                   valueFrom:
@@ -37,9 +25,15 @@ spec:
                     secretKeyRef:
                       name: app-secret
                       key: DB_PASSWORD
+                - name: MONGODB_COLLECTION
+                  value: Pic
               volumeMounts:
                 - name: backup
                   mountPath: /backup
+                - name: script
+                  mountPath: /entrypoint.sh
+                  readOnly: true
+                  subPath: backup.sh
             - name: pic-tag-replace-table
               image: mongo:5.0
               command:
@@ -55,6 +49,8 @@ spec:
                     secretKeyRef:
                       name: app-secret
                       key: DB_PASSWORD
+                - name: MONGODB_COLLECTION
+                  value: PicTagReplaceTable
               volumeMounts:
                 - name: backup
                   mountPath: /backup
