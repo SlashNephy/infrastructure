@@ -23,6 +23,8 @@ spec:
               volumeMounts:
                 - name: host
                   mountPath: /host
+              securityContext:
+                privileged: true
           volumes:
             - name: host
               hostPath:

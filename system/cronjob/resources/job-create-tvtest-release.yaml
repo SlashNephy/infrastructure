@@ -12,18 +12,21 @@ spec:
           containers:
             - name: gh
               image: maniator/gh
+              imagePullPolicy: Always
               command:
-                - /bin/ash
-                - -c
-                - >
-                  gh api \
-                    --method POST \
-                    -H "Accept: application/vnd.github.v3+json" \
-                    /repos/SlashNephy/TVTest-builder/releases \
-                    -f tag_name=`date -Idate`
+                - /entrypoint.sh
               envFrom:
                 - secretRef:
                     name: github-secret
+              volumeMounts:
+                - name: script
+                  mountPath: /entrypoint.sh
+                  readOnly: true
+                  subPath: job-create-tvtest-release.sh
+          volumes:
+            - name: script
+              configMap:
+                name: scripts
           restartPolicy: Never
 
 ---

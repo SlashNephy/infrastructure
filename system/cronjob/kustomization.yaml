@@ -8,3 +8,9 @@ resources:
   - ./resources/job-create-tvtest-release.yaml
   - ./resources/job-rm-caches.yaml
   - ./resources/job-rm-empty-files.yaml
+
+configMapGenerator:
+  - name: scripts
+    files:
+      - ./scripts/job-backup-volumes.sh
+      - ./scripts/job-create-tvtest-release.sh

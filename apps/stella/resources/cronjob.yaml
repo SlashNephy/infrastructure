@@ -43,19 +43,7 @@ spec:
             - name: pic-tag-replace-table
               image: mongo:5.0
               command:
-                - /bin/bash
-                - -c
-                - >
-                  mongoexport \
-                  -h db \
-                  -u $MONGODB_USER \
-                  -p $MONGODB_PASSWORD \
-                  --authenticationDatabase=admin \
-                  -d stella \
-                  -c Pic \
-                  --jsonArray \
-                  --jsonFormat=canonical \
-                  --quiet | jq > /backup/PicTagReplace.json
+                - /entrypoint.sh
               env:
                 - name: MONGODB_USER
                   valueFrom:
@@ -70,9 +58,16 @@ spec:
               volumeMounts:
                 - name: backup
                   mountPath: /backup
+                - name: script
+                  mountPath: /entrypoint.sh
+                  readOnly: true
+                  subPath: backup.sh
           volumes:
             - name: backup
               hostPath:
                 path: /opt/k8s-volumes/stella-backup
                 type: DirectoryOrCreate
+            - name: script
+              configMap:
+                name: scripts
           restartPolicy: OnFailure
