@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service
+
+spec:
+  selector:
+    app: default
+  type: NodePort
+  ports:
+    - name: "25565"
+      port: 25565
+      targetPort: 25565
+      nodePort: 25565
+      protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-internal
+
+spec:
+  selector:
+    app: default
+  ports:
+    - name: "8123"
+      port: 8123
+      targetPort: 8123
+      protocol: TCP

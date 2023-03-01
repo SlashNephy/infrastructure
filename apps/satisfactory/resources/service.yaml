@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service
+
+spec:
+  selector:
+    app: default
+  type: NodePort
+  ports:
+    - name: "7777"
+      port: 7777
+      targetPort: 7777
+      nodePort: 7777
+      protocol: UDP

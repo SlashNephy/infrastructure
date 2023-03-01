@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: adoptopenjdk/openjdk8:jre
+          workingDir: /app
+          args:
+            - java
+            - -jar
+            - forge-1.12.2-14.23.5.2860.jar
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+          ports:
+            - containerPort: 25565
+            - containerPort: 8123
+          volumeMounts:
+            - name: data
+              mountPath: /app
+      volumes:
+        - name: data
+          hostPath:
+            path: /opt/k8s-volumes/minecraft/forge_1.12.2
+            type: Directory
+      restartPolicy: Always

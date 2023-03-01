@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: lloesche/valheim-server
+          env:
+            - name: SERVER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: server-name
+            - name: SERVER_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: server-password
+            - name: STATUS_HTTP
+              value: "true"
+            - name: TZ
+              value: Asia/Tokyo
+            - name: VALHEIM_PLUS
+              value: "true"
+            - name: VPCFG_Server_dataRate
+              value: "600"
+            - name: VPCFG_Server_enabled
+              value: "true"
+            - name: VPCFG_Server_enforceMod
+              value: "false"
+            - name: WORLD_NAME
+              value: Testaaa
+          ports:
+            - containerPort: 2456
+              protocol: UDP
+            - containerPort: 2457
+              protocol: UDP
+          volumeMounts:
+            - name: data
+              mountPath: /config
+            - name: game
+              mountPath: /opt/valheim
+          securityContext:
+            capabilities:
+              add:
+                - SYS_NICE
+      volumes:
+        - name: data
+          hostPath:
+            path: /opt/k8s-volumes/valheim/data
+            type: DirectoryOrCreate
+        - name: game
+          hostPath:
+            path: /opt/k8s-volumes/valheim/game
+            type: DirectoryOrCreate
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 120

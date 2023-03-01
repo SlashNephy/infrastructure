@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: wolveix/satisfactory-server
+          env:
+            - name: MAXBACKUPS
+              value: "10"
+            - name: STEAMCODE
+              value: Your-Steam-Code
+            - name: STEAMPWD
+              value: Your-Steam-Password
+            - name: STEAMUSER
+              value: Your-Steam-Username
+          ports:
+            - containerPort: 7777
+              protocol: UDP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          hostPath:
+            path: /opt/k8s-volumes/satisfactory/config
+            type: DirectoryOrCreate
+      restartPolicy: Always
+      hostname: direct.starry.blue

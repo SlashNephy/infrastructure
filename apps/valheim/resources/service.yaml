@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service
+
+spec:
+  selector:
+    app: default
+  type: NodePort
+  ports:
+    - name: "2456"
+      port: 2456
+      targetPort: 2456
+      nodePort: 2456
+      protocol: UDP
+    - name: "2457"
+      port: 2457
+      targetPort: 2457
+      nodePort: 2457
+      protocol: UDP

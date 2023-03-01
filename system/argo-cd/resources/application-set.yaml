@@ -8,13 +8,16 @@ spec:
     - list:
         elements:
           # apps
-          - name: karasu052
+          #          - name: 7-days-to-die
+          #            path: apps/052-bot/7-days-to-die
+          #            project: apps
+          - name: 052-bot-karasu
             path: apps/052-bot/karasu
             project: apps
-          - name: kashiwa052
+          - name: 052-bot-kashiwa
             path: apps/052-bot/kashiwa
             project: apps
-          - name: samekan052
+          - name: 052-bot-samekan
             path: apps/052-bot/samekan
             project: apps
           - name: anilist-synchronizer
@@ -62,6 +65,9 @@ spec:
           - name: m2ts-calendar
             path: apps/m2ts-calendar
             project: apps
+          #          - name: minecraft_forge_1_12_2
+          #            path: apps/minecraft/forge-1.12.2
+          #            project: apps
           - name: miniserve
             path: apps/miniserve
             project: apps
@@ -92,6 +98,9 @@ spec:
           - name: samba
             path: apps/samba
             project: apps
+          #          - name: satisfactory
+          #            path: apps/satisfactory
+          #            project: apps
           - name: setlist-main
             path: apps/setlist/main
             project: apps
@@ -116,6 +125,9 @@ spec:
           - name: unveiler
             path: apps/unveiler
             project: apps
+          #          - name: valheim
+          #            path: apps/valheim
+          #            project: apps
           - name: whoami
             path: apps/whoami
             project: apps

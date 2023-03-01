@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: vinanrra/7dtd-server
+          env:
+            - name: ALLOC_FIXES
+              value: YES
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+            - name: START_MODE
+              value: "3"
+            - name: TimeZone
+              value: Asia/Tokyo
+            - name: VERSION
+              value: stable
+          ports:
+            - containerPort: 26900
+            - containerPort: 26900
+              protocol: UDP
+            - containerPort: 26901
+              protocol: UDP
+            - containerPort: 26902
+              protocol: UDP
+            - containerPort: 8082
+          volumeMounts:
+            - name: server
+              mountPath: /home/sdtdserver/serverfiles
+            - name: data
+              mountPath: /home/sdtdserver/.local/share/7DaysToDie
+            - name: logs
+              mountPath: /home/sdtdserver/log
+            - name: backups
+              mountPath: /home/sdtdserver/lgsm/backup
+            - name: config
+              mountPath: /home/sdtdserver/lgsm/config-lgsm/sdtdserver
+      volumes:
+        - name: server
+          hostPath:
+            path: /opt/k8s-volumes/7-days-to-die/server
+            type: DirectoryOrCreate
+        - name: data
+          hostPath:
+            path: /opt/k8s-volumes/7-days-to-die/data
+            type: DirectoryOrCreate
+        - name: logs
+          hostPath:
+            path: /opt/k8s-volumes/7-days-to-die/logs
+            type: DirectoryOrCreate
+        - name: backups
+          hostPath:
+            path: /opt/k8s-volumes/7-days-to-die/backups
+            type: DirectoryOrCreate
+        - name: config
+          configMap:
+            name: app-config
+      restartPolicy: Always

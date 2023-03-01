@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: gaetan/dockercraft
+          args:
+            - Jungle
+            - "63"
+            - "0"
+            - Trees
+          ports:
+            - containerPort: 25565
+          volumeMounts:
+            - name: socket
+              mountPath: /var/run/docker.sock
+              readOnly: true
+          tty: true
+      volumes:
+        - name: socket
+          hostPath:
+            path: /var/run/docker.sock
+            type: Socket
+      restartPolicy: Always
