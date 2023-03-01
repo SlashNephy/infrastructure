@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: mysql
+          image: mariadb:10
+          env:
+            - name: MYSQL_DATABASE
+              value: teamspeak
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: mysql-user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: mysql-password
+          volumeMounts:
+            - name: mysql
+              mountPath: /var/lib/mysql
+        - name: app
+          image: teamspeak
+          env:
+            - name: TS3SERVER_DB_HOST
+              value: mysql
+            - name: TS3SERVER_DB_PLUGIN
+              value: ts3db_mariadb
+            - name: TS3SERVER_DB_NAME
+              value: teamspeak
+            - name: TS3SERVER_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: mysql-user
+            - name: TS3SERVER_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: mysql-password
+            - name: TS3SERVER_DB_SQLCREATEPATH
+              value: create_mariadb
+            - name: TS3SERVER_DB_WAITUNTILREADY
+              value: "30"
+            - name: TS3SERVER_LICENSE
+              value: accept
+          ports:
+            - containerPort: 9987
+              protocol: UDP
+            - containerPort: 10011
+            - containerPort: 30033
+          volumeMounts:
+            - name: data
+              mountPath: /var/ts3server
+      volumes:
+        - name: data
+          hostPath:
+            path: /opt/k8s-volumes/teamspeak/data
+            type: DirectoryOrCreate
+        - name: mysql
+          hostPath:
+            path: /opt/k8s-volumes/teamspeak/mysql
+            type: DirectoryOrCreate
+      restartPolicy: Always
