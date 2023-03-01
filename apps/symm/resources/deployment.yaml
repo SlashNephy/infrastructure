@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/symm
+          env:
+            - name: DISCORD_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: discord-bot-token
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /service_account.json
+          volumeMounts:
+            - name: service-account
+              mountPath: /service_account.json
+              readOnly: true
+      volumes:
+        - name: service-account
+          hostPath:
+            path: /opt/k8s-volumes/symm/starrybluesky-c6d25c065875.json
+            type: File
+      restartPolicy: Always
