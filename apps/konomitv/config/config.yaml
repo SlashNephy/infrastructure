@@ -1,0 +1,19 @@
+# 全般の設定
+general:
+  backend: Mirakurun
+  debug: false
+  edcb_url: tcp://192.168.1.11:4510/
+  mirakurun_url: http://app.mirakurun:40772/
+
+# ライブストリームの設定
+livestream:
+  debug_mode_ts_path: null
+
+  # 利用するエンコーダー
+  # FFmpeg・QSVEncC・NVEncC・VCEEncC から選択
+  encoder: QSVEncC
+
+  # 誰も見ていないライブストリームを何秒まで維持するか
+  # 10 秒に設定したなら、10 秒間誰も見ていない状態が継続したらライブストリーム（エンコーダー）を終了する
+  # 0 秒に設定するとリロードしただけでチューナーオープンとエンコードがやり直しになってしまうため、余裕をもたせておく事を推奨
+  max_alive_time: 10

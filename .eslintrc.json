@@ -240,6 +240,12 @@
           }
         ]
       }
+    },
+    {
+      "files": "**/config/**/*.yml",
+      "rules": {
+        "yml/file-extension": "off"
+      }
     }
   ]
 }
