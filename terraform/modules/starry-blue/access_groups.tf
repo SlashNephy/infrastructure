@@ -1,3 +1,12 @@
+resource "cloudflare_access_group" "everyone" {
+  account_id = local.cloudflare_account_id
+  name       = "Everyone"
+
+  include {
+    everyone = true
+  }
+}
+
 resource "cloudflare_access_group" "github_organization" {
   account_id = local.cloudflare_account_id
   name       = "GitHub Organization"
