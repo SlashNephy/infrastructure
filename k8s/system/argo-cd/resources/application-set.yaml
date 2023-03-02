@@ -193,6 +193,13 @@ spec:
       destination:
         namespace: "{{name}}"
         server: https://kubernetes.default.svc
+      ignoreDifferences:
+        - group: argoproj.io
+          jsonPointers:
+            - /spec/syncPolicy/automated
+          kind: Application
+          managedFieldsManagers:
+            - argocd-server
       project: "{{project}}"
       source:
         path: "{{path}}"
@@ -202,3 +209,5 @@ spec:
         automated:
           prune: true
           selfHeal: true
+        syncOptions:
+          - RespectIgnoreDifferences=true
