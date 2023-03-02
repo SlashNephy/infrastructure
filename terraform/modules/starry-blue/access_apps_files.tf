@@ -1,7 +1,8 @@
-resource "cloudflare_access_bookmark" "files" {
+resource "cloudflare_access_application" "files" {
   account_id           = local.cloudflare_account_id
   name                 = "files.starry.blue"
   domain               = "files.starry.blue"
+  type                 = "bookmark"
   logo_url             = "https://raw.githubusercontent.com/svenstaro/miniserve/master/data/logo.svg"
   app_launcher_visible = true
 }
@@ -12,7 +13,7 @@ resource "cloudflare_access_application" "files_mnt" {
   domain                    = "files.starry.blue/mnt"
   type                      = "self_hosted"
   logo_url                  = "https://raw.githubusercontent.com/svenstaro/miniserve/master/data/logo.svg"
-  app_launcher_visible      = true
+  app_launcher_visible      = false
   allowed_idps              = [cloudflare_access_identity_provider.github_oauth.id]
   auto_redirect_to_identity = true
   session_duration          = "24h"
