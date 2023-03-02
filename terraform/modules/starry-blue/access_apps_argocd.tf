@@ -1,4 +1,4 @@
-resource "cloudflare_access_application" "argo_cd" {
+resource "cloudflare_access_application" "argocd" {
   account_id                = local.cloudflare_account_id
   name                      = "Argo CD"
   domain                    = "argocd.starry.blue"
@@ -10,9 +10,9 @@ resource "cloudflare_access_application" "argo_cd" {
   session_duration          = "24h"
 }
 
-resource "cloudflare_access_policy" "argo_cd" {
+resource "cloudflare_access_policy" "argocd" {
   account_id     = local.cloudflare_account_id
-  application_id = cloudflare_access_application.argo_cd.id
+  application_id = cloudflare_access_application.argocd.id
   name           = "private-server-access"
   decision       = "allow"
   precedence     = 0
@@ -22,7 +22,7 @@ resource "cloudflare_access_policy" "argo_cd" {
   }
 }
 
-resource "cloudflare_access_application" "argo_cd_webhook" {
+resource "cloudflare_access_application" "argocd_webhook" {
   account_id           = local.cloudflare_account_id
   name                 = "Argo CD (Webhook)"
   domain               = "argocd.starry.blue/api/webhook"
@@ -31,9 +31,9 @@ resource "cloudflare_access_application" "argo_cd_webhook" {
   app_launcher_visible = false
 }
 
-resource "cloudflare_access_policy" "argo_cd_webhook" {
+resource "cloudflare_access_policy" "argocd_webhook" {
   account_id     = local.cloudflare_account_id
-  application_id = cloudflare_access_application.argo_cd_webhook.id
+  application_id = cloudflare_access_application.argocd_webhook.id
   name           = "everyone"
   decision       = "bypass"
   precedence     = 0
