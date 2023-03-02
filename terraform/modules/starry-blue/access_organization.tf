@@ -1,9 +1,8 @@
 resource "cloudflare_access_organization" "starry_blue_sky" {
-  account_id                         = local.cloudflare_account_id
-  name                               = "@StarryBlueSky"
-  auth_domain                        = "starrybluesky.cloudflareaccess.com"
-  is_ui_read_only                    = true
-  user_seat_expiration_inactive_time = "720h"
+  account_id      = local.cloudflare_account_id
+  name            = "@StarryBlueSky"
+  auth_domain     = "starrybluesky.cloudflareaccess.com"
+  is_ui_read_only = true
 
   login_design {
     background_color = "#e6eef3"
