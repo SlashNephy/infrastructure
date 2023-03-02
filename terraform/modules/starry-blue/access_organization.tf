@@ -3,7 +3,7 @@ resource "cloudflare_access_organization" "starry_blue_sky" {
   name                               = "@StarryBlueSky"
   auth_domain                        = "starrybluesky.cloudflareaccess.com"
   is_ui_read_only                    = true
-  user_seat_expiration_inactive_time = "30d"
+  user_seat_expiration_inactive_time = "60d"
 
   login_design {
     background_color = "#e6eef3"
