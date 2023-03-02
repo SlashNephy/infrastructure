@@ -47,7 +47,10 @@ spec:
                   name: unveiler-secret
                   key: discord-bot-token
             - name: MONGO_DATABASE_URI
-              value: mongodb://:@db:27017
+              valueFrom:
+                secretKeyRef:
+                  name: unveiler-secret
+                  key: mongodb-uri
           volumeMounts:
             - name: data
               mountPath: /app/data

@@ -24,6 +24,9 @@ spec:
               readOnly: true
             - name: cache
               mountPath: /app/data
+          resources:
+            limits:
+              memory: 512Mi
       volumes:
         - name: config
           hostPath:

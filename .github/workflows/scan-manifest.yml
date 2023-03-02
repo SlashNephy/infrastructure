@@ -5,20 +5,14 @@ on:
     branches:
       - master
     paths:
-      - 'apps/**/*.yaml'
-      - 'common/**/*.yaml'
-      - 'init/**/*.yaml'
-      - 'system/**/*.yaml'
+      - 'k8s/**/*.yaml'
 
   pull_request:
     types:
       - opened
       - synchronize
     paths:
-      - 'apps/**/*.yaml'
-      - 'common/**/*.yaml'
-      - 'init/**/*.yaml'
-      - 'system/**/*.yaml'
+      - 'k8s/**/*.yaml'
 
   workflow_dispatch:
 

@@ -44,7 +44,10 @@ spec:
             - name: TOKEN_DIRECTORY
               value: /app/token
             - name: IGNORED_ANILIST_IDS
-              value: "148042"
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: ignored-anilist-ids
           volumeMounts:
             - name: app-volume
               mountPath: /app/token

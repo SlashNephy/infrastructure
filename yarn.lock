@@ -2133,6 +2133,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"infrastructure@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "infrastructure@workspace:."
+  dependencies:
+    "@slashnephy/eslint-config": 0.3.4
+    "@slashnephy/prettier-config": 0.1.16
+    concurrently: 7.6.0
+    eslint: 8.35.0
+    eslint-plugin-yml: 1.5.0
+    prettier: 2.8.4
+    typescript: 4.9.5
+  languageName: unknown
+  linkType: soft
+
 "inherits@npm:2":
   version: 2.0.4
   resolution: "inherits@npm:2.0.4"
@@ -2468,20 +2482,6 @@ __metadata:
   checksum: a2ed78cac49a0f0c4be8b1eafe3c5257a1411341d8e7f1ac740debae003de04e5f6372bfcfbd9d082e954ffd99aac85bcda85b7c6bc11609992483f4cdc0f745
   languageName: node
   linkType: hard
-
-"k8s-manifests@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "k8s-manifests@workspace:."
-  dependencies:
-    "@slashnephy/eslint-config": 0.3.4
-    "@slashnephy/prettier-config": 0.1.16
-    concurrently: 7.6.0
-    eslint: 8.35.0
-    eslint-plugin-yml: 1.5.0
-    prettier: 2.8.4
-    typescript: 4.9.5
-  languageName: unknown
-  linkType: soft
 
 "klona@npm:^2.0.4":
   version: 2.0.5

@@ -1,11 +1,11 @@
-# k8s-manifests
+# infrastructure
 
 [/slashnephy/k8s](https://scrapbox.io/slashnephy/k8s)
 
 ## Setup
 
 ```console
-$ kubectl kustomize --enable-helm init | kubectl apply -f -
+$ kubectl kustomize --enable-helm k8s/init | kubectl apply -f -
 ```
 
 ## Commands

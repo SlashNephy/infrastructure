@@ -230,7 +230,7 @@
   },
   "overrides": [
     {
-      "files": "{apps,common,system}/**/*.yml",
+      "files": "k8s/**/*.yml",
       "rules": {
         "yml/file-extension": [
           "error",
@@ -242,7 +242,7 @@
       }
     },
     {
-      "files": "**/config/**/*.yml",
+      "files": "k8s/**/config/**/*.yml",
       "rules": {
         "yml/file-extension": "off"
       }
