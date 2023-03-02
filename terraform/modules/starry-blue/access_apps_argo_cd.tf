@@ -33,7 +33,7 @@ resource "cloudflare_access_application" "argo_cd_webhook" {
 
 resource "cloudflare_access_policy" "argo_cd_webhook" {
   account_id     = local.cloudflare_account_id
-  application_id = cloudflare_access_application.argo_cd.id
+  application_id = cloudflare_access_application.argo_cd_webhook.id
   name           = "everyone"
   decision       = "bypass"
   precedence     = 0

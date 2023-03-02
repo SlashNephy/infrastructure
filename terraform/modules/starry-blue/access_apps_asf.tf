@@ -10,7 +10,7 @@ resource "cloudflare_access_application" "arch_steam_farm" {
   session_duration          = "24h"
 }
 
-resource "cloudflare_access_policy" "arch-steam-farm" {
+resource "cloudflare_access_policy" "arch_steam_farm" {
   account_id     = local.cloudflare_account_id
   application_id = cloudflare_access_application.arch_steam_farm.id
   name           = "private-asf"
