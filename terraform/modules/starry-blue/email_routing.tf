@@ -1,4 +1,4 @@
-resource "cloudflare_email_routing_settings" "my_zone" {
+resource "cloudflare_email_routing_settings" "settings" {
   zone_id = cloudflare_zone.zone.id
   enabled = true
 }
