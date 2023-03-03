@@ -21,7 +21,8 @@ provider "cloudflare" {
 }
 
 module "starry-blue" {
-  source                     = "./modules/starry-blue"
-  cloudflare_api_token       = var.cloudflare_api_token
-  github_oauth_client_secret = var.github_oauth_client_secret
+  source                          = "./modules/starry-blue"
+  cloudflare_api_token            = var.cloudflare_api_token
+  github_oauth_client_secret      = var.github_oauth_client_secret
+  email_routing_catch_all_address = var.email_routing_catch_all_address
 }
