@@ -4,7 +4,11 @@ metadata:
   name: deployment
 
 spec:
-  replicas: 1
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+    type: RollingUpdate
   selector:
     matchLabels:
       app: default
@@ -15,18 +19,22 @@ spec:
     spec:
       containers:
         - name: app
-          image: cloudflare/cloudflared
+          image: cloudflare/cloudflared:latest
           args:
             - tunnel
-            - --no-autoupdate
-            - --metrics=127.0.0.1:45935
+            - --metrics=0.0.0.0:2000
             - run
           env:
             - name: TUNNEL_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: cloudflared-secret
+                  name: app-secret
                   key: tunnel-token
+          livenessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /ready
+              port: 2000
+            initialDelaySeconds: 10
+            periodSeconds: 10
       restartPolicy: Always
-      dnsPolicy: ClusterFirstWithHostNet
-      hostNetwork: true
