@@ -30,6 +30,6 @@ resource "cloudflare_record" "caa_iodef" {
   data {
     flags = "0"
     tag   = "iodef"
-    value = "mailto:webmaster@starry.blue"
+    value = "mailto:${local.webmaster_email_address}"
   }
 }
