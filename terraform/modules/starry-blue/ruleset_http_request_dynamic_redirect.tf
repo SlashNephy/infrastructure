@@ -61,7 +61,7 @@ resource "cloudflare_ruleset" "http_request_dynamic_redirect" {
     EOT
   }
 
-  # TODO: 廃止予定
+  // TODO: 廃止予定
   rules {
     enabled     = true
     description = "廃止 (${cloudflare_record.cname_apps.hostname}/atmos-token-distributor)"
@@ -81,7 +81,7 @@ resource "cloudflare_ruleset" "http_request_dynamic_redirect" {
     EOT
   }
 
-  # TODO: 廃止予定
+  // TODO: 廃止予定
   rules {
     enabled     = true
     description = "廃止 (${cloudflare_record.cname_apps.hostname}/miniserve)"
@@ -101,7 +101,7 @@ resource "cloudflare_ruleset" "http_request_dynamic_redirect" {
     EOT
   }
 
-  # TODO: 廃止予定
+  // TODO: 廃止予定
   rules {
     enabled     = true
     description = "廃止 (${cloudflare_record.cname_apps.hostname}/mirakurun)"
@@ -121,7 +121,7 @@ resource "cloudflare_ruleset" "http_request_dynamic_redirect" {
     EOT
   }
 
-  # TODO: 廃止予定
+  // TODO: 廃止予定
   rules {
     enabled     = true
     description = "廃止 (${cloudflare_record.cname_apps.hostname}/stella)"
@@ -141,7 +141,7 @@ resource "cloudflare_ruleset" "http_request_dynamic_redirect" {
     EOT
   }
 
-  # TODO: 廃止予定
+  // TODO: 廃止予定
   rules {
     enabled     = true
     description = "廃止 (${cloudflare_record.cname_atmos.hostname})"

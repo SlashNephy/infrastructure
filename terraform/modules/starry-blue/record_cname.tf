@@ -254,7 +254,7 @@ resource "cloudflare_record" "cname_maaya" {
   proxied = true
 }
 
-# TODO: 廃止予定
+// TODO: 廃止予定
 resource "cloudflare_record" "cname_atmos" {
   zone_id = cloudflare_zone.zone.id
   name    = "atmos"
@@ -263,7 +263,7 @@ resource "cloudflare_record" "cname_atmos" {
   proxied = true
 }
 
-# TODO: 廃止予定
+// TODO: 廃止予定
 resource "cloudflare_record" "cname_anemos" {
   zone_id = cloudflare_zone.zone.id
   name    = "anemos"
