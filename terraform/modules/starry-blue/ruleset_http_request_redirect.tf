@@ -15,7 +15,7 @@ resource "cloudflare_ruleset" "http_request_redirect" {
       }
     }
 
-    expression = "http.request.full_uri in $redirect_list"
+    expression = "http.request.full_uri in $voice_actor"
   }
 }
 
