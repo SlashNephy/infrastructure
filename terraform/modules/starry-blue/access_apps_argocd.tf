@@ -1,13 +1,16 @@
 resource "cloudflare_access_application" "argocd" {
-  account_id                = cloudflare_account.account.id
-  name                      = "Argo CD"
-  domain                    = cloudflare_record.cname_argocd.hostname
-  type                      = "self_hosted"
-  logo_url                  = "https://cncf-branding.netlify.app/img/projects/argo/icon/color/argo-icon-color.png"
-  app_launcher_visible      = true
-  allowed_idps              = [cloudflare_access_identity_provider.github_oauth.id]
-  auto_redirect_to_identity = true
-  session_duration          = "24h"
+  account_id                 = cloudflare_account.account.id
+  name                       = "Argo CD"
+  domain                     = cloudflare_record.cname_argocd.hostname
+  type                       = "self_hosted"
+  logo_url                   = "https://cncf-branding.netlify.app/img/projects/argo/icon/color/argo-icon-color.png"
+  app_launcher_visible       = true
+  allowed_idps               = [cloudflare_access_identity_provider.github_oauth.id]
+  auto_redirect_to_identity  = true
+  session_duration           = "24h"
+  same_site_cookie_attribute = "lax"
+  http_only_cookie_attribute = true
+  enable_binding_cookie      = false
 }
 
 resource "cloudflare_access_policy" "argocd" {
@@ -23,12 +26,15 @@ resource "cloudflare_access_policy" "argocd" {
 }
 
 resource "cloudflare_access_application" "argocd_webhook" {
-  account_id           = cloudflare_account.account.id
-  name                 = "Argo CD (Webhook)"
-  domain               = "${cloudflare_record.cname_argocd.hostname}/api/webhook"
-  type                 = "self_hosted"
-  logo_url             = "https://cncf-branding.netlify.app/img/projects/argo/icon/color/argo-icon-color.png"
-  app_launcher_visible = false
+  account_id                 = cloudflare_account.account.id
+  name                       = "Argo CD (Webhook)"
+  domain                     = "${cloudflare_record.cname_argocd.hostname}/api/webhook"
+  type                       = "self_hosted"
+  logo_url                   = "https://cncf-branding.netlify.app/img/projects/argo/icon/color/argo-icon-color.png"
+  app_launcher_visible       = false
+  same_site_cookie_attribute = "lax"
+  http_only_cookie_attribute = true
+  enable_binding_cookie      = false
 }
 
 resource "cloudflare_access_policy" "argocd_webhook" {
