@@ -30,6 +30,7 @@ resource "cloudflare_ruleset" "http_request_origin" {
         "konomitv.starry.blue"
         "mirakurun.starry.blue"
         "owncast.starry.blue"
+        "rclone.starry.blue"
         "rustpad.starry.blue"
         "search.starry.blue"
         "stella.starry.blue"

@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`apps.starry.blue`) && PathPrefix(`/rclone-radio`)
+      match: Host(`rclone.starry.blue`) && PathPrefix(`/radio`)
       services:
         - name: service
           port: 5572
