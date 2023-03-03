@@ -1,12 +1,13 @@
-resource "cloudflare_ruleset" "origin" {
+resource "cloudflare_ruleset" "http_request_origin" {
   zone_id = local.cloudflare_zone_id
-  name    = "Use :8443 Origin"
+  name    = "http_request_origin"
   kind    = "zone"
   phase   = "http_request_origin"
 
   rules {
-    enabled = true
-    action  = "route"
+    enabled     = true
+    description = "Use :8443 Origin"
+    action      = "route"
     action_parameters {
       origin {
         port = 8443

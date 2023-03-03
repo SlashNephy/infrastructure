@@ -1,12 +1,13 @@
-resource "cloudflare_ruleset" "config" {
+resource "cloudflare_ruleset" "http_config_settings" {
   zone_id = local.cloudflare_zone_id
-  name    = "Disable Content Modification"
+  name    = "http_config_settings"
   kind    = "zone"
   phase   = "http_config_settings"
 
   rules {
-    enabled = true
-    action  = "set_config"
+    enabled     = true
+    description = "Disable Content Modification"
+    action      = "set_config"
     action_parameters {
       autominify {
         css  = false
