@@ -19,9 +19,9 @@ resource "cloudflare_ruleset" "http_config_settings" {
 
     expression = <<-EOT
       (http.host in {
-        "apps.starry.blue"
-        "asf.starry.blue"
-        "jupyter.starry.blue"
+        "${cloudflare_record.cname_apps.hostname}"
+        "${cloudflare_record.cname_asf.hostname}"
+        "${cloudflare_record.cname_jupyter.hostname}"
       })
     EOT
   }

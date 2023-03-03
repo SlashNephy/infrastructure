@@ -1,7 +1,7 @@
 resource "cloudflare_access_application" "mirakurun" {
   account_id                = cloudflare_account.account.id
   name                      = "Mirakurun"
-  domain                    = "mirakurun.starry.blue"
+  domain                    = cloudflare_record.cname_mirakurun.hostname
   type                      = "self_hosted"
   logo_url                  = "https://i.scdn.co/image/ab67616d0000b27353459416a76d3c403e2b1176"
   app_launcher_visible      = true
@@ -15,7 +15,7 @@ resource "cloudflare_access_policy" "mirakurun" {
   application_id = cloudflare_access_application.mirakurun.id
   name           = "private-dtv"
   decision       = "allow"
-  precedence     = 0
+  precedence     = 1
 
   include {
     group = [cloudflare_access_group.github_organization_private_dtv.id]

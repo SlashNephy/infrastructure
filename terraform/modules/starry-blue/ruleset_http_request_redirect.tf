@@ -27,7 +27,7 @@ resource "cloudflare_list" "voice_actor" {
   item {
     value {
       redirect {
-        source_url  = "inori.starry.blue/"
+        source_url  = "${cloudflare_record.cname_inori.hostname}/"
         target_url  = "https://www.inoriminase.com/discography/?id=47"
         status_code = 302
       }
@@ -37,7 +37,7 @@ resource "cloudflare_list" "voice_actor" {
   item {
     value {
       redirect {
-        source_url  = "maaya.starry.blue/"
+        source_url  = "${cloudflare_record.cname_maaya.hostname}/"
         target_url  = "https://uchidamaaya.jp/"
         status_code = 302
       }

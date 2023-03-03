@@ -1,7 +1,7 @@
 resource "cloudflare_access_application" "arch_steam_farm" {
   account_id                = cloudflare_account.account.id
   name                      = "ArchSteamFarm"
-  domain                    = "asf.starry.blue"
+  domain                    = cloudflare_record.cname_asf.hostname
   type                      = "self_hosted"
   logo_url                  = "https://raw.githubusercontent.com/JustArchiNET/ArchiSteamFarm/main/resources/ASF_184x184.png"
   app_launcher_visible      = true
@@ -15,7 +15,7 @@ resource "cloudflare_access_policy" "arch_steam_farm" {
   application_id = cloudflare_access_application.arch_steam_farm.id
   name           = "private-asf"
   decision       = "allow"
-  precedence     = 0
+  precedence     = 1
 
   include {
     group = [cloudflare_access_group.github_organization_private_asf.id]

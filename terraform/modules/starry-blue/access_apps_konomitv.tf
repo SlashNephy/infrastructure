@@ -1,7 +1,7 @@
 resource "cloudflare_access_application" "konomitv" {
   account_id                = cloudflare_account.account.id
   name                      = "KonomiTV"
-  domain                    = "konomitv.starry.blue"
+  domain                    = cloudflare_record.cname_konomitv.hostname
   type                      = "self_hosted"
   logo_url                  = "https://pbs.twimg.com/profile_images/1592266272993333250/xNKHVQO9_400x400.jpg"
   app_launcher_visible      = true
@@ -15,7 +15,7 @@ resource "cloudflare_access_policy" "konomitv" {
   application_id = cloudflare_access_application.konomitv.id
   name           = "private-dtv"
   decision       = "allow"
-  precedence     = 0
+  precedence     = 1
 
   include {
     group = [cloudflare_access_group.github_organization_private_dtv.id]

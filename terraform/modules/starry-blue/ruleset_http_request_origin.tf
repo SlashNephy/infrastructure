@@ -14,29 +14,28 @@ resource "cloudflare_ruleset" "http_request_origin" {
       }
     }
 
-    # TODO: 不要なホストを削除する
     expression = <<-EOT
       (http.host in {
-        "anemos.starry.blue"
-        "apps.starry.blue"
-        "argocd.starry.blue"
-        "asf.starry.blue"
-        "atmos.starry.blue"
-        "basic.starry.blue"
-        "epgstation.starry.blue"
-        "files.starry.blue"
-        "jupyter.starry.blue"
-        "k8s.starry.blue"
-        "konomitv.starry.blue"
-        "mirakurun.starry.blue"
-        "owncast.starry.blue"
-        "rclone.starry.blue"
-        "rustpad.starry.blue"
-        "search.starry.blue"
-        "stella.starry.blue"
-        "traefik.starry.blue"
-        "whoami.starry.blue"
-        "wol.starry.blue"
+        "${cloudflare_record.cname_anemos.hostname}"
+        "${cloudflare_record.cname_apps.hostname}"
+        "${cloudflare_record.cname_argocd.hostname}"
+        "${cloudflare_record.cname_asf.hostname}"
+        "${cloudflare_record.cname_atmos.hostname}"
+        "${cloudflare_record.cname_basic.hostname}"
+        "${cloudflare_record.cname_epgstation.hostname}"
+        "${cloudflare_record.cname_files.hostname}"
+        "${cloudflare_record.cname_jupyter.hostname}"
+        "${cloudflare_record.cname_k8s.hostname}"
+        "${cloudflare_record.cname_konomitv.hostname}"
+        "${cloudflare_record.cname_mirakurun.hostname}"
+        "${cloudflare_record.cname_owncast.hostname}"
+        "${cloudflare_record.cname_rclone.hostname}"
+        "${cloudflare_record.cname_rustpad.hostname}"
+        "${cloudflare_record.cname_search.hostname}"
+        "${cloudflare_record.cname_stella.hostname}"
+        "${cloudflare_record.cname_traefik.hostname}"
+        "${cloudflare_record.cname_whoami.hostname}"
+        "${cloudflare_record.cname_wol.hostname}"
       })
     EOT
   }

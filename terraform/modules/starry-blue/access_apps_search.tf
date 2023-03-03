@@ -1,7 +1,7 @@
 resource "cloudflare_access_application" "search" {
   account_id                = cloudflare_account.account.id
   name                      = "ksearch"
-  domain                    = "search.starry.blue"
+  domain                    = cloudflare_record.cname_search.hostname
   type                      = "self_hosted"
   app_launcher_visible      = true
   allowed_idps              = [cloudflare_access_identity_provider.github_oauth.id]
@@ -14,7 +14,7 @@ resource "cloudflare_access_policy" "search" {
   application_id = cloudflare_access_application.search.id
   name           = "org"
   decision       = "allow"
-  precedence     = 0
+  precedence     = 1
 
   include {
     group = [cloudflare_access_group.github_organization.id]

@@ -6,45 +6,45 @@ resource "cloudflare_ruleset" "http_request_dynamic_redirect" {
 
   rules {
     enabled     = true
-    description = "www.starry.blue -> starry.blue"
+    description = "${cloudflare_record.cname_www.hostname} -> ${cloudflare_record.cname_root.hostname}"
     action      = "redirect"
     action_parameters {
       from_value {
         status_code = 301
         target_url {
-          value = "https://starry.blue"
+          value = "https://${cloudflare_record.cname_root.hostname}"
         }
         preserve_query_string = false
       }
     }
 
     expression = <<-EOT
-      (http.host eq "www.starry.blue")
+      (http.host eq "${cloudflare_record.cname_www.hostname}")
     EOT
   }
 
   rules {
     enabled     = true
-    description = "starry.blue -> spica.starry.blue"
+    description = "${cloudflare_record.cname_root.hostname} -> ${cloudflare_record.cname_spica.hostname}"
     action      = "redirect"
     action_parameters {
       from_value {
         status_code = 302
         target_url {
-          value = "https://spica.starry.blue"
+          value = "https://${cloudflare_record.cname_spica.hostname}"
         }
         preserve_query_string = false
       }
     }
 
     expression = <<-EOT
-      (http.host eq "starry.blue")
+      (http.host eq "${cloudflare_record.cname_root.hostname}")
     EOT
   }
 
   rules {
     enabled     = true
-    description = "apps.starry.blue -> ${cloudflare_access_organization.starry_blue_sky.auth_domain}"
+    description = "${cloudflare_record.cname_apps.hostname} -> ${cloudflare_access_organization.starry_blue_sky.auth_domain}"
     action      = "redirect"
     action_parameters {
       from_value {
@@ -57,103 +57,107 @@ resource "cloudflare_ruleset" "http_request_dynamic_redirect" {
     }
 
     expression = <<-EOT
-      (http.host eq "apps.starry.blue" and http.request.uri.path eq "/")
+      (http.host eq "${cloudflare_record.cname_apps.hostname}" and http.request.uri.path eq "/")
     EOT
   }
 
+  # TODO: 廃止予定
   rules {
     enabled     = true
-    description = "廃止 (apps.starry.blue/atmos-token-distributor)"
+    description = "廃止 (${cloudflare_record.cname_apps.hostname}/atmos-token-distributor)"
     action      = "redirect"
     action_parameters {
       from_value {
         status_code = 301
         target_url {
-          value = "https://basic.starry.blue"
+          value = "https://${cloudflare_record.cname_basic.hostname}"
         }
         preserve_query_string = false
       }
     }
 
     expression = <<-EOT
-      (starts_with(http.request.full_uri, "https://apps.starry.blue/atmos-token-distributor"))
+      (starts_with(http.request.full_uri, "https://${cloudflare_record.cname_apps.hostname}/atmos-token-distributor"))
     EOT
   }
 
+  # TODO: 廃止予定
   rules {
     enabled     = true
-    description = "廃止 (apps.starry.blue/miniserve)"
+    description = "廃止 (${cloudflare_record.cname_apps.hostname}/miniserve)"
     action      = "redirect"
     action_parameters {
       from_value {
         status_code = 301
         target_url {
-          value = "https://files.starry.blue"
+          value = "https://${cloudflare_record.cname_files.hostname}"
         }
         preserve_query_string = false
       }
     }
 
     expression = <<-EOT
-      (starts_with(http.request.full_uri, "https://apps.starry.blue/miniserve"))
+      (starts_with(http.request.full_uri, "https://${cloudflare_record.cname_apps.hostname}/miniserve"))
     EOT
   }
 
+  # TODO: 廃止予定
   rules {
     enabled     = true
-    description = "廃止 (apps.starry.blue/mirakurun)"
+    description = "廃止 (${cloudflare_record.cname_apps.hostname}/mirakurun)"
     action      = "redirect"
     action_parameters {
       from_value {
         status_code = 301
         target_url {
-          value = "https://mirakurun.starry.blue"
+          value = "https://${cloudflare_record.cname_mirakurun.hostname}"
         }
         preserve_query_string = false
       }
     }
 
     expression = <<-EOT
-      (starts_with(http.request.full_uri, "https://apps.starry.blue/mirakurun"))
+      (starts_with(http.request.full_uri, "https://${cloudflare_record.cname_apps.hostname}/mirakurun"))
     EOT
   }
 
+  # TODO: 廃止予定
   rules {
     enabled     = true
-    description = "廃止 (apps.starry.blue/stella)"
+    description = "廃止 (${cloudflare_record.cname_apps.hostname}/stella)"
     action      = "redirect"
     action_parameters {
       from_value {
         status_code = 301
         target_url {
-          value = "https://stella.starry.blue"
+          value = "https://${cloudflare_record.cname_stella.hostname}"
         }
         preserve_query_string = false
       }
     }
 
     expression = <<-EOT
-      (starts_with(http.request.full_uri, "https://apps.starry.blue/stella"))
+      (starts_with(http.request.full_uri, "https://${cloudflare_record.cname_apps.hostname}/stella"))
     EOT
   }
 
+  # TODO: 廃止予定
   rules {
     enabled     = true
-    description = "廃止 (atmos.starry.blue)"
+    description = "廃止 (${cloudflare_record.cname_atmos.hostname})"
     action      = "redirect"
     action_parameters {
       from_value {
         status_code = 301
         target_url {
-          value = "https://epgstation.starry.blue"
+          value = "https://${cloudflare_record.cname_epgstation.hostname}"
         }
         preserve_query_string = false
       }
     }
 
-    # TODO: /mirakurun 廃止後、式を更新する
     expression = <<-EOT
-      (http.host eq "atmos.starry.blue" and not starts_with(http.request.uri.path, "/mirakurun"))
+      (http.host eq "${cloudflare_record.cname_atmos.hostname}" and not starts_with(http.request.uri.path, "/mirakurun"))
     EOT
   }
 }

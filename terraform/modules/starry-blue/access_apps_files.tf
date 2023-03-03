@@ -1,7 +1,7 @@
 resource "cloudflare_access_application" "files" {
   account_id           = cloudflare_account.account.id
-  name                 = "files.starry.blue"
-  domain               = "files.starry.blue"
+  name                 = cloudflare_record.cname_files.hostname
+  domain               = cloudflare_record.cname_files.hostname
   type                 = "bookmark"
   logo_url             = "https://raw.githubusercontent.com/svenstaro/miniserve/master/data/logo.svg"
   app_launcher_visible = true
@@ -9,8 +9,8 @@ resource "cloudflare_access_application" "files" {
 
 resource "cloudflare_access_application" "files_mnt" {
   account_id                = cloudflare_account.account.id
-  name                      = "files.starry.blue (/mnt)"
-  domain                    = "files.starry.blue/mnt"
+  name                      = "${cloudflare_record.cname_files.hostname} (/mnt)"
+  domain                    = "${cloudflare_record.cname_files.hostname}/mnt"
   type                      = "self_hosted"
   logo_url                  = "https://raw.githubusercontent.com/svenstaro/miniserve/master/data/logo.svg"
   app_launcher_visible      = false
@@ -24,7 +24,7 @@ resource "cloudflare_access_policy" "files_mnt" {
   application_id = cloudflare_access_application.files_mnt.id
   name           = "private-dtv"
   decision       = "allow"
-  precedence     = 0
+  precedence     = 1
 
   include {
     group = [cloudflare_access_group.github_organization_private_dtv.id]

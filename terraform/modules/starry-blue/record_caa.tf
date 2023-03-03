@@ -1,6 +1,6 @@
 resource "cloudflare_record" "caa_issuewild" {
   zone_id = cloudflare_zone.zone.id
-  name    = "starry.blue"
+  name    = cloudflare_zone.zone.zone
   type    = "CAA"
 
   data {
@@ -12,7 +12,7 @@ resource "cloudflare_record" "caa_issuewild" {
 
 resource "cloudflare_record" "caa_issue" {
   zone_id = cloudflare_zone.zone.id
-  name    = "starry.blue"
+  name    = cloudflare_zone.zone.zone
   type    = "CAA"
 
   data {
@@ -24,7 +24,7 @@ resource "cloudflare_record" "caa_issue" {
 
 resource "cloudflare_record" "caa_iodef" {
   zone_id = cloudflare_zone.zone.id
-  name    = "starry.blue"
+  name    = cloudflare_zone.zone.zone
   type    = "CAA"
 
   data {
