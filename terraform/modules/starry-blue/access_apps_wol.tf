@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "wolweb" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "wolweb"
   domain                    = "wol.starry.blue"
   type                      = "self_hosted"
@@ -10,7 +10,7 @@ resource "cloudflare_access_application" "wolweb" {
 }
 
 resource "cloudflare_access_policy" "wolweb" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.wolweb.id
   name           = "private"
   decision       = "allow"

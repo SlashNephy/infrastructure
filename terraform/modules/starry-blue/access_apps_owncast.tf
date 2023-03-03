@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "owncast" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "Owncast"
   domain                    = "owncast.starry.blue"
   type                      = "self_hosted"
@@ -11,7 +11,7 @@ resource "cloudflare_access_application" "owncast" {
 }
 
 resource "cloudflare_access_policy" "owncast" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.owncast.id
   name           = "private"
   decision       = "allow"

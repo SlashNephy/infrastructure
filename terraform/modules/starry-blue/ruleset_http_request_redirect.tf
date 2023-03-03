@@ -1,5 +1,5 @@
 resource "cloudflare_ruleset" "http_request_redirect" {
-  account_id = local.cloudflare_account_id
+  account_id = cloudflare_account.account.id
   name       = "http_request_redirect"
   kind       = "root"
   phase      = "http_request_redirect"
@@ -20,7 +20,7 @@ resource "cloudflare_ruleset" "http_request_redirect" {
 }
 
 resource "cloudflare_list" "voice_actor" {
-  account_id = local.cloudflare_account_id
+  account_id = cloudflare_account.account.id
   name       = "voice_actor"
   kind       = "redirect"
 

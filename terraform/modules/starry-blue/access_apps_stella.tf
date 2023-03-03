@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "stella" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "stella"
   domain                    = "stella.starry.blue"
   type                      = "self_hosted"
@@ -10,7 +10,7 @@ resource "cloudflare_access_application" "stella" {
 }
 
 resource "cloudflare_access_policy" "stella" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.stella.id
   name           = "private"
   decision       = "allow"

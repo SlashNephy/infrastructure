@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "rclone_radio" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "rclone (radio)"
   domain                    = "apps.starry.blue/rclone-radio"
   type                      = "self_hosted"
@@ -10,7 +10,7 @@ resource "cloudflare_access_application" "rclone_radio" {
 }
 
 resource "cloudflare_access_policy" "rclone_radio" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.rclone_radio.id
   name           = "private-dtv-dev"
   decision       = "allow"
@@ -22,7 +22,7 @@ resource "cloudflare_access_policy" "rclone_radio" {
 }
 
 resource "cloudflare_access_application" "rclone_records" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "rclone (records)"
   domain                    = "apps.starry.blue/rclone-records"
   type                      = "self_hosted"
@@ -33,7 +33,7 @@ resource "cloudflare_access_application" "rclone_records" {
 }
 
 resource "cloudflare_access_policy" "rclone_records" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.rclone_records.id
   name           = "private-dtv-dev"
   decision       = "allow"

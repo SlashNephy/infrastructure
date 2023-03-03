@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "arch_steam_farm" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "ArchSteamFarm"
   domain                    = "asf.starry.blue"
   type                      = "self_hosted"
@@ -11,7 +11,7 @@ resource "cloudflare_access_application" "arch_steam_farm" {
 }
 
 resource "cloudflare_access_policy" "arch_steam_farm" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.arch_steam_farm.id
   name           = "private-asf"
   decision       = "allow"

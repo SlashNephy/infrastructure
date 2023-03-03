@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "token" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "atmos-token-distributor"
   domain                    = "basic.starry.blue"
   type                      = "self_hosted"
@@ -10,7 +10,7 @@ resource "cloudflare_access_application" "token" {
 }
 
 resource "cloudflare_access_policy" "token" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.token.id
   name           = "private-dtv"
   decision       = "allow"

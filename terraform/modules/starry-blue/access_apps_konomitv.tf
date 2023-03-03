@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "konomitv" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "KonomiTV"
   domain                    = "konomitv.starry.blue"
   type                      = "self_hosted"
@@ -11,7 +11,7 @@ resource "cloudflare_access_application" "konomitv" {
 }
 
 resource "cloudflare_access_policy" "konomitv" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.konomitv.id
   name           = "private-dtv"
   decision       = "allow"

@@ -1,5 +1,5 @@
 resource "cloudflare_ruleset" "http_request_origin" {
-  zone_id = local.cloudflare_zone_id
+  zone_id = cloudflare_zone.zone.id
   name    = "http_request_origin"
   kind    = "zone"
   phase   = "http_request_origin"

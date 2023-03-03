@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "argocd" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "Argo CD"
   domain                    = "argocd.starry.blue"
   type                      = "self_hosted"
@@ -11,7 +11,7 @@ resource "cloudflare_access_application" "argocd" {
 }
 
 resource "cloudflare_access_policy" "argocd" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.argocd.id
   name           = "private-server-access"
   decision       = "allow"
@@ -23,7 +23,7 @@ resource "cloudflare_access_policy" "argocd" {
 }
 
 resource "cloudflare_access_application" "argocd_webhook" {
-  account_id           = local.cloudflare_account_id
+  account_id           = cloudflare_account.account.id
   name                 = "Argo CD (Webhook)"
   domain               = "argocd.starry.blue/api/webhook"
   type                 = "self_hosted"
@@ -32,7 +32,7 @@ resource "cloudflare_access_application" "argocd_webhook" {
 }
 
 resource "cloudflare_access_policy" "argocd_webhook" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.argocd_webhook.id
   name           = "everyone"
   decision       = "bypass"

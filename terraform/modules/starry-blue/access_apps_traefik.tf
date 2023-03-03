@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "traefik" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "Traefik"
   domain                    = "traefik.starry.blue"
   type                      = "self_hosted"
@@ -11,7 +11,7 @@ resource "cloudflare_access_application" "traefik" {
 }
 
 resource "cloudflare_access_policy" "traefik" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.traefik.id
   name           = "private-server-access"
   decision       = "allow"

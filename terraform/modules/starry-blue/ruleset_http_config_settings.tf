@@ -1,5 +1,5 @@
 resource "cloudflare_ruleset" "http_config_settings" {
-  zone_id = local.cloudflare_zone_id
+  zone_id = cloudflare_zone.zone.id
   name    = "http_config_settings"
   kind    = "zone"
   phase   = "http_config_settings"

@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "mirakurun" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "Mirakurun"
   domain                    = "mirakurun.starry.blue"
   type                      = "self_hosted"
@@ -11,7 +11,7 @@ resource "cloudflare_access_application" "mirakurun" {
 }
 
 resource "cloudflare_access_policy" "mirakurun" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.mirakurun.id
   name           = "private-dtv"
   decision       = "allow"

@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "files" {
-  account_id           = local.cloudflare_account_id
+  account_id           = cloudflare_account.account.id
   name                 = "files.starry.blue"
   domain               = "files.starry.blue"
   type                 = "bookmark"
@@ -8,7 +8,7 @@ resource "cloudflare_access_application" "files" {
 }
 
 resource "cloudflare_access_application" "files_mnt" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "files.starry.blue (/mnt)"
   domain                    = "files.starry.blue/mnt"
   type                      = "self_hosted"
@@ -20,7 +20,7 @@ resource "cloudflare_access_application" "files_mnt" {
 }
 
 resource "cloudflare_access_policy" "files_mnt" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.files_mnt.id
   name           = "private-dtv"
   decision       = "allow"

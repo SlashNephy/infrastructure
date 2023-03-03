@@ -1,5 +1,5 @@
 resource "cloudflare_access_group" "everyone" {
-  account_id = local.cloudflare_account_id
+  account_id = cloudflare_account.account.id
   name       = "Everyone"
 
   include {
@@ -8,7 +8,7 @@ resource "cloudflare_access_group" "everyone" {
 }
 
 resource "cloudflare_access_group" "github_organization" {
-  account_id = local.cloudflare_account_id
+  account_id = cloudflare_account.account.id
   name       = "GitHub Organization"
 
   include {
@@ -24,7 +24,7 @@ resource "cloudflare_access_group" "github_organization" {
 }
 
 resource "cloudflare_access_group" "github_organization_private" {
-  account_id = local.cloudflare_account_id
+  account_id = cloudflare_account.account.id
   name       = "GitHub Organization (private)"
 
   include {
@@ -41,7 +41,7 @@ resource "cloudflare_access_group" "github_organization_private" {
 }
 
 resource "cloudflare_access_group" "github_organization_private_asf" {
-  account_id = local.cloudflare_account_id
+  account_id = cloudflare_account.account.id
   name       = "GitHub Organization (private-asf)"
 
   include {
@@ -58,7 +58,7 @@ resource "cloudflare_access_group" "github_organization_private_asf" {
 }
 
 resource "cloudflare_access_group" "github_organization_private_discord_admin" {
-  account_id = local.cloudflare_account_id
+  account_id = cloudflare_account.account.id
   name       = "GitHub Organization (private-discord-admin)"
 
   include {
@@ -75,7 +75,7 @@ resource "cloudflare_access_group" "github_organization_private_discord_admin" {
 }
 
 resource "cloudflare_access_group" "github_organization_private_dtv" {
-  account_id = local.cloudflare_account_id
+  account_id = cloudflare_account.account.id
   name       = "GitHub Organization (private-dtv)"
 
   include {
@@ -92,7 +92,7 @@ resource "cloudflare_access_group" "github_organization_private_dtv" {
 }
 
 resource "cloudflare_access_group" "github_organization_private_dtv_dev" {
-  account_id = local.cloudflare_account_id
+  account_id = cloudflare_account.account.id
   name       = "GitHub Organization (private-dtv-dev)"
 
   include {
@@ -109,7 +109,7 @@ resource "cloudflare_access_group" "github_organization_private_dtv_dev" {
 }
 
 resource "cloudflare_access_group" "github_organization_private_server_access" {
-  account_id = local.cloudflare_account_id
+  account_id = cloudflare_account.account.id
   name       = "GitHub Organization (private-server-access)"
 
   include {

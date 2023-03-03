@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "epgstation" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "EPGStation"
   domain                    = "epgstation.starry.blue"
   type                      = "self_hosted"
@@ -11,7 +11,7 @@ resource "cloudflare_access_application" "epgstation" {
 }
 
 resource "cloudflare_access_policy" "epgstation" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.epgstation.id
   name           = "private-dtv"
   decision       = "allow"

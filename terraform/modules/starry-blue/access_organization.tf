@@ -1,7 +1,7 @@
 resource "cloudflare_access_organization" "starry_blue_sky" {
-  account_id      = local.cloudflare_account_id
+  account_id      = cloudflare_account.account.id
   name            = "@StarryBlueSky"
-  auth_domain     = local.cloudflare_access_domain
+  auth_domain     = "starrybluesky.cloudflareaccess.com"
   is_ui_read_only = true
 
   login_design {

@@ -1,5 +1,5 @@
 resource "cloudflare_access_identity_provider" "github_oauth" {
-  account_id = local.cloudflare_account_id
+  account_id = cloudflare_account.account.id
   name       = "GitHub OAuth"
   type       = "github"
 

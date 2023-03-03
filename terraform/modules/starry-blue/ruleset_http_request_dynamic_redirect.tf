@@ -1,5 +1,5 @@
 resource "cloudflare_ruleset" "http_request_dynamic_redirect" {
-  zone_id = local.cloudflare_zone_id
+  zone_id = cloudflare_zone.zone.id
   name    = "http_request_dynamic_redirect"
   kind    = "zone"
   phase   = "http_request_dynamic_redirect"
@@ -44,13 +44,13 @@ resource "cloudflare_ruleset" "http_request_dynamic_redirect" {
 
   rules {
     enabled     = true
-    description = "apps.starry.blue -> ${local.cloudflare_access_domain}"
+    description = "apps.starry.blue -> ${cloudflare_access_organization.starry_blue_sky.auth_domain}"
     action      = "redirect"
     action_parameters {
       from_value {
         status_code = 302
         target_url {
-          value = "https://${local.cloudflare_access_domain}"
+          value = "https://${cloudflare_access_organization.starry_blue_sky.auth_domain}"
         }
         preserve_query_string = false
       }

@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "search" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "ksearch"
   domain                    = "search.starry.blue"
   type                      = "self_hosted"
@@ -10,7 +10,7 @@ resource "cloudflare_access_application" "search" {
 }
 
 resource "cloudflare_access_policy" "search" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.search.id
   name           = "org"
   decision       = "allow"

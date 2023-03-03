@@ -1,5 +1,5 @@
 resource "cloudflare_access_application" "jupyter" {
-  account_id                = local.cloudflare_account_id
+  account_id                = cloudflare_account.account.id
   name                      = "Jupyter"
   domain                    = "jupyter.starry.blue"
   type                      = "self_hosted"
@@ -11,7 +11,7 @@ resource "cloudflare_access_application" "jupyter" {
 }
 
 resource "cloudflare_access_policy" "jupyter" {
-  account_id     = local.cloudflare_account_id
+  account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.jupyter.id
   name           = "private"
   decision       = "allow"
