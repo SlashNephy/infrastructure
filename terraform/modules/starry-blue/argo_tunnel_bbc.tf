@@ -1,0 +1,30 @@
+resource "cloudflare_argo_tunnel" "bbc" {
+  account_id = cloudflare_account.account.id
+  name       = "bbc"
+  secret     = ""
+
+  lifecycle {
+    ignore_changes = [secret]
+  }
+}
+
+resource "cloudflare_tunnel_config" "bbc" {
+  account_id = cloudflare_account.account.id
+  tunnel_id  = cloudflare_argo_tunnel.bbc.id
+
+  config {
+    ingress_rule {
+      hostname = cloudflare_record.cname_bbc.hostname
+      service  = "http://localhost:80"
+    }
+
+    ingress_rule {
+      hostname = cloudflare_record.cname_bbc_ssh.hostname
+      service  = "ssh://localhost:22"
+    }
+
+    ingress_rule {
+      service = "http_status:418"
+    }
+  }
+}
