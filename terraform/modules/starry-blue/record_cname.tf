@@ -1,7 +1,7 @@
 resource "cloudflare_record" "cname_root" {
   zone_id = cloudflare_zone.zone.id
   name    = cloudflare_zone.zone.zone
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -9,7 +9,7 @@ resource "cloudflare_record" "cname_root" {
 resource "cloudflare_record" "cname_apps" {
   zone_id = cloudflare_zone.zone.id
   name    = "apps"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -17,7 +17,7 @@ resource "cloudflare_record" "cname_apps" {
 resource "cloudflare_record" "cname_argocd" {
   zone_id = cloudflare_zone.zone.id
   name    = "argocd"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -25,7 +25,7 @@ resource "cloudflare_record" "cname_argocd" {
 resource "cloudflare_record" "cname_asf" {
   zone_id = cloudflare_zone.zone.id
   name    = "asf"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -33,7 +33,7 @@ resource "cloudflare_record" "cname_asf" {
 resource "cloudflare_record" "cname_basic" {
   zone_id = cloudflare_zone.zone.id
   name    = "basic"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -81,7 +81,7 @@ resource "cloudflare_record" "cname_bing_verify" {
 resource "cloudflare_record" "cname_epgstation" {
   zone_id = cloudflare_zone.zone.id
   name    = "epgstation"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -89,7 +89,7 @@ resource "cloudflare_record" "cname_epgstation" {
 resource "cloudflare_record" "cname_epgstation_api" {
   zone_id = cloudflare_zone.zone.id
   name    = "epgstation-api"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = false
 }
@@ -97,7 +97,7 @@ resource "cloudflare_record" "cname_epgstation_api" {
 resource "cloudflare_record" "cname_files" {
   zone_id = cloudflare_zone.zone.id
   name    = "files"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -105,7 +105,7 @@ resource "cloudflare_record" "cname_files" {
 resource "cloudflare_record" "cname_jupyter" {
   zone_id = cloudflare_zone.zone.id
   name    = "jupyter"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -113,7 +113,7 @@ resource "cloudflare_record" "cname_jupyter" {
 resource "cloudflare_record" "cname_k8s" {
   zone_id = cloudflare_zone.zone.id
   name    = "k8s"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -121,7 +121,7 @@ resource "cloudflare_record" "cname_k8s" {
 resource "cloudflare_record" "cname_konomitv" {
   zone_id = cloudflare_zone.zone.id
   name    = "konomitv"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -129,7 +129,7 @@ resource "cloudflare_record" "cname_konomitv" {
 resource "cloudflare_record" "cname_mirakurun" {
   zone_id = cloudflare_zone.zone.id
   name    = "mirakurun"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -137,7 +137,7 @@ resource "cloudflare_record" "cname_mirakurun" {
 resource "cloudflare_record" "cname_mirakurun_api" {
   zone_id = cloudflare_zone.zone.id
   name    = "mirakurun-api"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = false
 }
@@ -145,7 +145,7 @@ resource "cloudflare_record" "cname_mirakurun_api" {
 resource "cloudflare_record" "cname_owncast" {
   zone_id = cloudflare_zone.zone.id
   name    = "owncast"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -153,7 +153,7 @@ resource "cloudflare_record" "cname_owncast" {
 resource "cloudflare_record" "cname_rclone" {
   zone_id = cloudflare_zone.zone.id
   name    = "rclone"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -161,7 +161,7 @@ resource "cloudflare_record" "cname_rclone" {
 resource "cloudflare_record" "cname_rustpad" {
   zone_id = cloudflare_zone.zone.id
   name    = "rustpad"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -169,7 +169,7 @@ resource "cloudflare_record" "cname_rustpad" {
 resource "cloudflare_record" "cname_search" {
   zone_id = cloudflare_zone.zone.id
   name    = "search"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -193,7 +193,7 @@ resource "cloudflare_record" "cname_ssh" {
 resource "cloudflare_record" "cname_stella" {
   zone_id = cloudflare_zone.zone.id
   name    = "stella"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -201,7 +201,7 @@ resource "cloudflare_record" "cname_stella" {
 resource "cloudflare_record" "cname_traefik" {
   zone_id = cloudflare_zone.zone.id
   name    = "traefik"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -217,7 +217,7 @@ resource "cloudflare_record" "cname_vj" {
 resource "cloudflare_record" "cname_wol" {
   zone_id = cloudflare_zone.zone.id
   name    = "wol"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -225,7 +225,7 @@ resource "cloudflare_record" "cname_wol" {
 resource "cloudflare_record" "cname_whoami" {
   zone_id = cloudflare_zone.zone.id
   name    = "whoami"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -233,7 +233,7 @@ resource "cloudflare_record" "cname_whoami" {
 resource "cloudflare_record" "cname_www" {
   zone_id = cloudflare_zone.zone.id
   name    = "www"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -241,7 +241,7 @@ resource "cloudflare_record" "cname_www" {
 resource "cloudflare_record" "cname_inori" {
   zone_id = cloudflare_zone.zone.id
   name    = "inori"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -249,7 +249,7 @@ resource "cloudflare_record" "cname_inori" {
 resource "cloudflare_record" "cname_maaya" {
   zone_id = cloudflare_zone.zone.id
   name    = "maaya"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -258,7 +258,7 @@ resource "cloudflare_record" "cname_maaya" {
 resource "cloudflare_record" "cname_atmos" {
   zone_id = cloudflare_zone.zone.id
   name    = "atmos"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -267,7 +267,7 @@ resource "cloudflare_record" "cname_atmos" {
 resource "cloudflare_record" "cname_anemos" {
   zone_id = cloudflare_zone.zone.id
   name    = "anemos"
-  value   = cloudflare_record.a_direct.hostname
+  value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
 }
