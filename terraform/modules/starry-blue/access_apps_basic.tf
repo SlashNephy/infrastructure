@@ -1,4 +1,4 @@
-resource "cloudflare_access_application" "token" {
+resource "cloudflare_access_application" "basic" {
   account_id                 = cloudflare_account.account.id
   name                       = "atmos-token-distributor"
   domain                     = cloudflare_record.cname_basic.hostname
@@ -12,9 +12,9 @@ resource "cloudflare_access_application" "token" {
   enable_binding_cookie      = false
 }
 
-resource "cloudflare_access_policy" "token" {
+resource "cloudflare_access_policy" "basic" {
   account_id     = cloudflare_account.account.id
-  application_id = cloudflare_access_application.token.id
+  application_id = cloudflare_access_application.basic.id
   name           = "private-dtv"
   decision       = "allow"
   precedence     = 1
