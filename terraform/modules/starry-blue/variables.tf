@@ -15,3 +15,11 @@ variable "github_oauth_client_secret" {
 variable "email_routing_catch_all_address" {
   type = string
 }
+
+variable "lily_network" {
+  type = string
+}
+
+variable "bbc_network" {
+  type = string
+}

@@ -25,4 +25,6 @@ module "starry-blue" {
   cloudflare_api_token            = var.cloudflare_api_token
   github_oauth_client_secret      = var.github_oauth_client_secret
   email_routing_catch_all_address = var.email_routing_catch_all_address
+  lily_network                    = var.lily_network
+  bbc_network                     = var.bbc_network
 }

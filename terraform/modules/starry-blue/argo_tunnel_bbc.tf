@@ -26,5 +26,15 @@ resource "cloudflare_tunnel_config" "bbc" {
     ingress_rule {
       service = "http_status:418"
     }
+
+    warp_routing {
+      enabled = true
+    }
   }
+}
+
+resource "cloudflare_tunnel_route" "bbc" {
+  account_id = cloudflare_account.account.id
+  tunnel_id  = cloudflare_argo_tunnel.bbc.id
+  network    = var.bbc_network
 }
