@@ -6,13 +6,3 @@ metadata:
 spec:
   certificates:
     - secretName: starry-blue-certificate-secret
-    - secretName: horoscope-dev-certificate-secret
-
----
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  name: horoscope-dev-certificate-secret
-
-spec:
-  itemPath: vaults/4mogpcwrvtvsnpooum4vcevwkm/items/femhmytusctweawnvab4sn5g24
