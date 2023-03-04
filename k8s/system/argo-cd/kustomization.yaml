@@ -12,11 +12,6 @@ helmCharts:
       server:
         extensions:
           enabled: true
-  - name: argocd-image-updater
-    releaseName: argocd-image-updater
-    namespace: argo-cd
-    version: 0.8.4
-    repo: https://argoproj.github.io/argo-helm
 
 resources:
   - ./resources/namespace.yaml
@@ -24,8 +19,6 @@ resources:
   - ./resources/ingress.yaml
   - ./resources/projects.yaml
   - ./resources/application-set.yaml
-  - ./../../common/registry-docker-hub
-  - ./../../common/registry-ghcr-io
 
 patchesStrategicMerge:
   - ./resources/config.yaml

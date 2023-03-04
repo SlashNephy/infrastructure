@@ -7,17 +7,6 @@ metadata:
     app.kubernetes.io/part-of: argocd
 
 data:
-  dex.config: |
-    connectors:
-      - id: github
-        type: github
-        name: GitHub
-        config:
-          clientID: 69ad8e7f2745f1be9a45
-          clientSecret: $github.clientSecret
-          orgs:
-            - name: StarryBlueSky
-
   exec.enabled: "true"
 
   helm.enabled: "true"
@@ -125,26 +114,3 @@ data:
   policy.csv: p, role:admin, exec, create, */*, allow
 
   policy.default: role:readonly
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: argocd-image-updater-config
-  labels:
-    app.kubernetes.io/name: argocd-image-updater
-
-data:
-  log.level: debug
-  registries.conf: |
-    registries:
-      - name: Docker Hub
-        prefix: docker.io
-        api_url: https://registry-1.docker.io
-        credentials: pullsecret:argo-cd/docker-hub-credentials
-        defaultns: library
-        default: true
-      - name: GitHub Container Registry
-        prefix: ghcr.io
-        api_url: https://ghcr.io/v2
-        credentials: pullsecret:argo-cd/ghcr-io-credentials
