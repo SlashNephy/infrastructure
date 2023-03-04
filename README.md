@@ -1,16 +1,19 @@
 # infrastructure
 
-[/slashnephy/k8s](https://scrapbox.io/slashnephy/k8s)
+- k8s
+  - [/slashnephy/k8s](https://scrapbox.io/slashnephy/k8s)
+- terraform
+  - Managed with Terraform Cloud
 
-## Setup
+## Setup k8s Cluster
 
 ```console
-$ kubectl kustomize --enable-helm k8s/init | kubectl apply -f -
+$ kubectl kustomize --enable-helm k8s/init/${ENV_NAME} | kubectl apply -f -
 ```
 
-## Commands
+## Useful Commands
 
-- Generate bearer token for kubernetes-dashboard
+- Generate long-lived bearer token for kubernetes-dashboard
 
 ```console
 $ kubectl create token admin-user -n kubernetes-dashboard --duration=4294967296s

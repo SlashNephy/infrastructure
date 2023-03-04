@@ -2,8 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ./../system/1password
-  - ./../system/argo-cd
+  - ./../../system/1password
 
 generatorOptions:
   disableNameSuffixHash: true
