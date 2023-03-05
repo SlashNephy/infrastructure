@@ -1,7 +1,6 @@
 resource "cloudflare_teams_account" "starry_blue_sky" {
-  account_id                    = cloudflare_account.account.id
-  activity_log_enabled          = true
-  url_browser_isolation_enabled = true
+  account_id           = cloudflare_account.account.id
+  activity_log_enabled = true
 
   logging {
     redact_pii = true
