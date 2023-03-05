@@ -142,6 +142,14 @@ resource "cloudflare_record" "cname_mirakurun_api" {
   proxied = false
 }
 
+resource "cloudflare_record" "cname_keel" {
+  zone_id = cloudflare_zone.zone.id
+  name    = "keel"
+  value   = cloudflare_record.a_gateway.hostname
+  type    = "CNAME"
+  proxied = true
+}
+
 resource "cloudflare_record" "cname_owncast" {
   zone_id = cloudflare_zone.zone.id
   name    = "owncast"

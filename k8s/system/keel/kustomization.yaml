@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: keel
+
+helmCharts:
+  - name: keel
+    releaseName: keel
+    namespace: keel
+    version: 0.9.11
+    repo: https://charts.keel.sh
+    valuesInline:
+      helmProvider:
+        enabled: false
+      secret:
+        name: app-secret
+        create: false
+      service:
+        enabled: true
+        type: ClusterIP
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
