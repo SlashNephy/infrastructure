@@ -73,11 +73,11 @@ spec:
             namespace: comskip-tvtplay
             path: k8s/apps/comskip-tvtplay
             project: apps
-          - name: diun
-            cluster: https://kubernetes.default.svc
-            namespace: diun
-            path: k8s/apps/diun
-            project: apps
+          #          - name: diun
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: diun
+          #            path: k8s/apps/diun
+          #            project: apps
           - name: epgstation
             cluster: https://kubernetes.default.svc
             namespace: epgstation

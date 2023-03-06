@@ -10,3 +10,17 @@ spec:
       services:
         - name: keel
           port: 9300
+      middlewares:
+        - name: headers-keel
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: headers-keel
+
+spec:
+  headers:
+    customRequestHeaders:
+      # intended; not insecure
+      Authorization: Basic dXNlcjpwYXNz
