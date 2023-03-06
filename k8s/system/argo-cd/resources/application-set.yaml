@@ -275,8 +275,13 @@ spec:
             namespace: cronjob
             path: k8s/system/cronjob
             project: system
-          - name: flannel
+          - name: flannel-lily
             cluster: https://kubernetes.default.svc
+            namespace: flannel
+            path: k8s/system/flannel
+            project: system
+          - name: flannel-bbc
+            cluster: https://192.168.11.59:6443
             namespace: flannel
             path: k8s/system/flannel
             project: system
