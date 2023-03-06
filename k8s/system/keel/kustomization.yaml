@@ -9,11 +9,6 @@ helmCharts:
     version: 1.0.1
     repo: https://charts.keel.sh
     valuesInline:
-      basicauth:
-        enabled: true
-        # intended; not insecure
-        password: pass
-        user: user
       helmProvider:
         enabled: false
       secret:
