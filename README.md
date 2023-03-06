@@ -7,6 +7,8 @@
 
 ## Setup k8s Cluster
 
+Ensure the contents of `1password-credentials.json` are Base64-encoded before applying the manifest.
+
 ```console
 $ kubectl kustomize --enable-helm k8s/init/${ENV_NAME} | kubectl apply -f -
 ```
