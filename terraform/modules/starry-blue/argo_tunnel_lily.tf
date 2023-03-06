@@ -21,6 +21,10 @@ resource "cloudflare_tunnel_config" "lily" {
     ingress_rule {
       service = "http_status:418"
     }
+
+    warp_routing {
+      enabled = true
+    }
   }
 }
 
