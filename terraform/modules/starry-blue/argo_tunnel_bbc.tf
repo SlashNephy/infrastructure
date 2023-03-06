@@ -13,10 +13,6 @@ resource "cloudflare_tunnel_config" "bbc" {
   tunnel_id  = cloudflare_argo_tunnel.bbc.id
 
   config {
-    origin_request {
-      http_host_header = cloudflare_record.cname_bbc.hostname
-    }
-
     ingress_rule {
       hostname = cloudflare_record.cname_bbc.hostname
       service  = "http://localhost:30080"

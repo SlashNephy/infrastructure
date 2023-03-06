@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`bbc.starry.blue`)
+      match: PathPrefix(`/`)
       services:
         - name: app
           port: 40772
