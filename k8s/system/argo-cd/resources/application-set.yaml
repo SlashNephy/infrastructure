@@ -9,183 +9,242 @@ spec:
         elements:
           # apps
           #          - name: 7-days-to-die
+          #            cluster: https://kubernetes.default.svc
           #            path: k8s/apps/052-bot/7-days-to-die
           #            project: apps
           - name: 052-bot-karasu
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/052-bot/karasu
             project: apps
           - name: 052-bot-kashiwa
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/052-bot/kashiwa
             project: apps
           - name: 052-bot-samekan
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/052-bot/samekan
             project: apps
           - name: anilist-synchronizer
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/anilist-synchronizer
             project: apps
           - name: annict-profile-card-dev
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/annict-profile-card/dev
             project: apps
           - name: annict-profile-card-production
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/annict-profile-card/production
             project: apps
           - name: annict2anilist
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/annict2anilist
             project: apps
           - name: archi-steam-farm
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/archi-steam-farm
             project: apps
           - name: atmos-token-distributor
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/atmos-token-distributor
             project: apps
           - name: cloudflare-ddns
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/cloudflare-ddns
             project: apps
           - name: cloudflared
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/cloudflared
             project: apps
           - name: comskip-tvtplay
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/comskip-tvtplay
             project: apps
           - name: diun
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/diun
             project: apps
           - name: epgstation
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/epgstation
             project: apps
           - name: farewell-main
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/farewell/main
             project: apps
           - name: farewell-sub
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/farewell/sub
             project: apps
           - name: feedchime
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/feedchime
             project: apps
           - name: jupyter
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/jupyter
             project: apps
           - name: konomitv
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/konomitv
             project: apps
           - name: m2ts-calendar
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/m2ts-calendar
             project: apps
           #          - name: minecraft_forge_1_12_2
+          #            cluster: https://kubernetes.default.svc
           #            path: k8s/apps/minecraft/forge-1.12.2
           #            project: apps
           - name: miniserve
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/miniserve
             project: apps
           - name: mirakurun
-            path: k8s/apps/mirakurun
+            cluster: https://kubernetes.default.svc
+            path: k8s/apps/mirakurun/lily
             project: apps
           - name: mirakurun-iptv-rewriter
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/mirakurun-iptv-rewriter
             project: apps
           - name: net-radio-archive
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/net-radio-archive
             project: apps
           - name: owncast
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/owncast
             project: apps
           - name: rclone-watch-radio
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/rclone-watch/radio
             project: apps
           - name: rclone-watch-records
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/rclone-watch/records
             project: apps
           - name: releasechime-dtv
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/releasechime/dtv
             project: apps
           - name: releasechime-ff14
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/releasechime/ff14
             project: apps
           - name: rummager
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/rummager
             project: apps
           - name: rustpad
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/rustpad
             project: apps
           - name: samba
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/samba
             project: apps
           #          - name: satisfactory
+          #            cluster: https://kubernetes.default.svc
           #            path: k8s/apps/satisfactory
           #            project: apps
           - name: setlist-main
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/setlist/main
             project: apps
           - name: setlist-sub
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/setlist/sub
             project: apps
           - name: soundbot-reloaded
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/soundbot-reloaded
             project: apps
           - name: stella
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/stella
             project: apps
           - name: symm
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/symm
             project: apps
           - name: teamspeak
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/teamspeak
             project: apps
           - name: tuse
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/tuse
             project: apps
           - name: tweetchime
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/tweetchime
             project: apps
           - name: unveiler
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/unveiler
             project: apps
           #          - name: valheim
+          #            cluster: https://kubernetes.default.svc
           #            path: k8s/apps/valheim
           #            project: apps
           - name: whoami
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/whoami
             project: apps
           - name: wolweb
+            cluster: https://kubernetes.default.svc
             path: k8s/apps/wolweb
             project: apps
 
           # system
           - name: 1password
+            cluster: https://kubernetes.default.svc
             path: k8s/system/1password
             project: system
           - name: argo-cd
+            cluster: https://kubernetes.default.svc
             path: k8s/system/argo-cd
             project: system
           - name: cert-manager
+            cluster: https://kubernetes.default.svc
             path: k8s/system/cert-manager
             project: system
           - name: cronjob
+            cluster: https://kubernetes.default.svc
             path: k8s/system/cronjob
             project: system
           - name: flannel
+            cluster: https://kubernetes.default.svc
             path: k8s/system/flannel
             project: system
           - name: fluent-bit
+            cluster: https://kubernetes.default.svc
             path: k8s/system/fluent-bit
             project: system
           - name: keel
+            cluster: https://kubernetes.default.svc
             path: k8s/system/keel
             project: system
           - name: knative-eventing
+            cluster: https://kubernetes.default.svc
             path: k8s/system/knative-eventing
             project: system
           - name: knative-serving
+            cluster: https://kubernetes.default.svc
             path: k8s/system/knative-serving
             project: system
           - name: kourier-system
+            cluster: https://kubernetes.default.svc
             path: k8s/system/kourier-system
             project: system
           - name: kubernetes-dashboard
+            cluster: https://kubernetes.default.svc
             path: k8s/system/kubernetes-dashboard
             project: system
           - name: traefik
-            path: k8s/system/traefik
+            cluster: https://kubernetes.default.svc
+            path: k8s/system/traefik/lily
             project: system
 
   template:
@@ -195,7 +254,7 @@ spec:
     spec:
       destination:
         namespace: "{{name}}"
-        server: https://kubernetes.default.svc
+        server: "{{cluster}}"
       ignoreDifferences:
         - group: argoproj.io
           jsonPointers:

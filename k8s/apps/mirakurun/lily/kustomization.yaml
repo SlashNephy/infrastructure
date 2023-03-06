@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: mirakurun
 resources:
   - ./resources/namespace.yaml
-  - ./../../common/registry-ghcr-io
+  - ./../../../common/registry-ghcr-io
   - ./resources/secret.yaml
   - ./resources/deployment.yaml
   - ./resources/service.yaml
