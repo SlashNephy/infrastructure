@@ -6,10 +6,8 @@ metadata:
 spec:
   selector:
     app: default
-  type: NodePort
   ports:
     - name: "40772"
       port: 40772
       targetPort: 40772
-      nodePort: 40772
       protocol: TCP

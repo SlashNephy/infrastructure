@@ -61,15 +61,15 @@ ports:
   web:
     asDefault: true
     expose: true
-    exposedPort: 8080
+    exposedPort: 30080
 
     forwardedHeaders:
       trustedIPs:
         # /run/flannel/subnet.env
         - 10.244.0.0/16
 
-    nodePort: 8080
-    port: 8080
+    nodePort: 30080
+    port: 30080
 
   websecure:
     expose: false
