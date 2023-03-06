@@ -1,0 +1,90 @@
+additionalArguments:
+  - --experimental.plugins.cloudflarewarp.modulename=github.com/BetterCorp/cloudflarewarp
+  - --experimental.plugins.cloudflarewarp.version=v1.3.3
+
+autoscaling:
+  enabled: false
+
+deployment:
+  replicas: 1
+
+env:
+  - name: TZ
+    value: Asia/Tokyo
+
+experimental:
+  plugins:
+    enabled: true
+  v3:
+    enabled: true
+
+globalArguments:
+  - --global.checknewversion
+
+hub:
+  enabled: false
+
+image:
+  pullPolicy: Always
+  tag: v3.0
+
+ingressRoute:
+  dashboard:
+    enabled: false
+
+# https://docs.traefik.io/observability/logs/
+logs:
+  access:
+    enabled: true
+    # https://docs.traefik.io/observability/access-logs/#limiting-the-fieldsincluding-headers
+    fields:
+      general:
+        defaultmode: keep
+        names:
+          StartUTC: drop
+      headers:
+        defaultmode: keep
+        names:
+          Authorization: drop
+
+    format: json
+  general:
+    level: INFO
+
+metrics:
+  prometheus: null
+
+podDisruptionBudget:
+  enabled: false
+
+ports:
+  web:
+    asDefault: true
+    expose: true
+    exposedPort: 8080
+
+    forwardedHeaders:
+      trustedIPs:
+        # /run/flannel/subnet.env
+        - 10.244.0.0/16
+
+    nodePort: 8080
+    port: 8080
+
+  websecure:
+    expose: false
+
+providers:
+  kubernetesCRD:
+    enabled: true
+  kubernetesIngress:
+    enabled: false
+
+service:
+  type: NodePort
+
+updateStrategy:
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+  type: RollingUpdate

@@ -1,0 +1,26 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`bbc.starry.blue`)
+      services:
+        - name: app
+          port: 40772
+      middlewares:
+        - name: mirakurun-bbc-basic-auth
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mirakurun-bbc-basic-auth
+
+spec:
+  basicAuth:
+    realm: Access Restricted
+    removeHeader: true
+    secret: basic-auth-credentials
