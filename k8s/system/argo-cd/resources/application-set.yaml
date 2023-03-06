@@ -280,11 +280,6 @@ spec:
             namespace: flannel
             path: k8s/system/flannel
             project: system
-          - name: flannel-bbc
-            cluster: https://192.168.11.59:6443
-            namespace: flannel
-            path: k8s/system/flannel
-            project: system
           - name: fluent-bit
             cluster: https://kubernetes.default.svc
             namespace: fluent-bit
