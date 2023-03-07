@@ -280,6 +280,11 @@ spec:
             namespace: fluent-bit
             path: k8s/system/fluent-bit
             project: system
+          - name: intel-device-plugins-operator
+            cluster: https://kubernetes.default.svc
+            namespace: intel-device-plugins-operator
+            path: k8s/system/intel-device-plugins-operator
+            project: system
           - name: keel
             cluster: https://kubernetes.default.svc
             namespace: keel
