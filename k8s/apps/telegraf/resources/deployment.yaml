@@ -44,11 +44,24 @@ spec:
               value: /hostfs/var
             - name: TZ
               value: Asia/Tokyo
+            - name: MACKEREL_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: mackerel-api-key
+            - name: MACKEREL_HOST_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: mackerel-host-id
           volumeMounts:
             - name: config
               mountPath: /etc/telegraf/telegraf.conf
               readOnly: true
               subPath: telegraf.conf
+            - name: plugins
+              mountPath: /opt/telegraf/plugins
+              readOnly: true
             - name: host-var
               mountPath: /hostfs/var
               readOnly: true
@@ -70,6 +83,10 @@ spec:
         - name: config
           configMap:
             name: app-config
+        - name: plugins
+          hostPath:
+            path: /opt/k8s-volumes/telegraf/plugins
+            type: Directory
         - name: host-var
           hostPath:
             path: /var

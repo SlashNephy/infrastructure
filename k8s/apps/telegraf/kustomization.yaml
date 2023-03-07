@@ -5,6 +5,7 @@ namespace: telegraf
 resources:
   - ./resources/namespace.yaml
   - ./resources/deployment.yaml
+  - ./resources/secret.yaml
 
 configMapGenerator:
   - name: app-config
