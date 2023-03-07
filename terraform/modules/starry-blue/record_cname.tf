@@ -62,6 +62,14 @@ resource "cloudflare_record" "cname_blog" {
   proxied = false
 }
 
+resource "cloudflare_record" "cname_code" {
+  zone_id = cloudflare_zone.zone.id
+  name    = "code"
+  value   = cloudflare_record.a_gateway.hostname
+  type    = "CNAME"
+  proxied = true
+}
+
 resource "cloudflare_record" "cname_cydia" {
   zone_id = cloudflare_zone.zone.id
   name    = "cydia"

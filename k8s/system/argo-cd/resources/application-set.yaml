@@ -68,11 +68,21 @@ spec:
             namespace: cloudflared
             path: k8s/apps/cloudflared
             project: apps
+          - name: code-server
+            cluster: https://kubernetes.default.svc
+            namespace: code-server
+            path: k8s/apps/code-server
+            project: apps
           - name: comskip-tvtplay
             cluster: https://kubernetes.default.svc
             namespace: comskip-tvtplay
             path: k8s/apps/comskip-tvtplay
             project: apps
+          #          - name: denentoshi-line
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: denentoshi-line
+          #            path: k8s/apps/denentoshi-line
+          #            project: apps
           #          - name: diun
           #            cluster: https://kubernetes.default.svc
           #            namespace: diun
