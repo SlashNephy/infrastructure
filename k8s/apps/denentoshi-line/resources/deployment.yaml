@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/denentoshi-line
+          env:
+            - name: TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: discord-bot-token
+            - name: VOICE_CHANNEL_ID
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: voice-channel-id
+      restartPolicy: Always
