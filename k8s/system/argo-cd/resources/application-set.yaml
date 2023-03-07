@@ -228,6 +228,11 @@ spec:
             namespace: teamspeak
             path: k8s/apps/teamspeak
             project: apps
+          - name: telegraf
+            cluster: https://kubernetes.default.svc
+            namespace: telegraf
+            path: k8s/apps/telegraf
+            project: apps
           - name: tuse
             cluster: https://kubernetes.default.svc
             namespace: tuse

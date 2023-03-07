@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: telegraf
+          command:
+            - /bin/bash
+            - -c
+            - |
+              apt update
+              apt install -y sudo smartmontools
+              rm -rf /var/lib/apt/lists/*
+              echo "Cmnd_Alias SMARTCTL = /usr/sbin/smartctl" >> /etc/sudoers
+              echo "telegraf  ALL=(ALL) NOPASSWD: SMARTCTL" >> /etc/sudoers
+              echo "Defaults!SMARTCTL !logfile, !syslog, !pam_session" >> /etc/sudoers
+              /entrypoint.sh telegraf
+          env:
+            - name: HOST_ETC
+              value: /hostfs/etc
+            - name: HOST_MOUNT_PREFIX
+              value: /hostfs
+            - name: HOST_PROC
+              value: /hostfs/proc
+            - name: HOST_RUN
+              value: /hostfs/run
+            - name: HOST_SYS
+              value: /hostfs/sys
+            - name: HOST_VAR
+              value: /hostfs/var
+            - name: TZ
+              value: Asia/Tokyo
+          volumeMounts:
+            - name: config
+              mountPath: /etc/telegraf/telegraf.conf
+              readOnly: true
+              subPath: telegraf.conf
+            - name: host-var
+              mountPath: /hostfs/var
+              readOnly: true
+            - name: host-proc
+              mountPath: /hostfs/proc
+              readOnly: true
+            - name: host-sys
+              mountPath: /hostfs/sys
+              readOnly: true
+            - name: host-etc
+              mountPath: /hostfs/etc
+              readOnly: true
+            - name: host-run
+              mountPath: /hostfs/run
+              readOnly: true
+          securityContext:
+            privileged: true
+      volumes:
+        - name: config
+          configMap:
+            name: app-config
+        - name: host-var
+          hostPath:
+            path: /var
+            type: Directory
+        - name: host-proc
+          hostPath:
+            path: /proc
+            type: Directory
+        - name: host-sys
+          hostPath:
+            path: /sys
+            type: Directory
+        - name: host-etc
+          hostPath:
+            path: /etc
+            type: Directory
+        - name: host-run
+          hostPath:
+            path: /run
+            type: Directory
+      restartPolicy: Always
