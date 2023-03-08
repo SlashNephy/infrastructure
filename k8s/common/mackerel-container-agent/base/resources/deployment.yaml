@@ -50,3 +50,4 @@ spec:
               memory: 128Mi
       imagePullSecrets:
         - name: docker-hub-credentials
+      serviceAccountName: mackerel-container-agent-service-account
