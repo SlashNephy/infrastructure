@@ -46,3 +46,5 @@ spec:
           resources:
             limits:
               memory: 128Mi
+      imagePullSecrets:
+        - name: docker-hub-credentials

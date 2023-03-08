@@ -27,6 +27,9 @@ helmCharts:
               Name stackdriver
               Match *
               location asia-northeast1
+      imagePullSecrets:
+        - name: docker-hub-credentials
 
 resources:
   - ./resources/namespace.yaml
+  - ./../../common/registry-docker-hub

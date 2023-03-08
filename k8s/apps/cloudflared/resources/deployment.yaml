@@ -38,3 +38,5 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
       restartPolicy: Always
+      imagePullSecrets:
+        - name: docker-hub-credentials

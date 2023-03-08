@@ -38,3 +38,5 @@ spec:
             path: /opt/k8s-volumes/minecraft/forge_1.12.2
             type: Directory
       restartPolicy: Always
+      imagePullSecrets:
+        - name: docker-hub-credentials

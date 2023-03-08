@@ -29,3 +29,5 @@ spec:
                   name: cloudflare-ddns-secret
                   key: cloudflare-api-key
       restartPolicy: Always
+      imagePullSecrets:
+        - name: docker-hub-credentials

@@ -21,3 +21,5 @@ spec:
             - all
           securityContext:
             privileged: true
+      imagePullSecrets:
+        - name: docker-hub-credentials

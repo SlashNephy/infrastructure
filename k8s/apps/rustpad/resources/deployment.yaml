@@ -19,3 +19,5 @@ spec:
           ports:
             - containerPort: 3030
       restartPolicy: Always
+      imagePullSecrets:
+        - name: docker-hub-credentials

@@ -25,3 +25,5 @@ spec:
                 path: /mnt/records
                 type: Directory
           restartPolicy: Never
+          imagePullSecrets:
+            - name: docker-hub-credentials

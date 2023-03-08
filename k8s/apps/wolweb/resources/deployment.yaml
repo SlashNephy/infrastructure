@@ -35,3 +35,5 @@ spec:
       restartPolicy: Always
       dnsPolicy: ClusterFirstWithHostNet
       hostNetwork: true
+      imagePullSecrets:
+        - name: docker-hub-credentials

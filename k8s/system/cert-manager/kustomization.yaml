@@ -12,6 +12,8 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       global:
+        imagePullSecrets:
+          - name: docker-hub-credentials
         leaderElection:
           namespace: cert-manager
       installCRDs: true
@@ -21,3 +23,4 @@ helmCharts:
 resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
+  - ./../../common/registry-docker-hub

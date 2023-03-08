@@ -72,3 +72,5 @@ spec:
           configMap:
             name: app-config
       restartPolicy: Always
+      imagePullSecrets:
+        - name: docker-hub-credentials

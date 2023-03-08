@@ -18,3 +18,5 @@ spec:
           image: guillaumebriday/traefik-custom-error-pages
           ports:
             - containerPort: 80
+      imagePullSecrets:
+        - name: docker-hub-credentials

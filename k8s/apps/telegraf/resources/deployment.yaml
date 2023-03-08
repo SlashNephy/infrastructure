@@ -108,3 +108,5 @@ spec:
             path: /run
             type: Directory
       restartPolicy: Always
+      imagePullSecrets:
+        - name: docker-hub-credentials

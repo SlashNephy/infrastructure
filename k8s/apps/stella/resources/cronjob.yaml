@@ -69,3 +69,5 @@ spec:
               configMap:
                 name: scripts
           restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: docker-hub-credentials

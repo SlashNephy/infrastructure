@@ -31,3 +31,5 @@ spec:
                 path: /
                 type: Directory
           restartPolicy: Never
+          imagePullSecrets:
+            - name: docker-hub-credentials
