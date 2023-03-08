@@ -19,15 +19,14 @@ spec:
         - name: app
           image: codercom/code-server
           workingDir: /opt/k8s-volumes
-          command:
-            - /usr/bin/entrypoint.sh
-            - .
-            - --bind-addr=0.0.0.0:8080
+          args:
             - --auth=none
             - --disable-telemetry
           env:
             - name: TZ
               value: Asia/Tokyo
+          ports:
+            - containerPort: 8080
           volumeMounts:
             - name: work
               mountPath: /opt/k8s-volumes
