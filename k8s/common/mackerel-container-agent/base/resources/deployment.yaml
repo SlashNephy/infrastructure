@@ -5,32 +5,28 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
-      app: mackerel-container-agent
+      app: default
   template:
     metadata:
       labels:
-        app: mackerel-container-agent
+        app: default
     spec:
       containers:
         - name: mackerel-container-agent
           image: mackerel/mackerel-container-agent:latest
           imagePullPolicy: Always
           env:
-            - name: MACKEREL_KUBERNETES_KUBELET_READ_ONLY_PORT
-              value: "0"
-            - name: MACKEREL_KUBERNETES_KUBELET_INSECURE_TLS
-              value: "true"
-            - name: MACKEREL_HOST_STATUS_ON_START
-              value: working
             - name: MACKEREL_CONTAINER_PLATFORM
               value: kubernetes
             - name: MACKEREL_APIKEY
               valueFrom:
                 secretKeyRef:
-                  name: mackerel-agent-secret
-                  key: api-key
+                  name: mackerel-container-agent-secret
+                  key: mackerel-api-key
             - name: MACKEREL_KUBERNETES_KUBELET_HOST
               valueFrom:
                 fieldRef:
@@ -43,6 +39,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: MACKEREL_KUBERNETES_KUBELET_READ_ONLY_PORT
+              value: "0"
+            - name: MACKEREL_HOST_STATUS_ON_START
+              value: working
           resources:
             limits:
               memory: 128Mi
