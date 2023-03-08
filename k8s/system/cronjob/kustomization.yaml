@@ -8,7 +8,7 @@ resources:
   - ./resources/job-create-tvtest-release.yaml
   - ./resources/job-rm-caches.yaml
   - ./resources/job-rm-empty-files.yaml
-  - ./../../common/registry-docker-hub
+  - ./../../common/registry-docker-hub/lily
 
 configMapGenerator:
   - name: scripts

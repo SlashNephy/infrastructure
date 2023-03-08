@@ -6,7 +6,7 @@ resources:
   - ./resources/namespace.yaml
   - ./resources/deployment.yaml
   - ./resources/secret.yaml
-  - ./../../common/registry-docker-hub
+  - ./../../common/registry-docker-hub/lily
 
 configMapGenerator:
   - name: app-config
