@@ -290,6 +290,11 @@ spec:
             namespace: cronjob
             path: k8s/system/cronjob
             project: system
+          - name: flannel-lily
+            cluster: https://kubernetes.default.svc
+            namespace: flannel
+            path: k8s/system/flannel
+            project: system
           - name: fluent-bit
             cluster: https://kubernetes.default.svc
             namespace: fluent-bit
