@@ -66,8 +66,7 @@ ports:
 
     forwardedHeaders:
       trustedIPs:
-        # /run/flannel/subnet.env
-        - 10.244.0.0/16
+        - 192.168.0.0/24
 
     # http3:
     #   advertisedPort: 8443
@@ -95,6 +94,12 @@ ports:
     asDefault: true
     expose: true
     exposedPort: 8443
+
+    forwardedHeaders:
+      trustedIPs:
+        # /run/flannel/subnet.env
+        - 10.244.0.0/16
+
     # http3:
     #   advertisedPort: 8443
     #   enabled: true
