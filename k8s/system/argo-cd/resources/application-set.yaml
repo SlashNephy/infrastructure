@@ -350,6 +350,11 @@ spec:
             namespace: traefik
             path: k8s/system/traefik/bbc
             project: system
+          - name: trivy-operator
+            cluster: https://kubernetes.default.svc
+            namespace: trivy-system
+            path: k8s/system/trivy-operator
+            project: system
 
   template:
     metadata:
