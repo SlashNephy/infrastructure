@@ -12,6 +12,7 @@ spec:
           containers:
             - name: app
               image: bitnami/kubectl:latest
+              imagePullPolicy: Always
               command:
                 - /bin/bash
                 - -c
@@ -50,6 +51,7 @@ rules:
       - secrets
     verbs:
       - get
+      - list
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
