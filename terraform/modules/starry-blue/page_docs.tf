@@ -4,10 +4,10 @@ resource "cloudflare_pages_project" "docs" {
   production_branch = "master"
 
   build_config {
-    build_command   = "yarn build"
-    destination_dir = "build"
-    // web_analytics_tag   = "aefe5bfc65454cc7afcb53f8b2018fa1"
-    // web_analytics_token = "6f309eaea489422f9b55484613aa6cad"
+    build_command       = "yarn build"
+    destination_dir     = "build"
+    web_analytics_tag   = "80eebe11fd4a42168606b4a6dab3e3bb"
+    web_analytics_token = "ae6c0a51759443fd88ff6ed4eaec8d18"
   }
 
   deployment_configs {
