@@ -37,6 +37,7 @@ resource "cloudflare_pages_project" "docs" {
       production_branch             = "master"
       pr_comments_enabled           = true
       preview_deployment_setting    = "none"
+      preview_branch_includes       = ["*"]
     }
   }
 }
