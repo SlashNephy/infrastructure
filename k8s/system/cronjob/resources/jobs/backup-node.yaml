@@ -4,7 +4,7 @@ metadata:
   name: backup-node
 
 spec:
-  schedule: "0 * * * *"
+  schedule: "* * * * *"
   jobTemplate:
     spec:
       template:
@@ -29,7 +29,7 @@ spec:
           restartPolicy: Never
           imagePullSecrets:
             - name: docker-hub-credentials
-          serviceAccountName: backup-node
+          serviceAccountName: backup-node-service-account
 
 ---
 apiVersion: v1
