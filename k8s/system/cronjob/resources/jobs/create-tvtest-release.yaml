@@ -15,19 +15,17 @@ spec:
               imagePullPolicy: Always
               command:
                 - ash
-                - /entrypoint.sh
+                - -c
+                - |
+                  apk add github-cli
+                  gh api \
+                    --method POST \
+                    -H "Accept: application/vnd.github.v3+json" \
+                    /repos/SlashNephy/TVTest-builder/releases \
+                    -f tag_name="$(date -Idate)"
               envFrom:
                 - secretRef:
                     name: github-secret
-              volumeMounts:
-                - name: script
-                  mountPath: /entrypoint.sh
-                  readOnly: true
-                  subPath: job-create-tvtest-release.sh
-          volumes:
-            - name: script
-              configMap:
-                name: scripts
           restartPolicy: Never
           imagePullSecrets:
             - name: docker-hub-credentials

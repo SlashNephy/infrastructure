@@ -9,9 +9,3 @@ resources:
   - ./resources/jobs/create-tvtest-release.yaml
   - ./resources/jobs/rm-empty-files.yaml
   - ./../../common/registry-docker-hub/lily
-
-configMapGenerator:
-  - name: scripts
-    files:
-      - ./resources/jobs/backup-volumes.sh
-      - ./resources/jobs/create-tvtest-release.sh

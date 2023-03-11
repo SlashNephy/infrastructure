@@ -9,8 +9,3 @@ resources:
   - ./resources/service.yaml
   - ./resources/ingress.yaml
   - ./resources/cronjob.yaml
-
-configMapGenerator:
-  - name: scripts
-    files:
-      - ./scripts/backup.sh

@@ -15,7 +15,12 @@ spec:
               imagePullPolicy: Always
               command:
                 - ash
-                - /entrypoint.sh
+                - -c
+                - |
+                  apk add zstd
+                  tar -acpf /dist/volumes.zst /src || true
+                  rclone copy /dist horoscope:Backup --config /rclone.conf
+                  rm -f /dist/volumes.zst
               volumeMounts:
                 - name: src
                   mountPath: /src
@@ -24,10 +29,6 @@ spec:
                   mountPath: /dist
                 - name: config
                   mountPath: /rclone.conf
-                - name: script
-                  mountPath: /entrypoint.sh
-                  readOnly: true
-                  subPath: job-backup-volumes.sh
           volumes:
             - name: src
               hostPath:
@@ -40,9 +41,6 @@ spec:
             - name: config
               hostPath:
                 path: /opt/k8s-volumes/rclone-config/onedrive.conf
-            - name: script
-              configMap:
-                name: scripts
           restartPolicy: Never
           imagePullSecrets:
             - name: docker-hub-credentials
