@@ -1,0 +1,66 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-node
+
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: app
+              image: bitnami/kubectl:latest
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  kubectl get secrets -A -o yaml > /backup/secrets.yaml
+                  kubectl get configmaps -A -o yaml > /backup/configmaps.yaml
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+          volumes:
+            - name: backup
+              hostPath:
+                path: /opt/k8s-volumes/backup-node
+                type: DirectoryOrCreate
+          restartPolicy: Never
+          imagePullSecrets:
+            - name: docker-hub-credentials
+          serviceAccountName: backup-node
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backup-node-service-account
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: backup-node-cluster-role
+
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: backup-node-cluster-role-binding
+
+roleRef:
+  name: backup-node-cluster-role
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+subjects:
+  - name: backup-node-service-account
+    kind: ServiceAccount

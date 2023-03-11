@@ -4,14 +4,13 @@ namespace: cronjob
 
 resources:
   - ./resources/namespace.yaml
-  - ./resources/job-backup-volumes.yaml
-  - ./resources/job-create-tvtest-release.yaml
-  - ./resources/job-rm-caches.yaml
-  - ./resources/job-rm-empty-files.yaml
+  - ./resources/jobs/backup-volumes.yaml
+  - ./resources/jobs/create-tvtest-release.yaml
+  - ./resources/jobs/rm-empty-files.yaml
   - ./../../common/registry-docker-hub/lily
 
 configMapGenerator:
   - name: scripts
     files:
-      - ./scripts/job-backup-volumes.sh
-      - ./scripts/job-create-tvtest-release.sh
+      - ./resources/jobs/backup-volumes.sh
+      - ./resources/jobs/create-tvtest-release.sh
