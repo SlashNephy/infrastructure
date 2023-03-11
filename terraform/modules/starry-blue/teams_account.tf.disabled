@@ -1,3 +1,4 @@
+// terraform import module.starry-blue.cloudflare_teams_account.starry_blue_sky acf825cc392e96dca126ee7e7f39e228
 resource "cloudflare_teams_account" "starry_blue_sky" {
   account_id           = cloudflare_account.account.id
   activity_log_enabled = true
