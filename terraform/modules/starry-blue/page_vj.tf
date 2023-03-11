@@ -15,14 +15,16 @@ resource "cloudflare_pages_project" "vj" {
     preview {
       compatibility_date    = "2023-02-21"
       environment_variables = {
-        "NODE_VERSION" = "16"
+        "NODE_VERSION"        = "16"
+        "VITE_BACKEND_ORIGIN" = "https://vj-api.starry.blue"
       }
     }
 
     production {
       compatibility_date    = "2023-02-21"
       environment_variables = {
-        "NODE_VERSION" = "16"
+        "NODE_VERSION"        = "16"
+        "VITE_BACKEND_ORIGIN" = "https://vj-api.starry.blue"
       }
     }
   }
