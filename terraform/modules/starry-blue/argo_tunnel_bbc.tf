@@ -1,4 +1,4 @@
-resource "cloudflare_argo_tunnel" "bbc" {
+resource "cloudflare_tunnel" "bbc" {
   account_id = cloudflare_account.account.id
   name       = "bbc"
   secret     = ""
@@ -10,7 +10,7 @@ resource "cloudflare_argo_tunnel" "bbc" {
 
 resource "cloudflare_tunnel_config" "bbc" {
   account_id = cloudflare_account.account.id
-  tunnel_id  = cloudflare_argo_tunnel.bbc.id
+  tunnel_id  = cloudflare_tunnel.bbc.id
 
   config {
     ingress_rule {
@@ -35,6 +35,6 @@ resource "cloudflare_tunnel_config" "bbc" {
 
 resource "cloudflare_tunnel_route" "bbc" {
   account_id = cloudflare_account.account.id
-  tunnel_id  = cloudflare_argo_tunnel.bbc.id
+  tunnel_id  = cloudflare_tunnel.bbc.id
   network    = var.bbc_network
 }

@@ -1,4 +1,4 @@
-resource "cloudflare_argo_tunnel" "lily" {
+resource "cloudflare_tunnel" "lily" {
   account_id = cloudflare_account.account.id
   name       = "Lily"
   secret     = ""
@@ -10,7 +10,7 @@ resource "cloudflare_argo_tunnel" "lily" {
 
 resource "cloudflare_tunnel_config" "lily" {
   account_id = cloudflare_account.account.id
-  tunnel_id  = cloudflare_argo_tunnel.lily.id
+  tunnel_id  = cloudflare_tunnel.lily.id
 
   config {
     ingress_rule {
@@ -30,6 +30,6 @@ resource "cloudflare_tunnel_config" "lily" {
 
 resource "cloudflare_tunnel_route" "lily" {
   account_id = cloudflare_account.account.id
-  tunnel_id  = cloudflare_argo_tunnel.lily.id
+  tunnel_id  = cloudflare_tunnel.lily.id
   network    = var.lily_network
 }
