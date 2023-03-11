@@ -1,6 +1,6 @@
 resource "cloudflare_pages_project" "docs" {
   account_id        = cloudflare_account.account.id
-  name              = cloudflare_record.cname_docs.hostname
+  name              = "starrybluesky-documents"
   production_branch = "master"
 
   build_config {
@@ -43,6 +43,6 @@ resource "cloudflare_pages_project" "docs" {
 
 resource "cloudflare_pages_domain" "docs" {
   account_id   = cloudflare_account.account.id
-  project_name = cloudflare_record.cname_docs.hostname
+  project_name = "starrybluesky-documents"
   domain       = cloudflare_record.cname_docs.hostname
 }

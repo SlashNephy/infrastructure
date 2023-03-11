@@ -1,6 +1,6 @@
 resource "cloudflare_pages_project" "vj" {
   account_id        = cloudflare_account.account.id
-  name              = cloudflare_record.cname_vj.hostname
+  name              = "muni"
   production_branch = "master"
 
   build_config {
@@ -50,6 +50,6 @@ resource "cloudflare_pages_project" "vj" {
 
 resource "cloudflare_pages_domain" "vj" {
   account_id   = cloudflare_account.account.id
-  project_name = cloudflare_record.cname_vj.hostname
+  project_name = "muni"
   domain       = cloudflare_record.cname_vj.hostname
 }
