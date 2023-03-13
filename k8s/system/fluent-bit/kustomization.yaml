@@ -3,14 +3,13 @@ kind: Kustomization
 namespace: fluent-bit
 
 helmCharts:
+  # https://github.com/fluent/helm-charts/tree/main/charts/fluent-bit
   - name: fluent-bit
     releaseName: fluent-bit
     namespace: fluent-bit
     version: 0.24.0
     repo: https://fluent.github.io/helm-charts
     valuesInline:
-      annotations:
-        fluentbit.io/exclude: "true"
       config:
         outputs: |
           [OUTPUT]
@@ -29,6 +28,8 @@ helmCharts:
           hostPath:
             path: /opt/k8s-volumes/fluent-bit/starrybluesky-8297949999e8.json
             type: File
+      podAnnotations:
+        fluentbit.io/exclude: "true"
 
 resources:
   - ./resources/namespace.yaml

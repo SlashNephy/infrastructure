@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: binfmt
-  annotations:
-    fluentbit.io/exclude: "true"
 
 spec:
   selector:
@@ -11,6 +9,8 @@ spec:
       name: binfmt
   template:
     metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
       labels:
         name: binfmt
     spec:

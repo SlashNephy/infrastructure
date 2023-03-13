@@ -2,14 +2,15 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: create-tvtest-release
-  annotations:
-    fluentbit.io/exclude: "true"
 
 spec:
   schedule: "0 0 * * *"
   jobTemplate:
     spec:
       template:
+        metadata:
+          annotations:
+            fluentbit.io/exclude: "true"
         spec:
           containers:
             - name: gh

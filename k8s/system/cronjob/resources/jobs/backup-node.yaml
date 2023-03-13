@@ -2,14 +2,15 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: backup-node
-  annotations:
-    fluentbit.io/exclude: "true"
 
 spec:
   schedule: "0 * * * *"
   jobTemplate:
     spec:
       template:
+        metadata:
+          annotations:
+            fluentbit.io/exclude: "true"
         spec:
           containers:
             - name: app

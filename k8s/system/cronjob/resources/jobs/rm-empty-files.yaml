@@ -2,14 +2,15 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: rm-empty-files
-  annotations:
-    fluentbit.io/exclude: "true"
 
 spec:
   schedule: "0 4 * * *"
   jobTemplate:
     spec:
       template:
+        metadata:
+          annotations:
+            fluentbit.io/exclude: "true"
         spec:
           containers:
             - name: app

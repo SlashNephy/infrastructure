@@ -11,10 +11,10 @@ helmCharts:
     repo: https://argoproj.github.io/argo-helm
     valuesInline:
       global:
-        deploymentAnnotations:
-          fluentbit.io/exclude: "true"
         imagePullSecrets:
           - name: docker-hub-credentials
+        podAnnotations:
+          fluentbit.io/exclude: "true"
       server:
         extensions:
           enabled: true

@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app
-  annotations:
-    fluentbit.io/exclude: "true"
 
 spec:
   replicas: 1
@@ -14,6 +12,8 @@ spec:
       app: app
   template:
     metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
       labels:
         app: app
     spec:

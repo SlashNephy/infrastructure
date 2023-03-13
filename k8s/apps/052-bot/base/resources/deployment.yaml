@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app
-  annotations:
-    fluentbit.io/exclude: "true"
 
 spec:
   replicas: 1
@@ -12,6 +10,8 @@ spec:
       app: 052-bot
   template:
     metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
       labels:
         app: 052-bot
     spec:

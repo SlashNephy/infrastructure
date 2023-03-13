@@ -12,20 +12,20 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       cainjector:
-        deploymentAnnotations:
+        podAnnotations:
           fluentbit.io/exclude: "true"
-      deploymentAnnotations:
-        fluentbit.io/exclude: "true"
       global:
         imagePullSecrets:
           - name: docker-hub-credentials
         leaderElection:
           namespace: cert-manager
       installCRDs: true
+      podAnnotations:
+        fluentbit.io/exclude: "true"
       prometheus:
         enabled: false
       webhook:
-        deploymentAnnotations:
+        podAnnotations:
           fluentbit.io/exclude: "true"
 
 resources:

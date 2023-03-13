@@ -10,7 +10,7 @@ helmCharts:
     version: 6.0.0
     repo: https://kubernetes.github.io/dashboard/
     valuesInline:
-      annotations:
+      podAnnotations:
         fluentbit.io/exclude: "true"
 
 resources:
