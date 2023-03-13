@@ -11,14 +11,14 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       connect:
-        annotations:
+        podAnnotations:
           fluentbit.io/exclude: "true"
         serviceType: ClusterIP
       operator:
-        annotations:
-          fluentbit.io/exclude: "true"
         autoRestart: true
         create: true
+        podAnnotations:
+          fluentbit.io/exclude: "true"
 
 resources:
   - ./resources/namespace.yaml
