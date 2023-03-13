@@ -295,11 +295,11 @@ spec:
             namespace: kube-flannel
             path: k8s/system/flannel
             project: system
-          - name: fluent-bit
-            cluster: https://kubernetes.default.svc
-            namespace: fluent-bit
-            path: k8s/system/fluent-bit
-            project: system
+          #          - name: fluent-bit
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: fluent-bit
+          #            path: k8s/system/fluent-bit
+          #            project: system
           - name: intel-device-plugins-operator
             cluster: https://kubernetes.default.svc
             namespace: intel-device-plugins-operator
