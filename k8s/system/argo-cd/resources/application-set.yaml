@@ -310,21 +310,21 @@ spec:
             namespace: keel
             path: k8s/system/keel
             project: system
-          - name: knative-eventing
-            cluster: https://kubernetes.default.svc
-            namespace: knative-eventing
-            path: k8s/system/knative-eventing
-            project: system
-          - name: knative-serving
-            cluster: https://kubernetes.default.svc
-            namespace: knative-serving
-            path: k8s/system/knative-serving
-            project: system
-          - name: kourier-system
-            cluster: https://kubernetes.default.svc
-            namespace: kourier-system
-            path: k8s/system/kourier-system
-            project: system
+          #          - name: knative-eventing
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: knative-eventing
+          #            path: k8s/system/knative-eventing
+          #            project: system
+          #          - name: knative-serving
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: knative-serving
+          #            path: k8s/system/knative-serving
+          #            project: system
+          #          - name: kourier-system
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: kourier-system
+          #            path: k8s/system/kourier-system
+          #            project: system
           - name: kubernetes-dashboard
             cluster: https://kubernetes.default.svc
             namespace: kubernetes-dashboard
