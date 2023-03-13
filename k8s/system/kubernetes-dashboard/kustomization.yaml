@@ -9,6 +9,9 @@ helmCharts:
     namespace: kubernetes-dashboard
     version: 6.0.0
     repo: https://kubernetes.github.io/dashboard/
+    valuesInline:
+      annotations:
+        fluentbit.io/exclude: "true"
 
 resources:
   - ./resources/namespace.yaml

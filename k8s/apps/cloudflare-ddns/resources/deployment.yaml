@@ -1,20 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloudflare-ddns
+  name: app
+  annotations:
+    fluentbit.io/exclude: "true"
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cloudflare-ddns
+      app: default
   template:
     metadata:
       labels:
-        app: cloudflare-ddns
+        app: default
     spec:
       containers:
-        - name: cloudflare-ddns
+        - name: app
           image: oznu/cloudflare-ddns
           env:
             - name: ZONE

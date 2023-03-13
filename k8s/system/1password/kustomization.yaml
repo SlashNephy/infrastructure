@@ -10,7 +10,13 @@ helmCharts:
     repo: https://1password.github.io/connect-helm-charts
     includeCRDs: true
     valuesInline:
+      connect:
+        annotations:
+          fluentbit.io/exclude: "true"
+        serviceType: ClusterIP
       operator:
+        annotations:
+          fluentbit.io/exclude: "true"
         autoRestart: true
         create: true
 

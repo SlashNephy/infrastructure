@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: samba
+  name: app
 
 spec:
   replicas: 1
@@ -14,7 +14,7 @@ spec:
         app: app
     spec:
       containers:
-        - name: samba
+        - name: app
           image: ghcr.io/slashnephy/samba:master
           env:
             - name: TZ

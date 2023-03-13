@@ -3,12 +3,16 @@ kind: Kustomization
 namespace: tigera-operator
 
 helmCharts:
+  # https://artifacthub.io/packages/helm/projectcalico/tigera-operator
   - name: tigera-operator
     releaseName: tigera-operator
     namespace: tigera-operator
     version: 3.25.0
     repo: https://docs.tigera.io/calico/charts
     includeCRDs: true
+    valuesInline:
+      podAnnotations:
+        fluentbit.io/exclude: "true"
 
 resources:
   - ./resources/namespace.yaml

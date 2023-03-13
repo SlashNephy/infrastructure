@@ -9,6 +9,8 @@ helmCharts:
     version: 0.24.0
     repo: https://fluent.github.io/helm-charts
     valuesInline:
+      annotations:
+        fluentbit.io/exclude: "true"
       config:
         outputs: |
           [OUTPUT]

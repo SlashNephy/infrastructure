@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: argo-cd
 
 helmCharts:
+  # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
   - name: argo-cd
     releaseName: argo-cd
     namespace: argo-cd
@@ -10,6 +11,8 @@ helmCharts:
     repo: https://argoproj.github.io/argo-helm
     valuesInline:
       global:
+        deploymentAnnotations:
+          fluentbit.io/exclude: "true"
         imagePullSecrets:
           - name: docker-hub-credentials
       server:

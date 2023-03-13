@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: cert-manager
 
 helmCharts:
-  # https://cert-manager.io/docs/installation/helm/
+  # https://artifacthub.io/packages/helm/cert-manager/cert-manager
   - name: cert-manager
     releaseName: cert-manager
     namespace: cert-manager
@@ -11,6 +11,11 @@ helmCharts:
     repo: https://charts.jetstack.io
     includeCRDs: true
     valuesInline:
+      cainjector:
+        deploymentAnnotations:
+          fluentbit.io/exclude: "true"
+      deploymentAnnotations:
+        fluentbit.io/exclude: "true"
       global:
         imagePullSecrets:
           - name: docker-hub-credentials
@@ -19,6 +24,9 @@ helmCharts:
       installCRDs: true
       prometheus:
         enabled: false
+      webhook:
+        deploymentAnnotations:
+          fluentbit.io/exclude: "true"
 
 resources:
   - ./resources/namespace.yaml
