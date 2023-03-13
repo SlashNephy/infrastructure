@@ -14,6 +14,8 @@ helmCharts:
         fluentbit.io/exclude: "true"
       trivy:
         ignoreUnfixed: true
+      trivyOperator:
+        scanJobAnnotations: fluentbit.io/exclude=true
 
 resources:
   - ./resources/namespace.yaml
