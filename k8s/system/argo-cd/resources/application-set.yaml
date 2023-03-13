@@ -63,11 +63,11 @@ spec:
             namespace: cloudflare-ddns
             path: k8s/apps/cloudflare-ddns
             project: apps
-          - name: cloudflared
-            cluster: https://kubernetes.default.svc
-            namespace: cloudflared
-            path: k8s/apps/cloudflared
-            project: apps
+          #          - name: cloudflared
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: cloudflared
+          #            path: k8s/apps/cloudflared
+          #            project: apps
           - name: code-server
             cluster: https://kubernetes.default.svc
             namespace: code-server
