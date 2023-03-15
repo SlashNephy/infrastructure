@@ -4,24 +4,24 @@ resource "cloudflare_pages_project" "omikuji" {
   production_branch = "master"
 
   build_config {
-    build_command   = "yarn build"
-    destination_dir = "dist"
-    // web_analytics_tag   = "aefe5bfc65454cc7afcb53f8b2018fa1"
-    // web_analytics_token = "6f309eaea489422f9b55484613aa6cad"
+    build_command       = "yarn build"
+    destination_dir     = "dist"
+    web_analytics_tag   = "0ef2ab787a3d4c17b110ac1aa4edfcf4"
+    web_analytics_token = "fbebe15084124815be7bf6cfa9a4f104"
   }
 
   deployment_configs {
     preview {
       compatibility_date    = "2023-02-21"
       environment_variables = {
-        "NODE_VERSION" = "18"
+        "NODE_VERSION" = "16"
       }
     }
 
     production {
       compatibility_date    = "2023-02-21"
       environment_variables = {
-        "NODE_VERSION" = "18"
+        "NODE_VERSION" = "16"
       }
     }
   }
