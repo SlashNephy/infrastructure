@@ -174,6 +174,15 @@ resource "cloudflare_record" "cname_owncast" {
   proxied = true
 }
 
+resource "cloudflare_record" "cname_omikuji" {
+  zone_id = cloudflare_zone.zone.id
+  name    = "omikuji"
+  value   = cloudflare_record.a_gateway.hostname
+  // TODO
+  type    = "CNAME"
+  proxied = true
+}
+
 resource "cloudflare_record" "cname_rclone" {
   zone_id = cloudflare_zone.zone.id
   name    = "rclone"
