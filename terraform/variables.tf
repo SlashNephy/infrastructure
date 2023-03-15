@@ -17,3 +17,7 @@ variable "lily_network" {
 variable "bbc_network" {
   type = string
 }
+
+variable "anime_omikuji_anilist_client_id" {
+  type = string
+}
