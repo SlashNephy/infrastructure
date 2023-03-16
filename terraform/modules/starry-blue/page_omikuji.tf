@@ -14,17 +14,14 @@ resource "cloudflare_pages_project" "omikuji" {
     preview {
       compatibility_date    = "2023-02-21"
       environment_variables = {
-        "NODE_VERSION"           = "16"
-        "VITE_ANILIST_CLIENT_ID" = var.anime_omikuji_anilist_client_id
-
+        "NODE_VERSION" = "16"
       }
     }
 
     production {
       compatibility_date    = "2023-02-21"
       environment_variables = {
-        "NODE_VERSION"           = "16"
-        "VITE_ANILIST_CLIENT_ID" = var.anime_omikuji_anilist_client_id
+        "NODE_VERSION" = "16"
       }
     }
   }

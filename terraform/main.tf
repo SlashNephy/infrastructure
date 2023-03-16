@@ -27,5 +27,4 @@ module "starry-blue" {
   email_routing_catch_all_address = var.email_routing_catch_all_address
   lily_network                    = var.lily_network
   bbc_network                     = var.bbc_network
-  anime_omikuji_anilist_client_id = var.anime_omikuji_anilist_client_id
 }
