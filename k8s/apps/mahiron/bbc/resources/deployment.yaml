@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/starrybluesky/mahiron-custom:master
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+          ports:
+            - containerPort: 40772
+          volumeMounts:
+            - name: data
+              mountPath: /var/db/mirakurun
+            - name: config
+              mountPath: /etc/mirakurun
+              readOnly: true
+            - name: dev-px4video0
+              mountPath: /dev/px4video0
+            - name: dev-px4video1
+              mountPath: /dev/px4video1
+            - name: dev-px4video2
+              mountPath: /dev/px4video2
+            - name: dev-px4video3
+              mountPath: /dev/px4video3
+          resources:
+            limits:
+              memory: 2Gi
+          securityContext:
+            capabilities:
+              add:
+                - SYS_ADMIN
+                - SYS_NICE
+            privileged: true
+      volumes:
+        - name: data
+          hostPath:
+            path: /opt/k8s-volumes/mahiron/data
+            type: DirectoryOrCreate
+        - name: config
+          hostPath:
+            path: /opt/k8s-volumes/mahiron/config
+            type: Directory
+        - name: dev-px4video0
+          hostPath:
+            path: /dev/px4video0
+        - name: dev-px4video1
+          hostPath:
+            path: /dev/px4video1
+        - name: dev-px4video2
+          hostPath:
+            path: /dev/px4video2
+        - name: dev-px4video3
+          hostPath:
+            path: /dev/px4video3
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-io-credentials

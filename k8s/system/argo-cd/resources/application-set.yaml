@@ -123,6 +123,11 @@ spec:
             namespace: m2ts-calendar
             path: k8s/apps/m2ts-calendar
             project: apps
+          - name: mahiron-bbc
+            cluster: https://192.168.11.59:6443
+            namespace: mahiron
+            path: k8s/apps/mahiron/bbc
+            project: apps
           #          - name: minecraft_forge_1_12_2
           #            namespace: minecraft_forge_1_12_2
           #            cluster: https://kubernetes.default.svc
@@ -138,11 +143,11 @@ spec:
             namespace: mirakurun
             path: k8s/apps/mirakurun/lily
             project: apps
-          - name: mirakurun-bbc
-            cluster: https://192.168.11.59:6443
-            namespace: mirakurun
-            path: k8s/apps/mirakurun/bbc
-            project: apps
+          #          - name: mirakurun-bbc
+          #            cluster: https://192.168.11.59:6443
+          #            namespace: mirakurun
+          #            path: k8s/apps/mirakurun/bbc
+          #            project: apps
           - name: mirakurun-iptv-rewriter
             cluster: https://kubernetes.default.svc
             namespace: mirakurun-iptv-rewriter
