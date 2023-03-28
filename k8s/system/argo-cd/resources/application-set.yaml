@@ -123,6 +123,11 @@ spec:
             namespace: m2ts-calendar
             path: k8s/apps/m2ts-calendar
             project: apps
+          - name: mahiron-lily
+            cluster: https://kubernetes.default.svc
+            namespace: mahiron
+            path: k8s/apps/mahiron/lily
+            project: apps
           - name: mahiron-bbc
             cluster: https://192.168.11.59:6443
             namespace: mahiron

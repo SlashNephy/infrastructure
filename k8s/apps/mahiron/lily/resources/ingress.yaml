@@ -1,0 +1,42 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`mahiron.starry.blue`)
+      services:
+        - name: app
+          port: 40772
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route-direct
+
+spec:
+  entryPoints:
+    - direct
+  routes:
+    - kind: Rule
+      match: Host(`mahiron-api.starry.blue`) && PathPrefix(`/api`)
+      services:
+        - name: app
+          port: 40772
+      middlewares:
+        - name: mahiron-basic-auth
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mahiron-basic-auth
+
+spec:
+  basicAuth:
+    realm: Access Restricted
+    removeHeader: true
+    secret: basic-auth-credentials
