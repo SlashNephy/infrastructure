@@ -25,9 +25,9 @@ spec:
             - containerPort: 40772
           volumeMounts:
             - name: data
-              mountPath: /var/db/mirakurun
+              mountPath: /var/db/mahiron
             - name: config
-              mountPath: /etc/mirakurun
+              mountPath: /etc/mahiron
               readOnly: true
             - name: dev-px4video0
               mountPath: /dev/px4video0
