@@ -20,7 +20,7 @@ spec:
           image: ghcr.io/starrybluesky/mirakurun-iptv-rewriter
           env:
             - name: BEFORE_URI
-              value: http://service.mirakurun:40772/api
+              value: http://service.mahiron:40772/api
           envFrom:
             - secretRef:
                 name: app-secret
