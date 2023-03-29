@@ -29,6 +29,7 @@ resource "cloudflare_ruleset" "http_request_origin" {
         "${cloudflare_record.cname_k8s.hostname}"
         "${cloudflare_record.cname_keel.hostname}"
         "${cloudflare_record.cname_konomitv.hostname}"
+        "${cloudflare_record.cname_mahiron.hostname}"
         "${cloudflare_record.cname_mirakurun.hostname}"
         "${cloudflare_record.cname_owncast.hostname}"
         "${cloudflare_record.cname_rclone.hostname}"
