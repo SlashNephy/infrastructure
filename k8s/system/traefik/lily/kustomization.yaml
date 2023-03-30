@@ -18,3 +18,11 @@ resources:
   - ./resources/routes/dashboard.yaml
   - ./resources/custom-error-pages
   - ./../../../common/registry-docker-hub/lily
+
+configMapGenerator:
+  - name: dynamic-configurations
+    files:
+      - ./config/route-ai.yml
+
+generatorOptions:
+  disableNameSuffixHash: false

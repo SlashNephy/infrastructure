@@ -1,0 +1,12 @@
+http:
+  routers:
+    stable-diffusion-webui:
+      rule: Host(`ai.starry.blue`)
+      service: stable-diffusion-webui
+      tls: true
+
+  services:
+    stable-diffusion-webui:
+      loadBalancer:
+        servers:
+          - url: http://192.168.0.218:7860

@@ -16,6 +16,7 @@ resource "cloudflare_ruleset" "http_request_origin" {
 
     expression = <<-EOT
       (http.host in {
+        "${cloudflare_record.cname_ai.hostname}"
         "${cloudflare_record.cname_anemos.hostname}"
         "${cloudflare_record.cname_apps.hostname}"
         "${cloudflare_record.cname_argocd.hostname}"
