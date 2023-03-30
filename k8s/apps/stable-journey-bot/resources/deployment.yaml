@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/stable-journey-bot:master
+          image: ghcr.io/p1atdev/stable-journey-bot:master
           volumeMounts:
             - name: config
               mountPath: /app/config.yaml
