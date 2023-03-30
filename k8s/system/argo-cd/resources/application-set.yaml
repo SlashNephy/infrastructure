@@ -223,6 +223,11 @@ spec:
             namespace: soundbot-reloaded
             path: k8s/apps/soundbot-reloaded
             project: apps
+          - name: stable-journey-bot
+            cluster: https://kubernetes.default.svc
+            namespace: stable-journey-bot
+            path: k8s/apps/stable-journey-bot
+            project: apps
           - name: stella
             cluster: https://kubernetes.default.svc
             namespace: stella
