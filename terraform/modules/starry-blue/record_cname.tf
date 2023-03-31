@@ -214,6 +214,14 @@ resource "cloudflare_record" "cname_rclone" {
   proxied = true
 }
 
+resource "cloudflare_record" "cname_router" {
+  zone_id = cloudflare_zone.zone.id
+  name    = "router"
+  value   = cloudflare_record.a_gateway.hostname
+  type    = "CNAME"
+  proxied = true
+}
+
 resource "cloudflare_record" "cname_rustpad" {
   zone_id = cloudflare_zone.zone.id
   name    = "rustpad"

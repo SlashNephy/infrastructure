@@ -34,6 +34,7 @@ resource "cloudflare_ruleset" "http_request_origin" {
         "${cloudflare_record.cname_mirakurun.hostname}"
         "${cloudflare_record.cname_owncast.hostname}"
         "${cloudflare_record.cname_rclone.hostname}"
+        "${cloudflare_record.cname_router.hostname}"
         "${cloudflare_record.cname_rustpad.hostname}"
         "${cloudflare_record.cname_search.hostname}"
         "${cloudflare_record.cname_stella.hostname}"
