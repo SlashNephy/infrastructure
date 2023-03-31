@@ -23,6 +23,7 @@ configMapGenerator:
   - name: dynamic-configurations
     files:
       - ./config/route-ai.yml
+      - ./config/route-router.yml
 
 generatorOptions:
   disableNameSuffixHash: false
