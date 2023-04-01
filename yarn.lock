@@ -183,16 +183,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@slashnephy/eslint-config@npm:0.4.8":
-  version: 0.4.8
-  resolution: "@slashnephy/eslint-config@npm:0.4.8"
+"@slashnephy/eslint-config@npm:0.4.9":
+  version: 0.4.9
+  resolution: "@slashnephy/eslint-config@npm:0.4.9"
   dependencies:
     "@emotion/eslint-plugin": 11.10.0
     "@typescript-eslint/eslint-plugin": 5.56.0
     "@typescript-eslint/parser": 5.56.0
     eslint-config-airbnb: 19.0.4
     eslint-config-next: 13.2.4
-    eslint-config-prettier: 8.7.0
+    eslint-config-prettier: 8.8.0
     eslint-config-standard: 17.0.0
     eslint-import-resolver-typescript: 3.5.3
     eslint-plugin-css-import-order: 1.1.0
@@ -214,13 +214,13 @@ __metadata:
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-unused-imports: 2.0.0
     eslint-plugin-userscripts: 0.2.12
-    eslint-plugin-vitest: 0.0.54
+    eslint-plugin-vitest: 0.0.56
     eslint-plugin-xss: 0.1.12
     eslint-plugin-yml: 1.5.0
     typescript: 4.9.5
   peerDependencies:
     eslint: ">= 8"
-  checksum: 7bb74068f3a2d0272df0fe9937d5b30dc811dd088566cd850684fd3d263ad81e99511a718fd669013163d617493c9700da6fc973678a10b9997925af89afef8f
+  checksum: 783d5751fa1de28a1c0c98f3f2d4168e74235bf65563745dae6a2b41006828dbbd781181f09148db718c15633072c8dc36f213e607defa22b28c1c9941266cd1
   languageName: node
   linkType: hard
 
@@ -1340,14 +1340,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:8.7.0":
-  version: 8.7.0
-  resolution: "eslint-config-prettier@npm:8.7.0"
+"eslint-config-prettier@npm:8.8.0":
+  version: 8.8.0
+  resolution: "eslint-config-prettier@npm:8.8.0"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
     eslint-config-prettier: bin/cli.js
-  checksum: b05bc7f2296ce3e0925c14147849706544870e0382d38af2352d709a6cf8521bdaff2bd8e5021f1780e570775a8ffa1d2bac28b8065d90d43a3f1f98fd26ce52
+  checksum: 1e94c3882c4d5e41e1dcfa2c368dbccbfe3134f6ac7d40101644d3bfbe3eb2f2ffac757f3145910b5eacf20c0e85e02b91293d3126d770cbf3dc390b3564681c
   languageName: node
   linkType: hard
 
@@ -1796,14 +1796,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-vitest@npm:0.0.54":
-  version: 0.0.54
-  resolution: "eslint-plugin-vitest@npm:0.0.54"
+"eslint-plugin-vitest@npm:0.0.56":
+  version: 0.0.56
+  resolution: "eslint-plugin-vitest@npm:0.0.56"
   dependencies:
     "@typescript-eslint/utils": ^5.53.0
   peerDependencies:
     eslint: ">=8.0.0"
-  checksum: 4bb699f5ffc6077fd8d39b20391059681f40af37ea2741058fcb852d5ca057ffc007f0eedac1dd84f61d5e9515777da68be47b3c439e3d8baa204eae6361d808
+  checksum: dc26b837d9dce5b46adefba38dd99715d932bb8c59188cf11a42ad64437a36cb3eded73cee63929977a25d80141c898760b608ce1c3b8a796676363a2fe65ccf
   languageName: node
   linkType: hard
 
@@ -2455,7 +2455,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "infrastructure@workspace:."
   dependencies:
-    "@slashnephy/eslint-config": 0.4.8
+    "@slashnephy/eslint-config": 0.4.9
     "@slashnephy/prettier-config": 0.1.16
     "@typescript-eslint/eslint-plugin": 5.57.0
     concurrently: 8.0.1
