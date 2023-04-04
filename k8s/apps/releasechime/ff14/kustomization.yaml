@@ -3,11 +3,14 @@ kind: Kustomization
 namespace: releasechime-ff14
 
 resources:
+  - ./../base
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
-  - ./resources/deployment.yaml
 
 configMapGenerator:
+  - name: releasechime-config
+    literals:
+      - CACHE_DIR=/app/data/ff14
   - name: releasechime-repositories-config
     literals:
       - TARGET_COMMIT_REPOSITORIES_1=goatcorp/DalamudAssets

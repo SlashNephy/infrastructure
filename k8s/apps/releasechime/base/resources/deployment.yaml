@@ -19,23 +19,22 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/releasechime
+          image: ghcr.io/slashnephy/releasechime:master
           env:
-            - name: DISCORD_WEBHOOK_URLS
-              valueFrom:
-                secretKeyRef:
-                  name: releasechime-secret
-                  key: discord-webhook-url
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: releasechime-secret
+                  name: releasechime-token
                   key: github-token
             - name: INTERVAL_SEC
               value: "600"
             - name: LOG_LEVEL
               value: TRACE
           envFrom:
+            - secretRef:
+                name: releasechime-secret
+            - configMapRef:
+                name: releasechime-config
             - configMapRef:
                 name: releasechime-repositories-config
           volumeMounts:
@@ -47,6 +46,6 @@ spec:
       volumes:
         - name: cache
           hostPath:
-            path: /opt/k8s-volumes/releasechime-dtv-cache
+            path: /opt/k8s-volumes/releasechime/cache
             type: DirectoryOrCreate
       restartPolicy: Always

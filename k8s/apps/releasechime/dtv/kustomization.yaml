@@ -3,11 +3,14 @@ kind: Kustomization
 namespace: releasechime-dtv
 
 resources:
+  - ./../base
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
-  - ./resources/deployment.yaml
 
 configMapGenerator:
+  - name: releasechime-config
+    literals:
+      - CACHE_DIR=/app/data/dtv
   - name: releasechime-repositories-config
     literals:
       - TARGET_COMMIT_REPOSITORIES_00=DBCTRADO/TVTest
