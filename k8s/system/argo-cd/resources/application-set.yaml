@@ -178,6 +178,11 @@ spec:
             namespace: rclone-watch-records
             path: k8s/apps/rclone-watch/records
             project: apps
+          - name: releasechime-ai
+            cluster: https://kubernetes.default.svc
+            namespace: releasechime-ai
+            path: k8s/apps/releasechime/ai
+            project: apps
           - name: releasechime-dtv
             cluster: https://kubernetes.default.svc
             namespace: releasechime-dtv

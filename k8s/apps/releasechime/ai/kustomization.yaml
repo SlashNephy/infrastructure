@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: releasechime-ai
+
+resources:
+  - ./../base
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
+
+configMapGenerator:
+  - name: releasechime-config
+    literals:
+      - CACHE_DIR=/app/data/ai
+  - name: releasechime-repositories-config
+    literals:
+      - TARGET_COMMIT_REPOSITORIES_1=AUTOMATIC1111/stable-diffusion-webui
