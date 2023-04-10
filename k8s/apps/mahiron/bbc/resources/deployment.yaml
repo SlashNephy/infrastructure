@@ -44,6 +44,8 @@ spec:
             capabilities:
               add:
                 - SYS_ADMIN
+                - SYS_NICE
+            privileged: true
       volumes:
         - name: data
           hostPath:
