@@ -36,5 +36,5 @@ resource "cloudflare_tunnel_config" "bbc" {
 resource "cloudflare_tunnel_route" "bbc" {
   account_id = cloudflare_account.account.id
   tunnel_id  = cloudflare_tunnel.bbc.id
-  network    = var.bbc_network
+  network    = "192.168.11.0/24"
 }

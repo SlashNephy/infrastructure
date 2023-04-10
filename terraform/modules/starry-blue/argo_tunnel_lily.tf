@@ -31,5 +31,5 @@ resource "cloudflare_tunnel_config" "lily" {
 resource "cloudflare_tunnel_route" "lily" {
   account_id = cloudflare_account.account.id
   tunnel_id  = cloudflare_tunnel.lily.id
-  network    = var.lily_network
+  network    = "192.168.0.0/24"
 }
