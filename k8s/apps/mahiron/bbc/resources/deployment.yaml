@@ -40,6 +40,10 @@ spec:
           resources:
             limits:
               memory: 2Gi
+          securityContext:
+            capabilities:
+              add:
+                - SYS_ADMIN
       volumes:
         - name: data
           hostPath:
