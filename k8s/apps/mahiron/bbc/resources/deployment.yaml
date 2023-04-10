@@ -40,12 +40,6 @@ spec:
           resources:
             limits:
               memory: 2Gi
-          securityContext:
-            capabilities:
-              add:
-                - SYS_ADMIN
-                - SYS_NICE
-            privileged: true
       volumes:
         - name: data
           hostPath:
