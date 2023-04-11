@@ -158,6 +158,11 @@ spec:
             namespace: mirakurun-iptv-rewriter
             path: k8s/apps/mirakurun-iptv-rewriter
             project: apps
+          - name: muni
+            cluster: https://kubernetes.default.svc
+            namespace: muni
+            path: k8s/apps/muni
+            project: apps
           - name: net-radio-archive
             cluster: https://kubernetes.default.svc
             namespace: net-radio-archive

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/slashnephy/muni-server:master
+          envFrom:
+            - secretRef:
+                name: app-secrets
+        - name: envoy
+          image: ghcr.io/slashnephy/muni-envoy:master
+          ports:
+            - containerPort: 7090
+      restartPolicy: Always
