@@ -18,6 +18,7 @@ spec:
       containers:
         - name: app
           image: ghcr.io/starrybluesky/mahiron-custom:master
+          imagePullPolicy: Always
           env:
             - name: EXTERNAL_JSON_PATH
               value: /etc/mahiron/services.yml
