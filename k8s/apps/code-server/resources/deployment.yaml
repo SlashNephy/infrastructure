@@ -5,8 +5,6 @@ metadata:
 
 spec:
   replicas: 1
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
       app: default
@@ -42,7 +40,7 @@ spec:
         - name: data
           hostPath:
             path: /opt/k8s-volumes/code-server/data
-            type: Directory
+            type: DirectoryOrCreate
       restartPolicy: Always
       imagePullSecrets:
         - name: docker-hub-credentials
