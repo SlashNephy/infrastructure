@@ -1,0 +1,38 @@
+- op: add
+  path: /spec/template/spec/containers/-
+  value:
+    name: mackerel-container-agent
+    env:
+      - name: MACKEREL_CONTAINER_PLATFORM
+        value: kubernetes
+      - name: MACKEREL_APIKEY
+        valueFrom:
+          secretKeyRef:
+            name: mackerel-container-agent-secret
+            key: mackerel-api-key
+      - name: MACKEREL_KUBERNETES_KUBELET_HOST
+        valueFrom:
+          fieldRef:
+            fieldPath: status.hostIP
+      - name: MACKEREL_KUBERNETES_NAMESPACE
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.namespace
+      - name: MACKEREL_KUBERNETES_POD_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: metadata.name
+      - name: MACKEREL_KUBERNETES_KUBELET_READ_ONLY_PORT
+        value: "0"
+      - name: MACKEREL_HOST_STATUS_ON_START
+        value: working
+    image: mackerel/mackerel-container-agent:latest
+    imagePullPolicy: Always
+    resources:
+      limits:
+        memory: 128Mi
+
+- op: add
+  path: /spec/template/spec/imagePullSecrets/-
+  value:
+    name: docker-hub-credentials
