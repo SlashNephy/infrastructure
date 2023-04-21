@@ -183,9 +183,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@slashnephy/eslint-config@npm:0.4.15":
-  version: 0.4.15
-  resolution: "@slashnephy/eslint-config@npm:0.4.15"
+"@slashnephy/eslint-config@npm:0.4.16":
+  version: 0.4.16
+  resolution: "@slashnephy/eslint-config@npm:0.4.16"
   dependencies:
     "@emotion/eslint-plugin": 11.10.0
     "@typescript-eslint/eslint-plugin": 5.58.0
@@ -214,13 +214,13 @@ __metadata:
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-unused-imports: 2.0.0
     eslint-plugin-userscripts: 0.2.12
-    eslint-plugin-vitest: 0.1.3
+    eslint-plugin-vitest: 0.1.4
     eslint-plugin-xss: 0.1.12
     eslint-plugin-yml: 1.5.0
     typescript: 4.9.5
   peerDependencies:
     eslint: ">= 8"
-  checksum: d5c5a1cc8c2459f076269723799e38f1ccb95217ccfc3089fdc7373f7f7582616a85aece36705ab5f7acb739c7591e84ffe94058d5120a3a15aba173d3e776e4
+  checksum: f2f392f7f4d389d16d19706724c92504f3a6171105733c1acfde874ff327f656483a49066d35a63cad8241cc71c828675337601019929de8acfdd73cb76b3d41
   languageName: node
   linkType: hard
 
@@ -528,7 +528,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:5.59.0":
+"@typescript-eslint/utils@npm:5.59.0, @typescript-eslint/utils@npm:^5.57.1":
   version: 5.59.0
   resolution: "@typescript-eslint/utils@npm:5.59.0"
   dependencies:
@@ -1723,14 +1723,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-vitest@npm:0.1.3":
-  version: 0.1.3
-  resolution: "eslint-plugin-vitest@npm:0.1.3"
+"eslint-plugin-vitest@npm:0.1.4":
+  version: 0.1.4
+  resolution: "eslint-plugin-vitest@npm:0.1.4"
   dependencies:
-    "@typescript-eslint/utils": ^5.57.0
+    "@typescript-eslint/utils": ^5.57.1
   peerDependencies:
     eslint: ">=8.0.0"
-  checksum: 1e2d9b4e1cad8690b69d05aecb97e7da0413be0a26391f798080283df698332fd67aae32257036dbf1165c49080a44f7e5cc38d034a2ffc5586a49cba510ee4d
+  checksum: 1244fd3aa13205b2d4e0a111403a520485f02d2123b447fb52a641ea2a1d30e5985d1a86510fc5cbff3b1a9a2a5bf7aceb1e8a7a9af73e8b461a8ce67bddb9ff
   languageName: node
   linkType: hard
 
@@ -2389,7 +2389,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "infrastructure@workspace:."
   dependencies:
-    "@slashnephy/eslint-config": 0.4.15
+    "@slashnephy/eslint-config": 0.4.16
     "@slashnephy/prettier-config": 0.1.16
     "@typescript-eslint/eslint-plugin": 5.59.0
     concurrently: 8.0.1
