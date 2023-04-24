@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: tiny-tiny-rss
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/deployment.yaml
+  - ./resources/secret.yaml
+  - ./resources/service.yaml
+  - ./resources/ingress.yaml
+  - ./../../common/registry-docker-hub/lily
+
+configMapGenerator:
+  - name: app-config
+    literals:
+      - TTRSS_DB_USER=postgres
+      - TTRSS_DB_NAME=postgres
+      - TTRSS_SELF_URL_PATH=https://feed.starry.blue

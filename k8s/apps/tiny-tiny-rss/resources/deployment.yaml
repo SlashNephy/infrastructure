@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: cthulhoo/ttrss-fpm-pgsql-static:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: app-secret
+          volumeMounts:
+            - name: app
+              mountPath: /var/www/html
+            - name: config
+              mountPath: /opt/tt-rss/config.d
+              readOnly: true
+        - name: backups
+          image: cthulhoo/ttrss-fpm-pgsql-static:latest
+          imagePullPolicy: Always
+          args:
+            - /opt/tt-rss/dcron.sh
+            - -f
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: app-secret
+          volumeMounts:
+            - name: app
+              mountPath: /var/www/html
+            - name: backups
+              mountPath: /backups
+        - name: db
+          image: postgres:13.10-bullseye
+          imagePullPolicy: Always
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: TTRSS_DB_NAME
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: TTRSS_DB_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: TTRSS_DB_PASS
+          volumeMounts:
+            - name: db
+              mountPath: /var/lib/postgresql/data
+        - name: updater
+          image: cthulhoo/ttrss-fpm-pgsql-static:latest
+          imagePullPolicy: Always
+          args:
+            - /opt/tt-rss/updater.sh
+          envFrom:
+            - configMapRef:
+                name: app-config
+            - secretRef:
+                name: app-secret
+          volumeMounts:
+            - name: app
+              mountPath: /var/www/html
+            - name: config
+              mountPath: /opt/tt-rss/config.d
+              readOnly: true
+        - name: web-nginx
+          image: cthulhoo/ttrss-web-nginx:latest
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: app
+              mountPath: /var/www/html
+              readOnly: true
+      volumes:
+        - name: app
+          hostPath:
+            path: /opt/k8s-volumes/tiny-tiny-rss/app
+            type: DirectoryOrCreate
+        - name: backups
+          hostPath:
+            path: /opt/k8s-volumes/tiny-tiny-rss/backups
+            type: DirectoryOrCreate
+        - name: config
+          hostPath:
+            path: /opt/k8s-volumes/tiny-tiny-rss/config
+            type: DirectoryOrCreate
+        - name: db
+          hostPath:
+            path: /opt/k8s-volumes/tiny-tiny-rss/db
+            type: DirectoryOrCreate
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: docker-hub-credentials
