@@ -254,6 +254,14 @@ resource "cloudflare_record" "cname_spica" {
   proxied = true
 }
 
+resource "cloudflare_record" "cname_xiv" {
+  zone_id = cloudflare_zone.zone.id
+  name    = "xiv"
+  value   = "slashnephy.github.io"
+  type    = "CNAME"
+  proxied = true
+}
+
 resource "cloudflare_record" "cname_ssh" {
   zone_id         = cloudflare_zone.zone.id
   name            = "ssh"
