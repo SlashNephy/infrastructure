@@ -32,10 +32,18 @@ resource "cloudflare_record" "txt_github_verify_slashnephy_cydia" {
   value   = "b269d976763fb337800db41bb78d97"
   type    = "TXT"
 }
+
 resource "cloudflare_record" "txt_github_verify_slashnephy_spica" {
   zone_id = cloudflare_zone.zone.id
   name    = "_github-pages-challenge-slashnephy.spica"
   value   = "14400f193e1665a52e3788180c7230"
+  type    = "TXT"
+}
+
+resource "cloudflare_record" "txt_github_verify_slashnephy_xiv" {
+  zone_id = cloudflare_zone.zone.id
+  name    = "_github-pages-challenge-SlashNephy.xiv"
+  value   = "90b3c6b874be57b8633dec0362735b"
   type    = "TXT"
 }
 
