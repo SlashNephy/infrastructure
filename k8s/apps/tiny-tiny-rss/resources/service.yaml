@@ -7,10 +7,12 @@ spec:
   selector:
     app: default
   ports:
-    - port: 80
+    - name: "80"
+      port: 80
       targetPort: 80
       protocol: TCP
-    - port: 9000
+    - name: "9000"
+      port: 9000
       targetPort: 9000
       protocol: TCP
 
@@ -24,6 +26,7 @@ spec:
   selector:
     app: default
   ports:
-    - port: 5432
+    - name: "5432"
+      port: 5432
       targetPort: 5432
       protocol: TCP
