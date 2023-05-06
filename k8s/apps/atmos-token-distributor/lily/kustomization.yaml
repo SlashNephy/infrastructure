@@ -6,3 +6,8 @@ resources:
   - ./../base
   - ./../../../common/registry-ghcr-io/lily
   - ./resources/secret.yaml
+
+configMapGenerator:
+  - name: app-config
+    files:
+      - ./config/services.json

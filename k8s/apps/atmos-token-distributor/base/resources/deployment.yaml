@@ -30,16 +30,19 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: cloudflare-app-audience
-            - name: MIRAKURUN_K8S_NAMESPACE
-              value: mahiron
-            - name: MIRAKURUN_K8S_SECRET_NAME
-              value: basic-auth-credentials
-            - name: EPGSTATION_K8S_NAMESPACE
-              value: epgstation
-            - name: EPGSTATION_K8S_SECRET_NAME
-              value: basic-auth-credentials
+            - name: SERVICES_JSON_PATH
+              value: /app/services.json
           ports:
             - containerPort: 3000
+          volumeMounts:
+            - name: config
+              mountPath: /app/services.json
+              readOnly: true
+              subPath: services.json
+      volumes:
+        - name: config
+          configMap:
+            name: app-config
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
