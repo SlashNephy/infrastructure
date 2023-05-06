@@ -360,10 +360,15 @@ spec:
           #            namespace: kourier-system
           #            path: k8s/system/kourier-system
           #            project: system
-          - name: kubernetes-dashboard
+          - name: kubernetes-dashboard-lily
             cluster: https://kubernetes.default.svc
             namespace: kubernetes-dashboard
-            path: k8s/system/kubernetes-dashboard
+            path: k8s/system/kubernetes-dashboard/lily
+            project: system
+          - name: kubernetes-dashboard-bbc
+            cluster: https://192.168.11.59:6443
+            namespace: kubernetes-dashboard
+            path: k8s/system/kubernetes-dashboard/bbc
             project: system
           #          - name: tigera-operator-lily
           #            cluster: https://kubernetes.default.svc

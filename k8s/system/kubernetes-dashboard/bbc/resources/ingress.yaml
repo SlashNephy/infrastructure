@@ -1,0 +1,23 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubernetes-dashboard
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`bbc-k8s.starry.blue`)
+      services:
+        - name: kubernetes-dashboard
+          port: https
+          scheme: https
+          serversTransport: allow-insecure
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: ServersTransport
+metadata:
+  name: allow-insecure
+
+spec:
+  insecureSkipVerify: true
