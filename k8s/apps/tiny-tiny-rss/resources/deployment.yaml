@@ -63,6 +63,8 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: TTRSS_DB_PASS
+          ports:
+            - containerPort: 5432
           volumeMounts:
             - name: db
               mountPath: /var/lib/postgresql/data
