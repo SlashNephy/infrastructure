@@ -6,7 +6,12 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: PathPrefix(`/`)
+      match: Host(`bbc-mahiron.starry.blue`) || Host(`bbc.starry.blue`)
+      services:
+        - name: app
+          port: 40772
+    - kind: Rule
+      match: Host(`bbc-mahiron-api.starry.blue`) && PathPrefix(`/api`)
       services:
         - name: app
           port: 40772

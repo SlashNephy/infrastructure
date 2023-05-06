@@ -20,7 +20,17 @@ resource "cloudflare_tunnel_config" "bbc" {
 
     ingress_rule {
       hostname = cloudflare_record.cname_bbc_basic.hostname
-      service  = "http://localhost:33000"
+      service  = "http://localhost:30080"
+    }
+
+    ingress_rule {
+      hostname = cloudflare_record.cname_bbc_mahiron.hostname
+      service  = "http://localhost:30080"
+    }
+
+    ingress_rule {
+      hostname = cloudflare_record.cname_bbc_mahiron_api.hostname
+      service  = "http://localhost:30080"
     }
 
     ingress_rule {
