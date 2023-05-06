@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/starrybluesky/atmos-token-distributor:master
+          image: ghcr.io/slashnephy/htpasswd-dashboard:master
           imagePullPolicy: Always
           env:
             - name: CF_TEAM_DOMAIN

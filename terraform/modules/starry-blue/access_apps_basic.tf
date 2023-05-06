@@ -1,6 +1,6 @@
 resource "cloudflare_access_application" "basic" {
   account_id                 = cloudflare_account.account.id
-  name                       = "atmos-token-distributor"
+  name                       = "htpasswd-dashboard"
   domain                     = cloudflare_record.cname_basic.hostname
   type                       = "self_hosted"
   app_launcher_visible       = true

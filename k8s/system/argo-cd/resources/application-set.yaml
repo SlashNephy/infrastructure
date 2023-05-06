@@ -53,10 +53,10 @@ spec:
             namespace: archi-steam-farm
             path: k8s/apps/archi-steam-farm
             project: apps
-          - name: atmos-token-distributor-lily
+          - name: htpasswd-dashboard-lily
             cluster: https://kubernetes.default.svc
-            namespace: atmos-token-distributor
-            path: k8s/apps/atmos-token-distributor/lily
+            namespace: htpasswd-dashboard
+            path: k8s/apps/htpasswd-dashboard/lily
             project: apps
           #          - name: atmos-token-distributor-bbc
           #            cluster: https://192.168.11.59:6443
