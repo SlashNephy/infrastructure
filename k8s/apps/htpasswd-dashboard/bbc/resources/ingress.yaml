@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`basic-bbc.starry.blue`)
+      match: Host(`bbc-basic.starry.blue`)
       services:
         - name: service
           port: 3000

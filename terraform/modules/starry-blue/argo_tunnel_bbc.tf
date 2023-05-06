@@ -19,7 +19,7 @@ resource "cloudflare_tunnel_config" "bbc" {
     }
 
     ingress_rule {
-      hostname = "basic-bbc.starry.blue"
+      hostname = cloudflare_record.cname_bbc_basic.hostname
       service  = "http://localhost:33000"
     }
 

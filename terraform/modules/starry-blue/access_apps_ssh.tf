@@ -1,6 +1,6 @@
 resource "cloudflare_access_application" "ssh_lily" {
   account_id                = cloudflare_account.account.id
-  name                      = "SSH (Lily)"
+  name                      = "SSH"
   domain                    = cloudflare_record.cname_ssh.hostname
   type                      = "ssh"
   logo_url                  = "https://github.com/openssh.png"
