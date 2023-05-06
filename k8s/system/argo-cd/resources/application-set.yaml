@@ -53,11 +53,16 @@ spec:
             namespace: archi-steam-farm
             path: k8s/apps/archi-steam-farm
             project: apps
-          - name: atmos-token-distributor
+          - name: atmos-token-distributor-lily
             cluster: https://kubernetes.default.svc
             namespace: atmos-token-distributor
-            path: k8s/apps/atmos-token-distributor
+            path: k8s/apps/atmos-token-distributor/lily
             project: apps
+          #          - name: atmos-token-distributor-bbc
+          #            cluster: https://192.168.11.59:6443
+          #            namespace: atmos-token-distributor
+          #            path: k8s/apps/atmos-token-distributor/bbc
+          #            project: apps
           - name: cloudflare-ddns
             cluster: https://kubernetes.default.svc
             namespace: cloudflare-ddns
