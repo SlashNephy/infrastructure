@@ -14,11 +14,6 @@ resource "cloudflare_tunnel_config" "bbc" {
 
   config {
     ingress_rule {
-      hostname = cloudflare_record.cname_bbc.hostname
-      service  = "http://localhost:30080"
-    }
-
-    ingress_rule {
       hostname = cloudflare_record.cname_bbc_basic.hostname
       service  = "http://localhost:30080"
     }

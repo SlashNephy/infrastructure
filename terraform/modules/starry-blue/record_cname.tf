@@ -46,14 +46,6 @@ resource "cloudflare_record" "cname_basic" {
   proxied = true
 }
 
-resource "cloudflare_record" "cname_bbc" {
-  zone_id         = cloudflare_zone.zone.id
-  name            = "bbc"
-  type            = "CNAME"
-  proxied         = true
-  allow_overwrite = true
-}
-
 resource "cloudflare_record" "cname_bbc_basic" {
   zone_id         = cloudflare_zone.zone.id
   name            = "bbc-basic"
