@@ -10,6 +10,9 @@ spec:
     - port: 80
       targetPort: 80
       protocol: TCP
+    - port: 9000
+      targetPort: 9000
+      protocol: TCP
 
 ---
 apiVersion: v1
@@ -21,7 +24,6 @@ spec:
   selector:
     app: default
   ports:
-    - name: "5432"
-      port: 5432
+    - port: 5432
       targetPort: 5432
       protocol: TCP

@@ -22,6 +22,8 @@ spec:
                 name: app-config
             - secretRef:
                 name: app-secret
+          ports:
+            - containerPort: 9000
           volumeMounts:
             - name: app
               mountPath: /var/www/html
