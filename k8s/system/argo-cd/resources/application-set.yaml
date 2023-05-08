@@ -83,6 +83,11 @@ spec:
           #            namespace: diun
           #            path: k8s/apps/diun
           #            project: apps
+          #          - name: divination-download-counter
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: divination-download-counter
+          #            path: k8s/apps/divination-download-counter
+          #            project: apps
           - name: epgstation
             cluster: https://kubernetes.default.svc
             namespace: epgstation

@@ -286,7 +286,7 @@ resource "cloudflare_record" "cname_spica" {
 resource "cloudflare_record" "cname_xiv" {
   zone_id = cloudflare_zone.zone.id
   name    = "xiv"
-  value   = "slashnephy.github.io"
+  value   = "divination.pages.dev"
   type    = "CNAME"
   proxied = true
 }

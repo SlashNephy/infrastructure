@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/divination-download-counter
+          imagePullPolicy: Always
+          env:
+            - name: DATABASE_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: database-dsn
+            - name: ADDRESS
+              value: ":8080"
+        - name: database
+          image: postgres:15.2-bullseye
+          env:
+            - name: POSTGRES_USER
+              value: app
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: database-password
+            - name: POSTGRES_DB
+              value: download_counter
+          ports:
+            - containerPort: 5432
+      restartPolicy: Always
