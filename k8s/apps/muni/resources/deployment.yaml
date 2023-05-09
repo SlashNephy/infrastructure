@@ -5,8 +5,6 @@ metadata:
 
 spec:
   replicas: 1
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
       app: default
@@ -20,11 +18,15 @@ spec:
       containers:
         - name: backend
           image: ghcr.io/slashnephy/muni-server:master
+          imagePullPolicy: Always
           envFrom:
             - secretRef:
                 name: app-secrets
         - name: envoy
           image: ghcr.io/slashnephy/muni-envoy:master
+          imagePullPolicy: Always
           ports:
             - containerPort: 7090
       restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-io-credentials
