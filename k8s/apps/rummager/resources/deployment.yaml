@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/rummager
+          image: ghcr.io/slashnephy/rummager:latest@sha256:d49c5790c3ecaa9c9e07401c25959ddee3fdde23265c18c14be66dbb68511ae5
           env:
             - name: DISCORD_WEBHOOK_URL
               valueFrom:

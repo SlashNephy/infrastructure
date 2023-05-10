@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/p1atdev/stable-journey-bot:master
+          image: ghcr.io/p1atdev/stable-journey-bot:master@sha256:70d1c14dae2fe8d67b00e1e318c7e64e6f060d011644b8afa53afe24b82881fd
           volumeMounts:
             - name: config
               mountPath: /app/config.yaml

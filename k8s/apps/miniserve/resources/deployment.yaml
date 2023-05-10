@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: svenstaro/miniserve
+          image: svenstaro/miniserve:0.23.2
           args:
             - -D
             - -t

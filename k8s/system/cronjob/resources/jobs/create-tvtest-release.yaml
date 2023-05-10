@@ -15,7 +15,6 @@ spec:
           containers:
             - name: gh
               image: alpine:3.18.0
-              imagePullPolicy: Always
               command:
                 - ash
                 - -c

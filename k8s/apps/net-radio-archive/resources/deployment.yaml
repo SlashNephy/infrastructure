@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mysql/mysql-server:5.7
+          image: mysql/mysql-server:5.7.41
           env:
             - name: MYSQL_DATABASE
               value: net-radio-archive
@@ -38,7 +38,7 @@ spec:
             - name: mysql
               mountPath: /var/lib/mysql
         - name: app
-          image: ghcr.io/slashnephy/net-radio-archive
+          image: ghcr.io/slashnephy/net-radio-archive:latest@sha256:fa1f467a2d15780158a3307f6633a8aba169e6a923af4c688f05dab22715ecf0
           env:
             - name: TZ
               value: Asia/Tokyo

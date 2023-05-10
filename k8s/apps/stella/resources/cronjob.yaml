@@ -11,8 +11,7 @@ spec:
         spec:
           containers:
             - name: pic-table
-              image: mongo:5.0
-              imagePullPolicy: Always
+              image: mongo:5.0.17-focal
               command:
                 - bash
                 - -c
@@ -44,8 +43,7 @@ spec:
                 - name: backup
                   mountPath: /backup
             - name: pic-tag-replace-table
-              image: mongo:5.0
-              imagePullPolicy: Always
+              image: mongo:5.0.17-focal
               command:
                 - bash
                 - -c

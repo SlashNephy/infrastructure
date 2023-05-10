@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/starrybluesky/mirakurun-iptv-rewriter
+          image: ghcr.io/starrybluesky/mirakurun-iptv-rewriter:latest@sha256:1f8d8ed2839ce0927b819b371c51546e909863f9979545e6a6f54c48091c8b53
           env:
             - name: BEFORE_URI
               value: http://service.mahiron:40772/api

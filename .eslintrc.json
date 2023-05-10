@@ -40,6 +40,20 @@
         ]
       },
       {
+        "pathPattern": "^images\\[\\d+\\]$",
+        "order": [
+          "name",
+          "newName",
+          "newTag",
+          "digest",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
         "pathPattern": "^helmCharts\\[\\d+\\]$",
         "order": [
           "name",

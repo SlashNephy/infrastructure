@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/samba:master
+          image: ghcr.io/slashnephy/samba:master@sha256:a8e24eb25a2376167fd8a7bed9cd65cdfff4403251d8d290c2e90251c64717c5
           env:
             - name: TZ
               value: Asia/Tokyo

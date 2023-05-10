@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: db
-          image: mongo:5.0
+          image: mongo:5.0.17-focal
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
@@ -39,7 +39,7 @@ spec:
             - name: db
               mountPath: /data/db
         - name: app
-          image: ghcr.io/slashnephy/unveiler:master
+          image: ghcr.io/slashnephy/unveiler:master@sha256:b80ce1fb1b223ba55fd6d505ee623dd952279ad2d6878fb5c2590d7144d56bab
           env:
             - name: DISCORD_CHANNEL_ID
               value: "989882802789044244"

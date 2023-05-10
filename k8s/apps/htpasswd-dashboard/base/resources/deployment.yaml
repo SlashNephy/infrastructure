@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -17,8 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/htpasswd-dashboard:master
-          imagePullPolicy: Always
+          image: ghcr.io/slashnephy/htpasswd-dashboard:master@sha256:d58ab449b75abe207b1dce6789b13c659bf1f687cd41296d06cd5f4ad08bd938
           env:
             - name: CF_TEAM_DOMAIN
               valueFrom:

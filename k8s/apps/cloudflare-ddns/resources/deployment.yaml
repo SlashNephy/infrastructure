@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -16,8 +16,9 @@ spec:
         app: default
     spec:
       containers:
+        # TODO: https://github.com/timothymiller/cloudflare-ddns に移行する
         - name: app
-          image: oznu/cloudflare-ddns
+          image: oznu/cloudflare-ddns:latest@sha256:c72eae82934e242af33108841b3c66c39a77c4481b2be95cde2502e8c712a907
           env:
             - name: ZONE
               value: starry.blue

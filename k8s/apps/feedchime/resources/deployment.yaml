@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: feedchime
-          image: ghcr.io/slashnephy/feedchime
+          image: ghcr.io/slashnephy/feedchime:latest@sha256:0ca0fbc30e2189b00600d61ff128efad34fb00eec787b40f60efc940b00465f3
           volumeMounts:
             - name: config
               mountPath: /app/config.yml

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: gabekangas/owncast
+          image: gabekangas/owncast:0.0.13
           ports:
             - containerPort: 1935
             - containerPort: 8080

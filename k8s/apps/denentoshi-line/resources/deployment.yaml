@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/denentoshi-line
+          image: ghcr.io/slashnephy/denentoshi-line:latest@sha256:71c552dc1247321490bbec1a6717d0f0ec33bdc3ca5c3ef3a40fc99b9f4abc94
           env:
             - name: TOKEN
               valueFrom:

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: containous/whoami
+          image: containous/whoami:v1.5.0
           ports:
             - containerPort: 80
       imagePullSecrets:

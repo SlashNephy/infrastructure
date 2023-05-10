@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: vinanrra/7dtd-server
+          image: vinanrra/7dtd-server:v0.5.0
           env:
             - name: ALLOC_FIXES
               value: YES

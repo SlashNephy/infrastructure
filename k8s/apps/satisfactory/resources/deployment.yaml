@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: wolveix/satisfactory-server
+          image: wolveix/satisfactory-server:v1.4.8
           env:
             - name: MAXBACKUPS
               value: "10"

@@ -14,8 +14,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: bitnami/kubectl:latest
-              imagePullPolicy: Always
+              image: bitnami/kubectl:1.25.9
               command:
                 - /bin/bash
                 - -c

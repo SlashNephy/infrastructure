@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -17,8 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/crazy-max/diun
-          imagePullPolicy: Always
+          image: ghcr.io/crazy-max/diun:4.24.0
           args:
             - serve
           env:

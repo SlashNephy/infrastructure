@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/annict2anilist:master
+          image: ghcr.io/slashnephy/annict2anilist:master@sha256:0e118289b81b4aabd7d6db0c72f34045d0c07003de7de228ac26776f9c5bbfdb
           env:
             - name: ANILIST_CLIENT_ID
               valueFrom:

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/wolweb
+          image: ghcr.io/slashnephy/wolweb:latest@sha256:8eba4110b6a7001e36432dbf803ef83f31a486e86538dd30e7f68e5cfb8df577
           env:
             - name: WOLWEBVDIR
               value: /wolweb

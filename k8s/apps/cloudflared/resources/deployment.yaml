@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 2
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: cloudflare/cloudflared:latest
+          image: cloudflare/cloudflared:latest@sha256:342c358193e6057ecf3e5322e852c6b39869583697286f96afb0597a785694d1
           args:
             - tunnel
             - --metrics=0.0.0.0:2000

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/stella
+          image: ghcr.io/slashnephy/stella:latest@sha256:3ecd9e043c6d9e01eb6f9b86eb2307919d431c62beb649b893c3ae66b2448f8d
           env:
             - name: BEHIND_REVERSE_PROXY
               value: "1"
@@ -67,7 +67,7 @@ spec:
             limits:
               memory: 1Gi
         - name: db
-          image: mongo:5.0
+          image: mongo:5.0.17-focal
           env:
             - name: MONGO_INITDB_DATABASE
               value: stella

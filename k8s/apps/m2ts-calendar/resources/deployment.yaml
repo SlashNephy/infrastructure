@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/m2ts-calendar
+          image: ghcr.io/slashnephy/m2ts-calendar:latest@sha256:0571a253d021e11fbda60caa969c00dec265323f70181930fae535e14788ef29
           env:
             - name: CHECK_INTERVAL_SECONDS
               value: "60"

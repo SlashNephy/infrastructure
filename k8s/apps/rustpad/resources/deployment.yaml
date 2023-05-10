@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: rustpad
-          image: ekzhang/rustpad
+          image: ekzhang/rustpad:latest@sha256:f4c51a674c21e764d7ab9a77294359cce239d4b714bedcfe039a75087d0c4a83
           ports:
             - containerPort: 3030
       restartPolicy: Always

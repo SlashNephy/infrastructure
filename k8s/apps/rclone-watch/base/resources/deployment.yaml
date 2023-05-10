@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/rclone-watch
+          image: ghcr.io/slashnephy/rclone-watch:latest@sha256:f8fdfda4e044c773e44aeac0ee9d3b7749f084823b0ea034f6efbd22a96f6e74
           envFrom:
             - configMapRef:
                 name: rclone-watch-config

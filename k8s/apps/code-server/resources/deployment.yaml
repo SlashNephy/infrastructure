@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: codercom/code-server
+          image: codercom/code-server:4.12.0-bullseye
           workingDir: /opt/k8s-volumes
           args:
             - --auth=none

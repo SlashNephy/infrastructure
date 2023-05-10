@@ -8,5 +8,5 @@ spec:
     - kind: Rule
       match: Host(`muni-api.starry.blue`)
       services:
-        - name: server
+        - name: app
           port: 7090

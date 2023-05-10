@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/symm
+          image: ghcr.io/slashnephy/symm:latest@sha256:a8742e7a5ad15126d81d5f36daca4a5a7c773df295b1d4d8a6d47fa3e358095f
           env:
             - name: DISCORD_BOT_TOKEN
               valueFrom:

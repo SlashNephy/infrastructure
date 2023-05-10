@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/comskip-tvtplay:master
+          image: ghcr.io/slashnephy/comskip-tvtplay:master@sha256:091df999af2db28fcee022c3e598444fab55490436ef74778bd417696e88b9d6
           env:
             - name: COMSKIP_CLEANUP
               value: "0"

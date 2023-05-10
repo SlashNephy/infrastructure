@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: lloesche/valheim-server
+          image: lloesche/valheim-server:latest@sha256:10b4b84b68b0be077b8ec878a8b786df7ab45a29f356c7b9c151482167214f0e
           env:
             - name: SERVER_NAME
               valueFrom:

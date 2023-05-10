@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: gaetan/dockercraft
+          image: gaetan/dockercraft:latest@sha256:5d9f43edf0cbc65863f97b03347210c6d0696eef0c57f36adc974e32a9d7943a
           args:
             - Jungle
             - "63"

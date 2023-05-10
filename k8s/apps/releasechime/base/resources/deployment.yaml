@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/releasechime:master
+          image: ghcr.io/slashnephy/releasechime:master@sha256:ae14a0b4a435abc7e239aabe73519e37aa8d77146bd3ed8dc04d49e2c737f1fe
           env:
             - name: GITHUB_TOKEN
               valueFrom:

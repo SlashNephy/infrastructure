@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mariadb:10
+          image: mariadb:10.11.2-jammy
           env:
             - name: MYSQL_DATABASE
               value: teamspeak
@@ -44,7 +44,7 @@ spec:
             - name: mysql
               mountPath: /var/lib/mysql
         - name: app
-          image: teamspeak
+          image: teamspeak:3.13.7
           env:
             - name: TS3SERVER_DB_HOST
               value: mysql

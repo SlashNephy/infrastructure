@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: justarchi/archisteamfarm:main
+          image: ghcr.io/justarchinet/archisteamfarm:5.4.5.2
           env:
             - name: TZ
               value: Asia/Tokyo

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/setlist
+          image: ghcr.io/slashnephy/setlist:latest@sha256:a53fc476b033e4652dbd1fa79b298d6994a28b79b4eeab1955dd853bebf92d86
           env:
             - name: TWITTER_CK
               valueFrom:

@@ -14,8 +14,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: rclone/rclone
-              imagePullPolicy: Always
+              image: rclone/rclone:1.62.2
               command:
                 - ash
                 - -c

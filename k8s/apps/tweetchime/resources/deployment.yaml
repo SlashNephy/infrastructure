@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/tweetchime:master
+          image: ghcr.io/slashnephy/tweetchime:master@sha256:fc1ead55b6e3b51ca1c3079fc9bcf15bc1f2ac178904b212b9aa583de851ebe4
           env:
             - name: DISCORD_WEBHOOK_URL
               valueFrom:

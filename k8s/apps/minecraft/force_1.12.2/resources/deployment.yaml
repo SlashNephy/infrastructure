@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: adoptopenjdk/openjdk8:jre
+          image: amazoncorretto:8u372-al2023-jre
           workingDir: /app
           args:
             - java

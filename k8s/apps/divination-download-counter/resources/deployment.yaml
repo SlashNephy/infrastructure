@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -17,8 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/divination-download-counter
-          imagePullPolicy: Always
+          image: ghcr.io/slashnephy/divination-download-counter:master@sha256:892e7ac98fb76a9187d9814d2d49c020f4882b4a51a420a4143b8c351b493b1d
           env:
             - name: DATABASE_DSN
               valueFrom:

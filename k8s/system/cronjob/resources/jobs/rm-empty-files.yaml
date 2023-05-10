@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: debian:bullseye-slim
+              image: debian:bullseye-slim@sha256:249d9dc1b57918b203e45f647ea675cd940de5942863f35c979e5d926f024a7e
               command:
                 - bash
                 - -c

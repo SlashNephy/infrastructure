@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: app-image:master
+          image: app-image
           ports:
             - containerPort: 5000
           livenessProbe:
@@ -33,7 +33,7 @@ spec:
             initialDelaySeconds: 5
             timeoutSeconds: 5
         - name: bot
-          image: ghcr.io/slashnephy/samekan052_bot:main
+          image: ghcr.io/slashnephy/samekan052_bot:main@sha256:2b4e4e2dd7d435328511508c6463c51579bf6043b52ea1de05d2eb2f7d36624d
           env:
             - name: API_BASE_URL
               value: http://api-service:5000

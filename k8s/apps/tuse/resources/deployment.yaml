@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: deployment
 
 spec:
   replicas: 1
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/tuse:master
+          image: ghcr.io/slashnephy/tuse:master@sha256:6fb79e1883e5272109cfb608b7e2712a396a169af1c214590ed686b52e9deeef
           env:
             - name: TUSE_APP_NAME
               value: ksearch
