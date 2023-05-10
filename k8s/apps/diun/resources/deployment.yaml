@@ -19,7 +19,8 @@ spec:
         - name: diun
           image: ghcr.io/crazy-max/diun
           imagePullPolicy: Always
-          args: [serve]
+          args:
+            - serve
           env:
             - name: TZ
               value: Asia/Tokyo
@@ -40,35 +41,41 @@ spec:
             - name: DIUN_NOTIF_DISCORD_WEBHOOKURL
               valueFrom:
                 secretKeyRef:
-                  name: diun-secret
+                  name: app-secret
                   key: discord-webhook-url
             - name: DIUN_REGOPTS_0_NAME
               value: docker.io
             - name: DIUN_REGOPTS_0_SELECTOR
               value: image
             - name: DIUN_REGOPTS_0_USERNAME
-              value: slashnephy
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: docker-hub-username
             - name: DIUN_REGOPTS_0_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: diun-secret
-                  key: docker-hub-token
+                  name: app-secret
+                  key: docker-hub-password
             - name: DIUN_REGOPTS_1_NAME
               value: ghcr.io
             - name: DIUN_REGOPTS_1_USERNAME
-              value: slashnephy
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: ghcr-io-password
             - name: DIUN_REGOPTS_1_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: diun-secret
-                  key: ghcr-io-token
+                  name: app-secret
+                  key: ghcr-io-password
           volumeMounts:
             - name: data
               mountPath: /data
       volumes:
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/diun-data
+            path: /opt/k8s-volumes/diun/data
             type: DirectoryOrCreate
       restartPolicy: Always
       serviceAccountName: diun

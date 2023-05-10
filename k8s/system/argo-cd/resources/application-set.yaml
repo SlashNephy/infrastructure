@@ -78,11 +78,11 @@ spec:
           #            namespace: denentoshi-line
           #            path: k8s/apps/denentoshi-line
           #            project: apps
-          #          - name: diun
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: diun
-          #            path: k8s/apps/diun
-          #            project: apps
+          - name: diun
+            cluster: https://kubernetes.default.svc
+            namespace: diun
+            path: k8s/apps/diun
+            project: apps
           #          - name: divination-download-counter
           #            cluster: https://kubernetes.default.svc
           #            namespace: divination-download-counter
