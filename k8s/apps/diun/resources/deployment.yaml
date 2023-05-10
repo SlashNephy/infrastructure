@@ -7,16 +7,16 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: diun
+      app: default
   template:
     metadata:
       annotations:
         fluentbit.io/exclude: "true"
       labels:
-        app: diun
+        app: default
     spec:
       containers:
-        - name: diun
+        - name: app
           image: ghcr.io/crazy-max/diun
           imagePullPolicy: Always
           args:
@@ -59,11 +59,13 @@ spec:
                   key: docker-hub-password
             - name: DIUN_REGOPTS_1_NAME
               value: ghcr.io
+            - name: DIUN_REGOPTS_1_SELECTOR
+              value: image
             - name: DIUN_REGOPTS_1_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: app-secret
-                  key: ghcr-io-password
+                  key: ghcr-io-username
             - name: DIUN_REGOPTS_1_PASSWORD
               valueFrom:
                 secretKeyRef:
