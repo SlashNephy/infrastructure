@@ -18,7 +18,7 @@ spec:
       containers:
         # TODO: https://github.com/timothymiller/cloudflare-ddns に移行する
         - name: app
-          image: oznu/cloudflare-ddns:latest@sha256:c72eae82934e242af33108841b3c66c39a77c4481b2be95cde2502e8c712a907
+          image: oznu/cloudflare-ddns:latest@sha256:f552b1053ca4bad934eb3ca16e2d22decefe4423e2bf3e0a354fa1ab03b46390
           env:
             - name: ZONE
               value: starry.blue
