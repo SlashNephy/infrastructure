@@ -27,11 +27,9 @@ resources:
   - ./resources/application-set.yaml
   - ./../../common/registry-docker-hub/lily
 
-patchesStrategicMerge:
-  - ./resources/config.yaml
-
 # enable exec
-patchesJson6902:
+patches:
+  - path: ./resources/config.yaml
   - target:
       group: rbac.authorization.k8s.io
       version: v1

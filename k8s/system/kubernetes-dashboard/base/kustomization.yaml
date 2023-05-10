@@ -18,5 +18,5 @@ resources:
   - ./resources/account.yaml
   - ./resources/role-binding.yaml
 
-patchesStrategicMerge:
-  - ./resources/service.yaml
+patches:
+  - path: ./resources/service.yaml

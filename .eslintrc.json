@@ -204,8 +204,9 @@
         ]
       },
       {
-        "pathPattern": "^patchesJson6902\\[\\d+\\]$",
+        "pathPattern": "^patches\\[\\d+\\]$",
         "order": [
+          "path",
           "target",
           "patch",
           {
@@ -216,7 +217,7 @@
         ]
       },
       {
-        "pathPattern": "^patchesJson6902\\[\\d+\\]\\.target$",
+        "pathPattern": "^patches\\[\\d+\\]\\.target$",
         "order": [
           "group",
           "version",
