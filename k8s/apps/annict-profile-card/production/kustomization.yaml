@@ -5,8 +5,7 @@ namespace: annict-profile-card-production
 images:
   - name: app-image
     newName: ghcr.io/slashnephy/annict-profile-card
-    newTag: master
-    digest: sha256:aea2ac98d022b4c7c738f1a05e57e217a18593e40a2743354f2e152b06e4dd4a
+    newTag: master@sha256:aea2ac98d022b4c7c738f1a05e57e217a18593e40a2743354f2e152b06e4dd4a
 
 resources:
   - ./resources/namespace.yaml
