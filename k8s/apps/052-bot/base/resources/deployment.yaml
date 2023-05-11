@@ -33,7 +33,7 @@ spec:
             initialDelaySeconds: 5
             timeoutSeconds: 5
         - name: bot
-          image: ghcr.io/slashnephy/samekan052_bot:main@sha256:2b4e4e2dd7d435328511508c6463c51579bf6043b52ea1de05d2eb2f7d36624d
+          image: ghcr.io/slashnephy/samekan052_bot:main@sha256:cbd72a2a8c6bb048e8f7d423acc7428ac81768c2f8b0a932166168feecd72a33
           env:
             - name: API_BASE_URL
               value: http://api-service:5000
