@@ -78,11 +78,11 @@ spec:
           #            namespace: denentoshi-line
           #            path: k8s/apps/denentoshi-line
           #            project: apps
-          - name: diun
-            cluster: https://kubernetes.default.svc
-            namespace: diun
-            path: k8s/apps/diun
-            project: apps
+          #          - name: diun
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: diun
+          #            path: k8s/apps/diun
+          #            project: apps
           #          - name: divination-download-counter
           #            cluster: https://kubernetes.default.svc
           #            namespace: divination-download-counter
@@ -345,11 +345,11 @@ spec:
             namespace: intel-device-plugins-operator
             path: k8s/system/intel-device-plugins-operator
             project: system
-          - name: keel
-            cluster: https://kubernetes.default.svc
-            namespace: keel
-            path: k8s/system/keel
-            project: system
+          #          - name: keel
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: keel
+          #            path: k8s/system/keel
+          #            project: system
           #          - name: knative-eventing
           #            cluster: https://kubernetes.default.svc
           #            namespace: knative-eventing

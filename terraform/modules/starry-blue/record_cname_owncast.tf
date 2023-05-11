@@ -1,6 +1,6 @@
-resource "cloudflare_record" "cname_root" {
+resource "cloudflare_record" "cname_owncast" {
   zone_id = cloudflare_zone.zone.id
-  name    = cloudflare_zone.zone.zone
+  name    = "owncast"
   value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true

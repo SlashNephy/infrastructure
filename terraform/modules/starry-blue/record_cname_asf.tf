@@ -1,6 +1,6 @@
-resource "cloudflare_record" "cname_root" {
+resource "cloudflare_record" "cname_asf" {
   zone_id = cloudflare_zone.zone.id
-  name    = cloudflare_zone.zone.zone
+  name    = "asf"
   value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true

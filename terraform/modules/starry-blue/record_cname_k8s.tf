@@ -1,6 +1,6 @@
-resource "cloudflare_record" "cname_root" {
+resource "cloudflare_record" "cname_k8s" {
   zone_id = cloudflare_zone.zone.id
-  name    = cloudflare_zone.zone.zone
+  name    = "k8s"
   value   = cloudflare_record.a_gateway.hostname
   type    = "CNAME"
   proxied = true
