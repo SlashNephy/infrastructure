@@ -2,7 +2,7 @@ resource "cloudflare_access_organization" "starry_blue_sky" {
   account_id      = cloudflare_account.account.id
   name            = "@StarryBlueSky"
   auth_domain     = "starrybluesky.cloudflareaccess.com"
-  is_ui_read_only = false
+  is_ui_read_only = true
 
   login_design {
     background_color = "#e6eef3"
