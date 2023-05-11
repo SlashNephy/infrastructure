@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deployment
-  annotations:
-    diun.regopt: ghcr.io
 
 spec:
   replicas: 1
@@ -21,8 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/starrybluesky/epgstation-custom-hwaccel:master
-          imagePullPolicy: Always
+          image: ghcr.io/starrybluesky/epgstation-custom-hwaccel:master@sha256:9615f702e6a6c0d1bd2f2584bf8518d90d295d53e062c1d6b42cdddcb31d5601
           ports:
             - containerPort: 8888
           volumeMounts:
@@ -36,7 +33,7 @@ spec:
             - name: dev-dri
               mountPath: /dev/dri
         - name: db
-          image: mariadb:10
+          image: mariadb:10.11.2-jammy
           args:
             - mysqld
             - --character-set-server=utf8mb4
