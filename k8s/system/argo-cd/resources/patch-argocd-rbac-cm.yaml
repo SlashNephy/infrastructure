@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  namespace: argo-cd
+  labels:
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+
+data:
+  # enable exec
+  policy.csv: p, role:admin, exec, create, */*, allow
+
+  policy.default: role:readonly

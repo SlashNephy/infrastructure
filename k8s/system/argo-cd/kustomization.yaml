@@ -27,9 +27,12 @@ resources:
   - ./resources/application-set.yaml
   - ./../../common/registry-docker-hub/lily
 
-# enable exec
 patches:
-  - path: ./resources/config.yaml
+  - path: ./resources/patch-argocd-cm.yaml
+  - path: ./resources/patch-argocd-cmd-params-cm.yaml
+  - path: ./resources/patch-argocd-notifications-cm.yaml
+  - path: ./resources/patch-argocd-rbac-cm.yaml
+  # enable exec
   - target:
       group: rbac.authorization.k8s.io
       version: v1

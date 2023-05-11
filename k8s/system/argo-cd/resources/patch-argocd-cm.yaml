@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argo-cd
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+
+data:
+  exec.enabled: "true"
+
+  helm.enabled: "true"
+  kustomize.buildOptions: --enable-helm --load-restrictor LoadRestrictionsNone
+  kustomize.enabled: "true"
+
+  statusbadge.enabled: "true"
+
+  url: https://argocd.starry.blue
+
+  users.anonymous.enabled: "true"

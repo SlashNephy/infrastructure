@@ -6,4 +6,5 @@ resources:
   - https://github.com/knative/serving/releases/download/knative-v1.9.0/serving-core.yaml
 
 patches:
-  - path: ./resources/config.yaml
+  - path: ./resources/patch-config-domain.yaml
+  - path: ./resources/patch-config-network.yaml
