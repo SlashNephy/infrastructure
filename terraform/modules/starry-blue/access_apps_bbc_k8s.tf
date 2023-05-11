@@ -1,6 +1,6 @@
 resource "cloudflare_access_application" "bbc_k8s" {
   account_id                 = cloudflare_account.account.id
-  name                       = "Kubernetes Dashboard"
+  name                       = "Kubernetes Dashboard (bbc)"
   domain                     = cloudflare_record.cname_bbc_k8s.hostname
   type                       = "self_hosted"
   logo_url                   = "https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png"
