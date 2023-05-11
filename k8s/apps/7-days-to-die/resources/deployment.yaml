@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: vinanrra/7dtd-server:v0.5.0
+          image: vinanrra/7dtd-server:v0.5.0@sha256:68b2db1bc963a538bce7240d5a135dcc9f3be2b919e0e8799db80494cd95e1a5
           env:
             - name: ALLOC_FIXES
               value: YES

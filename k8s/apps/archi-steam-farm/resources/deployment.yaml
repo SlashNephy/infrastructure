@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/justarchinet/archisteamfarm:5.4.5.2
+          image: ghcr.io/justarchinet/archisteamfarm:5.4.5.2@sha256:50bc5ec48cae9bb384a839c1f699286350f4ffd63b1038385ffa5a62947d14da
           env:
             - name: TZ
               value: Asia/Tokyo

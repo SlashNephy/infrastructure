@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: amazoncorretto:8u372-al2023-jre
+          image: amazoncorretto:8u372-al2023-jre@sha256:051f2047d2a95537cbc7563a2c4f9e9e2cbe82e9b890c180442043c8ff83085e
           workingDir: /app
           args:
             - java

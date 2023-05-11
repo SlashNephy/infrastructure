@@ -27,7 +27,7 @@ spec:
             - name: ADDRESS
               value: ":8080"
         - name: database
-          image: postgres:15.2-bullseye
+          image: postgres:15.2-bullseye@sha256:78a275d4c891f7b3a33d3f1a78eda9f1d744954d9e20122bfdc97cdda25cddaf
           env:
             - name: POSTGRES_USER
               value: app

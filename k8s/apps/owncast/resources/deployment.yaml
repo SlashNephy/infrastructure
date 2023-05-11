@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: gabekangas/owncast:0.0.13
+          image: gabekangas/owncast:0.0.13@sha256:db5056efbe6c4a3ce0ba42b6a37de37cd384ad24bccfd49c55ba45cf49c5bde6
           ports:
             - containerPort: 1935
             - containerPort: 8080
