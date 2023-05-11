@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: guillaumebriday/traefik-custom-error-pages
+          image: guillaumebriday/traefik-custom-error-pages@sha256:12751f98b8f67a657aa03d0c8a7fe4977dc279fb53b669ee9d7a3dfc9528cd5e
           ports:
             - containerPort: 80
       imagePullSecrets:

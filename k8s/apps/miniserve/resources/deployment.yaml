@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: svenstaro/miniserve:0.23.2
+          image: svenstaro/miniserve:0.23.2@sha256:082b804a639e51194580526ddc4279dda8962f5d5404f4cf94c39f8cfc799f6d
           args:
             - -D
             - -t

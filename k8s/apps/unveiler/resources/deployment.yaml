@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: db
-          image: mongo:5.0.17-focal
+          image: mongo:5.0.17-focal@sha256:39f6992c6f23457ba212f86f226ffa28e15b7b5873602a12e1f6c322901a96e0
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:

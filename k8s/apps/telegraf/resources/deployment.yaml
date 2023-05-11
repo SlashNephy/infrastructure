@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: telegraf:1.26.2
+          image: telegraf:1.26.2@sha256:eca409015d6b5bcb1b1a5c067c0d28b1d69e28bffbeca8ee2542575089bc2c32
           command:
             - /bin/bash
             - -c

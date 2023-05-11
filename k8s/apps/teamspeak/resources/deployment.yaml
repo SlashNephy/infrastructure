@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mariadb:10.11.2-jammy
+          image: mariadb:10.11.2-jammy@sha256:1c33370a599c870eab28891191b1fc5f46ddf8dfd90bd5f56b03e8a16e83f2fb
           env:
             - name: MYSQL_DATABASE
               value: teamspeak
@@ -44,7 +44,7 @@ spec:
             - name: mysql
               mountPath: /var/lib/mysql
         - name: app
-          image: teamspeak:3.13.7
+          image: teamspeak:3.13.7@sha256:43ae19ea49a5af4870beb62f249d9dfa64a9a4e5d66a6bf421b7986cbd03d142
           env:
             - name: TS3SERVER_DB_HOST
               value: mysql

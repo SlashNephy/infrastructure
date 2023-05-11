@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/crazy-max/diun:4.24.0
+          image: ghcr.io/crazy-max/diun:4.24.0@sha256:fa80af32a7c61128ffda667344547805b3c5e7721ecbbafd70e35bb7bb7c989f
           args:
             - serve
           env:
