@@ -1,4 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>SlashNephy/.github:renovate-config"]
+  "extends": ["github>SlashNephy/.github:renovate-config"],
+  "packageRules": [
+    {
+      "matchPackagePrefixes": [
+        "ghcr.io/starrybluesky/mahiron",
+        "ghcr.io/starrybluesky/epgstation"
+      ],
+      "automergeSchedule": ["after 4am", "before 5am"]
+    }
+  ]
 }
