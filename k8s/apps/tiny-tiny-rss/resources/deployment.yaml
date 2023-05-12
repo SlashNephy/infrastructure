@@ -45,7 +45,7 @@ spec:
             - name: backups
               mountPath: /backups
         - name: db
-          image: postgres:13.10-bullseye@sha256:8f81e14286798303b82d1877bda41c6950d7866c45e721ca027886c2840d075b
+          image: postgres:13.11-bullseye@sha256:ce2086148580daf694c72ced7e1f452d5dd46e9118c9273a29e2343b3289a4ef
           env:
             - name: POSTGRES_DB
               valueFrom:
