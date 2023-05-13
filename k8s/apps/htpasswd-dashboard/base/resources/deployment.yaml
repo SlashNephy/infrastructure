@@ -40,7 +40,6 @@ spec:
               subPath: services.json
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       volumes:
         - name: config
           configMap:

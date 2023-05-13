@@ -34,7 +34,6 @@ spec:
               mountPath: /home/coder/.local/share/code-server
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       volumes:
         - name: work
           hostPath:

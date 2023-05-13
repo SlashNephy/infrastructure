@@ -55,7 +55,6 @@ spec:
               mountPath: /var/lib/mysql
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       volumes:
         - name: data
           hostPath:

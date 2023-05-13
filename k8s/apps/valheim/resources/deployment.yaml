@@ -60,7 +60,6 @@ spec:
             capabilities:
               add:
                 - SYS_NICE
-            runAsNonRoot: true
       volumes:
         - name: data
           hostPath:

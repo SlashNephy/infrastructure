@@ -45,7 +45,6 @@ spec:
               mountPath: /var/lib/mysql
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
         - name: app
           image: teamspeak:3.13.7@sha256:43ae19ea49a5af4870beb62f249d9dfa64a9a4e5d66a6bf421b7986cbd03d142
           env:
@@ -81,7 +80,6 @@ spec:
               mountPath: /var/ts3server
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       volumes:
         - name: data
           hostPath:

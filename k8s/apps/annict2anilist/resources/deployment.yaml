@@ -55,7 +55,6 @@ spec:
               mountPath: /app/token
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       volumes:
         - name: app-volume
           hostPath:

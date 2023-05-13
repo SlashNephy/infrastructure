@@ -50,7 +50,6 @@ spec:
               subPath: comskip.ini
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       volumes:
         - name: records
           hostPath:

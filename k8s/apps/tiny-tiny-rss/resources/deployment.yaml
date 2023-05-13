@@ -31,7 +31,6 @@ spec:
               readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
         - name: backups
           image: cthulhoo/ttrss-fpm-pgsql-static:latest@sha256:fbf763108096241d1b13f65acf68217b252440d1701350dee9d4e45551dc4cb7
           args:
@@ -49,7 +48,6 @@ spec:
               mountPath: /backups
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
         - name: db
           image: postgres:13.11-bullseye@sha256:ce2086148580daf694c72ced7e1f452d5dd46e9118c9273a29e2343b3289a4ef
           env:
@@ -75,7 +73,6 @@ spec:
               mountPath: /var/lib/postgresql/data
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
         - name: updater
           image: cthulhoo/ttrss-fpm-pgsql-static:latest@sha256:fbf763108096241d1b13f65acf68217b252440d1701350dee9d4e45551dc4cb7
           args:
@@ -93,7 +90,6 @@ spec:
               readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
         - name: web-nginx
           image: cthulhoo/ttrss-web-nginx:latest@sha256:a8ef3fff56766108f31fd7dc19e70c18d3373b142d810e3973f8277e6582135f
           volumeMounts:
@@ -102,7 +98,6 @@ spec:
               readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       volumes:
         - name: app
           hostPath:

@@ -75,7 +75,6 @@ spec:
               mountPath: /data
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       volumes:
         - name: data
           hostPath:

@@ -34,7 +34,6 @@ spec:
               subPath: NLog.config
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       volumes:
         - name: config
           hostPath:

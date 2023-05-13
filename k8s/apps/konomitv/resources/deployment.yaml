@@ -31,7 +31,6 @@ spec:
               mountPath: /dev/dri
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       volumes:
         - name: config
           configMap:

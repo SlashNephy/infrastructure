@@ -34,7 +34,6 @@ spec:
             timeoutSeconds: 5
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
         - name: bot
           image: ghcr.io/slashnephy/samekan052_bot:main@sha256:cbd72a2a8c6bb048e8f7d423acc7428ac81768c2f8b0a932166168feecd72a33
           env:
@@ -50,7 +49,6 @@ spec:
                 name: bot-config
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials

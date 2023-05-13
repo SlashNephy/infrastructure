@@ -33,7 +33,6 @@ spec:
               readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
           tty: true
       volumes:
         - name: socket

@@ -41,7 +41,6 @@ spec:
             periodSeconds: 10
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       restartPolicy: Always
       imagePullSecrets:
         - name: docker-hub-credentials

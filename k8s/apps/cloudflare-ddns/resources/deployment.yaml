@@ -33,7 +33,6 @@ spec:
                   key: cloudflare-api-key
           securityContext:
             allowPrivilegeEscalation: false
-            runAsNonRoot: true
       restartPolicy: Always
       imagePullSecrets:
         - name: docker-hub-credentials
