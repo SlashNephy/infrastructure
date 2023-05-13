@@ -47,6 +47,8 @@ spec:
             - name: records
               mountPath: /mnt
               readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: config
           configMap:

@@ -32,6 +32,8 @@ spec:
             - name: sounds
               mountPath: /app/sounds
               readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: sounds
           hostPath:

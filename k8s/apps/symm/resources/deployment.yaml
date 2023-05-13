@@ -32,6 +32,8 @@ spec:
             - name: service-account
               mountPath: /service_account.json
               readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: service-account
           hostPath:

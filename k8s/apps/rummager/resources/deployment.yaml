@@ -58,4 +58,6 @@ spec:
           resources:
             limits:
               memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
       restartPolicy: Always

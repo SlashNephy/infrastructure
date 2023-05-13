@@ -29,6 +29,8 @@ spec:
             - name: config
               mountPath: /opt/tt-rss/config.d
               readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
         - name: backups
           image: cthulhoo/ttrss-fpm-pgsql-static:latest@sha256:fbf763108096241d1b13f65acf68217b252440d1701350dee9d4e45551dc4cb7
           args:
@@ -44,6 +46,8 @@ spec:
               mountPath: /var/www/html
             - name: backups
               mountPath: /backups
+          securityContext:
+            allowPrivilegeEscalation: false
         - name: db
           image: postgres:13.11-bullseye@sha256:ce2086148580daf694c72ced7e1f452d5dd46e9118c9273a29e2343b3289a4ef
           env:
@@ -67,6 +71,8 @@ spec:
           volumeMounts:
             - name: db
               mountPath: /var/lib/postgresql/data
+          securityContext:
+            allowPrivilegeEscalation: false
         - name: updater
           image: cthulhoo/ttrss-fpm-pgsql-static:latest@sha256:fbf763108096241d1b13f65acf68217b252440d1701350dee9d4e45551dc4cb7
           args:
@@ -82,12 +88,16 @@ spec:
             - name: config
               mountPath: /opt/tt-rss/config.d
               readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
         - name: web-nginx
           image: cthulhoo/ttrss-web-nginx:latest@sha256:a8ef3fff56766108f31fd7dc19e70c18d3373b142d810e3973f8277e6582135f
           volumeMounts:
             - name: app
               mountPath: /var/www/html
               readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: app
           hostPath:

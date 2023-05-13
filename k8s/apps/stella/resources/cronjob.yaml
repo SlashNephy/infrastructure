@@ -42,6 +42,8 @@ spec:
               volumeMounts:
                 - name: backup
                   mountPath: /backup
+              securityContext:
+                allowPrivilegeEscalation: false
             - name: pic-tag-replace-table
               image: mongo:5.0.17-focal@sha256:39f6992c6f23457ba212f86f226ffa28e15b7b5873602a12e1f6c322901a96e0
               command:
@@ -73,6 +75,8 @@ spec:
               volumeMounts:
                 - name: backup
                   mountPath: /backup
+              securityContext:
+                allowPrivilegeEscalation: false
           volumes:
             - name: backup
               hostPath:

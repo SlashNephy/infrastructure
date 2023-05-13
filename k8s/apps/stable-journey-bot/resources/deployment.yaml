@@ -24,6 +24,8 @@ spec:
             - name: config
               mountPath: /app/config.yaml
               readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: config
           hostPath:

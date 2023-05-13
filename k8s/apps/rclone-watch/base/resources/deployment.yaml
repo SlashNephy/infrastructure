@@ -32,6 +32,8 @@ spec:
             - name: config
               mountPath: /config/rclone
               readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: mnt
           hostPath:

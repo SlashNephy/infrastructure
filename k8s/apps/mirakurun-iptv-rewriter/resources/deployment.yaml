@@ -26,6 +26,8 @@ spec:
                 name: app-secret
           ports:
             - containerPort: 5000
+          securityContext:
+            allowPrivilegeEscalation: false
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials

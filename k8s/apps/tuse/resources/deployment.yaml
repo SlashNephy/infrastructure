@@ -31,6 +31,8 @@ spec:
             - name: config
               mountPath: /app/plugins/config
               readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: config
           hostPath:

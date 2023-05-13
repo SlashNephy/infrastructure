@@ -38,6 +38,8 @@ spec:
           volumeMounts:
             - name: db
               mountPath: /data/db
+          securityContext:
+            allowPrivilegeEscalation: false
         - name: app
           image: ghcr.io/slashnephy/unveiler:master@sha256:b80ce1fb1b223ba55fd6d505ee623dd952279ad2d6878fb5c2590d7144d56bab
           env:
@@ -59,6 +61,8 @@ spec:
           resources:
             limits:
               memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: db
           hostPath:

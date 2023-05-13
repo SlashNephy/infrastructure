@@ -56,6 +56,7 @@ spec:
             - name: game
               mountPath: /opt/valheim
           securityContext:
+            allowPrivilegeEscalation: false
             capabilities:
               add:
                 - SYS_NICE

@@ -20,6 +20,8 @@ spec:
           image: ekzhang/rustpad:latest@sha256:f4c51a674c21e764d7ab9a77294359cce239d4b714bedcfe039a75087d0c4a83
           ports:
             - containerPort: 3030
+          securityContext:
+            allowPrivilegeEscalation: false
       restartPolicy: Always
       imagePullSecrets:
         - name: docker-hub-credentials

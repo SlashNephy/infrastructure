@@ -28,6 +28,8 @@ spec:
                 - name: config
                   mountPath: /app/config
                   readOnly: true
+              securityContext:
+                allowPrivilegeEscalation: false
           volumes:
             - name: backup
               hostPath:

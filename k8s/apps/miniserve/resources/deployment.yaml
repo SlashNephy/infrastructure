@@ -34,6 +34,8 @@ spec:
             - name: mnt
               mountPath: /srv/mnt
               readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: files
           hostPath:

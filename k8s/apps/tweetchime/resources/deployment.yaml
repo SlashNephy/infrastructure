@@ -60,6 +60,8 @@ spec:
           volumeMounts:
             - name: cache
               mountPath: /app/data
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: cache
           hostPath:

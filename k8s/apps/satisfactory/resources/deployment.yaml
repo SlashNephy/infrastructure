@@ -35,6 +35,8 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: config
           hostPath:
