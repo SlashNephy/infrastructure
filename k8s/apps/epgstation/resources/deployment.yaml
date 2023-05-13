@@ -53,6 +53,8 @@ spec:
           volumeMounts:
             - name: db
               mountPath: /var/lib/mysql
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: data
           hostPath:

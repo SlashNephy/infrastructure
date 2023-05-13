@@ -29,6 +29,8 @@ spec:
               mountPath: /app/server/data
             - name: dev-dri
               mountPath: /dev/dri
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: config
           configMap:

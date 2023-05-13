@@ -32,4 +32,6 @@ spec:
               value: info,annict_profile_card=trace
           ports:
             - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
       restartPolicy: Always

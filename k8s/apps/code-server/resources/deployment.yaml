@@ -32,6 +32,8 @@ spec:
               mountPath: /opt/k8s-volumes
             - name: data
               mountPath: /home/coder/.local/share/code-server
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: work
           hostPath:

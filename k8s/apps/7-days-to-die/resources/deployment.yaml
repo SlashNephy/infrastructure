@@ -51,6 +51,8 @@ spec:
               mountPath: /home/sdtdserver/lgsm/backup
             - name: config
               mountPath: /home/sdtdserver/lgsm/config-lgsm/sdtdserver
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: server
           hostPath:

@@ -39,6 +39,8 @@ spec:
               port: 2000
             initialDelaySeconds: 10
             periodSeconds: 10
+          securityContext:
+            allowPrivilegeEscalation: false
       restartPolicy: Always
       imagePullSecrets:
         - name: docker-hub-credentials

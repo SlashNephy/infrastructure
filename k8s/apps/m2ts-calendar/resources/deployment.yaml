@@ -51,6 +51,8 @@ spec:
               readOnly: true
             - name: output
               mountPath: /mnt/records_links
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: records
           hostPath:

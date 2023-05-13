@@ -73,6 +73,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: data
           hostPath:

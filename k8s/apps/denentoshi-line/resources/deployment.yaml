@@ -31,4 +31,6 @@ spec:
                 secretKeyRef:
                   name: app-secret
                   key: voice-channel-id
+          securityContext:
+            allowPrivilegeEscalation: false
       restartPolicy: Always

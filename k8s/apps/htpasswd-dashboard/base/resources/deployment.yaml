@@ -38,6 +38,8 @@ spec:
               mountPath: /app/services.json
               readOnly: true
               subPath: services.json
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: config
           configMap:

@@ -53,6 +53,8 @@ spec:
           volumeMounts:
             - name: app-volume
               mountPath: /app/token
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: app-volume
           hostPath:

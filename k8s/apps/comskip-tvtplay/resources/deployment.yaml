@@ -48,6 +48,8 @@ spec:
               mountPath: /comskip.ini
               readOnly: true
               subPath: comskip.ini
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: records
           hostPath:

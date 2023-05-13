@@ -34,6 +34,8 @@ spec:
             - name: config
               mountPath: /home/jovyan/.jupyter/jupyter_notebook_config.py
               subPath: jupyter_notebook_config.py
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: work
           hostPath:

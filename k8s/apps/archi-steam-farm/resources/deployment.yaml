@@ -32,6 +32,8 @@ spec:
               mountPath: /app/NLog.config
               readOnly: true
               subPath: NLog.config
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: config
           hostPath:
