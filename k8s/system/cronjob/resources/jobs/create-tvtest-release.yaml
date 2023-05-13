@@ -28,6 +28,8 @@ spec:
               envFrom:
                 - secretRef:
                     name: github-secret
+              securityContext:
+                allowPrivilegeEscalation: false
           restartPolicy: Never
           imagePullSecrets:
             - name: docker-hub-credentials

@@ -24,6 +24,8 @@ spec:
               volumeMounts:
                 - name: backup
                   mountPath: /backup
+              securityContext:
+                allowPrivilegeEscalation: false
           volumes:
             - name: backup
               hostPath:

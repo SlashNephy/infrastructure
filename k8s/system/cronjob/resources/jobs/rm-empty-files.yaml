@@ -22,6 +22,8 @@ spec:
               volumeMounts:
                 - name: target
                   mountPath: /target
+              securityContext:
+                allowPrivilegeEscalation: false
           volumes:
             - name: target
               hostPath:
