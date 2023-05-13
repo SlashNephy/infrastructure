@@ -53,6 +53,7 @@ spec:
               mountPath: /mnt/records_links
           securityContext:
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
       volumes:
         - name: records
           hostPath:

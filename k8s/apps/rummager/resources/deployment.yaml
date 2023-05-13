@@ -60,4 +60,5 @@ spec:
               memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
       restartPolicy: Always

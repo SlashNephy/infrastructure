@@ -22,5 +22,6 @@ spec:
             - containerPort: 80
           securityContext:
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
       imagePullSecrets:
         - name: docker-hub-credentials

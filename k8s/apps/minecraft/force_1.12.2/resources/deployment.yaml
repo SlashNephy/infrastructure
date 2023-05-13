@@ -34,6 +34,7 @@ spec:
               mountPath: /app
           securityContext:
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
       volumes:
         - name: data
           hostPath:

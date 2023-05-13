@@ -45,6 +45,7 @@ spec:
               memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
       volumes:
         - name: cache
           hostPath:

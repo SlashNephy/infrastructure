@@ -39,6 +39,7 @@ spec:
               mountPath: /var/lib/mysql
           securityContext:
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
         - name: app
           image: ghcr.io/slashnephy/net-radio-archive:latest@sha256:fa1f467a2d15780158a3307f6633a8aba169e6a923af4c688f05dab22715ecf0
           env:
@@ -55,6 +56,7 @@ spec:
               mountPath: /mnt/records/radio
           securityContext:
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
       volumes:
         - name: mysql
           hostPath:

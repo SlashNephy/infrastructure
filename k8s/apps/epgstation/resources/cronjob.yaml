@@ -30,6 +30,7 @@ spec:
                   readOnly: true
               securityContext:
                 allowPrivilegeEscalation: false
+                runAsNonRoot: true
           volumes:
             - name: backup
               hostPath:

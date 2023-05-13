@@ -33,4 +33,5 @@ spec:
                   key: voice-channel-id
           securityContext:
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
       restartPolicy: Always

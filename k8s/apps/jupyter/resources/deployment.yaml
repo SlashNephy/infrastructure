@@ -36,6 +36,7 @@ spec:
               subPath: jupyter_notebook_config.py
           securityContext:
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
       volumes:
         - name: work
           hostPath:

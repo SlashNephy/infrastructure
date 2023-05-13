@@ -53,6 +53,7 @@ spec:
               mountPath: /home/sdtdserver/lgsm/config-lgsm/sdtdserver
           securityContext:
             allowPrivilegeEscalation: false
+            runAsNonRoot: true
       volumes:
         - name: server
           hostPath:
