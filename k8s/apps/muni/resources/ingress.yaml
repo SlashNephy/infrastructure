@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`muni-api.starry.blue`)
+      match: Host(`vj-api.starry.blue`)
       services:
         - name: app
           port: 7090

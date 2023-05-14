@@ -39,6 +39,7 @@ resource "cloudflare_ruleset" "http_request_origin" {
         "${cloudflare_record.cname_search.hostname}"
         "${cloudflare_record.cname_stella.hostname}"
         "${cloudflare_record.cname_traefik.hostname}"
+        "${cloudflare_record.cname_vj_api.hostname}"
         "${cloudflare_record.cname_whoami.hostname}"
         "${cloudflare_record.cname_wol.hostname}"
       })
