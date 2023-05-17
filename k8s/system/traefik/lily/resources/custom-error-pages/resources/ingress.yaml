@@ -6,7 +6,7 @@ metadata:
 spec:
   entryPoints:
     - websecure
-    - direct
+    - gateway
   routes:
     - kind: Rule
       match: HostRegexp(`^(.+\.)?starry\.blue$`)

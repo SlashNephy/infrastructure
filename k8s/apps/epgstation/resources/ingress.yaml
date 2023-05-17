@@ -22,11 +22,11 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: route-direct
+  name: route-gateway
 
 spec:
   entryPoints:
-    - direct
+    - gateway
   routes:
     - kind: Rule
       match: (Host(`epgstation-api.starry.blue`) || Host(`epgstation-api-v6.starry.blue`)) && PathPrefix(`/api`)

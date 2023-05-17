@@ -60,7 +60,7 @@ podDisruptionBudget:
   enabled: false
 
 ports:
-  direct:
+  gateway:
     expose: true
     exposedPort: 9443
 
@@ -85,7 +85,7 @@ ports:
           sans:
             - "*.starry.blue"
       enabled: true
-      options: traefik-direct@kubernetescrd
+      options: traefik-gateway@kubernetescrd
 
   web:
     expose: false

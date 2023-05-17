@@ -15,11 +15,11 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: route-direct
+  name: route-gateway
 
 spec:
   entryPoints:
-    - direct
+    - gateway
   routes:
     - kind: Rule
       match: (Host(`mahiron-api.starry.blue`) || Host(`mahiron-api-v6.starry.blue`) || Host(`mirakurun-api.starry.blue`) || Host(`mirakurun-api-v6.starry.blue`)) && PathPrefix(`/api`)
