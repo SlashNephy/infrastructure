@@ -62,7 +62,7 @@ podDisruptionBudget:
 ports:
   gateway:
     expose: true
-    exposedPort: 9443
+    exposedPort: 443
 
     forwardedHeaders:
       trustedIPs:
@@ -76,7 +76,7 @@ ports:
       - traefik-security-headers@kubernetescrd
       - traefik-ban-robots@kubernetescrd
 
-    nodePort: 9443
+    nodePort: 443
     port: 9443
 
     tls:
