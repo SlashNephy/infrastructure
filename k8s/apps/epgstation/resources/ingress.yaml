@@ -10,13 +10,6 @@ spec:
       services:
         - name: app
           port: 8888
-    - kind: Rule
-      match: Host(`anemos.starry.blue`) && PathPrefix(`/api`)
-      services:
-        - name: app
-          port: 8888
-      middlewares:
-        - name: epgstation-basic-auth
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
