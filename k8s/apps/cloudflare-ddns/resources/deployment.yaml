@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         # TODO: https://github.com/timothymiller/cloudflare-ddns に移行する
-        - name: ipv4
+        - name: gateway-ipv4
           image: oznu/cloudflare-ddns:latest@sha256:f552b1053ca4bad934eb3ca16e2d22decefe4423e2bf3e0a354fa1ab03b46390
           env:
             - name: ZONE
@@ -31,11 +31,29 @@ spec:
             - name: API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: cloudflare-ddns-secret
+                  name: app-secret
                   key: cloudflare-api-key
           securityContext:
             allowPrivilegeEscalation: false
-        - name: ipv6
+        - name: gateway-ipv6
+          image: oznu/cloudflare-ddns:latest@sha256:f552b1053ca4bad934eb3ca16e2d22decefe4423e2bf3e0a354fa1ab03b46390
+          env:
+            - name: ZONE
+              value: starry.blue
+            - name: SUBDOMAIN
+              value: gateway
+            - name: PROXIED
+              value: "false"
+            - name: RRTYPE
+              value: AAAA
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: cloudflare-api-key
+          securityContext:
+            allowPrivilegeEscalation: false
+        - name: gateway-v6
           image: oznu/cloudflare-ddns:latest@sha256:f552b1053ca4bad934eb3ca16e2d22decefe4423e2bf3e0a354fa1ab03b46390
           env:
             - name: ZONE
@@ -49,7 +67,7 @@ spec:
             - name: API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: cloudflare-ddns-secret
+                  name: app-secret
                   key: cloudflare-api-key
           securityContext:
             allowPrivilegeEscalation: false
