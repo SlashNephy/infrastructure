@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/starrybluesky/epgstation-custom-hwaccel:master@sha256:6027a31d576e8befb29a6aed760eea7595ab31a3c5452c5a54b026e6786df2d4
+          image: ghcr.io/starrybluesky/epgstation-custom-hwaccel:master@sha256:274099f5c92516b4e1f2707a2a8ca73d2de5151e0f7881f5a4bcde9d8cb405bf
           ports:
             - containerPort: 8888
           volumeMounts:
