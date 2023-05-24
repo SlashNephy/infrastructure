@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
             - name: pic-table
-              image: mongo:5.0.17-focal@sha256:39f6992c6f23457ba212f86f226ffa28e15b7b5873602a12e1f6c322901a96e0
+              image: mongo:5.0.18-focal@sha256:09c7f583ecffed1d498c5f619bf3ecca68f91346d59e70378b49a96e51edf834
               command:
                 - bash
                 - -c
@@ -45,7 +45,7 @@ spec:
               securityContext:
                 allowPrivilegeEscalation: false
             - name: pic-tag-replace-table
-              image: mongo:5.0.17-focal@sha256:39f6992c6f23457ba212f86f226ffa28e15b7b5873602a12e1f6c322901a96e0
+              image: mongo:5.0.18-focal@sha256:09c7f583ecffed1d498c5f619bf3ecca68f91346d59e70378b49a96e51edf834
               command:
                 - bash
                 - -c
