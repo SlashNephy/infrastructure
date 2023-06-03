@@ -33,7 +33,7 @@ spec:
             - name: dev-dri
               mountPath: /dev/dri
         - name: db
-          image: mariadb:10.11.3-jammy@sha256:b0cf417b73294881d7a756f45d209c18d4ba9eefdfb5552627dbecd1ec03f8af
+          image: mariadb:10.11.3-jammy@sha256:345c6ad355e6529f5627cbb8e7cb67b66e6a54b1b6e82161adf007c6bfd71ae8
           args:
             - mysqld
             - --character-set-server=utf8mb4
