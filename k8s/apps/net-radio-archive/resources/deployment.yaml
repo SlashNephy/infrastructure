@@ -40,7 +40,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: app
-          image: ghcr.io/slashnephy/net-radio-archive:latest@sha256:fa1f467a2d15780158a3307f6633a8aba169e6a923af4c688f05dab22715ecf0
+          image: ghcr.io/slashnephy/net-radio-archive:master@sha256:f22094d16d590efbc1054f28f783c06d88567999c8e08d76fee2ebc2175678ee
           env:
             - name: TZ
               value: Asia/Tokyo
