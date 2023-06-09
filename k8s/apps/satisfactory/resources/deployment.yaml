@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: wolveix/satisfactory-server:v1.4.8@sha256:56ca73cb8a64e7bedfe0b72c9490ce1d32e547a16c753ffcb7e96c8364e8c348
+          image: wolveix/satisfactory-server:v1.5.0@sha256:be1705944551bcbdcb3a7a8e8bb3d65e77a0d3a67019feeb1e02c38b59d05df7
           env:
             - name: MAXBACKUPS
               value: "10"
