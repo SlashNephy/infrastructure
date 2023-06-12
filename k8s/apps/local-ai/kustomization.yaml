@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: local-ai
+
+helmCharts:
+  - name: local-ai
+    releaseName: local-ai
+    namespace: local-ai
+    repo: https://go-skynet.github.io/helm-charts
+    valuesFile: ./values.yaml
+
+resources:
+  - ./resources/namespace.yaml

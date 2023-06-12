@@ -1,0 +1,12 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`gpt.starry.blue`)
+      services:
+        - name: local-ai
+          port: 80
