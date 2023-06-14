@@ -4,3 +4,6 @@ namespace: kube-flannel
 
 resources:
   - https://github.com/flannel-io/flannel/releases/download/v0.21.2/kube-flannel.yml
+
+patches:
+  - path: ./resources/patch-kube-flannel-cfg.yaml
