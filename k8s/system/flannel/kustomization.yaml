@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: kube-flannel
 
 resources:
-  - https://github.com/flannel-io/flannel/releases/download/v0.21.2/kube-flannel.yml
+  - https://github.com/flannel-io/flannel/releases/download/v0.22.0/kube-flannel.yml
 
 patches:
   - path: ./resources/patch-kube-flannel-cfg.yaml
