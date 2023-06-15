@@ -5,12 +5,13 @@ metadata:
   namespace: kube-flannel
 
 data:
+  # 一時的に無効化
+  # "EnableIPv6": true,
+  # "IPv6Network": "fdcf:bde3:c556::/64",
   net-conf.json: |
     {
       "EnableIPv4": true,
       "Network": "10.244.0.0/16",
-      "EnableIPv6": true,
-      "IPv6Network": "fdcf:bde3:c556::/64",
       "Backend": {
         "Type": "vxlan"
       }
