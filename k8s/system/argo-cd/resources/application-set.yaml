@@ -238,16 +238,16 @@ spec:
           #            cluster: https://kubernetes.default.svc
           #            path: k8s/apps/satisfactory
           #            project: apps
-          - name: setlist-main
-            cluster: https://kubernetes.default.svc
-            namespace: setlist-main
-            path: k8s/apps/setlist/main
-            project: apps
-          - name: setlist-sub
-            cluster: https://kubernetes.default.svc
-            namespace: setlist-sub
-            path: k8s/apps/setlist/sub
-            project: apps
+          #          - name: setlist-main
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: setlist-main
+          #            path: k8s/apps/setlist/main
+          #            project: apps
+          #          - name: setlist-sub
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: setlist-sub
+          #            path: k8s/apps/setlist/sub
+          #            project: apps
           - name: soundbot-reloaded
             cluster: https://kubernetes.default.svc
             namespace: soundbot-reloaded
