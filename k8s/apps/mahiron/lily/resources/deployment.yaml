@@ -21,9 +21,6 @@ spec:
               value: /etc/mahiron/services.yml
             - name: TZ
               value: Asia/Tokyo
-          envFrom:
-            - secretRef:
-                name: app-secret
           ports:
             - containerPort: 40772
           volumeMounts:
