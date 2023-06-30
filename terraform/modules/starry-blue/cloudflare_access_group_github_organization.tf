@@ -7,9 +7,7 @@ resource "cloudflare_access_group" "github_organization" {
       identity_provider_id = cloudflare_access_identity_provider.github_oauth.id
       name                 = local.github_organization_name
     }
-  }
 
-  include {
     service_token = [cloudflare_access_service_token.mackerel.id]
   }
 

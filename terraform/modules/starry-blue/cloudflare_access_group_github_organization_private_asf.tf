@@ -8,9 +8,7 @@ resource "cloudflare_access_group" "github_organization_private_asf" {
       name                 = local.github_organization_name
       teams                = ["private-asf"]
     }
-  }
 
-  include {
     service_token = [cloudflare_access_service_token.mackerel.id]
   }
 
