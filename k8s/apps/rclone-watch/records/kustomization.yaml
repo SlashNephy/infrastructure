@@ -17,10 +17,8 @@ configMapGenerator:
         RCLONE_COMMAND=copy
         /mnt/records_links
         atmos1:
-        --transfers=10
-        --use-mmap
+        --buffer-size=1Gi
         --drive-stop-on-upload-limit
-        --drive-disable-http2=false
         --copy-links
         --order-by=name
         --ignore-existing

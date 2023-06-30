@@ -17,10 +17,7 @@ configMapGenerator:
         RCLONE_COMMAND=copy
         /mnt/records/radio
         atmos2:radio
-        --transfers=10
-        --use-mmap
         --drive-stop-on-upload-limit
-        --drive-disable-http2=false
         --skip-links
         --order-by=name
         --ignore-existing
