@@ -1,0 +1,8 @@
+resource "mackerel_channel" "general" {
+  name = "#mackerel"
+
+  slack {
+    url                 = var.general_slack_webhook_url
+    enabled_graph_image = true
+  }
+}

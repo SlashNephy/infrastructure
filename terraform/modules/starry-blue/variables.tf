@@ -42,3 +42,11 @@ variable "external_urls" {
     password = string
   }))
 }
+
+variable "general_slack_webhook_url" {
+  type = string
+}
+
+variable "dtv_slack_webhook_url" {
+  type = string
+}

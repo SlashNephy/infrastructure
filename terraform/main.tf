@@ -34,4 +34,6 @@ module "starry-blue" {
   cloudflare_access_client_secret = var.cloudflare_access_client_secret
   basic_credentials               = var.basic_credentials
   external_urls                   = var.external_urls
+  general_slack_webhook_url       = var.general_slack_webhook_url
+  dtv_slack_webhook_url           = var.dtv_slack_webhook_url
 }
