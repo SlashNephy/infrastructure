@@ -15,7 +15,7 @@ resource "mackerel_monitor" "epgstation_api" {
 
   external {
     method                 = "GET"
-    url                    = format("https://%s:13444/api/status", cloudflare_record.cname_epgstation_api.hostname)
+    url                    = format("https://%s:13444/api/version", cloudflare_record.cname_epgstation_api.hostname)
     service                = mackerel_service.epgstation_api.name
     response_time_warning  = 500
     response_time_critical = 1000
