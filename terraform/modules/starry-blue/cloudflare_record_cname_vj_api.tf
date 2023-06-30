@@ -7,7 +7,7 @@ resource "cloudflare_record" "cname_vj_api" {
 }
 
 resource "mackerel_service" "vj_api" {
-  name = "vj-api-starry-blue"
+  name = "Lily_Muni-Backend"
 }
 
 resource "mackerel_monitor" "vj_api" {
