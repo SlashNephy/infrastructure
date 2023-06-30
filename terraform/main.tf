@@ -11,11 +11,11 @@ terraform {
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "~> 4.0"
+      version = "4.1.0"
     }
     mackerel = {
       source  = "mackerelio-labs/mackerel"
-      version = "~> 0.3"
+      version = "0.3.2"
     }
   }
 }
