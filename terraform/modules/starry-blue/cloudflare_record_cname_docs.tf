@@ -8,11 +8,11 @@ resource "mackerel_service" "docs" {
 }
 
 resource "mackerel_monitor" "docs" {
-  name = format("%s に疎通できない", docs_hostname)
+  name = format("%s に疎通できない", local.docs_hostname)
 
   external {
     method                 = "GET"
-    url                    = format("https://%s", docs_hostname)
+    url                    = format("https://%s", local.docs_hostname)
     service                = mackerel_service.docs.name
     response_time_warning  = 500
     response_time_critical = 1000
