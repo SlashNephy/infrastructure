@@ -30,4 +30,6 @@ module "starry-blue" {
   github_oauth_client_secret      = var.github_oauth_client_secret
   email_routing_catch_all_address = var.email_routing_catch_all_address
   mackerel_api_key                = var.mackerel_api_key
+  cloudflare_access_client_id     = var.cloudflare_access_client_id
+  cloudflare_access_client_secret = var.cloudflare_access_client_secret
 }

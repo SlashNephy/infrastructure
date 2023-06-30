@@ -13,3 +13,11 @@ variable "email_routing_catch_all_address" {
 variable "mackerel_api_key" {
   type = string
 }
+
+variable "cloudflare_access_client_id" {
+  type = string
+}
+
+variable "cloudflare_access_client_secret" {
+  type = string
+}
