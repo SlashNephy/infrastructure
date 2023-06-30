@@ -15,3 +15,7 @@ variable "github_oauth_client_secret" {
 variable "email_routing_catch_all_address" {
   type = string
 }
+
+variable "mackerel_api_key" {
+  type = string
+}
