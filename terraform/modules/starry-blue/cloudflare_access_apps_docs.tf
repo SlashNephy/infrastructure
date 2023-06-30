@@ -1,7 +1,7 @@
 resource "cloudflare_access_application" "docs" {
   account_id                 = cloudflare_account.account.id
-  name                       = "docs.starry.blue"
-  domain                     = "docs.starry.blue"
+  name                       = docs_hostname
+  domain                     = docs_hostname
   type                       = "self_hosted"
   logo_url                   = "https://docusaurus.io/img/docusaurus.svg"
   app_launcher_visible       = true

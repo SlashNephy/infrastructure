@@ -1,6 +1,6 @@
 resource "cloudflare_access_application" "jupyter" {
   account_id                 = cloudflare_account.account.id
-  name                       = "Jupyter"
+  name                       = "Jupyter Lab"
   domain                     = cloudflare_record.cname_jupyter.hostname
   type                       = "self_hosted"
   logo_url                   = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Jupyter_logo.svg/1200px-Jupyter_logo.svg.png"

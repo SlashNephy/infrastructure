@@ -5,3 +5,29 @@ resource "cloudflare_record" "cname_mahiron_api_v6" {
   type    = "CNAME"
   proxied = false
 }
+
+resource "mackerel_service" "mahiron_api_v6" {
+  name = "Lily_Mahiron-API-IPv6"
+}
+
+resource "mackerel_monitor" "mahiron_api_v6" {
+  name = format("%s に疎通できない", cloudflare_record.cname_mahiron_api_v6.hostname)
+
+  external {
+    method                 = "GET"
+    url                    = format("https://%s/api/status", cloudflare_record.cname_mahiron_api_v6.hostname)
+    service                = mackerel_service.mahiron_api_v6.name
+    response_time_warning  = 500
+    response_time_critical = 1000
+    response_time_duration = 3
+    max_check_attempts     = 1
+    headers                = {
+      Cache-Control = "no-cache"
+      Authorization = "Basic ${base64encode(format("%s:%s", var.basic_credentials["lily-mirakurun"].user, var.basic_credentials["lily-mirakurun"].password))}"
+    }
+    contains_string                   = "{"
+    certification_expiration_warning  = 30
+    certification_expiration_critical = 15
+    follow_redirect                   = false
+  }
+}

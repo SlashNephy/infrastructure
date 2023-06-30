@@ -27,3 +27,18 @@ variable "cloudflare_access_client_id" {
 variable "cloudflare_access_client_secret" {
   type = string
 }
+
+variable "basic_credentials" {
+  type = map(object({
+    user     = string
+    password = string
+  }))
+}
+
+variable "external_urls" {
+  type = map(object({
+    url      = string
+    user     = string
+    password = string
+  }))
+}

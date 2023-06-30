@@ -1,22 +1,19 @@
-resource "cloudflare_record" "cname_traefik" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "traefik"
-  value   = cloudflare_record.a_gateway.hostname
-  type    = "CNAME"
-  proxied = true
+// TODO: cname_docs
+locals {
+  docs_hostname = "docs.starry.blue"
 }
 
-resource "mackerel_service" "traefik" {
-  name = "Lily_Traefik"
+resource "mackerel_service" "docs" {
+  name = "docs-starry-blue"
 }
 
-resource "mackerel_monitor" "traefik" {
-  name = format("%s に疎通できない", cloudflare_record.cname_traefik.hostname)
+resource "mackerel_monitor" "docs" {
+  name = format("%s に疎通できない", docs_hostname)
 
   external {
     method                 = "GET"
-    url                    = format("https://%s", cloudflare_record.cname_traefik.hostname)
-    service                = mackerel_service.traefik.name
+    url                    = format("https://%s", docs_hostname)
+    service                = mackerel_service.docs.name
     response_time_warning  = 500
     response_time_critical = 1000
     response_time_duration = 3

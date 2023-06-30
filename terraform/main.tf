@@ -32,4 +32,6 @@ module "starry-blue" {
   mackerel_api_key                = var.mackerel_api_key
   cloudflare_access_client_id     = var.cloudflare_access_client_id
   cloudflare_access_client_secret = var.cloudflare_access_client_secret
+  basic_credentials               = var.basic_credentials
+  external_urls                   = var.external_urls
 }
