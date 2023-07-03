@@ -9,8 +9,8 @@ resource "mackerel_monitor" "external_uranium" {
     method                 = "GET"
     url                    = var.external_urls["uranium"].url
     service                = mackerel_service.external_uranium.name
-    response_time_warning  = 500
-    response_time_critical = 1000
+    response_time_warning  = 1000
+    response_time_critical = 3000
     response_time_duration = 3
     max_check_attempts     = 1
     headers                = {

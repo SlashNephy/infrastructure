@@ -4,7 +4,7 @@ resource "mackerel_monitor" "nic_temperature" {
   host_metric {
     metric             = "custom.telegraf.sensors.chip-enp1s0-pci-0100_feature-mac_temperature_host-lily.temp_input"
     operator           = ">"
-    warning            = "75"
+    warning            = "80"
     critical           = "85"
     duration           = 3
     max_check_attempts = 1

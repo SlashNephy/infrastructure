@@ -4,8 +4,8 @@ resource "mackerel_monitor" "cpu_iowait" {
   host_metric {
     metric             = "cpu.iowait.percentage"
     operator           = ">"
-    warning            = "80"
-    critical           = "100"
+    warning            = "100"
+    critical           = "150"
     duration           = 3
     max_check_attempts = 1
     scopes             = ["Production:Server"]

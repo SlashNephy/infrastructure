@@ -1,7 +1,7 @@
 resource "mackerel_downtime" "weekly" {
   name     = "定期再起動"
   start    = 1688324400
-  duration = 60
+  duration = 120
 
   recurrence {
     interval = 1
