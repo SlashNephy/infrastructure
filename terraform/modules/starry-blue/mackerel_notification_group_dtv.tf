@@ -1,9 +1,11 @@
 resource "mackerel_notification_group" "dtv" {
   name              = "DTV"
   child_channel_ids = [
-    mackerel_channel.dtv.id,
     mackerel_channel.general.id,
+    mackerel_channel.dtv.id,
   ]
+
+  notification_level = "critical"
 
   monitor {
     id = mackerel_monitor.mirakurun_fault_tuners.id

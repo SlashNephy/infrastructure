@@ -8,6 +8,6 @@ resource "mackerel_monitor" "memory" {
     critical           = "90"
     duration           = 3
     max_check_attempts = 1
-    scopes             = ["Production:Server"]
+    scopes             = [mackerel_role.server.id]
   }
 }

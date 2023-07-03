@@ -8,6 +8,6 @@ resource "mackerel_monitor" "mirakurun_available_tuners" {
     critical           = "1"
     duration           = 1
     max_check_attempts = 1
-    scopes             = ["Production:Server"]
+    scopes             = [mackerel_role.server.id]
   }
 }

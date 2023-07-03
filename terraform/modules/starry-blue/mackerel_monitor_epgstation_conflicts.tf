@@ -7,6 +7,6 @@ resource "mackerel_monitor" "epgstation_conflicts" {
     critical           = "0"
     duration           = 1
     max_check_attempts = 1
-    scopes             = ["Production:Server"]
+    scopes             = [mackerel_role.server.id]
   }
 }
