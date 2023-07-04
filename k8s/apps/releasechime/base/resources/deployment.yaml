@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/releasechime:master@sha256:28210748b72ff2d12999c2dc713ca1ca67ede5f9b902ebbbc791aa3ad36e48cf
+          image: ghcr.io/slashnephy/releasechime:master@sha256:40bcd24588dc7ab565cf7ea4940ca7a1dffa08bcb4bc16ad4c008f97f9fff7a6
           env:
             - name: GITHUB_TOKEN
               valueFrom:
