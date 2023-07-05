@@ -3,10 +3,7 @@
   "extends": ["github>SlashNephy/.github:renovate-config"],
   "packageRules": [
     {
-      "matchPackagePrefixes": [
-        "ghcr.io/starrybluesky/mahiron",
-        "ghcr.io/starrybluesky/epgstation"
-      ],
+      "matchFileNames": ["k8s/apps/mahiron/**", "k8s/apps/epgstation/**"],
       "automergeSchedule": ["after 4am and before 5am"]
     }
   ]
