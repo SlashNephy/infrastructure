@@ -4,8 +4,8 @@ resource "mackerel_monitor" "cpu_temperature" {
   host_metric {
     metric             = "custom.telegraf.temp.host-lily_sensor-coretemp_package_id_0.temp"
     operator           = ">"
-    warning            = "60"
-    critical           = "70"
+    warning            = "65"
+    critical           = "75"
     duration           = 3
     max_check_attempts = 1
     scopes             = [mackerel_role.server.id]

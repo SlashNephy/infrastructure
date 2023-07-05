@@ -6,8 +6,8 @@ resource "mackerel_monitor" "cpu_iowait" {
     operator           = ">"
     warning            = "150"
     critical           = "200"
-    duration           = 3
-    max_check_attempts = 1
+    duration           = 5
+    max_check_attempts = 3
     scopes             = [mackerel_role.server.id]
   }
 }
