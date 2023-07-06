@@ -4,7 +4,6 @@
   "packageRules": [
     {
       "matchPaths": ["k8s/apps/mahiron", "k8s/apps/epgstation"],
-      "matchFileNames": ["k8s/apps/mahiron/**", "k8s/apps/epgstation/**"],
       "automergeSchedule": ["after 4am and before 5am"]
     }
   ]
