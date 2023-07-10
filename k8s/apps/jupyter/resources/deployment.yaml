@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: jupyter/datascience-notebook:latest@sha256:0cfa8e6c57d4f22dc0e3ef76dfcef4622661eaafbb4d64cdc7f0d1342caaedb3
+          image: jupyter/datascience-notebook:latest@sha256:c0b7c29dd72b087cfbff31444e02a65787d7eac1a8a310486a478fb9297b1c26
           workingDir: /home/jovyan/work
           command:
             - start-notebook.sh
