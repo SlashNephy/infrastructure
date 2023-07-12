@@ -385,6 +385,11 @@ spec:
             namespace: kubernetes-dashboard
             path: k8s/system/kubernetes-dashboard/bbc
             project: system
+          - name: opentelemetry-collector
+            cluster: https://kubernetes.default.svc
+            namespace: opentelemetry-collector
+            path: k8s/system/opentelemetry-collector
+            project: system
           #          - name: tigera-operator-lily
           #            cluster: https://kubernetes.default.svc
           #            namespace: tigera-operator

@@ -1,4 +1,4 @@
-resource "mackerel_monitor" "cpu_temperature" {
+resource "mackerel_monitor" "sda_temperature" {
   name = "ストレージ温度が高すぎる (sda)"
 
   host_metric {
