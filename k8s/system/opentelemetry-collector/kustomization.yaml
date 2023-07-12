@@ -1,0 +1,31 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: opentelemetry-collector
+
+helmCharts:
+  # https://artifacthub.io/packages/helm/opentelemetry-helm/opentelemetry-collector
+  - name: opentelemetry-collector
+    releaseName: opentelemetry-collector
+    namespace: opentelemetry-collector
+    version: 0.61.2
+    repo: https://open-telemetry.github.io/opentelemetry-helm-charts
+    valuesInline:
+      config:
+        receivers:
+          jaeger: null
+          prometheus: null
+          zipkin: null
+        service:
+          pipelines:
+            logs: null
+            metrics: null
+            traces:
+              receivers:
+                - otlp
+      mode: deployment
+      presets:
+        hostMetrics:
+          enabled: true
+        logsCollection:
+          enabled: true
+          includeCollectorLogs: true
