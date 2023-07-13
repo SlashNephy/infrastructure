@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/starrybluesky/mirakurun-custom:master@sha256:570d10d5e3aa57b632fc48aa0b7ba3410e4d6c4bf9cfe0bda62aedea416b2dc6
+          image: ghcr.io/starrybluesky/mirakurun-custom:master@sha256:9ceb8744e245a1dccccfd768577bc5977754a49bc079a2c05fb33cefa9d205dc
           env:
             - name: EXTERNAL_JSON_PATH
               value: /etc/mirakurun/services.yml
