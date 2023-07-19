@@ -93,16 +93,16 @@ spec:
             namespace: epgstation
             path: k8s/apps/epgstation
             project: apps
-          - name: farewell-main
-            cluster: https://kubernetes.default.svc
-            namespace: farewell-main
-            path: k8s/apps/farewell/main
-            project: apps
-          - name: farewell-sub
-            cluster: https://kubernetes.default.svc
-            namespace: farewell-sub
-            path: k8s/apps/farewell/sub
-            project: apps
+          # - name: farewell-main
+          #   cluster: https://kubernetes.default.svc
+          #   namespace: farewell-main
+          #   path: k8s/apps/farewell/main
+          #   project: apps
+          # - name: farewell-sub
+          #   cluster: https://kubernetes.default.svc
+          #   namespace: farewell-sub
+          #   path: k8s/apps/farewell/sub
+          #   project: apps
           - name: feedchime
             cluster: https://kubernetes.default.svc
             namespace: feedchime
@@ -133,11 +133,11 @@ spec:
             namespace: kuroda-bot
             path: k8s/apps/kuroda-bot
             project: apps
-          - name: local-ai
-            cluster: https://kubernetes.default.svc
-            namespace: local-ai
-            path: k8s/apps/local-ai
-            project: apps
+          # - name: local-ai
+          #   cluster: https://kubernetes.default.svc
+          #   namespace: local-ai
+          #   path: k8s/apps/local-ai
+          #   project: apps
           - name: m2ts-calendar
             cluster: https://kubernetes.default.svc
             namespace: m2ts-calendar
@@ -218,11 +218,11 @@ spec:
             namespace: releasechime-ff14
             path: k8s/apps/releasechime/ff14
             project: apps
-          - name: rummager
-            cluster: https://kubernetes.default.svc
-            namespace: rummager
-            path: k8s/apps/rummager
-            project: apps
+          # - name: rummager
+          #   cluster: https://kubernetes.default.svc
+          #   namespace: rummager
+          #   path: k8s/apps/rummager
+          #   project: apps
           - name: rustpad
             cluster: https://kubernetes.default.svc
             namespace: rustpad
@@ -288,11 +288,11 @@ spec:
             namespace: tuse
             path: k8s/apps/tuse
             project: apps
-          - name: tweetchime
-            cluster: https://kubernetes.default.svc
-            namespace: tweetchime
-            path: k8s/apps/tweetchime
-            project: apps
+          # - name: tweetchime
+          #   cluster: https://kubernetes.default.svc
+          #   namespace: tweetchime
+          #   path: k8s/apps/tweetchime
+          #   project: apps
           - name: unveiler
             cluster: https://kubernetes.default.svc
             namespace: unveiler
