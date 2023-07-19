@@ -40,8 +40,8 @@ spec:
                 type: Directory
             - name: dist
               hostPath:
-                path: /tmp
-                type: Directory
+                path: /var/backup
+                type: DirectoryOrCreate
             - name: config
               hostPath:
                 path: /opt/k8s-volumes/rclone-config/onedrive.conf
