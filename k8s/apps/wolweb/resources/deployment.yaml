@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/sameerdhoot/wolweb:debian
+          image: ghcr.io/sameerdhoot/wolweb:debian@sha256:fccd6857c9cac42784e6300180576d655bf74556014649b584509a1043aa8eb8
           env:
             - name: WOLWEBVDIR
               value: /
