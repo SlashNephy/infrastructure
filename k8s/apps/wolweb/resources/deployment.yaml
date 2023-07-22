@@ -22,7 +22,7 @@ spec:
           image: ghcr.io/sameerdhoot/wolweb:debian
           env:
             - name: WOLWEBVDIR
-              value: /wolweb
+              value: /
           ports:
             - containerPort: 8089
           volumeMounts:
