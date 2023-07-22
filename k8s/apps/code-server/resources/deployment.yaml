@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: codercom/code-server:4.14.1-bullseye@sha256:819c4d007649cbbab1ba828fa81fd4579440ce292b3b7925716e8ceb0df104da
+          image: codercom/code-server:4.15.0-bullseye@sha256:d0a5bc6149d3eb4587a419d91d47f9c4573e21d3267332367494c7740bfd3da1
           workingDir: /opt/k8s-volumes
           args:
             - --auth=none
