@@ -20,7 +20,7 @@ resource "mackerel_monitor" "mirakurun_api_v6" {
     response_time_warning  = 500
     response_time_critical = 1000
     response_time_duration = 3
-    max_check_attempts     = 1
+    max_check_attempts     = 3
     headers                = {
       Cache-Control = "no-cache"
       Authorization = "Basic ${base64encode(format("%s:%s", var.basic_credentials["lily-mirakurun"].user, var.basic_credentials["lily-mirakurun"].password))}"

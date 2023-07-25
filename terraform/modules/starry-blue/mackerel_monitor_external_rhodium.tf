@@ -12,7 +12,7 @@ resource "mackerel_monitor" "external_rhodium" {
     response_time_warning  = 1000
     response_time_critical = 3000
     response_time_duration = 3
-    max_check_attempts     = 1
+    max_check_attempts     = 3
     headers                = {
       Cache-Control = "no-cache"
       Authorization = "Basic ${base64encode(format("%s:%s", var.external_urls["rhodium"].user, var.external_urls["rhodium"].password))}"

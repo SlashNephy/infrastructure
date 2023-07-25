@@ -20,7 +20,7 @@ resource "mackerel_monitor" "epgstation" {
     response_time_warning  = 500
     response_time_critical = 1000
     response_time_duration = 3
-    max_check_attempts     = 1
+    max_check_attempts     = 3
     headers                = {
       Cache-Control           = "no-cache"
       CF-Access-Client-Id     = var.cloudflare_access_client_id
