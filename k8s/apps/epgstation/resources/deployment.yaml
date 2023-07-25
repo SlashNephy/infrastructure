@@ -30,8 +30,9 @@ spec:
               readOnly: true
             - name: records
               mountPath: /mnt/records
-            - name: dev-dri
-              mountPath: /dev/dri
+          resources:
+            limits:
+              gpu.intel.com/i915: "1"
         - name: db
           image: mariadb:10.11.4-jammy@sha256:385c0ba6270307511a511ad915350736602c33fafb3f63f663c853920424c365
           args:
@@ -72,9 +73,6 @@ spec:
           hostPath:
             path: /opt/k8s-volumes/epgstation-db
             type: DirectoryOrCreate
-        - name: dev-dri
-          hostPath:
-            path: /dev/dri
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
