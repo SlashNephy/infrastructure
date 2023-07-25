@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/annict2anilist:master@sha256:34608220675a30d6c7dc5f601a66f44bee33fbf00889626bd5945f147798f3aa
+          image: ghcr.io/slashnephy/annict2anilist:master@sha256:0229c5084e6e93acc7a996145ff26d4e03123ac749ea406b20ba25024676ddce
           env:
             - name: ANILIST_CLIENT_ID
               valueFrom:
