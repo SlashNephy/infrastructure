@@ -385,6 +385,11 @@ spec:
             namespace: kubernetes-dashboard
             path: k8s/system/kubernetes-dashboard/bbc
             project: system
+          - name: kubevirt
+            cluster: https://kubernetes.default.svc
+            namespace: kubevirt
+            path: k8s/system/kubevirt
+            project: system
           - name: node-feature-discovery
             cluster: https://kubernetes.default.svc
             namespace: node-feature-discovery
