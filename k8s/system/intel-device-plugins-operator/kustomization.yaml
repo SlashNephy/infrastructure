@@ -16,7 +16,7 @@ helmCharts:
     repo: https://intel.github.io/helm-charts/
     valuesInline:
       name: gpu-plugin
-      resourceManager: false
+      nodeFeatureRule: true
 
 resources:
   - ./resources/namespace.yaml

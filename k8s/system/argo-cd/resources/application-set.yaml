@@ -385,6 +385,11 @@ spec:
             namespace: kubernetes-dashboard
             path: k8s/system/kubernetes-dashboard/bbc
             project: system
+          - name: node-feature-discovery
+            cluster: https://kubernetes.default.svc
+            namespace: node-feature-discovery
+            path: k8s/system/node-feature-discovery
+            project: system
           - name: opentelemetry-collector
             cluster: https://kubernetes.default.svc
             namespace: opentelemetry-collector
