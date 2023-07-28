@@ -5,7 +5,7 @@
   "repository": "https://github.com/SlashNephy/infrastructure",
   "license": "MIT",
   "scripts": {
-    "format": "concurrently -n format: 'yarn:format:*'",
+    "format": "concurrently -n format: -m 1 'yarn:format:*'",
     "format:eslint": "yarn lint:eslint --fix",
     "format:prettier": "yarn lint:prettier --write",
     "lint": "concurrently -n lint: 'yarn:lint:*'",
@@ -15,19 +15,10 @@
   "devDependencies": {
     "@slashnephy/eslint-config": "1.0.1",
     "@slashnephy/prettier-config": "0.1.25",
-    "@typescript-eslint/eslint-plugin": "6.2.0",
     "concurrently": "8.2.0",
     "eslint": "8.45.0",
-    "eslint-plugin-deprecation": "1.4.1",
-    "eslint-plugin-import": "2.27.5",
-    "eslint-plugin-jest": "27.2.3",
-    "eslint-plugin-unused-imports": "3.0.0",
-    "eslint-plugin-yml": "1.8.0",
     "prettier": "3.0.0",
     "typescript": "5.1.6"
   },
-  "packageManager": "yarn@3.6.1",
-  "engines": {
-    "node": ">=18"
-  }
+  "packageManager": "yarn@3.6.1"
 }
