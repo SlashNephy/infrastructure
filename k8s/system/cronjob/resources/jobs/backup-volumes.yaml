@@ -20,8 +20,8 @@ spec:
                 - -c
                 - |
                   apk add zstd
-                  tar -acpf /dist/volumes.zst /src || true
-                  rclone copy /dist horoscope:Backup --config /rclone.conf
+                  tar -acpfv /dist/volumes.zst /src || true
+                  rclone copy /dist Neotopia:Backup --config /rclone.conf
                   rm -f /dist/volumes.zst
               volumeMounts:
                 - name: src

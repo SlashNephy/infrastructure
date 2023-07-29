@@ -4,7 +4,7 @@ metadata:
   name: backup-node
 
 spec:
-  schedule: "0 * * * *"
+  schedule: "0 0 * * *"
   jobTemplate:
     spec:
       template:
@@ -19,8 +19,8 @@ spec:
                 - /bin/bash
                 - -c
                 - |
-                  kubectl get secrets -A -o yaml > /backup/secrets.yaml
-                  kubectl get configmaps -A -o yaml > /backup/configmaps.yaml
+                  kubectl get secrets -A -o yaml > /backup/secrets_$(date +%Y%m%d).yaml
+                  kubectl get configmaps -A -o yaml > /backup/configmaps_$(date +%Y%m%d).yaml
               volumeMounts:
                 - name: backup
                   mountPath: /backup
