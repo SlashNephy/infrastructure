@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/divination-download-counter:master@sha256:be27044e06734642ec2e09a5664607ffb949ad0a3380a2fa91159043f0dad393
+          image: ghcr.io/slashnephy/divination-download-counter:master@sha256:b2806840577505801b49ad4701ab254a9e100b7e2022c8ff511b163e4719d54b
           env:
             - name: DATABASE_DSN
               valueFrom:
