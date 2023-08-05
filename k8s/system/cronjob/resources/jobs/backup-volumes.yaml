@@ -20,17 +20,17 @@ spec:
                 - -c
                 - |
                   apk add zstd
-                  tar -acpfv /dist/volumes.zst /src || true
-                  rclone copy /dist Neotopia:Backup --config /rclone.conf
-                  rm -f /dist/volumes.zst
+                  tar -acpfv /dest/volumes.zst /src || true
+                  rclone copy /dest Neotopia:Backup --config /config/onedrive.conf
+                  rm -f /dest/volumes.zst
               volumeMounts:
                 - name: src
                   mountPath: /src
                   readOnly: true
-                - name: dist
-                  mountPath: /dist
+                - name: dest
+                  mountPath: /dest
                 - name: config
-                  mountPath: /rclone.conf
+                  mountPath: /config
               securityContext:
                 allowPrivilegeEscalation: false
           volumes:
@@ -38,13 +38,14 @@ spec:
               hostPath:
                 path: /opt/k8s-volumes
                 type: Directory
-            - name: dist
+            - name: dest
               hostPath:
                 path: /var/backup
                 type: DirectoryOrCreate
             - name: config
               hostPath:
-                path: /opt/k8s-volumes/rclone-config/onedrive.conf
+                path: /opt/k8s-volumes/rclone-config
+                type: Directory
           restartPolicy: Never
           imagePullSecrets:
             - name: docker-hub-credentials
