@@ -228,11 +228,11 @@ spec:
             namespace: rustpad
             path: k8s/apps/rustpad
             project: apps
-          - name: samba
-            cluster: https://kubernetes.default.svc
-            namespace: samba
-            path: k8s/apps/samba
-            project: apps
+          #          - name: samba
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: samba
+          #            path: k8s/apps/samba
+          #            project: apps
           #          - name: satisfactory
           #            namespace: satisfactory
           #            cluster: https://kubernetes.default.svc
@@ -278,11 +278,11 @@ spec:
             namespace: telegraf
             path: k8s/apps/telegraf
             project: apps
-          - name: tiny-tiny-rss
-            cluster: https://kubernetes.default.svc
-            namespace: tiny-tiny-rss
-            path: k8s/apps/tiny-tiny-rss
-            project: apps
+          #          - name: tiny-tiny-rss
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: tiny-tiny-rss
+          #            path: k8s/apps/tiny-tiny-rss
+          #            project: apps
           - name: tuse
             cluster: https://kubernetes.default.svc
             namespace: tuse
