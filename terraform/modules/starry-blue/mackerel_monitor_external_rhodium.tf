@@ -18,8 +18,8 @@ resource "mackerel_monitor" "external_rhodium" {
       Authorization = "Basic ${base64encode(format("%s:%s", var.external_urls["rhodium"].user, var.external_urls["rhodium"].password))}"
     }
     contains_string                   = "{"
-    certification_expiration_warning  = 30
-    certification_expiration_critical = 15
+    certification_expiration_warning  = 14
+    certification_expiration_critical = 7
     follow_redirect                   = false
   }
 }

@@ -26,8 +26,8 @@ resource "mackerel_monitor" "ssh" {
       CF-Access-Client-Id     = var.cloudflare_access_client_id
       CF-Access-Client-Secret = var.cloudflare_access_client_secret
     }
-    certification_expiration_warning  = 30
-    certification_expiration_critical = 15
+    certification_expiration_warning  = 14
+    certification_expiration_critical = 7
     follow_redirect                   = false
   }
 }

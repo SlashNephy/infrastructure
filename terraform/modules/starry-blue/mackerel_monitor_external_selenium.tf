@@ -18,8 +18,8 @@ resource "mackerel_monitor" "external_selenium" {
       Authorization = "Basic ${base64encode(format("%s:%s", var.external_urls["selenium"].user, var.external_urls["selenium"].password))}"
     }
     contains_string                   = "{"
-    certification_expiration_warning  = 30
-    certification_expiration_critical = 15
+    certification_expiration_warning  = 14
+    certification_expiration_critical = 7
     follow_redirect                   = false
   }
 }

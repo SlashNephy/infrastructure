@@ -27,8 +27,8 @@ resource "mackerel_monitor" "bbc_mahiron_api" {
       Authorization = "Basic ${base64encode(format("%s:%s", var.basic_credentials["bbc-mirakurun"].user, var.basic_credentials["bbc-mirakurun"].password))}"
     }
     contains_string                   = "{"
-    certification_expiration_warning  = 30
-    certification_expiration_critical = 15
+    certification_expiration_warning  = 14
+    certification_expiration_critical = 7
     follow_redirect                   = false
   }
 }
