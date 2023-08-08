@@ -21,7 +21,7 @@ spec:
                 - |
                   apk add zstd
                   tar -acpv -f /dest/volumes.zst --exclude='*.sock' /src || true
-                  rclone copy /dest Neotopia:Backup --config /config/onedrive.conf
+                  rclone copy --progress /dest Neotopia:Backup --config /config/onedrive.conf
                   rm -f /dest/volumes.zst
               volumeMounts:
                 - name: src
