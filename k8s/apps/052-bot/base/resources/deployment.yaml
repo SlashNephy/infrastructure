@@ -35,7 +35,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: bot
-          image: ghcr.io/slashnephy/samekan052_bot:main@sha256:a7e80c78e0280a527b255f21760dd71f50bba00f6e4d083f3764670f90587442
+          image: ghcr.io/slashnephy/samekan052_bot:main@sha256:5d62b1869e321d3d7df0642fb20b109367161fac45cd79f6346060cbaed1dbd1
           env:
             - name: API_BASE_URL
               value: http://api-service:5000
