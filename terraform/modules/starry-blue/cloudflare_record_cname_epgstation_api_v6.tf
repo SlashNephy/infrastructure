@@ -23,7 +23,7 @@ resource "mackerel_monitor" "epgstation_api_v6" {
     max_check_attempts     = 3
     headers                = {
       Cache-Control = "no-cache"
-      Authorization = "Basic ${base64encode(format("%s:%s", var.basic_credentials["lily-epgstation"].user, var.basic_credentials["lily-epgstation"].password))}"
+      Authorization = "Basic ${base64encode(format("%s:%s", data.onepassword_item.lily-epgstation_credential.username, data.onepassword_item.lily-epgstation_credential.password))}"
     }
     contains_string                   = "{"
     certification_expiration_warning  = 14

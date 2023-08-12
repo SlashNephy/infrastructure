@@ -2,7 +2,7 @@ resource "mackerel_channel" "dtv" {
   name = "#dtv"
 
   slack {
-    url                 = var.dtv_slack_webhook_url
+    url                 = data.onepassword_item.dtv_slack_webhook_url.password
     enabled_graph_image = true
     events              = [
       "alert"

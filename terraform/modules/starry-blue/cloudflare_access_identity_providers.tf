@@ -4,7 +4,7 @@ resource "cloudflare_access_identity_provider" "github_oauth" {
   type       = "github"
 
   config {
-    client_id     = local.github_oauth_client_id
-    client_secret = var.github_oauth_client_secret
+    client_id     = data.onepassword_item.github_oauth_client.username
+    client_secret = data.onepassword_item.github_oauth_client.password
   }
 }

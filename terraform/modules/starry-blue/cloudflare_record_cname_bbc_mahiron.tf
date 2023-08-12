@@ -24,8 +24,8 @@ resource "mackerel_monitor" "bbc_mahiron" {
     max_check_attempts     = 1
     headers                = {
       Cache-Control           = "no-cache"
-      CF-Access-Client-Id     = var.cloudflare_access_client_id
-      CF-Access-Client-Secret = var.cloudflare_access_client_secret
+      CF-Access-Client-Id     = data.onepassword_item.cloudflare_access_client.username
+      CF-Access-Client-Secret = data.onepassword_item.cloudflare_access_client.password
     }
     certification_expiration_warning  = 14
     certification_expiration_critical = 7

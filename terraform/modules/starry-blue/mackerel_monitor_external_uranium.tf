@@ -3,11 +3,11 @@ resource "mackerel_service" "external_uranium" {
 }
 
 resource "mackerel_monitor" "external_uranium" {
-  name = format("%s に疎通できない", var.external_urls["uranium"].url)
+  name = format("%s に疎通できない", data.onepassword_item.external-uranium_credential.url)
 
   external {
     method                 = "GET"
-    url                    = var.external_urls["uranium"].url
+    url                    = data.onepassword_item.external-uranium_credential.url
     service                = mackerel_service.external_uranium.name
     response_time_warning  = 1000
     response_time_critical = 3000
@@ -15,7 +15,7 @@ resource "mackerel_monitor" "external_uranium" {
     max_check_attempts     = 3
     headers                = {
       Cache-Control = "no-cache"
-      Authorization = "Basic ${base64encode(format("%s:%s", var.external_urls["uranium"].user, var.external_urls["uranium"].password))}"
+      Authorization = "Basic ${base64encode(format("%s:%s", data.onepassword_item.external-uranium_credential.username, data.onepassword_item.external-uranium_credential.password))}"
     }
     contains_string                   = "{"
     certification_expiration_warning  = 14

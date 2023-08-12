@@ -24,7 +24,7 @@ resource "mackerel_monitor" "bbc_mahiron_api" {
     max_check_attempts     = 1
     headers                = {
       Cache-Control = "no-cache"
-      Authorization = "Basic ${base64encode(format("%s:%s", var.basic_credentials["bbc-mirakurun"].user, var.basic_credentials["bbc-mirakurun"].password))}"
+      Authorization = "Basic ${base64encode(format("%s:%s", data.onepassword_item.bbc-mahiron_credential.username, data.onepassword_item.bbc-mahiron_credential.password))}"
     }
     contains_string                   = "{"
     certification_expiration_warning  = 14

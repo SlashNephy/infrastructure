@@ -23,7 +23,7 @@ resource "mackerel_monitor" "mahiron_api_v6" {
     max_check_attempts     = 3
     headers                = {
       Cache-Control = "no-cache"
-      Authorization = "Basic ${base64encode(format("%s:%s", var.basic_credentials["lily-mirakurun"].user, var.basic_credentials["lily-mirakurun"].password))}"
+      Authorization = "Basic ${base64encode(format("%s:%s", data.onepassword_item.lily-mahiron_credential.username, data.onepassword_item.lily-mahiron_credential.password))}"
     }
     contains_string                   = "{"
     certification_expiration_warning  = 14

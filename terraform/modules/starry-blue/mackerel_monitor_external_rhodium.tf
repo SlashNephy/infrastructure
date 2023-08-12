@@ -3,11 +3,11 @@ resource "mackerel_service" "external_rhodium" {
 }
 
 resource "mackerel_monitor" "external_rhodium" {
-  name = format("%s に疎通できない", var.external_urls["rhodium"].url)
+  name = format("%s に疎通できない", data.onepassword_item.external-rhodium_credential.url)
 
   external {
     method                 = "GET"
-    url                    = var.external_urls["rhodium"].url
+    url                    = data.onepassword_item.external-rhodium_credential.url
     service                = mackerel_service.external_rhodium.name
     response_time_warning  = 1000
     response_time_critical = 3000
@@ -15,7 +15,7 @@ resource "mackerel_monitor" "external_rhodium" {
     max_check_attempts     = 3
     headers                = {
       Cache-Control = "no-cache"
-      Authorization = "Basic ${base64encode(format("%s:%s", var.external_urls["rhodium"].user, var.external_urls["rhodium"].password))}"
+      Authorization = "Basic ${base64encode(format("%s:%s", data.onepassword_item.external-rhodium_credential.username, data.onepassword_item.external-rhodium_credential.password))}"
     }
     contains_string                   = "{"
     certification_expiration_warning  = 14

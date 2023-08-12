@@ -7,33 +7,11 @@ terraform {
       name = "infrastructure"
     }
   }
-
-  required_providers {
-    cloudflare = {
-      source  = "cloudflare/cloudflare"
-      version = "4.1.0"
-    }
-    mackerel = {
-      source  = "mackerelio-labs/mackerel"
-      version = "0.3.2"
-    }
-  }
-}
-
-provider "cloudflare" {
-  api_token = var.cloudflare_api_token
 }
 
 module "starry-blue" {
-  source                          = "./modules/starry-blue"
-  cloudflare_api_token            = var.cloudflare_api_token
-  github_oauth_client_secret      = var.github_oauth_client_secret
-  email_routing_catch_all_address = var.email_routing_catch_all_address
-  mackerel_api_key                = var.mackerel_api_key
-  cloudflare_access_client_id     = var.cloudflare_access_client_id
-  cloudflare_access_client_secret = var.cloudflare_access_client_secret
-  basic_credentials               = var.basic_credentials
-  external_urls                   = var.external_urls
-  general_slack_webhook_url       = var.general_slack_webhook_url
-  dtv_slack_webhook_url           = var.dtv_slack_webhook_url
+  source                    = "./modules/starry-blue"
+  onepassword_connect_token = var.onepassword_connect_token
+  cloudflare_api_token      = var.cloudflare_api_token
+  mackerel_api_key          = var.mackerel_api_key
 }

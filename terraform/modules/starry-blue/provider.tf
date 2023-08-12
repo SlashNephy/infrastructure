@@ -1,5 +1,9 @@
 terraform {
   required_providers {
+    onepassword = {
+      source  = "1Password/onepassword"
+      version = "1.2.0"
+    }
     cloudflare = {
       source  = "cloudflare/cloudflare"
       version = "4.1.0"
@@ -9,6 +13,11 @@ terraform {
       version = "0.3.2"
     }
   }
+}
+
+provider "onepassword" {
+  url   = "https://op-tfc.starry.blue"
+  token = var.onepassword_connect_token
 }
 
 provider "cloudflare" {
