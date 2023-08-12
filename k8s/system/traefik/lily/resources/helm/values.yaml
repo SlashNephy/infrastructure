@@ -9,7 +9,7 @@ autoscaling:
 deployment:
   imagePullSecrets:
     - name: docker-hub-credentials
-  replicas: 2
+  replicas: 4
 
 env:
   - name: TZ
@@ -20,9 +20,6 @@ experimental:
     enabled: true
   v3:
     enabled: true
-
-globalArguments:
-  - --global.checknewversion
 
 hub:
   enabled: true
