@@ -3,7 +3,8 @@ resource "mackerel_service" "external_selenium" {
 }
 
 resource "mackerel_monitor" "external_selenium" {
-  name = format("%s に疎通できない", var.external_urls["selenium"].url)
+  name    = format("%s に疎通できない", var.external_urls["selenium"].url)
+  is_mute = true
 
   external {
     method                 = "GET"
