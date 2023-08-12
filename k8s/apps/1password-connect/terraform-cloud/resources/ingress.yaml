@@ -8,5 +8,5 @@ spec:
     - kind: Rule
       match: Host(`op-tfc.starry.blue`)
       services:
-        - name: connect-api
-          port: 8080
+        - name: onepassword-connect
+          port: connect-api
