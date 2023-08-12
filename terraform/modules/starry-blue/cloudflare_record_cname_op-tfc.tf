@@ -15,7 +15,7 @@ resource "mackerel_monitor" "op-tfc" {
 
   external {
     method                 = "GET"
-    url                    = format("https://%s", cloudflare_record.cname_op-tfc.hostname)
+    url                    = format("https://%s/health", cloudflare_record.cname_op-tfc.hostname)
     service                = mackerel_service.op-tfc.name
     response_time_warning  = 500
     response_time_critical = 1000
