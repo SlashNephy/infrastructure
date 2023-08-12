@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+helmCharts:
+  # https://github.com/1Password/connect-helm-charts/tree/main/charts/connect
+  - name: connect
+    releaseName: connect
+    namespace: 1password-connect-terraform-cloud
+    version: 1.12.1
+    repo: https://1password.github.io/connect-helm-charts
+    includeCRDs: true
+    valuesInline:
+      connect:
+        podAnnotations:
+          fluentbit.io/exclude: "true"
+        serviceType: ClusterIP
+      operator:
+        create: false
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
+  - ./resources/ingress.yaml

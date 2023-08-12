@@ -8,6 +8,11 @@ spec:
     - list:
         elements:
           # apps
+          - name: 1password-connect-terraform-cloud
+            cluster: https://kubernetes.default.svc
+            namespace: 1password-connect-terraform-cloud
+            path: k8s/apps/1password-connect/terraform-cloud
+            project: apps
           #          - name: 7-days-to-die
           #            namespace: 7-days-to-die
           #            cluster: https://kubernetes.default.svc
