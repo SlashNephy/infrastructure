@@ -24,7 +24,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: envoy
-          image: ghcr.io/slashnephy/muni-envoy:master@sha256:ac5f186d7e576aad5eff0ce0e2801eb344a81bbb9006f3eba9397c6bae5bec21
+          image: ghcr.io/slashnephy/muni-envoy:master@sha256:4f51d2bc1e7537217ba75c25e5a9ae75efc7fa5e9cdb7887918e8504df8d090e
           ports:
             - containerPort: 7090
           securityContext:
