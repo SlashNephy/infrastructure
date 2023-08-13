@@ -30,4 +30,6 @@ resource "mackerel_monitor" "mahiron_api_v6" {
     certification_expiration_critical = 7
     follow_redirect                   = false
   }
+
+  depends_on = [data.onepassword_item.lily-mahiron_credential]
 }

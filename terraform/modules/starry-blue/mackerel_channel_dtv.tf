@@ -8,4 +8,6 @@ resource "mackerel_channel" "dtv" {
       "alert"
     ]
   }
+
+  depends_on = [data.onepassword_item.dtv_slack_webhook_url]
 }

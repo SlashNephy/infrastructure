@@ -22,4 +22,6 @@ resource "mackerel_monitor" "external_manganese" {
     certification_expiration_critical = 7
     follow_redirect                   = false
   }
+
+  depends_on = [data.onepassword_item.external-manganese_credential]
 }

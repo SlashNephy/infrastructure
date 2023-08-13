@@ -12,4 +12,6 @@ resource "mackerel_channel" "general" {
       "hostStatus",
     ]
   }
+
+  depends_on = [data.onepassword_item.general_slack_webhook_url]
 }

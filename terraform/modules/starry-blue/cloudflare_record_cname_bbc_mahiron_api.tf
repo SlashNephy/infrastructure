@@ -31,4 +31,6 @@ resource "mackerel_monitor" "bbc_mahiron_api" {
     certification_expiration_critical = 7
     follow_redirect                   = false
   }
+
+  depends_on = [data.onepassword_item.bbc-mahiron_credential]
 }

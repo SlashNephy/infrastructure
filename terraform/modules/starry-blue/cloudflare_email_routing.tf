@@ -6,6 +6,8 @@ resource "cloudflare_email_routing_settings" "settings" {
 resource "cloudflare_email_routing_address" "catch_all_address" {
   account_id = cloudflare_account.account.id
   email      = data.onepassword_item.email_routing_catch_all_address.password
+
+  depends_on = [data.onepassword_item.email_routing_catch_all_address]
 }
 
 resource "cloudflare_email_routing_catch_all" "catch_all" {

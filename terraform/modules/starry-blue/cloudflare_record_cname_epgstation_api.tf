@@ -30,4 +30,6 @@ resource "mackerel_monitor" "epgstation_api" {
     certification_expiration_critical = 7
     follow_redirect                   = false
   }
+
+  depends_on = [data.onepassword_item.lily-epgstation_credential]
 }

@@ -30,6 +30,8 @@ resource "mackerel_monitor" "rclone_radio" {
     certification_expiration_critical = 7
     follow_redirect                   = false
   }
+
+  depends_on = [data.onepassword_item.cloudflare_access_client]
 }
 
 resource "mackerel_service" "rclone_records" {
@@ -56,4 +58,6 @@ resource "mackerel_monitor" "rclone_records" {
     certification_expiration_critical = 7
     follow_redirect                   = false
   }
+
+  depends_on = [data.onepassword_item.cloudflare_access_client]
 }

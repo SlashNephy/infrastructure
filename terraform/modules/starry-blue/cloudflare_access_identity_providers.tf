@@ -7,4 +7,6 @@ resource "cloudflare_access_identity_provider" "github_oauth" {
     client_id     = data.onepassword_item.github_oauth_client.username
     client_secret = data.onepassword_item.github_oauth_client.password
   }
+
+  depends_on = [data.onepassword_item.github_oauth_client]
 }
