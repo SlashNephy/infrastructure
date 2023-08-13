@@ -4,17 +4,17 @@ data "onepassword_vault" "terraform" {
 
 data "onepassword_item" "github_oauth_client" {
   vault = data.onepassword_vault.terraform.uuid
-  uuid  = "mcbc6dmunf6q7o5nop2vanw4uq"
+  uuid  = "47j2n5ecdeulpja5mh5hud7eom"
 }
 
 data "onepassword_item" "email_routing_catch_all_address" {
   vault = data.onepassword_vault.terraform.uuid
-  uuid  = "s5egjsqkea7xk2pgstxsypymta"
+  uuid  = "gfkmkrndebubvjkdn34zx6fsxy"
 }
 
 data "onepassword_item" "cloudflare_access_client" {
   vault = data.onepassword_vault.terraform.uuid
-  uuid  = "jivexfjn77larjch6aagun5j6a"
+  uuid  = "vndwg4mcjmjojumne2kqmydooe"
 }
 
 data "onepassword_item" "general_slack_webhook_url" {
@@ -39,7 +39,7 @@ data "onepassword_item" "lily-epgstation_credential" {
 
 data "onepassword_item" "bbc-mahiron_credential" {
   vault = data.onepassword_vault.terraform.uuid
-  uuid  = "ycyu33k7bwuk4f2ebzgjcqx6de"
+  uuid  = "uvkstbocd4skmycspdhfvizb2q"
 }
 
 data "onepassword_item" "external-manganese_credential" {
