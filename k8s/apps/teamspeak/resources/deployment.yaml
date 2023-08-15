@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mariadb:10.11.4-jammy@sha256:385c0ba6270307511a511ad915350736602c33fafb3f63f663c853920424c365
+          image: mariadb:10.11.5-jammy@sha256:edc1e004e37d1cb198490ae84a7b9359b729da0a3b9506476ef24214e8540934
           env:
             - name: MYSQL_DATABASE
               value: teamspeak
