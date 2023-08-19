@@ -3,7 +3,8 @@ resource "mackerel_service" "external_manganese" {
 }
 
 resource "mackerel_monitor" "external_manganese" {
-  name = format("%s に疎通できない", data.onepassword_item.external-manganese_credential.url)
+  name    = format("%s に疎通できない", data.onepassword_item.external-manganese_credential.url)
+  is_mute = true
 
   external {
     method                 = "GET"
