@@ -18,7 +18,7 @@ helmCharts:
           allowVolumeExpansion: true
           enabled: true
           pathPattern: ${.PVC.namespace}/${.PVC.name}
-          reclaimPolicy: Delete
+          reclaimPolicy: Retain
 
 resources:
   - ./resources/namespace.yaml
