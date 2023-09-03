@@ -1,0 +1,12 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`kubeclarity.starry.blue`)
+      services:
+        - name: kubeclarity-kubeclarity
+          port: backend
