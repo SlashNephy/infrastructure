@@ -360,6 +360,11 @@ spec:
             namespace: intel-device-plugins-operator
             path: k8s/system/intel-device-plugins-operator
             project: system
+          - name: juicefs-csi-driver
+            cluster: https://kubernetes.default.svc
+            namespace: juicefs-csi-driver
+            path: k8s/system/juicefs-csi-driver
+            project: system
           #          - name: keel
           #            cluster: https://kubernetes.default.svc
           #            namespace: keel
@@ -430,11 +435,11 @@ spec:
             namespace: traefik
             path: k8s/system/traefik/bbc
             project: system
-          - name: trivy-operator
-            cluster: https://kubernetes.default.svc
-            namespace: trivy-system
-            path: k8s/system/trivy-operator
-            project: system
+          #          - name: trivy-operator
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: trivy-system
+          #            path: k8s/system/trivy-operator
+          #            project: system
 
   template:
     metadata:
