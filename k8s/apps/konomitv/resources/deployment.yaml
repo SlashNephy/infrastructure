@@ -19,16 +19,19 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/starrybluesky/konomitv-hwaccel:latest@sha256:4b73e4a80324d0e81279ae0400b996ceaaa33642a2853d3c04b48d6892563baa
+          image: ghcr.io/tsukumijima/konomitv:latest
           volumeMounts:
             - name: config
-              mountPath: /app/config.yaml
+              mountPath: /code/config.yaml
               readOnly: true
               subPath: config.yaml
             - name: data
-              mountPath: /app/server/data
-            - name: dev-dri
-              mountPath: /dev/dri
+              mountPath: /code/server/data
+            - name: records
+              mountPath: /mnt/records
+          resources:
+            limits:
+              gpu.intel.com/i915: "1"
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -39,9 +42,10 @@ spec:
           hostPath:
             path: /opt/k8s-volumes/konomitv/data
             type: DirectoryOrCreate
-        - name: dev-dri
+        - name: records
           hostPath:
-            path: /dev/dri
+            path: /mnt/records
+            type: Directory
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
