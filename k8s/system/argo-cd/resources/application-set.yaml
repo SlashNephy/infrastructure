@@ -380,6 +380,11 @@ spec:
           #            namespace: kourier-system
           #            path: k8s/system/kourier-system
           #            project: system
+          - name: kubeclarity
+            cluster: https://kubernetes.default.svc
+            namespace: kubeclarity
+            path: k8s/system/kubeclarity
+            project: system
           - name: kubernetes-dashboard-lily
             cluster: https://kubernetes.default.svc
             namespace: kubernetes-dashboard
