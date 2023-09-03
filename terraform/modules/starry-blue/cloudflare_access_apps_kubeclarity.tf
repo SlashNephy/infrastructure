@@ -1,6 +1,6 @@
 resource "cloudflare_access_application" "kubeclarity" {
   account_id                 = cloudflare_account.account.id
-  name                       = "kubeclarity"
+  name                       = "KubeClarity"
   domain                     = cloudflare_record.cname_k8s.hostname
   type                       = "self_hosted"
   logo_url                   = "https://raw.githubusercontent.com/openclarity/kubeclarity/main/images/logos/KubeClarity-logo-dark-bg-icon.svg"

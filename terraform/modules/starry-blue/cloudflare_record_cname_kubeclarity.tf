@@ -7,7 +7,7 @@ resource "cloudflare_record" "cname_kubeclarity" {
 }
 
 resource "mackerel_service" "kubeclarity" {
-  name = "Lily_kubeclarity"
+  name = "Lily_KubeClarity"
 }
 
 resource "mackerel_monitor" "kubeclarity" {
