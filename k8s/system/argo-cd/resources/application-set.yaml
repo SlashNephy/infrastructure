@@ -238,6 +238,11 @@ spec:
           #            namespace: samba
           #            path: k8s/apps/samba
           #            project: apps
+          - name: sandbox
+            cluster: https://kubernetes.default.svc
+            namespace: sandbox
+            path: k8s/apps/sandbox
+            project: apps
           #          - name: satisfactory
           #            namespace: satisfactory
           #            cluster: https://kubernetes.default.svc
