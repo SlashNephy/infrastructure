@@ -16,6 +16,9 @@ spec:
       containers:
         - name: app
           image: archlinux:base@sha256:b29dab0d5f362cfe2ed4662c46f27855681d56fb548fd2f6d927fd573131178a
+          args:
+            - sleep
+            - infinity
           env:
             - name: TZ
               value: Asia/Tokyo
