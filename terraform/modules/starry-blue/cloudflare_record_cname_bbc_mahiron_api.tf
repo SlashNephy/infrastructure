@@ -17,7 +17,7 @@ resource "mackerel_monitor" "bbc_mahiron_api" {
   external {
     method                 = "GET"
     url                    = format("https://%s/api/status", cloudflare_record.cname_bbc_mahiron_api.hostname)
-    service                = mackerel_service.bbc_mahiron.name
+    service                = mackerel_service.bbc_mahiron_api.name
     response_time_warning  = 500
     response_time_critical = 1000
     response_time_duration = 3

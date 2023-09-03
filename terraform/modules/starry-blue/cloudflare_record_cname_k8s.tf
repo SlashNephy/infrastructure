@@ -11,11 +11,11 @@ resource "mackerel_service" "k8s" {
 }
 
 resource "mackerel_monitor" "k8s" {
-  name = format("%s に疎通できない", cloudflare_record.cname_code.hostname)
+  name = format("%s に疎通できない", cloudflare_record.cname_k8s.hostname)
 
   external {
     method                 = "GET"
-    url                    = format("https://%s", cloudflare_record.cname_code.hostname)
+    url                    = format("https://%s", cloudflare_record.cname_k8s.hostname)
     service                = mackerel_service.code.name
     response_time_warning  = 500
     response_time_critical = 1000
