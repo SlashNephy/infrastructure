@@ -9,6 +9,8 @@ helmCharts:
     version: 0.17.2
     repo: https://juicedata.github.io/charts/
     valuesInline:
+      controller:
+        provisioner: true
       imagePullSecrets:
         - name: docker-hub-credentials
       storageClasses:
