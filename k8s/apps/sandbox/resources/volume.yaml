@@ -4,9 +4,9 @@ metadata:
   name: data
 
 spec:
-  storageClassName: juicefs-r2
   accessModes:
     - ReadWriteMany
   resources:
     requests:
       storage: 10Mi
+  storageClassName: juicefs-r2
