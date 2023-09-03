@@ -23,6 +23,8 @@ helmCharts:
 resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
+  - ./resources/redis/deployment.yaml
+  - ./resources/redis/service.yaml
   - ./../../common/registry-docker-hub/lily
 
 patches:
