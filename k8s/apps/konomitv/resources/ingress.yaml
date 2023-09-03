@@ -11,13 +11,13 @@ spec:
         - name: service
           port: 7000
           scheme: https
-          serversTransport: allow-insecure
+          serversTransport: patch-hostname
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: ServersTransport
 metadata:
-  name: allow-insecure
+  name: patch-hostname
 
 spec:
-  insecureSkipVerify: true
+  serverName: my.local.konomi.tv
