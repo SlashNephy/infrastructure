@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: create-tvtest-release
+  name: cronjob
 
 spec:
   schedule: "0 0 * * *"
@@ -33,12 +33,3 @@ spec:
           restartPolicy: Never
           imagePullSecrets:
             - name: docker-hub-credentials
-
----
-apiVersion: onepassword.com/v1
-kind: OnePasswordItem
-metadata:
-  name: github-secret
-
-spec:
-  itemPath: vaults/4mogpcwrvtvsnpooum4vcevwkm/items/jlexoj6grpvx3mpphbkwwyimo4

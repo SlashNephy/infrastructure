@@ -13,11 +13,6 @@ spec:
             namespace: 1password-connect-terraform-cloud
             path: k8s/apps/1password-connect/terraform-cloud
             project: apps
-          #          - name: 7-days-to-die
-          #            namespace: 7-days-to-die
-          #            cluster: https://kubernetes.default.svc
-          #            path: k8s/apps/052-bot/7-days-to-die
-          #            project: apps
           - name: 052-bot-karasu
             cluster: https://kubernetes.default.svc
             namespace: 052-bot-karasu
@@ -63,11 +58,6 @@ spec:
             namespace: cloudflare-ddns
             path: k8s/apps/cloudflare-ddns
             project: apps
-          #          - name: cloudflared
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: cloudflared
-          #            path: k8s/apps/cloudflared
-          #            project: apps
           - name: code-server
             cluster: https://kubernetes.default.svc
             namespace: code-server
@@ -78,36 +68,11 @@ spec:
             namespace: comskip-tvtplay
             path: k8s/apps/comskip-tvtplay
             project: apps
-          #          - name: denentoshi-line
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: denentoshi-line
-          #            path: k8s/apps/denentoshi-line
-          #            project: apps
-          #          - name: diun
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: diun
-          #            path: k8s/apps/diun
-          #            project: apps
-          #          - name: divination-download-counter
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: divination-download-counter
-          #            path: k8s/apps/divination-download-counter
-          #            project: apps
           - name: epgstation
             cluster: https://kubernetes.default.svc
             namespace: epgstation
             path: k8s/apps/epgstation
             project: apps
-          # - name: farewell-main
-          #   cluster: https://kubernetes.default.svc
-          #   namespace: farewell-main
-          #   path: k8s/apps/farewell/main
-          #   project: apps
-          # - name: farewell-sub
-          #   cluster: https://kubernetes.default.svc
-          #   namespace: farewell-sub
-          #   path: k8s/apps/farewell/sub
-          #   project: apps
           - name: feedchime
             cluster: https://kubernetes.default.svc
             namespace: feedchime
@@ -138,11 +103,6 @@ spec:
             namespace: kuroda-bot
             path: k8s/apps/kuroda-bot
             project: apps
-          # - name: local-ai
-          #   cluster: https://kubernetes.default.svc
-          #   namespace: local-ai
-          #   path: k8s/apps/local-ai
-          #   project: apps
           - name: m2ts-calendar
             cluster: https://kubernetes.default.svc
             namespace: m2ts-calendar
@@ -158,26 +118,11 @@ spec:
             namespace: mahiron
             path: k8s/apps/mahiron/bbc
             project: apps
-          #          - name: minecraft_forge_1_12_2
-          #            namespace: minecraft_forge_1_12_2
-          #            cluster: https://kubernetes.default.svc
-          #            path: k8s/apps/minecraft/forge-1.12.2
-          #            project: apps
           - name: miniserve
             cluster: https://kubernetes.default.svc
             namespace: miniserve
             path: k8s/apps/miniserve
             project: apps
-          #          - name: mirakurun-lily
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: mirakurun
-          #            path: k8s/apps/mirakurun/lily
-          #            project: apps
-          #          - name: mirakurun-bbc
-          #            cluster: https://192.168.11.59:6443
-          #            namespace: mirakurun
-          #            path: k8s/apps/mirakurun/bbc
-          #            project: apps
           - name: mirakurun-iptv-rewriter
             cluster: https://kubernetes.default.svc
             namespace: mirakurun-iptv-rewriter
@@ -223,41 +168,16 @@ spec:
             namespace: releasechime-ff14
             path: k8s/apps/releasechime/ff14
             project: apps
-          # - name: rummager
-          #   cluster: https://kubernetes.default.svc
-          #   namespace: rummager
-          #   path: k8s/apps/rummager
-          #   project: apps
           - name: rustpad
             cluster: https://kubernetes.default.svc
             namespace: rustpad
             path: k8s/apps/rustpad
             project: apps
-          #          - name: samba
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: samba
-          #            path: k8s/apps/samba
-          #            project: apps
           - name: sandbox
             cluster: https://kubernetes.default.svc
             namespace: sandbox
             path: k8s/apps/sandbox
             project: apps
-          #          - name: satisfactory
-          #            namespace: satisfactory
-          #            cluster: https://kubernetes.default.svc
-          #            path: k8s/apps/satisfactory
-          #            project: apps
-          #          - name: setlist-main
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: setlist-main
-          #            path: k8s/apps/setlist/main
-          #            project: apps
-          #          - name: setlist-sub
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: setlist-sub
-          #            path: k8s/apps/setlist/sub
-          #            project: apps
           - name: soundbot-reloaded
             cluster: https://kubernetes.default.svc
             namespace: soundbot-reloaded
@@ -288,31 +208,16 @@ spec:
             namespace: telegraf
             path: k8s/apps/telegraf
             project: apps
-          #          - name: tiny-tiny-rss
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: tiny-tiny-rss
-          #            path: k8s/apps/tiny-tiny-rss
-          #            project: apps
           - name: tuse
             cluster: https://kubernetes.default.svc
             namespace: tuse
             path: k8s/apps/tuse
             project: apps
-          # - name: tweetchime
-          #   cluster: https://kubernetes.default.svc
-          #   namespace: tweetchime
-          #   path: k8s/apps/tweetchime
-          #   project: apps
           - name: unveiler
             cluster: https://kubernetes.default.svc
             namespace: unveiler
             path: k8s/apps/unveiler
             project: apps
-          #          - name: valheim
-          #            namespace: valheim
-          #            cluster: https://kubernetes.default.svc
-          #            path: k8s/apps/valheim
-          #            project: apps
           - name: whoami
             cluster: https://kubernetes.default.svc
             namespace: whoami
@@ -323,17 +228,54 @@ spec:
             namespace: wolweb
             path: k8s/apps/wolweb
             project: apps
+          - name: kubeclarity
+            cluster: https://kubernetes.default.svc
+            namespace: kubeclarity
+            path: k8s/system/kubeclarity
+            project: apps
+          - name: kubernetes-dashboard-lily
+            cluster: https://kubernetes.default.svc
+            namespace: kubernetes-dashboard
+            path: k8s/system/kubernetes-dashboard/lily
+            project: apps
+          - name: kubernetes-dashboard-bbc
+            cluster: https://192.168.11.59:6443
+            namespace: kubernetes-dashboard
+            path: k8s/system/kubernetes-dashboard/bbc
+            project: apps
+
+          # cron
+          - name: cron-backup-node
+            cluster: https://kubernetes.default.svc
+            namespace: cron-backup-node
+            path: k8s/cron/backup-node
+            project: cron
+          - name: cron-backup-volumes
+            cluster: https://kubernetes.default.svc
+            namespace: cron-backup-volumes
+            path: k8s/cron/backup-volumes
+            project: cron
+          - name: cron-create-tvtest-release
+            cluster: https://kubernetes.default.svc
+            namespace: cron-create-tvtest-release
+            path: k8s/cron/create-tvtest-release
+            project: cron
+          - name: cron-rm-empty-files
+            cluster: https://kubernetes.default.svc
+            namespace: cron-rm-empty-files
+            path: k8s/cron/rm-empty-files
+            project: cron
 
           # system
           - name: 1password-lily
             cluster: https://kubernetes.default.svc
             namespace: 1password
-            path: k8s/system/1password
+            path: k8s/system/1password-connect
             project: system
           - name: 1password-bbc
             cluster: https://192.168.11.59:6443
             namespace: 1password
-            path: k8s/system/1password
+            path: k8s/system/1password-connect
             project: system
           - name: argo-cd
             cluster: https://kubernetes.default.svc
@@ -345,21 +287,11 @@ spec:
             namespace: cert-manager
             path: k8s/system/cert-manager
             project: system
-          - name: cronjob
-            cluster: https://kubernetes.default.svc
-            namespace: cronjob
-            path: k8s/system/cronjob
-            project: system
           - name: flannel-lily
             cluster: https://kubernetes.default.svc
             namespace: kube-flannel
             path: k8s/system/flannel
             project: system
-          #          - name: fluent-bit
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: fluent-bit
-          #            path: k8s/system/fluent-bit
-          #            project: system
           - name: intel-device-plugins-operator
             cluster: https://kubernetes.default.svc
             namespace: intel-device-plugins-operator
@@ -369,46 +301,6 @@ spec:
             cluster: https://kubernetes.default.svc
             namespace: juicefs-csi-driver
             path: k8s/system/juicefs-csi-driver
-            project: system
-          #          - name: keel
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: keel
-          #            path: k8s/system/keel
-          #            project: system
-          #          - name: knative-eventing
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: knative-eventing
-          #            path: k8s/system/knative-eventing
-          #            project: system
-          #          - name: knative-serving
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: knative-serving
-          #            path: k8s/system/knative-serving
-          #            project: system
-          #          - name: kourier-system
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: kourier-system
-          #            path: k8s/system/kourier-system
-          #            project: system
-          - name: kubeclarity
-            cluster: https://kubernetes.default.svc
-            namespace: kubeclarity
-            path: k8s/system/kubeclarity
-            project: system
-          - name: kubernetes-dashboard-lily
-            cluster: https://kubernetes.default.svc
-            namespace: kubernetes-dashboard
-            path: k8s/system/kubernetes-dashboard/lily
-            project: system
-          - name: kubernetes-dashboard-bbc
-            cluster: https://192.168.11.59:6443
-            namespace: kubernetes-dashboard
-            path: k8s/system/kubernetes-dashboard/bbc
-            project: system
-          - name: kubevirt
-            cluster: https://kubernetes.default.svc
-            namespace: kubevirt
-            path: k8s/system/kubevirt
             project: system
           - name: node-feature-discovery
             cluster: https://kubernetes.default.svc
@@ -420,11 +312,6 @@ spec:
             namespace: opentelemetry-collector
             path: k8s/system/opentelemetry-collector
             project: system
-          #          - name: tigera-operator-lily
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: tigera-operator
-          #            path: k8s/system/tigera-operator
-          #            project: system
           - name: tigera-operator-bbc
             cluster: https://192.168.11.59:6443
             namespace: tigera-operator
@@ -440,11 +327,6 @@ spec:
             namespace: traefik
             path: k8s/system/traefik/bbc
             project: system
-          #          - name: trivy-operator
-          #            cluster: https://kubernetes.default.svc
-          #            namespace: trivy-system
-          #            path: k8s/system/trivy-operator
-          #            project: system
 
   template:
     metadata:

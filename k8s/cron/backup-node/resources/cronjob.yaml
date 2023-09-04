@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: backup-node
+  name: cronjob
 
 spec:
   schedule: "0 * * * *"
@@ -34,40 +34,4 @@ spec:
           restartPolicy: Never
           imagePullSecrets:
             - name: docker-hub-credentials
-          serviceAccountName: backup-node-service-account
-
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: backup-node-service-account
-
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: backup-node-cluster-role
-
-rules:
-  - apiGroups:
-      - ""
-    resources:
-      - secrets
-      - configmaps
-    verbs:
-      - get
-      - list
-
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: backup-node-cluster-role-binding
-
-roleRef:
-  name: backup-node-cluster-role
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-subjects:
-  - name: backup-node-service-account
-    kind: ServiceAccount
+          serviceAccountName: service-account

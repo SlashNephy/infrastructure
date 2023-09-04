@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: rm-empty-files
+  name: cronjob
 
 spec:
   schedule: "0 4 * * *"

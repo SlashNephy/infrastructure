@@ -21,6 +21,26 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
+  name: cron
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  destinations:
+    - namespace: "*"
+      server: "*"
+  orphanedResources:
+    warn: true
+  sourceRepos:
+    - "*"
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
   name: system
   finalizers:
     - resources-finalizer.argocd.argoproj.io
