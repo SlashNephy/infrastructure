@@ -25,6 +25,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+              mountPropagation: HostToContainer
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -32,3 +33,5 @@ spec:
           persistentVolumeClaim:
             claimName: data
       restartPolicy: Always
+      imagePullSecrets:
+        - name: docker-hub-credentials
