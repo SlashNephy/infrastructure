@@ -40,6 +40,20 @@
         ]
       },
       {
+        "pathPattern": "^rules\\[\\d+\\]$",
+        "order": [
+          "apiGroups",
+          "resources",
+          "resourceNames",
+          "verbs",
+          {
+            "order": {
+              "type": "asc"
+            }
+          }
+        ]
+      },
+      {
         "pathPattern": "^images\\[\\d+\\]$",
         "order": [
           "name",

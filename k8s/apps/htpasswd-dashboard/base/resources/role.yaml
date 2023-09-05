@@ -1,13 +1,15 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: role
+  name: htpasswd-dashboard-role
 
 rules:
   - apiGroups:
       - ""
     resources:
       - secrets
+    resourceNames:
+      - basic-auth-credentials
     verbs:
       - get
       - create
@@ -20,7 +22,7 @@ metadata:
   name: role-binding
 
 roleRef:
-  name: role
+  name: htpasswd-dashboard-role
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
 subjects:
