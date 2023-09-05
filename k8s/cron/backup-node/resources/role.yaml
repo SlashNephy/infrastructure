@@ -20,7 +20,7 @@ metadata:
   name: cluster-role-binding
 
 roleRef:
-  name: backup-node-cluster-role
+  name: cluster-role
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
 subjects:
