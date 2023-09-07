@@ -1,7 +1,7 @@
 resource "cloudflare_access_application" "kubeclarity" {
   account_id                 = cloudflare_account.account.id
   name                       = "KubeClarity"
-  domain                     = cloudflare_record.cname_k8s.hostname
+  domain                     = cloudflare_record.cname_kubeclarity.hostname
   type                       = "self_hosted"
   logo_url                   = "https://raw.githubusercontent.com/openclarity/kubeclarity/main/images/logos/KubeClarity-logo-dark-bg-icon.svg"
   app_launcher_visible       = true
@@ -15,7 +15,7 @@ resource "cloudflare_access_application" "kubeclarity" {
 
 resource "cloudflare_access_policy" "kubeclarity" {
   account_id     = cloudflare_account.account.id
-  application_id = cloudflare_access_application.k8s.id
+  application_id = cloudflare_access_application.kubeclarity.id
   name           = "private-server-access"
   decision       = "allow"
   precedence     = 1
