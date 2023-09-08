@@ -119,7 +119,7 @@ ports:
           sans:
             - "*.starry.blue"
       enabled: true
-      options: default
+      options: traefik-cloudflare@kubernetescrd
 
 providers:
   kubernetesCRD:
