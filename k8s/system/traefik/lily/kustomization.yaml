@@ -24,6 +24,9 @@ configMapGenerator:
     files:
       - ./config/route-ai.yml
       - ./config/route-router.yml
+  - name: traefik-env
+    literals:
+      - TZ=Asia/Tokyo
 
 generatorOptions:
   disableNameSuffixHash: false

@@ -12,9 +12,9 @@ deployment:
   minReadySeconds: 30
   replicas: 4
 
-env:
-  - name: TZ
-    value: Asia/Tokyo
+envFrom:
+  - configMapRef:
+      name: traefik-env
 
 experimental:
   plugins:
