@@ -5,3 +5,11 @@ namespace: traefik
 resources:
   - ./resources/namespace.yaml
   - ./resources/helm
+
+configMapGenerator:
+  - name: traefik-env
+    literals:
+      - TZ=Asia/Tokyo
+
+generatorOptions:
+  disableNameSuffixHash: false
