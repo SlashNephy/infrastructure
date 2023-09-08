@@ -18,8 +18,6 @@ metadata:
   name: route-gateway
 
 spec:
-  entryPoints:
-    - gateway
   routes:
     - kind: Rule
       match: (Host(`mirakurun-api.starry.blue`) || Host(`mirakurun-api-v6.starry.blue`)) && PathPrefix(`/api`)
@@ -28,6 +26,9 @@ spec:
           port: 40772
       middlewares:
         - name: mirakurun-basic-auth
+  tls:
+    options:
+      name: gateway
 
 ---
 apiVersion: traefik.containo.us/v1alpha1

@@ -4,8 +4,6 @@ metadata:
   name: route-gateway
 
 spec:
-  entryPoints:
-    - gateway
   routes:
     - kind: Rule
       match: (Host(`mahiron-api.starry.blue`) || Host(`mahiron-api-v6.starry.blue`) || Host(`mirakurun-api.starry.blue`) || Host(`mirakurun-api-v6.starry.blue`)) && PathPrefix(`/api/iptv/playlist`)
@@ -14,3 +12,6 @@ spec:
           port: 5000
       middlewares:
         - name: mirakurun-basic-auth
+  tls:
+    options:
+      name: gateway

@@ -57,45 +57,19 @@ metrics:
   prometheus: null
 
 ports:
-  gateway:
+  metrics: null
+  web: null
+
+  websecure:
+    asDefault: true
     expose: true
     exposedPort: 443
 
     forwardedHeaders:
       trustedIPs:
-        - 192.168.1.0/24
-
-    # http3:
-    #   advertisedPort: 8443
-    #   enabled: true
-
-    middlewares:
-      - traefik-security-headers@kubernetescrd
-      - traefik-ban-robots@kubernetescrd
-
-    nodePort: 443
-    port: 9443
-
-    tls:
-      domains:
-        - main: starry.blue
-          sans:
-            - "*.starry.blue"
-      enabled: true
-      options: traefik-gateway@kubernetescrd
-
-  web:
-    expose: false
-
-  websecure:
-    asDefault: true
-    expose: true
-    exposedPort: 8443
-
-    forwardedHeaders:
-      trustedIPs:
         # /run/flannel/subnet.env
         - 10.244.0.0/16
+        - 192.168.1.0/24
 
     # http3:
     #   advertisedPort: 8443
@@ -109,7 +83,7 @@ ports:
       - traefik-ban-robots@kubernetescrd
       - traefik-trust-cloudflare-ips@kubernetescrd
 
-    nodePort: 8443
+    nodePort: 443
     port: 8443
 
     # https://doc.traefik.io/traefik/routing/entrypoints/#tls
