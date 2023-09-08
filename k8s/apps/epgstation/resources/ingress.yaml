@@ -18,8 +18,6 @@ metadata:
   name: route-gateway
 
 spec:
-  entryPoints:
-    - gateway
   routes:
     - kind: Rule
       match: (Host(`epgstation-api.starry.blue`) || Host(`epgstation-api-v6.starry.blue`)) && PathPrefix(`/api`)
@@ -28,6 +26,9 @@ spec:
           port: 8888
       middlewares:
         - name: epgstation-basic-auth
+  tls:
+    options:
+      name: gateway
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
