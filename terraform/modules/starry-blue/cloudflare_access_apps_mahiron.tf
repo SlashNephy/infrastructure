@@ -21,6 +21,7 @@ resource "cloudflare_access_policy" "mahiron" {
   precedence     = 1
 
   include {
-    group = [cloudflare_access_group.github_organization_private_dtv.id]
+    group         = [cloudflare_access_group.github_organization_private_dtv.id]
+    service_token = [cloudflare_access_service_token.github_actions.id]
   }
 }
