@@ -21,7 +21,19 @@ resource "cloudflare_access_policy" "epgstation" {
   precedence     = 1
 
   include {
-    group         = [cloudflare_access_group.github_organization_private_dtv.id]
+    group = [cloudflare_access_group.github_organization_private_dtv.id]
+  }
+}
+
+resource "cloudflare_access_policy" "epgstation_ci" {
+  account_id     = cloudflare_account.account.id
+  application_id = cloudflare_access_application.epgstation.id
+  name           = "GitHub Actions"
+  decision       = "non_identity"
+  precedence     = 1
+
+  include {
     service_token = [cloudflare_access_service_token.github_actions.id]
   }
 }
+
