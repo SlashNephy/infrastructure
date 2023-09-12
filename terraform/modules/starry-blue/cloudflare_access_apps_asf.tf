@@ -11,6 +11,7 @@ resource "cloudflare_access_application" "arch_steam_farm" {
   same_site_cookie_attribute = "lax"
   http_only_cookie_attribute = true
   enable_binding_cookie      = false
+  service_auth_401_redirect  = true
 }
 
 resource "cloudflare_access_policy" "arch_steam_farm" {
@@ -22,5 +23,17 @@ resource "cloudflare_access_policy" "arch_steam_farm" {
 
   include {
     group = [cloudflare_access_group.github_organization_private_asf.id]
+  }
+}
+
+resource "cloudflare_access_policy" "arch_steam_farm_mackerel" {
+  account_id     = cloudflare_account.account.id
+  application_id = cloudflare_access_application.arch_steam_farm.id
+  name           = "Mackerel"
+  decision       = "non_identity"
+  precedence     = 2
+
+  include {
+    group = [cloudflare_access_group.mackerel.id]
   }
 }

@@ -26,7 +26,7 @@ resource "cloudflare_access_policy" "mahiron" {
   }
 }
 
-resource "cloudflare_access_policy" "mahiron_ci" {
+resource "cloudflare_access_policy" "mahiron_github_actions" {
   account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.mahiron.id
   name           = "GitHub Actions"
@@ -35,6 +35,18 @@ resource "cloudflare_access_policy" "mahiron_ci" {
 
 
   include {
-    service_token = [cloudflare_access_service_token.github_actions.id]
+    group = [cloudflare_access_group.github_actions.id]
+  }
+}
+
+resource "cloudflare_access_policy" "mahiron_mackerel" {
+  account_id     = cloudflare_account.account.id
+  application_id = cloudflare_access_application.mahiron.id
+  name           = "Mackerel"
+  decision       = "non_identity"
+  precedence     = 2
+
+  include {
+    group = [cloudflare_access_group.mackerel.id]
   }
 }

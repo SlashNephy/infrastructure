@@ -11,6 +11,7 @@ resource "cloudflare_access_application" "argocd" {
   same_site_cookie_attribute = "lax"
   http_only_cookie_attribute = true
   enable_binding_cookie      = false
+  service_auth_401_redirect  = true
 }
 
 resource "cloudflare_access_policy" "argocd" {
@@ -22,6 +23,18 @@ resource "cloudflare_access_policy" "argocd" {
 
   include {
     group = [cloudflare_access_group.github_organization_private_server_access.id]
+  }
+}
+
+resource "cloudflare_access_policy" "argocd_mackerel" {
+  account_id     = cloudflare_account.account.id
+  application_id = cloudflare_access_application.argocd.id
+  name           = "Mackerel"
+  decision       = "non_identity"
+  precedence     = 2
+
+  include {
+    group = [cloudflare_access_group.mackerel.id]
   }
 }
 

@@ -9,6 +9,7 @@ resource "cloudflare_access_application" "ssh_lily" {
   auto_redirect_to_identity = true
   session_duration          = "168h"
   skip_interstitial         = true
+  service_auth_401_redirect = true
 }
 
 resource "cloudflare_access_policy" "ssh_lily" {
@@ -20,6 +21,18 @@ resource "cloudflare_access_policy" "ssh_lily" {
 
   include {
     group = [cloudflare_access_group.github_organization_private_server_access.id]
+  }
+}
+
+resource "cloudflare_access_policy" "ssh_lily_mackerel" {
+  account_id     = cloudflare_account.account.id
+  application_id = cloudflare_access_application.ssh_lily.id
+  name           = "Mackerel"
+  decision       = "non_identity"
+  precedence     = 2
+
+  include {
+    group = [cloudflare_access_group.mackerel.id]
   }
 }
 

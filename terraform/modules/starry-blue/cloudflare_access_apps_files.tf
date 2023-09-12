@@ -20,6 +20,7 @@ resource "cloudflare_access_application" "files_mnt" {
   same_site_cookie_attribute = "lax"
   http_only_cookie_attribute = true
   enable_binding_cookie      = false
+  service_auth_401_redirect  = true
 }
 
 resource "cloudflare_access_policy" "files_mnt" {
@@ -31,5 +32,17 @@ resource "cloudflare_access_policy" "files_mnt" {
 
   include {
     group = [cloudflare_access_group.github_organization_private_dtv.id]
+  }
+}
+
+resource "cloudflare_access_policy" "files_mnt_mackerel" {
+  account_id     = cloudflare_account.account.id
+  application_id = cloudflare_access_application.files_mnt.id
+  name           = "Mackerel"
+  decision       = "non_identity"
+  precedence     = 2
+
+  include {
+    group = [cloudflare_access_group.mackerel.id]
   }
 }

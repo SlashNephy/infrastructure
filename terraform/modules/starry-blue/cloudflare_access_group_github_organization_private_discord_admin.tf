@@ -8,8 +8,6 @@ resource "cloudflare_access_group" "github_organization_private_discord_admin" {
       name                 = local.github_organization_name
       teams                = ["private-discord-admin"]
     }
-
-    service_token = [cloudflare_access_service_token.mackerel.id]
   }
 
   require {

@@ -26,7 +26,7 @@ resource "cloudflare_access_policy" "epgstation" {
   }
 }
 
-resource "cloudflare_access_policy" "epgstation_ci" {
+resource "cloudflare_access_policy" "epgstation_github_actions" {
   account_id     = cloudflare_account.account.id
   application_id = cloudflare_access_application.epgstation.id
   name           = "GitHub Actions"
@@ -34,6 +34,18 @@ resource "cloudflare_access_policy" "epgstation_ci" {
   precedence     = 2
 
   include {
-    service_token = [cloudflare_access_service_token.github_actions.id]
+    group = [cloudflare_access_group.github_actions.id]
+  }
+}
+
+resource "cloudflare_access_policy" "epgstation_mackerel" {
+  account_id     = cloudflare_account.account.id
+  application_id = cloudflare_access_application.epgstation.id
+  name           = "Mackerel"
+  decision       = "non_identity"
+  precedence     = 2
+
+  include {
+    group = [cloudflare_access_group.mackerel.id]
   }
 }

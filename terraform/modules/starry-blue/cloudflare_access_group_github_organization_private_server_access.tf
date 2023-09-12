@@ -8,8 +8,6 @@ resource "cloudflare_access_group" "github_organization_private_server_access" {
       name                 = local.github_organization_name
       teams                = ["private-server-access"]
     }
-
-    service_token = [cloudflare_access_service_token.mackerel.id]
   }
 
   require {

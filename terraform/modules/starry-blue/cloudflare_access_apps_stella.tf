@@ -10,6 +10,7 @@ resource "cloudflare_access_application" "stella" {
   same_site_cookie_attribute = "lax"
   http_only_cookie_attribute = true
   enable_binding_cookie      = false
+  service_auth_401_redirect  = true
 }
 
 resource "cloudflare_access_policy" "stella" {
@@ -21,5 +22,17 @@ resource "cloudflare_access_policy" "stella" {
 
   include {
     group = [cloudflare_access_group.github_organization_private.id]
+  }
+}
+
+resource "cloudflare_access_policy" "stella_mackerel" {
+  account_id     = cloudflare_account.account.id
+  application_id = cloudflare_access_application.stella.id
+  name           = "Mackerel"
+  decision       = "non_identity"
+  precedence     = 2
+
+  include {
+    group = [cloudflare_access_group.mackerel.id]
   }
 }

@@ -10,6 +10,7 @@ resource "cloudflare_access_application" "rclone_radio" {
   same_site_cookie_attribute = "lax"
   http_only_cookie_attribute = true
   enable_binding_cookie      = false
+  service_auth_401_redirect  = true
 }
 
 resource "cloudflare_access_policy" "rclone_radio" {
@@ -21,6 +22,18 @@ resource "cloudflare_access_policy" "rclone_radio" {
 
   include {
     group = [cloudflare_access_group.github_organization_private_dtv_dev.id]
+  }
+}
+
+resource "cloudflare_access_policy" "rclone_radio_mackerel" {
+  account_id     = cloudflare_account.account.id
+  application_id = cloudflare_access_application.rclone_radio.id
+  name           = "Mackerel"
+  decision       = "non_identity"
+  precedence     = 2
+
+  include {
+    group = [cloudflare_access_group.mackerel.id]
   }
 }
 
@@ -36,6 +49,7 @@ resource "cloudflare_access_application" "rclone_records" {
   same_site_cookie_attribute = "lax"
   http_only_cookie_attribute = true
   enable_binding_cookie      = false
+  service_auth_401_redirect  = true
 }
 
 resource "cloudflare_access_policy" "rclone_records" {
@@ -47,5 +61,17 @@ resource "cloudflare_access_policy" "rclone_records" {
 
   include {
     group = [cloudflare_access_group.github_organization_private_dtv_dev.id]
+  }
+}
+
+resource "cloudflare_access_policy" "rclone_records_mackerel" {
+  account_id     = cloudflare_account.account.id
+  application_id = cloudflare_access_application.rclone_records.id
+  name           = "Mackerel"
+  decision       = "non_identity"
+  precedence     = 2
+
+  include {
+    group = [cloudflare_access_group.mackerel.id]
   }
 }
