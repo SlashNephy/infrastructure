@@ -5,7 +5,6 @@ namespace: rclone-watch-records
 resources:
   - ./resources/namespace.yaml
   - ./../base
-  - ./resources/ingress.yaml
 
 configMapGenerator:
   - name: rclone-watch-config
@@ -22,12 +21,12 @@ configMapGenerator:
         --copy-links
         --order-by=name
         --ignore-existing
-        --rc
-        --rc-addr=0.0.0.0:5572
-        --rc-baseurl=/records
-        --rc-no-auth
-        --rc-user=user
-        --rc-pass=pass
-        --rc-web-gui
-        --rc-web-gui-no-open-browser
-        --rc-web-gui-update
+      #        --rc
+      #        --rc-addr=0.0.0.0:5572
+      #        --rc-baseurl=/records
+      #        --rc-no-auth
+      #        --rc-user=user
+      #        --rc-pass=pass
+      #        --rc-web-gui
+      #        --rc-web-gui-no-open-browser
+      #        --rc-web-gui-update

@@ -23,8 +23,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: rclone-watch-config
-          ports:
-            - containerPort: 5572
+          #          ports:
+          #            - containerPort: 5572
           volumeMounts:
             - name: mnt
               mountPath: /mnt
