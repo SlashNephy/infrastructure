@@ -6,6 +6,7 @@ provider "registry.terraform.io/1password/onepassword" {
   constraints = "1.2.0"
   hashes = [
     "h1:Ioq9CtbxKVVWTIy6bwzJAEncpWJFuedexTWy910ID+Y=",
+    "h1:WcgyQScdbd64MIIl8gqXc20OBrfsIj9NqhljVADptqc=",
     "zh:1872f94d1a52242a3907c3e8be7d5c70a60534975a50a32b92e5563d5febabfd",
     "zh:235250c32f37d131518db8e413a7dbdbcb10140eb297e1b087a422f17b3d7a8d",
     "zh:2d753f2cbe2b35360071062941ce88c431539b2f8d4bc648e05956ec0ea390bf",
@@ -28,6 +29,7 @@ provider "registry.terraform.io/cloudflare/cloudflare" {
   constraints = "4.1.0"
   hashes = [
     "h1:9ClahHlvfnj8dhASRlHIuS2p4JmELxC4DVH8CB4rqRE=",
+    "h1:WzAkwCBcWqh+dj4iNvhAYC33xdKF06DWEB362ss0pR8=",
     "zh:06a0b45f5a8fac2951acc988f38497387fc9d9ff72c4769f1fff8d098cb401a2",
     "zh:169f429a9a9d944674ddba33dd62c0cd7b70e784c487b1a82b737696734e5b7d",
     "zh:1dab042b7ffb8eb09121e194d144f6c73ad2149be6856309609334fecbf775d9",
@@ -48,8 +50,9 @@ provider "registry.terraform.io/cloudflare/cloudflare" {
 
 provider "registry.terraform.io/mackerelio-labs/mackerel" {
   version     = "0.3.2"
-  constraints = "~> 0.3"
+  constraints = "0.3.2"
   hashes = [
+    "h1:VKUWQyGEs0NOJJ+0Ij++9qvVUCiI3YOIoBKRFGDITaY=",
     "h1:wIUEcLAYneKwnV5ZA1cCuzic/0YKybSANjG93FzSs+g=",
     "zh:004994f1f73b53da4951e116f7c864d58dde1009da704c2607a7bde3392ed819",
     "zh:0c7f887809a34f8128d58fb62c6767f870e940ef3e68665d86df3cf7772ab4d9",
