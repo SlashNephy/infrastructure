@@ -1,3 +1,4 @@
+// XXX: これ何に使ってるんだっけ
 resource "cloudflare_access_service_token" "cli" {
   account_id           = cloudflare_account.account.id
   name                 = "CLI"

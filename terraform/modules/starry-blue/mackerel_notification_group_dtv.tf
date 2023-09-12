@@ -14,9 +14,6 @@ resource "mackerel_notification_group" "dtv" {
     id = mackerel_monitor.mirakurun_available_tuners.id
   }
   monitor {
-    id = mackerel_monitor.mirakurun.id
-  }
-  monitor {
     id = mackerel_monitor.mirakurun_api.id
   }
   #  monitor {

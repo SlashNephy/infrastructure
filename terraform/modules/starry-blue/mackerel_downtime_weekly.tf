@@ -11,7 +11,6 @@ resource "mackerel_downtime" "weekly" {
 
   monitor_scopes = [
     mackerel_monitor.connectivity.id,
-    mackerel_monitor.mirakurun.id,
     mackerel_monitor.mirakurun_api.id,
     mackerel_monitor.mirakurun_api_v6.id,
     mackerel_monitor.mahiron.id,
