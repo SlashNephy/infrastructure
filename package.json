@@ -4,6 +4,7 @@
   "author": "SlashNephy <spica@starry.blue>",
   "repository": "https://github.com/SlashNephy/infrastructure",
   "license": "MIT",
+  "main": "pulumi/index.ts",
   "scripts": {
     "format": "concurrently -n format: -m 1 'yarn:format:*'",
     "format:eslint": "yarn lint:eslint --fix",
@@ -11,6 +12,11 @@
     "lint": "concurrently -n lint: 'yarn:lint:*'",
     "lint:eslint": "eslint .",
     "lint:prettier": "prettier --check ."
+  },
+  "dependencies": {
+    "@pulumi/cloudflare": "5.10.0",
+    "@pulumi/pulumi": "3.81.0",
+    "@pulumi/terraform": "5.13.4"
   },
   "devDependencies": {
     "@slashnephy/eslint-config": "1.0.6",
