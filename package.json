@@ -1,10 +1,10 @@
 {
   "name": "infrastructure",
   "version": "1.0.0",
+  "main": "pulumi/index.ts",
   "author": "SlashNephy <spica@starry.blue>",
   "repository": "https://github.com/SlashNephy/infrastructure",
   "license": "MIT",
-  "main": "pulumi/index.ts",
   "scripts": {
     "format": "concurrently -n format: -m 1 'yarn:format:*'",
     "format:eslint": "yarn lint:eslint --fix",
