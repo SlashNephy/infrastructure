@@ -17,8 +17,8 @@ resource "mackerel_monitor" "stella" {
     method                 = "GET"
     url                    = format("https://%s", cloudflare_record.cname_stella.hostname)
     service                = mackerel_service.stella.name
-    response_time_warning  = 500
-    response_time_critical = 1000
+    response_time_warning  = 3000
+    response_time_critical = 5000
     response_time_duration = 3
     max_check_attempts     = 1
     headers                = {

@@ -17,8 +17,8 @@ resource "mackerel_monitor" "mahiron_api" {
     method                 = "GET"
     url                    = format("https://%s:13444/api/status", cloudflare_record.cname_mahiron_api.hostname)
     service                = mackerel_service.mahiron_api.name
-    response_time_warning  = 500
-    response_time_critical = 1000
+    response_time_warning  = 3000
+    response_time_critical = 5000
     response_time_duration = 3
     max_check_attempts     = 3
     headers                = {
