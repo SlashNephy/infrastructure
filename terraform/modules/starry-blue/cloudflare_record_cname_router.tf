@@ -11,7 +11,8 @@ resource "mackerel_service" "router" {
 }
 
 resource "mackerel_monitor" "router" {
-  name = format("%s に疎通できない", cloudflare_record.cname_router.hostname)
+  name    = format("%s に疎通できない", cloudflare_record.cname_router.hostname)
+  is_mute = true
 
   external {
     method                 = "GET"
