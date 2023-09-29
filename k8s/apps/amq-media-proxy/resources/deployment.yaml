@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/amq-media-proxy:master
+          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:94749e667814b373b2cb44731b4805e8ee9576bcc85abae5842392e1f3e59bf5
           ports:
             - containerPort: 8080
           volumeMounts:
