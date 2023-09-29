@@ -24,7 +24,7 @@ spec:
             - containerPort: 8080
           volumeMounts:
             - name: app-volume
-              mountPath: /app/cache
+              mountPath: /app/.cache
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
