@@ -1,7 +1,7 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: route
+  name: route-gateway
 
 spec:
   routes:
@@ -13,3 +13,17 @@ spec:
   tls:
     options:
       name: gateway
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`amq-proxy-cf.starry.blue`)
+      services:
+        - name: service
+          port: app
