@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/amq-media-proxy
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: app-volume
+              mountPath: /app/cache
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: app-volume
+          hostPath:
+            path: /opt/k8s-volumes/amq-media-proxy/cache
+            type: DirectoryOrCreate
+      restartPolicy: Always
