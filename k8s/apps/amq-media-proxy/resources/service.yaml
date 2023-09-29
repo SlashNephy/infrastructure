@@ -10,3 +10,20 @@ spec:
     - name: app
       port: 8080
       targetPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-service
+
+spec:
+  selector:
+    app: default
+  type: NodePort
+  ports:
+    - name: "40774"
+      port: 40774
+      targetPort: 8080
+      nodePort: 40774
+      protocol: TCP
