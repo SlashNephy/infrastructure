@@ -20,6 +20,9 @@ spec:
       containers:
         - name: app
           image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:118cd2dcab6e65c35f91e3b96f19e3c3456157fb32c737e09f26cb30720a9752
+          env:
+            - name: TRUST_REAL_IP
+              value: "true"
           ports:
             - containerPort: 8080
           volumeMounts:
