@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:d3b0588ee6579f51f177a25eb3ae3ec9ae92846b0886e75410686f2a76559d1d
+          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:6c0135848922a4b1e5c717f869c4f1d7bf97ee3108f855084e20183ea8dca3ef
           env:
             - name: TRUST_REAL_IP
               value: "true"
@@ -34,14 +34,12 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: batch
-          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:d3b0588ee6579f51f177a25eb3ae3ec9ae92846b0886e75410686f2a76559d1d
+          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:6c0135848922a4b1e5c717f869c4f1d7bf97ee3108f855084e20183ea8dca3ef
           args:
             - ./batch-download
           env:
             - name: QUESTIONS_JSON_PATH
               value: /app/questions.json
-            - name: LOG_DOWNLOADER
-              value: "true"
           volumeMounts:
             - name: cache
               mountPath: /app/.cache
@@ -59,3 +57,4 @@ spec:
             path: /opt/k8s-volumes/amq-media-proxy/questions.json
             type: File
       restartPolicy: Always
+      terminationGracePeriodSeconds: 180
