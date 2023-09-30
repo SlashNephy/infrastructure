@@ -35,6 +35,8 @@ spec:
             allowPrivilegeEscalation: false
         - name: batch
           image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:205a311a5db9557985653e8324b45dcc285a1bc243d9a8f7b0259404671c8acf
+          args:
+            - ./batch-download
           env:
             - name: QUESTIONS_JSON_PATH
               value: /app/questions.json
