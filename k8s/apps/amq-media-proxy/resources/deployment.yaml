@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:205a311a5db9557985653e8324b45dcc285a1bc243d9a8f7b0259404671c8acf
+          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:d3b0588ee6579f51f177a25eb3ae3ec9ae92846b0886e75410686f2a76559d1d
           env:
             - name: TRUST_REAL_IP
               value: "true"
@@ -34,12 +34,14 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: batch
-          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:205a311a5db9557985653e8324b45dcc285a1bc243d9a8f7b0259404671c8acf
+          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:d3b0588ee6579f51f177a25eb3ae3ec9ae92846b0886e75410686f2a76559d1d
           args:
             - ./batch-download
           env:
             - name: QUESTIONS_JSON_PATH
               value: /app/questions.json
+            - name: LOG_DOWNLOADER
+              value: "true"
           volumeMounts:
             - name: cache
               mountPath: /app/.cache
