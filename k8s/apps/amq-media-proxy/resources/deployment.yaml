@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:4732a42ca064fa72aaeded734e7fabcc6b4d94c9f7cf6f96237b63d1406bbedf
+          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:205a311a5db9557985653e8324b45dcc285a1bc243d9a8f7b0259404671c8acf
           env:
             - name: TRUST_REAL_IP
               value: "true"
@@ -29,13 +29,29 @@ spec:
           ports:
             - containerPort: 8080
           volumeMounts:
-            - name: app-volume
+            - name: cache
               mountPath: /app/.cache
           securityContext:
             allowPrivilegeEscalation: false
+        - name: batch
+          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:205a311a5db9557985653e8324b45dcc285a1bc243d9a8f7b0259404671c8acf
+          env:
+            - name: QUESTIONS_JSON_PATH
+              value: /app/questions.json
+          volumeMounts:
+            - name: cache
+              mountPath: /app/.cache
+            - name: questions-json
+              mountPath: /app/questions.json
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
-        - name: app-volume
+        - name: cache
           hostPath:
             path: /opt/k8s-volumes/amq-media-proxy/cache
             type: DirectoryOrCreate
+        - name: questions-json
+          hostPath:
+            path: /opt/k8s-volumes/amq-media-proxy/questions.json
+            type: File
       restartPolicy: Always
