@@ -23,6 +23,9 @@ spec:
           env:
             - name: TRUST_REAL_IP
               value: "true"
+          envFrom:
+            - secretRef:
+                name: app-secret
           ports:
             - containerPort: 8080
           volumeMounts:
