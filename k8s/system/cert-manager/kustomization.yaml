@@ -21,6 +21,8 @@ helmCharts:
           namespace: cert-manager
         logLevel: 6
       installCRDs: true
+      livenessProbe:
+        enabled: true
       podAnnotations:
         fluentbit.io/exclude: "true"
       prometheus:
