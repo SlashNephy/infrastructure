@@ -43,6 +43,11 @@ logs:
       general:
         defaultmode: keep
         names:
+          ClientAddr: drop
+          DownstreamContentSize: drop
+          DownstreamStatus: drop
+          OriginDuration: drop
+          Overhead: drop
           RequestCount: drop
           RequestHost: drop
           RequestPort: drop
@@ -55,11 +60,9 @@ logs:
       headers:
         defaultmode: drop
         names:
-          Cf-Connecting-Ip: keep
           Cf-Ipcountry: keep
           Cf-Ray: keep
           Cf-Visitor: keep
-          Content-Type: keep
           Location: keep
           User-Agent: keep
     format: json
