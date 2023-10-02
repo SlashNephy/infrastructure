@@ -9,4 +9,16 @@ spec:
       match: Host(`argocd.starry.blue`)
       services:
         - name: argo-cd-argocd-server
-          port: http
+          # MEMO: リダイレクトループが発生するため、https を使用している
+          port: https
+          scheme: https
+          serversTransport: allow-insecure
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: allow-insecure
+
+spec:
+  insecureSkipVerify: true
