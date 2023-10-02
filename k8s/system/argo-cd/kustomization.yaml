@@ -18,6 +18,9 @@ helmCharts:
       server:
         extensions:
           enabled: true
+        service:
+          nodePortHttp: 40771
+          type: NodePort
 
 resources:
   - ./resources/namespace.yaml
