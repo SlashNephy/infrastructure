@@ -50,7 +50,7 @@ spec:
       volumes:
         - name: cache
           hostPath:
-            path: /opt/k8s-volumes/amq-media-proxy/cache
+            path: /mnt/records/amq
             type: DirectoryOrCreate
         - name: questions-json
           hostPath:
