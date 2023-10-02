@@ -43,12 +43,25 @@ logs:
       general:
         defaultmode: keep
         names:
+          RequestCount: drop
+          RequestHost: drop
+          RequestPort: drop
+          RetryAttempts: drop
+          ServiceAddr: drop
+          ServiceName: drop
+          ServiceURL: drop
+          StartLocal: drop
           StartUTC: drop
       headers:
-        defaultmode: keep
+        defaultmode: drop
         names:
-          Authorization: drop
-
+          Cf-Connecting-Ip: keep
+          Cf-Ipcountry: keep
+          Cf-Ray: keep
+          Cf-Visitor: keep
+          Content-Type: keep
+          Location: keep
+          User-Agent: keep
     format: json
   general:
     level: INFO
