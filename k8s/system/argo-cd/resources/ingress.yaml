@@ -9,15 +9,4 @@ spec:
       match: Host(`argocd.starry.blue`)
       services:
         - name: argo-cd-argocd-server
-          port: https
-          scheme: https
-          serversTransport: allow-insecure
-
----
-apiVersion: traefik.io/v1alpha1
-kind: ServersTransport
-metadata:
-  name: allow-insecure
-
-spec:
-  insecureSkipVerify: true
+          port: http
