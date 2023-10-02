@@ -19,7 +19,6 @@ helmCharts:
           - name: docker-hub-credentials
         leaderElection:
           namespace: cert-manager
-        logLevel: 6
       installCRDs: true
       livenessProbe:
         enabled: true
