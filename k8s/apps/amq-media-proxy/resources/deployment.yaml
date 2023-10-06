@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:a21ef8061f628d77656e75da105a66f3fda64c21ac30dda70433e94da7f3be65
+          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:5276c86525cbbdf75dc55f9a2235da023dd1b49d525a1f40dd5b4990db43bd07
           env:
             - name: TRUST_REAL_IP
               value: "true"
@@ -34,7 +34,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: batch
-          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:a21ef8061f628d77656e75da105a66f3fda64c21ac30dda70433e94da7f3be65
+          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:5276c86525cbbdf75dc55f9a2235da023dd1b49d525a1f40dd5b4990db43bd07
           args:
             - ./batch-download
           env:
