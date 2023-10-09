@@ -1,29 +1,12 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: route-gateway
-
-spec:
-  routes:
-    - kind: Rule
-      match: Host(`amq-proxy.starry.blue`)
-      services:
-        - name: service
-          port: app
-  tls:
-    options:
-      name: gateway
-
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
   name: route
 
 spec:
   routes:
     - kind: Rule
-      match: Host(`amq-proxy-cf.starry.blue`)
+      match: Host(`amq-proxy.starry.blue`)
       services:
         - name: service
           port: app
