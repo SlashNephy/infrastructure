@@ -16,7 +16,7 @@ terraform {
 }
 
 provider "onepassword" {
-  url   = "https://op-tfc.starry.blue:13443"
+  url   = "https://op-tfc.starry.blue"
   token = var.onepassword_connect_token
 }
 
