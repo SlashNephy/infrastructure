@@ -7,6 +7,11 @@ data "onepassword_item" "github_oauth_client" {
   uuid  = "47j2n5ecdeulpja5mh5hud7eom"
 }
 
+data "onepassword_item" "discord_oauth_client" {
+  vault = data.onepassword_vault.terraform.uuid
+  uuid  = "ytavketud22tn3fm32i3sufmiq"
+}
+
 data "onepassword_item" "email_routing_catch_all_address" {
   vault = data.onepassword_vault.terraform.uuid
   uuid  = "gfkmkrndebubvjkdn34zx6fsxy"

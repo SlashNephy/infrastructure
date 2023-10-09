@@ -1,6 +1,6 @@
 resource "cloudflare_access_identity_provider" "github_oauth" {
   account_id = cloudflare_account.account.id
-  name       = "GitHub OAuth"
+  name       = "GitHub"
   type       = "github"
 
   config {
