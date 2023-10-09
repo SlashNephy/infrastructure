@@ -3,7 +3,7 @@ resource "cloudflare_access_application" "amq_proxy" {
   name                       = "amq-media-proxy"
   domain                     = cloudflare_record.cname_amq_proxy.hostname
   type                       = "self_hosted"
-  app_launcher_visible       = true
+  app_launcher_visible       = false
   allowed_idps               = [cloudflare_access_identity_provider.discord.id]
   auto_redirect_to_identity  = true
   session_duration           = "730h"
