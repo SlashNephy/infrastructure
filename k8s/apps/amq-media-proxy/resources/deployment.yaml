@@ -33,20 +33,20 @@ spec:
               mountPath: /app/.cache
           securityContext:
             allowPrivilegeEscalation: false
-        - name: batch
-          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:7ed52d914a8b0dd4fde10c359bd00fb6ec815857c6e3530d7c4585bc61eff8be
-          args:
-            - ./batch-download
-          env:
-            - name: QUESTIONS_JSON_PATH
-              value: /app/questions.json
-          volumeMounts:
-            - name: cache
-              mountPath: /app/.cache
-            - name: questions-json
-              mountPath: /app/questions.json
-          securityContext:
-            allowPrivilegeEscalation: false
+      #        - name: batch
+      #          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:7ed52d914a8b0dd4fde10c359bd00fb6ec815857c6e3530d7c4585bc61eff8be
+      #          args:
+      #            - ./batch-download
+      #          env:
+      #            - name: QUESTIONS_JSON_PATH
+      #              value: /app/questions.json
+      #          volumeMounts:
+      #            - name: cache
+      #              mountPath: /app/.cache
+      #            - name: questions-json
+      #              mountPath: /app/questions.json
+      #          securityContext:
+      #            allowPrivilegeEscalation: false
       volumes:
         - name: cache
           hostPath:
