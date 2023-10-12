@@ -21,7 +21,6 @@ resource "cloudflare_ruleset" "http_config_settings" {
       (http.host in {
         "${cloudflare_record.cname_apps.hostname}"
         "${cloudflare_record.cname_asf.hostname}"
-        "${cloudflare_record.cname_jupyter.hostname}"
       })
     EOT
   }

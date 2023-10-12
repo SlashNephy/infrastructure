@@ -93,11 +93,6 @@ spec:
             namespace: htpasswd-dashboard
             path: k8s/apps/htpasswd-dashboard/bbc
             project: apps
-          - name: jupyter
-            cluster: https://kubernetes.default.svc
-            namespace: jupyter
-            path: k8s/apps/jupyter
-            project: apps
           - name: konomitv
             cluster: https://kubernetes.default.svc
             namespace: konomitv
@@ -187,11 +182,6 @@ spec:
             cluster: https://kubernetes.default.svc
             namespace: soundbot-reloaded
             path: k8s/apps/soundbot-reloaded
-            project: apps
-          - name: stable-journey-bot
-            cluster: https://kubernetes.default.svc
-            namespace: stable-journey-bot
-            path: k8s/apps/stable-journey-bot
             project: apps
           - name: stella
             cluster: https://kubernetes.default.svc

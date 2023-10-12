@@ -25,7 +25,6 @@ resource "cloudflare_ruleset" "http_request_origin" {
         "${cloudflare_record.cname_code.hostname}"
         "${cloudflare_record.cname_epgstation.hostname}"
         "${cloudflare_record.cname_files.hostname}"
-        "${cloudflare_record.cname_jupyter.hostname}"
         "${cloudflare_record.cname_k8s.hostname}"
         "${cloudflare_record.cname_konomitv.hostname}"
         "${cloudflare_record.cname_kubeclarity.hostname}"
