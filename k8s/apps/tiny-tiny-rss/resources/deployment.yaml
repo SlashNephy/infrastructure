@@ -49,7 +49,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: db
-          image: postgres:13.12-bullseye@sha256:c5fac6cdf454688f7adc59b8e1e690fb6f62add60e0f26751e07987adbf75549
+          image: postgres:15.4-bullseye@sha256:d691c9971fcec72255d8cf8bfe3120c3a28a84b85ae804d42ba20c0b2374e9a7
           env:
             - name: POSTGRES_DB
               valueFrom:
