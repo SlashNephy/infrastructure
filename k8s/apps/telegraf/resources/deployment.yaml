@@ -30,7 +30,7 @@ spec:
               echo "Cmnd_Alias SMARTCTL = /usr/sbin/smartctl" >> /etc/sudoers
               echo "telegraf  ALL=(ALL) NOPASSWD: SMARTCTL" >> /etc/sudoers
               echo "Defaults!SMARTCTL !logfile, !syslog, !pam_session" >> /etc/sudoers
-              /entrypoint.sh telegraf
+              telegraf
           env:
             - name: HOST_ETC
               value: /hostfs/etc
