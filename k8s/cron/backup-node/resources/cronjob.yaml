@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: public.ecr.aws/bitnami/kubectl:1.28.2
+              image: public.ecr.aws/bitnami/kubectl:1.28.2@sha256:8886b1538fb6fe6e2fe4cb1352bdfd419c63a9bc8152daac38c9917bd2fb1d3e
               command:
                 - /bin/bash
                 - -c

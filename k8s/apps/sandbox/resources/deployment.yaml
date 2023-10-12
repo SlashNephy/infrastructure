@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: public.ecr.aws/docker/library/archlinux:base
+          image: public.ecr.aws/docker/library/archlinux:base@sha256:99807b5ce1017b5072f5c028d0209e97e3ab0341368880c05f3e4438ed1be5f1
           args:
             - sleep
             - infinity
