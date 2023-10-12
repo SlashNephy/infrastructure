@@ -40,5 +40,3 @@ spec:
             path: /var/run/docker.sock
             type: Socket
       restartPolicy: Always
-      imagePullSecrets:
-        - name: docker-hub-credentials

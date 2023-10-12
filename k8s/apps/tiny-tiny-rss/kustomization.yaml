@@ -8,7 +8,6 @@ resources:
   - ./resources/secret.yaml
   - ./resources/service.yaml
   - ./resources/ingress.yaml
-  - ./../../common/registry-docker-hub/lily
 
 configMapGenerator:
   - name: app-config

@@ -7,8 +7,6 @@ autoscaling:
   enabled: false
 
 deployment:
-  imagePullSecrets:
-    - name: docker-hub-credentials
   minReadySeconds: 30
   replicas: 4
 

@@ -16,7 +16,6 @@ resources:
   - ./resources/middlewares/trust-cloudflare-ips.yaml
   - ./resources/routes/dashboard.yaml
   - ./resources/custom-error-pages
-  - ./../../../common/registry-docker-hub/lily
 
 configMapGenerator:
   - name: dynamic-configurations

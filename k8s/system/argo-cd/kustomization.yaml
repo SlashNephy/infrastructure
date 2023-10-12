@@ -11,8 +11,6 @@ helmCharts:
     repo: https://argoproj.github.io/argo-helm
     valuesInline:
       global:
-        imagePullSecrets:
-          - name: docker-hub-credentials
         podAnnotations:
           fluentbit.io/exclude: "true"
       server:
@@ -28,7 +26,6 @@ resources:
   - ./resources/ingress.yaml
   - ./resources/projects.yaml
   - ./resources/application-set.yaml
-  - ./../../common/registry-docker-hub/lily
 
 patches:
   - path: ./resources/patch-argocd-cm.yaml

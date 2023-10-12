@@ -24,5 +24,3 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
       restartPolicy: Always
-      imagePullSecrets:
-        - name: docker-hub-credentials

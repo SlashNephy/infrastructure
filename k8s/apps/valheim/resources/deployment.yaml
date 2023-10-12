@@ -70,6 +70,4 @@ spec:
             path: /opt/k8s-volumes/valheim/game
             type: DirectoryOrCreate
       restartPolicy: Always
-      imagePullSecrets:
-        - name: docker-hub-credentials
       terminationGracePeriodSeconds: 120

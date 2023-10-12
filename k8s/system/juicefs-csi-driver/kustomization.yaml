@@ -11,8 +11,6 @@ helmCharts:
     valuesInline:
       controller:
         provisioner: true
-      imagePullSecrets:
-        - name: docker-hub-credentials
       storageClasses:
         - name: juicefs-r2
           allowVolumeExpansion: true
@@ -25,7 +23,6 @@ resources:
   - ./resources/secret.yaml
   - ./resources/redis/deployment.yaml
   - ./resources/redis/service.yaml
-  - ./../../common/registry-docker-hub/lily
 
 patches:
   # juicefs-r2-secret は 1Password で管理されるので自動で作成されるシークレットをリネームする

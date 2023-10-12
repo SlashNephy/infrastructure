@@ -44,5 +44,3 @@ spec:
             type: DirectoryOrCreate
       restartPolicy: Always
       hostname: gateway.starry.blue
-      imagePullSecrets:
-        - name: docker-hub-credentials

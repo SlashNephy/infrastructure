@@ -44,5 +44,3 @@ spec:
             path: /opt/k8s-volumes/code-server/data
             type: DirectoryOrCreate
       restartPolicy: Always
-      imagePullSecrets:
-        - name: docker-hub-credentials

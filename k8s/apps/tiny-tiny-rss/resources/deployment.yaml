@@ -116,5 +116,3 @@ spec:
             path: /opt/k8s-volumes/tiny-tiny-rss/db
             type: DirectoryOrCreate
       restartPolicy: Always
-      imagePullSecrets:
-        - name: docker-hub-credentials

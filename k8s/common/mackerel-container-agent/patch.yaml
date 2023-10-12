@@ -30,8 +30,3 @@
     resources:
       limits:
         memory: 128Mi
-
-- op: add
-  path: /spec/template/spec/imagePullSecrets/-
-  value:
-    name: docker-hub-credentials
