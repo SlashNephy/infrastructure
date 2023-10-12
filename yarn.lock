@@ -522,9 +522,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@slashnephy/eslint-config@npm:2.0.30":
-  version: 2.0.30
-  resolution: "@slashnephy/eslint-config@npm:2.0.30"
+"@slashnephy/eslint-config@npm:2.0.33":
+  version: 2.0.33
+  resolution: "@slashnephy/eslint-config@npm:2.0.33"
   dependencies:
     "@emotion/eslint-plugin": 11.11.0
     "@next/eslint-plugin-next": 13.5.4
@@ -557,27 +557,27 @@ __metadata:
     eslint-plugin-react-hooks: 4.6.0
     eslint-plugin-react-refresh: 0.4.3
     eslint-plugin-relay: 1.8.3
-    eslint-plugin-storybook: 0.6.14
+    eslint-plugin-storybook: 0.6.15
     eslint-plugin-tsdoc: 0.2.17
     eslint-plugin-unused-imports: 3.0.0
     eslint-plugin-userscripts: 0.4.0
     eslint-plugin-vitest: 0.3.2
     eslint-plugin-xss: 0.1.12
-    eslint-plugin-yml: 1.9.0
+    eslint-plugin-yml: 1.10.0
     typescript: 5.2.2
     yaml-eslint-parser: 1.2.2
   peerDependencies:
     eslint: ^8
-  checksum: 9cf7f8c046afc359e53fad818e601a57ad34e861445647ee0e97e8fda052401f671f2b99dc95bc2ca2d7c09a7d70494d5140e621454c87c8060f81ba2a5f0f1e
+  checksum: 358a9c119b03965263f32f97abda8ba9eb702ec34836130140e733e965d1d08dd6a509df7286a09dce7637683eb1c92252c108e3c0a7588c571f4679c5486185
   languageName: node
   linkType: hard
 
-"@slashnephy/prettier-config@npm:1.0.19":
-  version: 1.0.19
-  resolution: "@slashnephy/prettier-config@npm:1.0.19"
+"@slashnephy/prettier-config@npm:1.0.21":
+  version: 1.0.21
+  resolution: "@slashnephy/prettier-config@npm:1.0.21"
   peerDependencies:
     prettier: ^3
-  checksum: da8b89bf210cbc0500da40d44a0eef440a5c5262d645ec22c5835999a0101cba80b2a949eddfc758250d6ce6175f2befb8f4214d841448a074ce9663f99740ee
+  checksum: 6f5c117905c036546e7464a16e440daf4ecf8d4e427d63a276b655c1646c91635dd30cb3bb8d1bca8606494accf033ee8e86a01cec823d4a97c36f2f179abecc
   languageName: node
   linkType: hard
 
@@ -1564,6 +1564,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-compat-utils@npm:^0.1.0":
+  version: 0.1.2
+  resolution: "eslint-compat-utils@npm:0.1.2"
+  peerDependencies:
+    eslint: ">=6.0.0"
+  checksum: 2315d9db81efb7f58808053bf32a1d5970b38e01cd8244f4f1b5aa05d883255c5c93fc184e9c29a0e7e2dcf16ff16330977302474d3fa870e41c5bed9c66f76b
+  languageName: node
+  linkType: hard
+
 "eslint-config-airbnb-base@npm:^15.0.0":
   version: 15.0.0
   resolution: "eslint-config-airbnb-base@npm:15.0.0"
@@ -1994,9 +2003,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-storybook@npm:0.6.14":
-  version: 0.6.14
-  resolution: "eslint-plugin-storybook@npm:0.6.14"
+"eslint-plugin-storybook@npm:0.6.15":
+  version: 0.6.15
+  resolution: "eslint-plugin-storybook@npm:0.6.15"
   dependencies:
     "@storybook/csf": ^0.0.1
     "@typescript-eslint/utils": ^5.45.0
@@ -2004,7 +2013,7 @@ __metadata:
     ts-dedent: ^2.2.0
   peerDependencies:
     eslint: ">=6"
-  checksum: f2ba1d77da273a3294416394573edc60d780bc1d7ac177eb921f25b32b90bb87a549698126ce572211067130b93974cc812b594d726d234c41f71f163edd56d8
+  checksum: e2c4d7be3e695c88d7194c363fba8ac644b36583bf9d608aa59dcd53cc5e422f7828611ee49c7934639ce827c0206d33fa94b3ea452ffbd2c8e7254ed90bc412
   languageName: node
   linkType: hard
 
@@ -2069,17 +2078,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-yml@npm:1.9.0":
-  version: 1.9.0
-  resolution: "eslint-plugin-yml@npm:1.9.0"
+"eslint-plugin-yml@npm:1.10.0":
+  version: 1.10.0
+  resolution: "eslint-plugin-yml@npm:1.10.0"
   dependencies:
     debug: ^4.3.2
+    eslint-compat-utils: ^0.1.0
     lodash: ^4.17.21
     natural-compare: ^1.4.0
     yaml-eslint-parser: ^1.2.1
   peerDependencies:
     eslint: ">=6.0.0"
-  checksum: d6ee8a32e1230e12aefc951040d06270f8c0fe9a7f93fa091a35eef05ebcf550556620ddabc65fcdb33700767445d6d07f71efd31021660ad51f1b8f0d0ed200
+  checksum: bd913df237a9ee65388389b4ba65c68dbb169d041237d8e8ca1e2f415f0202e0a85aabafdc59d2688bb11ae319d1972df7e292cf0c637b1ebe88ae518497ffff
   languageName: node
   linkType: hard
 
@@ -2724,8 +2734,8 @@ __metadata:
     "@pulumi/cloudflare": 5.10.0
     "@pulumi/pulumi": 3.83.0
     "@pulumi/terraform": 5.13.4
-    "@slashnephy/eslint-config": 2.0.30
-    "@slashnephy/prettier-config": 1.0.19
+    "@slashnephy/eslint-config": 2.0.33
+    "@slashnephy/prettier-config": 1.0.21
     concurrently: 8.2.1
     eslint: 8.49.0
     prettier: 3.0.3

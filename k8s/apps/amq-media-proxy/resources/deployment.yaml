@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:9869b23b85eda38a7af8684923581b48db6648a7e7289b53f210c2b0fa321283
+          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:e59cbed45cc3b93ccbdc67f6d494373449c5da9c717250401b4206becbc59fc3
           env:
             - name: TRUST_REAL_IP
               value: "true"
