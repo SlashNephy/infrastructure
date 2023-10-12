@@ -26,7 +26,7 @@
         value: "0"
       - name: MACKEREL_HOST_STATUS_ON_START
         value: working
-    image: mackerel/mackerel-container-agent:latest
+    image: public.ecr.aws/mackerel/mackerel-container-agent:latest
     resources:
       limits:
         memory: 128Mi

@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mysql/mysql-server:5.7.41@sha256:1178cdd375f758968cd834ac4057bae41307e64b7c69a9e145896e7b11f48064
+          image: public.ecr.aws/docker/library/mysql:5.7.42-debian
           env:
             - name: MYSQL_DATABASE
               value: net-radio-archive
@@ -73,5 +73,3 @@ spec:
             path: /mnt/records/radio
             type: DirectoryOrCreate
       restartPolicy: Always
-      imagePullSecrets:
-        - name: docker-hub-credentials

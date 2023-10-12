@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
             - name: pic-table
-              image: mongo:6.0.4-focal@sha256:862b0007cff02d5b331c3199a68a7aa0749f49952f2f368c81c50b78adc47c8c
+              image: public.ecr.aws/docker/library/mongo:6.0.10
               command:
                 - bash
                 - -c
@@ -45,7 +45,7 @@ spec:
               securityContext:
                 allowPrivilegeEscalation: false
             - name: pic-tag-replace-table
-              image: mongo:6.0.4-focal@sha256:862b0007cff02d5b331c3199a68a7aa0749f49952f2f368c81c50b78adc47c8c
+              image: public.ecr.aws/docker/library/mongo:6.0.10
               command:
                 - bash
                 - -c
@@ -83,5 +83,3 @@ spec:
                 path: /opt/k8s-volumes/stella-backup
                 type: DirectoryOrCreate
           restartPolicy: OnFailure
-          imagePullSecrets:
-            - name: docker-hub-credentials

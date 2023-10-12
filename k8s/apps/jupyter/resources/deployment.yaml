@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: jupyter/datascience-notebook:latest@sha256:da43e11c6742c6a542a01a2b543a13718d225c00614b95f8dfe5feb208cba3e1
+          image: public.ecr.aws/bitnami/jupyter-base-notebook:latest
           workingDir: /home/jovyan/work
           command:
             - start-notebook.sh
@@ -45,5 +45,3 @@ spec:
           configMap:
             name: app-config
       restartPolicy: Always
-      imagePullSecrets:
-        - name: docker-hub-credentials

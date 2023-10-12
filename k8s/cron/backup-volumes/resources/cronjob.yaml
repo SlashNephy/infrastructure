@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: rclone/rclone:1.64.0@sha256:696c31597e05c443de736f42e11914bb8327dcbb4f3c24efe1dc0d596f9b841f
+              image: public.ecr.aws/bitnami/rclone:1.64.0
               command:
                 - ash
                 - -c
@@ -47,5 +47,3 @@ spec:
                 path: /opt/k8s-volumes/rclone-config
                 type: Directory
           restartPolicy: Never
-          imagePullSecrets:
-            - name: docker-hub-credentials

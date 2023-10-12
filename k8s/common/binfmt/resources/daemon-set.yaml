@@ -16,11 +16,9 @@ spec:
     spec:
       containers:
         - name: app
-          image: tonistiigi/binfmt:latest@sha256:6088cbd69c369178ffd6b68992f342c3a9d5c3cc619bbaa4bfe9a98cb23893d0
+          image: public.ecr.aws/eks-distro-build-tooling/binfmt-misc:qemu-v7.0.0
           args:
             - --install
             - all
           securityContext:
             privileged: true
-      imagePullSecrets:
-        - name: docker-hub-credentials

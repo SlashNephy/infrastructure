@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: telegraf:1.28.1@sha256:cdc99165f1a4cc12b4889ece36b61e61acf52936444305504ddcb8ec8977a30b
+          image: public.ecr.aws/bitnami/telegraf:1.28.2
           command:
             - /bin/bash
             - -c
@@ -110,5 +110,3 @@ spec:
             path: /run
             type: Directory
       restartPolicy: Always
-      imagePullSecrets:
-        - name: docker-hub-credentials

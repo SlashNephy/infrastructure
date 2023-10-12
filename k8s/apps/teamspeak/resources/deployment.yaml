@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mariadb:10.11.5-jammy@sha256:16b181cf0cbca0bc8e5f8ef3695a82c7bd9ba36cc4fc587f4b357c558faeeccd
+          image: public.ecr.aws/docker/library/mariadb:10.11.5-jammy
           env:
             - name: MYSQL_DATABASE
               value: teamspeak
@@ -46,7 +46,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: app
-          image: teamspeak:3.13.7@sha256:573470cceb1822ca0fc4592a47aef10f4e19f18ed8c11a8d3a36caca1e429590
+          image: public.ecr.aws/docker/library/teamspeak:3.13.7
           env:
             - name: TS3SERVER_DB_HOST
               value: mysql
@@ -90,5 +90,3 @@ spec:
             path: /opt/k8s-volumes/teamspeak/mysql
             type: DirectoryOrCreate
       restartPolicy: Always
-      imagePullSecrets:
-        - name: docker-hub-credentials

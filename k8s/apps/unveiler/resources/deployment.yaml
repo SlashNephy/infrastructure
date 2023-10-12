@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: db
-          image: mongo:6.0.4-focal@sha256:862b0007cff02d5b331c3199a68a7aa0749f49952f2f368c81c50b78adc47c8c
+          image: public.ecr.aws/docker/library/mongo:6.0.10
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
@@ -73,5 +73,3 @@ spec:
             path: /opt/k8s-volumes/unveiler-data
             type: DirectoryOrCreate
       restartPolicy: Always
-      imagePullSecrets:
-        - name: docker-hub-credentials

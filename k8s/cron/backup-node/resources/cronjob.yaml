@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: bitnami/kubectl:1.27.6@sha256:f33492dc9a351d485ae46063a1638c19cb035c0bb86c8f2b43f92db1ab8776d1
+              image: public.ecr.aws/bitnami/kubectl:1.28.2
               command:
                 - /bin/bash
                 - -c
@@ -32,6 +32,4 @@ spec:
                 path: /opt/k8s-volumes/backup-node
                 type: DirectoryOrCreate
           restartPolicy: Never
-          imagePullSecrets:
-            - name: docker-hub-credentials
           serviceAccountName: service-account

@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: debian:bullseye-slim@sha256:bb9ee60a865c4276e72b33b04c7892d4011e730d1e865d931537082e895bc385
+              image: public.ecr.aws/debian/debian:stable-slim
               command:
                 - bash
                 - -c
@@ -30,5 +30,3 @@ spec:
                 path: /mnt/records
                 type: Directory
           restartPolicy: Never
-          imagePullSecrets:
-            - name: docker-hub-credentials
