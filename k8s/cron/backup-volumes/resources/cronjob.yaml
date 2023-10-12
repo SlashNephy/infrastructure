@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: public.ecr.aws/bitnami/rclone:1.64.0
+              image: public.ecr.aws/bitnami/rclone:1.64.0@sha256:b4341c0ee1b4f129e4bfd6e17e8b267589fd1465932e9d2a7af0e87e84614730
               command:
                 - ash
                 - -c

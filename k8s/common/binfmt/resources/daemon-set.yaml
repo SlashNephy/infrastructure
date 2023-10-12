@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: public.ecr.aws/eks-distro-build-tooling/binfmt-misc:qemu-v7.0.0
+          image: public.ecr.aws/eks-distro-build-tooling/binfmt-misc:qemu-v7.0.0@sha256:15bc9bf955d590e55884aaae2f8c54f2fe7b12b5db5b4601bc1403c2105a11a7
           args:
             - --install
             - all
