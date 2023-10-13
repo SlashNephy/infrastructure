@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob
+
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          annotations:
+            fluentbit.io/exclude: "true"
+        spec:
+          containers:
+            - name: app
+              image: ghcr.io/slashnephy/annict2anilist:master@sha256:7e69d48d322aea36bae5bf5aa5218bd96d1186811b507806bc8a1f2d6645c582
+              env:
+                - name: ANILIST_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: app-secret
+                      key: anilist-client-id
+                - name: ANILIST_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: app-secret
+                      key: anilist-client-secret
+                - name: ANNICT_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: app-secret
+                      key: annict-client-id
+                - name: ANNICT_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: app-secret
+                      key: annict-client-secret
+                - name: TOKEN_DIRECTORY
+                  value: /app/token
+              volumeMounts:
+                - name: app-volume
+                  mountPath: /app/token
+              securityContext:
+                allowPrivilegeEscalation: false
+          volumes:
+            - name: app-volume
+              hostPath:
+                path: /opt/k8s-volumes/annict2anilist-token
+                type: DirectoryOrCreate
+          restartPolicy: Never
