@@ -48,11 +48,11 @@ spec:
             namespace: annict-profile-card-production
             path: k8s/apps/annict-profile-card/production
             project: apps
-          - name: annict2anilist
-            cluster: https://kubernetes.default.svc
-            namespace: annict2anilist
-            path: k8s/apps/annict2anilist
-            project: apps
+          # - name: annict2anilist
+          #   cluster: https://kubernetes.default.svc
+          #   namespace: annict2anilist
+          #   path: k8s/apps/annict2anilist
+          #   project: apps
           - name: archi-steam-farm
             cluster: https://kubernetes.default.svc
             namespace: archi-steam-farm
