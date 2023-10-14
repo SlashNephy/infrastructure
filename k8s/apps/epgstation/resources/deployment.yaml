@@ -34,7 +34,7 @@ spec:
             limits:
               gpu.intel.com/i915: "1"
         - name: db
-          image: mariadb:10.11.5-jammy@sha256:16b181cf0cbca0bc8e5f8ef3695a82c7bd9ba36cc4fc587f4b357c558faeeccd
+          image: public.ecr.aws/docker/library/mariadb:10.11.5-jammy
           args:
             - mysqld
             - --character-set-server=utf8mb4
@@ -76,4 +76,3 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
-        - name: docker-hub-credentials

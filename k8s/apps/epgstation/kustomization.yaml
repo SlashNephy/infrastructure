@@ -4,11 +4,9 @@ namespace: epgstation
 
 resources:
   - ./resources/namespace.yaml
-  - ./../../common/registry-ghcr-io/lily
   - ./resources/secret.yaml
   - ./resources/deployment.yaml
   - ./resources/service.yaml
   - ./resources/ingress.yaml
   - ./resources/cronjob.yaml
-  - ./../../common/registry-docker-hub/lily
   - ./../../common/gateway-tls-option
