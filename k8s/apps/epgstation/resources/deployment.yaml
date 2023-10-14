@@ -34,7 +34,7 @@ spec:
             limits:
               gpu.intel.com/i915: "1"
         - name: db
-          image: mariadb:10.11.5-jammy@sha256:16b181cf0cbca0bc8e5f8ef3695a82c7bd9ba36cc4fc587f4b357c558faeeccd
+          image: mariadb:10.11.5-jammy@sha256:d98220e8513201e1a0a720724b8599024854b7bf33afea81ac1dd3c54dd47420
           args:
             - mysqld
             - --character-set-server=utf8mb4
