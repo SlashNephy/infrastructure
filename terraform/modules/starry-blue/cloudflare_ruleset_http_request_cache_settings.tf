@@ -6,7 +6,7 @@ resource "cloudflare_ruleset" "http_request_cache_settings" {
 
   rules {
     enabled     = true
-    description = "Enable Cache"
+    description = "Enable Cache behind Cloudflare Access"
     action      = "set_cache_settings"
     action_parameters {
       cache = true
@@ -25,7 +25,7 @@ resource "cloudflare_ruleset" "http_request_cache_settings" {
     }
 
     expression = <<-EOT
-      (http.host in {
+      ssl and (http.host in {
         "${cloudflare_record.cname_amq_proxy.hostname}"
       })
     EOT

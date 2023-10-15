@@ -17,7 +17,7 @@ resource "cloudflare_ruleset" "http_response_headers_transform" {
     }
 
     expression = <<-EOT
-      (http.host in {
+      ssl and (http.host in {
         "${cloudflare_record.cname_amq_proxy.hostname}"
       })
     EOT
