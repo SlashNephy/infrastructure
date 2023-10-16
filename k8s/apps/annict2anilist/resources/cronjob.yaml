@@ -14,30 +14,15 @@ spec:
         spec:
           containers:
             - name: app
-              image: ghcr.io/slashnephy/annict2anilist:master@sha256:a91622c59a62fdbf618acb23670312eff9d07dacee57a0e7cca32cd3307312b1
+              image: ghcr.io/slashnephy/annict2anilist:master@sha256:0b346835138416d552a367988d210fa4f4826cb535cc1049c4e5b5dce826cda4
               env:
-                - name: ANILIST_CLIENT_ID
-                  valueFrom:
-                    secretKeyRef:
-                      name: app-secret
-                      key: anilist-client-id
-                - name: ANILIST_CLIENT_SECRET
-                  valueFrom:
-                    secretKeyRef:
-                      name: app-secret
-                      key: anilist-client-secret
-                - name: ANNICT_CLIENT_ID
-                  valueFrom:
-                    secretKeyRef:
-                      name: app-secret
-                      key: annict-client-id
-                - name: ANNICT_CLIENT_SECRET
-                  valueFrom:
-                    secretKeyRef:
-                      name: app-secret
-                      key: annict-client-secret
                 - name: TOKEN_DIRECTORY
                   value: /app/token
+                - name: LOG_LEVEL
+                  value: DEBUG
+              envFrom:
+                - secretRef:
+                    name: app-secret
               volumeMounts:
                 - name: app-volume
                   mountPath: /app/token
