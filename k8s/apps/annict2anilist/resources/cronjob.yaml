@@ -4,9 +4,10 @@ metadata:
   name: cronjob
 
 spec:
-  schedule: "*/30 * * * *"
+  schedule: "10 * * * *"
   jobTemplate:
     spec:
+      backoffLimit: 0
       template:
         metadata:
           annotations:
@@ -34,3 +35,4 @@ spec:
                 path: /opt/k8s-volumes/annict2anilist-token
                 type: DirectoryOrCreate
           restartPolicy: Never
+  concurrencyPolicy: Forbid
