@@ -133,21 +133,21 @@ spec:
             namespace: muni
             path: k8s/apps/muni
             project: apps
-          - name: net-radio-archive
-            cluster: https://kubernetes.default.svc
-            namespace: net-radio-archive
-            path: k8s/apps/net-radio-archive
-            project: apps
+          #          - name: net-radio-archive
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: net-radio-archive
+          #            path: k8s/apps/net-radio-archive
+          #            project: apps
           - name: owncast
             cluster: https://kubernetes.default.svc
             namespace: owncast
             path: k8s/apps/owncast
             project: apps
-          - name: rclone-radio
-            cluster: https://kubernetes.default.svc
-            namespace: rclone-radio
-            path: k8s/apps/rclone/radio
-            project: apps
+          #          - name: rclone-radio
+          #            cluster: https://kubernetes.default.svc
+          #            namespace: rclone-radio
+          #            path: k8s/apps/rclone/radio
+          #            project: apps
           - name: rclone-records
             cluster: https://kubernetes.default.svc
             namespace: rclone-records
