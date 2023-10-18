@@ -23,6 +23,9 @@ spec:
           env:
             - name: TZ
               value: Asia/Tokyo
+          envFrom:
+            - secretRef:
+                name: app-secret
           ports:
             - containerPort: 1242
           volumeMounts:
