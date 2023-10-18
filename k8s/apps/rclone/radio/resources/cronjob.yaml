@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob
+
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          annotations:
+            fluentbit.io/exclude: "true"
+        spec:
+          containers:
+            - name: app
+              image: public.ecr.aws/bitnami/rclone:1.64.0@sha256:b4341c0ee1b4f129e4bfd6e17e8b267589fd1465932e9d2a7af0e87e84614730
+              args:
+                - copy
+                - /mnt/records/radio
+                - atmos2:radio
+                - --drive-stop-on-upload-limit
+                - --skip-links
+                - --order-by=name
+                - --ignore-existing
+              volumeMounts:
+                - name: mnt
+                  mountPath: /mnt
+                  readOnly: true
+                - name: config
+                  mountPath: /config/rclone
+                  readOnly: true
+              securityContext:
+                allowPrivilegeEscalation: false
+          volumes:
+            - name: mnt
+              hostPath:
+                path: /mnt
+                type: Directory
+            - name: config
+              hostPath:
+                path: /opt/k8s-volumes/rclone-config
+                type: Directory
+          restartPolicy: Never
+  concurrencyPolicy: Forbid

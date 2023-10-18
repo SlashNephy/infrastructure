@@ -143,15 +143,15 @@ spec:
             namespace: owncast
             path: k8s/apps/owncast
             project: apps
-          - name: rclone-watch-radio
+          - name: rclone-radio
             cluster: https://kubernetes.default.svc
-            namespace: rclone-watch-radio
-            path: k8s/apps/rclone-watch/radio
+            namespace: rclone-radio
+            path: k8s/apps/rclone/radio
             project: apps
-          - name: rclone-watch-records
+          - name: rclone-records
             cluster: https://kubernetes.default.svc
-            namespace: rclone-watch-records
-            path: k8s/apps/rclone-watch/records
+            namespace: rclone-records
+            path: k8s/apps/rclone/records
             project: apps
           - name: releasechime-ai
             cluster: https://kubernetes.default.svc
