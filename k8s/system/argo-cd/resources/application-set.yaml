@@ -173,11 +173,6 @@ spec:
             namespace: rustpad
             path: k8s/apps/rustpad
             project: apps
-          - name: sandbox
-            cluster: https://kubernetes.default.svc
-            namespace: sandbox
-            path: k8s/apps/sandbox
-            project: apps
           - name: soundbot-reloaded
             cluster: https://kubernetes.default.svc
             namespace: soundbot-reloaded
@@ -286,11 +281,6 @@ spec:
             cluster: https://kubernetes.default.svc
             namespace: intel-device-plugins-operator
             path: k8s/system/intel-device-plugins-operator
-            project: system
-          - name: juicefs-csi-driver
-            cluster: https://kubernetes.default.svc
-            namespace: juicefs-csi-driver
-            path: k8s/system/juicefs-csi-driver
             project: system
           - name: node-feature-discovery
             cluster: https://kubernetes.default.svc
