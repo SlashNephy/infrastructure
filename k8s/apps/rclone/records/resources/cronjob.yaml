@@ -25,6 +25,7 @@ spec:
                 - --copy-links
                 - --order-by=name
                 - --ignore-existing
+                - --config=/config/rclone/rclone.conf
               volumeMounts:
                 - name: mnt
                   mountPath: /mnt
