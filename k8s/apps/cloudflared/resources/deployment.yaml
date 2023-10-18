@@ -5,10 +5,6 @@ metadata:
 
 spec:
   replicas: 2
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-    type: RollingUpdate
   selector:
     matchLabels:
       app: default
