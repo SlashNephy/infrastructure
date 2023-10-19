@@ -7,6 +7,7 @@ spec:
   schedule: "0 * * * *"
   jobTemplate:
     spec:
+      backoffLimit: 0
       template:
         spec:
           containers:
@@ -44,3 +45,4 @@ spec:
                 path: /opt/k8s-volumes/epgstation-config
                 type: Directory
           restartPolicy: Never
+  concurrencyPolicy: Forbid
