@@ -433,9 +433,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pulumi/pulumi@npm:3.88.1":
-  version: 3.88.1
-  resolution: "@pulumi/pulumi@npm:3.88.1"
+"@pulumi/pulumi@npm:3.89.0":
+  version: 3.89.0
+  resolution: "@pulumi/pulumi@npm:3.89.0"
   dependencies:
     "@grpc/grpc-js": ^1.8.16
     "@logdna/tail-file": ^2.0.6
@@ -462,7 +462,7 @@ __metadata:
     ts-node: ^7.0.1
     typescript: ~3.8.3
     upath: ^1.1.0
-  checksum: 9e91c2afb94bf7491b50e52a1245fb39f68ef3ed1a09645290e959d4cbe583f5776f8e31be01e63fe4949cc122f3061b0137755fd3f03535535d8077eabecaff
+  checksum: ab553cacd2c11c630cfddec00fa483ca32250f9150ac5ff156eb655720f61c60227403eac7299274266274e658b7627fd87016fa99cd4326eb01c94e9683fe35
   languageName: node
   linkType: hard
 
@@ -503,6 +503,15 @@ __metadata:
   version: 0.3.0
   resolution: "@pulumi/query@npm:0.3.0"
   checksum: 4e579c56937313a4e60211510dd0dcb71bb3014707f727015f5458d5f1e227a83b3a15bfd97c5b44500d022ee15f81917d45de0f6c2b11d47e6fba333b3b6195
+  languageName: node
+  linkType: hard
+
+"@pulumi/std@npm:1.4.0":
+  version: 1.4.0
+  resolution: "@pulumi/std@npm:1.4.0"
+  dependencies:
+    "@pulumi/pulumi": ^3.0.0
+  checksum: 843e88325f88ebc65f6bb56d3efef1ef4e91d830f4c00b3a838a496069d79efb81f0cd28cf2b1049d2bf5040c8e1eeefa9826ca2e4662691322c408c711dc964
   languageName: node
   linkType: hard
 
@@ -601,6 +610,15 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: e60b153664572116dfea673c5bda7778dbff150498f44f998e34b5886d8afc47f16799280e4b6e241c0472aef1bc36add771c569c68fc5125fc2ae519a3eb9ac
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:20.8.7":
+  version: 20.8.7
+  resolution: "@types/node@npm:20.8.7"
+  dependencies:
+    undici-types: ~5.25.1
+  checksum: 2173c0c03daefcb60c03a61b1371b28c8fe412e7a40dc6646458b809d14a85fbc7aeb369d957d57f0aaaafd99964e77436f29b3b579232d8f2b20c58abbd1d25
   languageName: node
   linkType: hard
 
@@ -2793,15 +2811,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "infrastructure@workspace:."
   dependencies:
-    "@pulumi/cloudflare": 5.12.0
-    "@pulumi/pulumi": 3.88.1
-    "@pulumi/terraform": 5.13.4
     "@slashnephy/eslint-config": 2.0.38
     "@slashnephy/prettier-config": 1.0.25
     concurrently: 8.2.1
     eslint: 8.51.0
     prettier: 3.0.3
-    typescript: 5.2.2
   languageName: unknown
   linkType: soft
 
@@ -3777,6 +3791,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pulumi@workspace:pulumi":
+  version: 0.0.0-use.local
+  resolution: "pulumi@workspace:pulumi"
+  dependencies:
+    "@pulumi/cloudflare": 5.12.0
+    "@pulumi/pulumi": 3.89.0
+    "@pulumi/std": 1.4.0
+    "@pulumi/terraform": 5.13.4
+    "@types/node": 20.8.7
+    typescript: 5.2.2
+  languageName: unknown
+  linkType: soft
+
 "punycode@npm:^2.1.0":
   version: 2.3.0
   resolution: "punycode@npm:2.3.0"
@@ -4554,6 +4581,13 @@ __metadata:
     has-symbols: ^1.0.3
     which-boxed-primitive: ^1.0.2
   checksum: b7a1cf5862b5e4b5deb091672ffa579aa274f648410009c81cca63fed3b62b610c4f3b773f912ce545bb4e31edc3138975b5bc777fc6e4817dca51affb6380e9
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~5.25.1":
+  version: 5.25.3
+  resolution: "undici-types@npm:5.25.3"
+  checksum: ec9d2cc36520cbd9fbe3b3b6c682a87fe5be214699e1f57d1e3d9a2cb5be422e62735f06e0067dc325fd3dd7404c697e4d479f9147dc8a804e049e29f357f2ff
   languageName: node
   linkType: hard
 

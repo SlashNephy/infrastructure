@@ -13,18 +13,15 @@
     "lint:eslint": "eslint .",
     "lint:prettier": "prettier --check ."
   },
-  "dependencies": {
-    "@pulumi/cloudflare": "5.12.0",
-    "@pulumi/pulumi": "3.88.1",
-    "@pulumi/terraform": "5.13.4"
-  },
   "devDependencies": {
     "@slashnephy/eslint-config": "2.0.38",
     "@slashnephy/prettier-config": "1.0.25",
     "concurrently": "8.2.1",
     "eslint": "8.51.0",
-    "prettier": "3.0.3",
-    "typescript": "5.2.2"
+    "prettier": "3.0.3"
   },
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "yarn@3.6.4",
+  "workspaces": [
+    "pulumi"
+  ]
 }
