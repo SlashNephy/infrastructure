@@ -2,11 +2,6 @@ resource "cloudflare_managed_headers" "default" {
   zone_id = cloudflare_zone.zone.id
 
   managed_request_headers {
-    enabled = false
-    id      = "add_client_certificate_headers"
-  }
-
-  managed_request_headers {
     enabled = true
     id      = "add_visitor_location_headers"
   }
