@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/starrybluesky/mahiron-custom:master@sha256:9a75e10c6cbdc4b55e870f4b1af0f59142911402c97f0f1a1174fa06f09e329a
+          image: ghcr.io/starrybluesky/mahiron-custom:master@sha256:36ad402b7034556497d945389b0088e4e5d51c886d95983ffd850c89a9d76c20
           env:
             - name: EXTERNAL_JSON_PATH
               value: /etc/mahiron/services.yml
