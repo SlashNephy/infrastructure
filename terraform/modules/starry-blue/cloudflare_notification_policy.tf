@@ -6,7 +6,8 @@ resource "cloudflare_notification_policy" "expiring_service_token_alert" {
   name       = "Expiring Access Service Token Alert"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
 
@@ -18,7 +19,8 @@ resource "cloudflare_notification_policy" "dos_attack_l7" {
   name       = "HTTP DDoS Attack Alert"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
 
@@ -30,7 +32,8 @@ resource "cloudflare_notification_policy" "pages_event_alert" {
   name       = "Pages Project Updates"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 
   filters {
@@ -57,7 +60,8 @@ resource "cloudflare_notification_policy" "real_origin_monitoring" {
   name       = "Passive Origin Monitoring"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
 
@@ -69,7 +73,8 @@ resource "cloudflare_notification_policy" "access_custom_certificate_expiration_
   name       = "Access mTLS Certificate Expiration Alert"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
 
@@ -81,7 +86,8 @@ resource "cloudflare_notification_policy" "hostname_aop_custom_certificate_expir
   name       = "Hostname-level Authenticated Origin Pulls Certificate Expiration Alert"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
 
@@ -93,7 +99,8 @@ resource "cloudflare_notification_policy" "universal_ssl_event_type" {
   name       = "Universal SSL Alert"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
 
@@ -105,7 +112,8 @@ resource "cloudflare_notification_policy" "block_notification_review_rejected" {
   name       = "Trust and Safety Blocks: Block Review Rejection"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
 
@@ -117,7 +125,8 @@ resource "cloudflare_notification_policy" "block_notification_new_block" {
   name       = "Trust and Safety Blocks: New Blocks"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
 
@@ -129,7 +138,8 @@ resource "cloudflare_notification_policy" "block_notification_block_removed" {
   name       = "Trust and Safety Blocks: Removed Blocks"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
 
@@ -141,7 +151,8 @@ resource "cloudflare_notification_policy" "tunnel_update_event" {
   name       = "Tunnel Creation or Deletion Event"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
 
@@ -153,7 +164,8 @@ resource "cloudflare_notification_policy" "tunnel_health_event" {
   name       = "Tunnel Health Alert"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
 
@@ -165,6 +177,7 @@ resource "cloudflare_notification_policy" "web_analytics_metrics_update" {
   name       = "Web Analytics: Weekly summary"
 
   webhooks_integration {
-    id = cloudflare_notification_policy_webhooks.discord.id
+    id   = cloudflare_notification_policy_webhooks.discord.id
+    name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
