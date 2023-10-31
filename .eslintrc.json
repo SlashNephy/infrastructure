@@ -1,5 +1,5 @@
 {
-  "extends": ["@slashnephy/eslint-config"],
+  "extends": "@slashnephy/eslint-config",
   "rules": {
     "yml/sort-keys": [
       "error",
@@ -275,6 +275,16 @@
       "files": "k8s/**/config/**/*.yml",
       "rules": {
         "yml/file-extension": "off"
+      }
+    },
+    {
+      "files": "pulumi/**/*.ts",
+      "parserOptions": {
+        "project": "./pulumi/tsconfig.json"
+      },
+      "rules": {
+        "import/no-default-export": "off",
+        "import/extensions": "off"
       }
     }
   ]
