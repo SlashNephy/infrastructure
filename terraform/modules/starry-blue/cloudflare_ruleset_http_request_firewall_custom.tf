@@ -24,6 +24,9 @@ resource "cloudflare_ruleset" "http_request_firewall_custom" {
         "zoneLockdown"
       ]
     }
+    logging {
+      enabled = true
+    }
 
     expression = <<-EOT
       (http.host in {
