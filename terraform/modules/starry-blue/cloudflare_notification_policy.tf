@@ -168,16 +168,3 @@ resource "cloudflare_notification_policy" "tunnel_health_event" {
     name = cloudflare_notification_policy_webhooks.discord.name
   }
 }
-
-resource "cloudflare_notification_policy" "web_analytics_metrics_update" {
-  account_id = cloudflare_account.account.id
-
-  enabled    = true
-  alert_type = "web_analytics_metrics_update"
-  name       = "Web Analytics: Weekly summary"
-
-  webhooks_integration {
-    id   = cloudflare_notification_policy_webhooks.discord.id
-    name = cloudflare_notification_policy_webhooks.discord.name
-  }
-}
