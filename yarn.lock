@@ -426,6 +426,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pulumi/github@npm:5.22.0":
+  version: 5.22.0
+  resolution: "@pulumi/github@npm:5.22.0"
+  dependencies:
+    "@pulumi/pulumi": ^3.0.0
+  checksum: 3994a4121dabe958df6cf682c2e73102723446fcc1f6c0d469ac95f55fef1aeba07dbee150713ce5eb92b816bee02f200c10afcd3568c15f4be3d97de4359db3
+  languageName: node
+  linkType: hard
+
 "@pulumi/pulumi@npm:3.91.1, @pulumi/pulumi@npm:^3.0.0":
   version: 3.91.1
   resolution: "@pulumi/pulumi@npm:3.91.1"
@@ -3673,6 +3682,7 @@ __metadata:
   resolution: "pulumi@workspace:pulumi"
   dependencies:
     "@pulumi/cloudflare": 5.13.0
+    "@pulumi/github": 5.22.0
     "@pulumi/pulumi": 3.91.1
     "@pulumi/std": 1.4.0
     "@pulumi/terraform": 5.13.4
