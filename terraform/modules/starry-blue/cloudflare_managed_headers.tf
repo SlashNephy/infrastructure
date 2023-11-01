@@ -6,11 +6,6 @@ resource "cloudflare_managed_headers" "default" {
     id      = "add_visitor_location_headers"
   }
 
-  managed_request_headers {
-    enabled = true
-    id      = "remove_visitor_ip_headers"
-  }
-
   managed_response_headers {
     enabled = true
     id      = "remove_x-powered-by_header"
