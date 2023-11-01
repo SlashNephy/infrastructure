@@ -45,6 +45,8 @@ resource "cloudflare_ruleset" "http_request_firewall_custom" {
         "xiv-private.starry.blue"
       } and not ip.src in {
         240b:10:3f60:4800:dc56:f7de:5e49:2203
+      } and not ip.geoip.asnum in {
+        132892
       })
     EOT
   }
