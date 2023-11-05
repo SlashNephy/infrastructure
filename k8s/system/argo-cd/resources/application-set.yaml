@@ -228,6 +228,11 @@ spec:
             namespace: kubernetes-dashboard
             path: k8s/apps/kubernetes-dashboard/bbc
             project: apps
+          - name: muni
+            cluster: https://kubernetes.default.svc
+            namespace: muni
+            path: k8s/apps/muni
+            project: apps
 
           # cron
           - name: cron-backup-node
