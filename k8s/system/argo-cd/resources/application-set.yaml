@@ -321,18 +321,10 @@ spec:
   template:
     metadata:
       name: "{{name}}"
-
     spec:
       destination:
         namespace: "{{namespace}}"
         server: "{{cluster}}"
-      ignoreDifferences:
-        - group: argoproj.io
-          jsonPointers:
-            - /spec/syncPolicy/automated
-          kind: Application
-          managedFieldsManagers:
-            - argocd-server
       project: "{{project}}"
       source:
         path: "{{path}}"
@@ -344,3 +336,6 @@ spec:
           selfHeal: true
         syncOptions:
           - RespectIgnoreDifferences=true
+  ignoreApplicationDifferences:
+    - jsonPointers:
+        - /spec/syncPolicy/automated
