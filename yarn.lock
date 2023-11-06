@@ -72,6 +72,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@grpc/grpc-js@npm:1.9.6":
+  version: 1.9.6
+  resolution: "@grpc/grpc-js@npm:1.9.6"
+  dependencies:
+    "@grpc/proto-loader": ^0.7.8
+    "@types/node": ">=12.12.47"
+  checksum: c02981af11e9749bb8f9a71f5f7e125740da9e6addb13b65d006d41d4d7a80d94b6daa45426c6832a2accfd6f9a925d45a4660a88bd908684446ffaf4fe76c68
+  languageName: node
+  linkType: hard
+
 "@grpc/grpc-js@npm:^1.8.16":
   version: 1.9.9
   resolution: "@grpc/grpc-js@npm:1.9.9"
@@ -435,7 +445,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pulumi/pulumi@npm:3.91.1, @pulumi/pulumi@npm:^3.0.0":
+"@pulumi/pulumi@npm:3.92.0":
+  version: 3.92.0
+  resolution: "@pulumi/pulumi@npm:3.92.0"
+  dependencies:
+    "@grpc/grpc-js": 1.9.6
+    "@logdna/tail-file": ^2.0.6
+    "@opentelemetry/api": ^1.2.0
+    "@opentelemetry/exporter-zipkin": ^1.6.0
+    "@opentelemetry/instrumentation": ^0.32.0
+    "@opentelemetry/instrumentation-grpc": ^0.32.0
+    "@opentelemetry/resources": ^1.6.0
+    "@opentelemetry/sdk-trace-base": ^1.6.0
+    "@opentelemetry/sdk-trace-node": ^1.6.0
+    "@opentelemetry/semantic-conventions": ^1.6.0
+    "@pulumi/query": ^0.3.0
+    execa: ^5.1.0
+    google-protobuf: ^3.5.0
+    ini: ^2.0.0
+    js-yaml: ^3.14.0
+    minimist: ^1.2.6
+    normalize-package-data: ^3.0.0
+    pkg-dir: ^7.0.0
+    read-package-tree: ^5.3.1
+    require-from-string: ^2.0.1
+    semver: ^7.5.2
+    source-map-support: ^0.5.6
+    ts-node: ^7.0.1
+    typescript: ~3.8.3
+    upath: ^1.1.0
+  checksum: ff4f8967af5587603f0c6de970390187ebaba7a4d3c10f8952b4f2bbc9d2e49658af8999b7e078ed4d808483e04eeb3d1ce32ff656d4d3258375564c50184820
+  languageName: node
+  linkType: hard
+
+"@pulumi/pulumi@npm:^3.0.0":
   version: 3.91.1
   resolution: "@pulumi/pulumi@npm:3.91.1"
   dependencies:
@@ -3663,7 +3706,7 @@ __metadata:
   dependencies:
     "@pulumi/cloudflare": 5.13.1
     "@pulumi/github": 5.22.0
-    "@pulumi/pulumi": 3.91.1
+    "@pulumi/pulumi": 3.92.0
     "@pulumi/std": 1.4.0
     "@pulumi/terraform": 5.13.4
     "@types/node": 20.8.10
