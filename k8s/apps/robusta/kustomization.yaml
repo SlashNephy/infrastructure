@@ -18,13 +18,13 @@ helmCharts:
       globalConfig:
         account_id: "{{ env.ACCOUNT_ID }}"
         signing_key: "{{ env.SIGNING_KEY }}"
-      kube-prometheus-stack:
-        grafana:
-          persistence:
-            enabled: true
+      #      kube-prometheus-stack:
+      #        grafana:
+      #          persistence:
+      #            enabled: true
       prometheus:
         prometheusSpec:
-          retention: 90d\
+          retention: 90d
       rsa:
         prv: "{{ env.RSA_PRIVATE_KEY }}"
         pub: "{{ env.RSA_PUBLIC_KEY }}"
