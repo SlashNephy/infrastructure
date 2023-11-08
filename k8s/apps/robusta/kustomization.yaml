@@ -17,7 +17,10 @@ helmCharts:
         account_id: "{{ env.ACCOUNT_ID }}"
         signing_key: "{{ env.SIGNING_KEY }}"
       rsa:
-        existingSecret: rsa-keys
+        prv: "{{ env.RSA_PRIVATE_KEY }}"
+        pub: "{{ env.RSA_PUBLIC_KEY }}"
+        # XXX: 2023/11/9 時点で existingSecret は Helm Chart でサポートされていないようなので環境変数経由で注入する
+        # existingSecret: rsa-keys
       runner:
         additional_env_vars:
           - name: ACCOUNT_ID
@@ -30,6 +33,16 @@ helmCharts:
               secretKeyRef:
                 name: app-secrets
                 key: SIGNING_KEY
+          - name: RSA_PUBLIC_KEY
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: RSA_PUBLIC_KEY
+          - name: RSA_PRIVATE_KEY
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: RSA_PRIVATE_KEY
           - name: DISCORD_WEBHOOK_URL
             valueFrom:
               secretKeyRef:
