@@ -1,0 +1,54 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: robusta
+
+helmCharts:
+  - name: robusta
+    releaseName: robusta
+    namespace: robusta
+    version: 0.10.25
+    repo: https://robusta-charts.storage.googleapis.com
+    # https://github.com/robusta-dev/robusta/blob/master/helm/robusta/values.yaml
+    valuesInline:
+      clusterName: lily
+      disableCloudRouting: false
+      enablePlatformPlaybooks: true
+      globalConfig:
+        account_id: "{{ env.ACCOUNT_ID }}"
+        signing_key: "{{ env.SIGNING_KEY }}"
+      rsa:
+        existingSecret: rsa-keys
+      runner:
+        additional_env_vars:
+          - name: ACCOUNT_ID
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: ACCOUNT_ID
+          - name: SIGNING_KEY
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: SIGNING_KEY
+          - name: DISCORD_WEBHOOK_URL
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: DISCORD_WEBHOOK_URL
+          - name: ROBUSTA_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: ROBUSTA_TOKEN
+        sendAdditionalTelemetry: false
+      sinksConfig:
+        - discord_sink:
+            name: personal_discord_sink
+            url: "{{ env.DISCORD_WEBHOOK_URL }}"
+        - robusta_sink:
+            name: robusta_ui_sink
+            token: "{{ env.ROBUSTA_TOKEN }}"
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml

@@ -233,6 +233,11 @@ spec:
             namespace: muni
             path: k8s/apps/muni
             project: apps
+          - name: robusta
+            cluster: https://kubernetes.default.svc
+            namespace: robusta
+            path: k8s/apps/robusta
+            project: apps
 
           # cron
           - name: cron-backup-node
