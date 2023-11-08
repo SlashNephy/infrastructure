@@ -8,6 +8,7 @@ helmCharts:
     namespace: robusta
     version: 0.10.25
     repo: https://robusta-charts.storage.googleapis.com
+    includeCRDs: true
     # https://github.com/robusta-dev/robusta/blob/master/helm/robusta/values.yaml
     valuesInline:
       clusterName: lily
