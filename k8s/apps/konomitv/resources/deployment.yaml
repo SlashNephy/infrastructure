@@ -18,6 +18,8 @@ spec:
       containers:
         - name: app
           image: ghcr.io/tsukumijima/konomitv:latest@sha256:7aeab87d8bf7f06a00e59778f72315feb30f264976a6cadaa10e19d6ab59609d
+          # XXX: これが必要かは不明。digest が付いているとき IfNotPresent が設定されるはずだが、定期的に ErrImagePull が発生するため指定している
+          imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: config
               mountPath: /code/config.yaml
