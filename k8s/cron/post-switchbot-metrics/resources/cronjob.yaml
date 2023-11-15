@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob
+
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          annotations:
+            fluentbit.io/exclude: "true"
+        spec:
+          containers:
+            - name: app
+              image: ghcr.io/slashnephy/post-switchbot-metrics:master
+              env:
+                - name: MACKEREL_SERVICE_NAME
+                  value: SwitchBot
+              envFrom:
+                - secretRef:
+                    name: app-secret
+              securityContext:
+                allowPrivilegeEscalation: false
+          restartPolicy: Never
+  concurrencyPolicy: Forbid

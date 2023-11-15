@@ -260,6 +260,11 @@ spec:
             namespace: cron-rm-empty-files
             path: k8s/cron/rm-empty-files
             project: cron
+          - name: cron-post-switchbot-metrics
+            cluster: https://kubernetes.default.svc
+            namespace: cron-post-switchbot-metrics
+            path: k8s/cron/post-switchbot-metrics
+            project: cron
 
           # system
           - name: 1password-lily
