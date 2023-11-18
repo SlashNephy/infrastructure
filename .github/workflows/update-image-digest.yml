@@ -18,7 +18,7 @@ jobs:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
 
       - name: Update Image Digest
-        run: go run ./cmd/update-image-digest -i ${{ github.event.client_payload.images }} -d ${{ github.event.client_payload.digest }}
+        run: go run ./cmd/update-image-digest -i ${{ join(github.event.client_payload.images, ',') }} -d ${{ github.event.client_payload.digest }}
 
       - name: Create Pull Request
         id: create-pull-request
@@ -26,14 +26,14 @@ jobs:
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           commit-message: |
-            update ${{ github.event.client_payload.images }} digest to ${{ github.event.client_payload.digest }}
+            [skip ci] update ${{ github.event.client_payload.images[0] }} 🔜 ${{ github.event.client_payload.digest }}
 
             https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
           author: StarryBlueSky-bot <97773209+StarryBlueSky-bot@users.noreply.github.com>
-          branch: update-image-digest
-          branch-suffix: short-commit-hash
+          branch: ci/update-image-digest
+          branch-suffix: random
           delete-branch: true
-          title: update ${{ github.event.client_payload.images }} digest to ${{ github.event.client_payload.digest }}
+          title: update ${{ github.event.client_payload.images[0] }} 🔜 ${{ github.event.client_payload.digest }}
           body: https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
 
       - name: Automerge
