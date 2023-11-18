@@ -1,0 +1,44 @@
+name: Update Image Digest
+
+on:
+  repository_dispatch:
+    types:
+      - update-image-digest
+
+concurrency:
+  group: deploy-${{ github.event.client_payload.images }}
+
+permissions: {}
+
+jobs:
+  update-image-digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+
+      - name: Update Image Digest
+        run: go run ./cmd/update-image-digest -i ${{ github.event.client_payload.images }} -d ${{ github.event.client_payload.digest }}
+
+      - name: Create Pull Request
+        id: create-pull-request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          commit-message: |
+            update ${{ github.event.client_payload.images }} digest to ${{ github.event.client_payload.digest }}
+            
+            https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
+          author: StarryBlueSky-bot <bot@starry.blue>
+          branch: update/digest/${{ github.event.client_payload.digest }}
+          delete-branch: true
+          title: update ${{ github.event.client_payload.images }} digest to ${{ github.event.client_payload.digest }}
+          body: https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
+
+      - name: Automerge
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          pull-request-number: ${{  steps.create-pull-request.outputs.pull-request-number }}
