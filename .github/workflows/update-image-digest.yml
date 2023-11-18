@@ -32,7 +32,8 @@ jobs:
             
             https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
           author: StarryBlueSky-bot <bot@starry.blue>
-          branch: update/digest/${{ github.event.client_payload.digest }}
+          branch: update-image-digest
+          branch-suffix: short-commit-hash
           delete-branch: true
           title: update ${{ github.event.client_payload.images }} digest to ${{ github.event.client_payload.digest }}
           body: https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
