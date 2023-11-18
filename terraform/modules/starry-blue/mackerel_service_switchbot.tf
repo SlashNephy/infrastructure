@@ -21,7 +21,8 @@ resource "mackerel_monitor" "switchbot_battery" {
     duration                  = 1
     warning                   = "30"
     critical                  = "10"
-    missing_duration_warning  = 10
-    missing_duration_critical = 30
+    // device states not synchronized with server でメトリックが登録されないことがあるので12時間はメトリックの欠損を許可
+    missing_duration_warning  = 720
+    missing_duration_critical = 1440
   }
 }
