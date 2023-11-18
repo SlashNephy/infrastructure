@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: public.ecr.aws/docker/library/mariadb:10.11.5-jammy@sha256:d98220e8513201e1a0a720724b8599024854b7bf33afea81ac1dd3c54dd47420
+          image: public.ecr.aws/docker/library/mariadb:10.11.6-jammy@sha256:ca13918ec48f2644005624012e51f95189224decfb8f5df4c41beebcd4805770
           env:
             - name: MYSQL_DATABASE
               value: teamspeak
