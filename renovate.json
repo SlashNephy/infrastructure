@@ -3,12 +3,13 @@
   "extends": ["github>SlashNephy/.github:renovate-config"],
   "packageRules": [
     {
-      "matchPaths": ["k8s/system/traefik/*"],
+      "matchFileNames": ["k8s/system/traefik/**"],
       "automergeSchedule": ["after 4am and before 5am"]
     },
     {
-      "matchPaths": ["k8s/apps/mahiron/*", "k8s/apps/epgstation/*"],
+      "matchFileNames": ["k8s/apps/mahiron/**", "k8s/apps/epgstation/**"],
       "automerge": false
     }
-  ]
+  ],
+  "rebaseWhen": "conflicted"
 }
