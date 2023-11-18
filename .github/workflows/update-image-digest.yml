@@ -8,8 +8,6 @@ on:
 concurrency:
   group: deploy-${{ github.event.client_payload.images }}
 
-permissions: {}
-
 jobs:
   update-image-digest:
     runs-on: ubuntu-latest
@@ -29,7 +27,7 @@ jobs:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           commit-message: |
             update ${{ github.event.client_payload.images }} digest to ${{ github.event.client_payload.digest }}
-            
+    
             https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
           author: StarryBlueSky-bot <97773209+StarryBlueSky-bot@users.noreply.github.com>
           branch: update-image-digest
