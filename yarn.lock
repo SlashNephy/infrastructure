@@ -65,13 +65,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.53.0":
-  version: 8.53.0
-  resolution: "@eslint/js@npm:8.53.0"
-  checksum: a372d55aa2bbe0d9399acc8de3c892dcfe507fd914d29fde6826ae54a13452619be626aa7eb70b1ec4d4da5302b6ed8e8ac9bf1f830003f15c0ad56c30b4f520
-  languageName: node
-  linkType: hard
-
 "@eslint/js@npm:8.54.0":
   version: 8.54.0
   resolution: "@eslint/js@npm:8.54.0"
@@ -442,7 +435,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pulumi/pulumi@npm:3.94.2":
+"@pulumi/pulumi@npm:3.94.2, @pulumi/pulumi@npm:^3.0.0":
   version: 3.94.2
   resolution: "@pulumi/pulumi@npm:3.94.2"
   dependencies:
@@ -472,39 +465,6 @@ __metadata:
     typescript: "npm:~3.8.3"
     upath: "npm:^1.1.0"
   checksum: 90e2a090096a43ef84e7643da8ae9a85f77fdfcf58240c19e988964f3364394baddf176058f5a277469b51bcfed1e79bfcf30a00b791805805fe385e9f56db31
-  languageName: node
-  linkType: hard
-
-"@pulumi/pulumi@npm:^3.0.0":
-  version: 3.93.0
-  resolution: "@pulumi/pulumi@npm:3.93.0"
-  dependencies:
-    "@grpc/grpc-js": "npm:1.9.6"
-    "@logdna/tail-file": "npm:^2.0.6"
-    "@opentelemetry/api": "npm:^1.2.0"
-    "@opentelemetry/exporter-zipkin": "npm:^1.6.0"
-    "@opentelemetry/instrumentation": "npm:^0.32.0"
-    "@opentelemetry/instrumentation-grpc": "npm:^0.32.0"
-    "@opentelemetry/resources": "npm:^1.6.0"
-    "@opentelemetry/sdk-trace-base": "npm:^1.6.0"
-    "@opentelemetry/sdk-trace-node": "npm:^1.6.0"
-    "@opentelemetry/semantic-conventions": "npm:^1.6.0"
-    "@pulumi/query": "npm:^0.3.0"
-    execa: "npm:^5.1.0"
-    google-protobuf: "npm:^3.5.0"
-    ini: "npm:^2.0.0"
-    js-yaml: "npm:^3.14.0"
-    minimist: "npm:^1.2.6"
-    normalize-package-data: "npm:^3.0.0"
-    pkg-dir: "npm:^7.0.0"
-    read-package-tree: "npm:^5.3.1"
-    require-from-string: "npm:^2.0.1"
-    semver: "npm:^7.5.2"
-    source-map-support: "npm:^0.5.6"
-    ts-node: "npm:^7.0.1"
-    typescript: "npm:~3.8.3"
-    upath: "npm:^1.1.0"
-  checksum: 10cd4d34af88406703ea2843469e2ea71f133795783f07df92181d6a9b5698aa6fe618ab5e457fb80662c6d1b5b74d36eef6e3e703e5499632234c76f7d3df73
   languageName: node
   linkType: hard
 
@@ -632,11 +592,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0":
-  version: 20.9.0
-  resolution: "@types/node@npm:20.9.0"
+  version: 20.9.2
+  resolution: "@types/node@npm:20.9.2"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: a934f7645ed117a27857147403b0c657ffbca578c8f280e4c21d27dfb43e58dc4f24c4319d4335b8a4fa08e28fb2dc905a5bd5e4bc8878047164c56c1b162139
+  checksum: 8bab2870bfc02efc988c53dfb0149634f8feb824132cc7f20b36f3d55d89ef893e3a43d545524a5cb3a284f4ce68ae4181d75a4a39cee6b79c586d719e6b7461
   languageName: node
   linkType: hard
 
@@ -2127,7 +2087,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:8.54.0":
+"eslint@npm:8.54.0, eslint@npm:^8.40.0":
   version: 8.54.0
   resolution: "eslint@npm:8.54.0"
   dependencies:
@@ -2172,54 +2132,6 @@ __metadata:
   bin:
     eslint: bin/eslint.js
   checksum: 379827964fd7885a4d48611a5237cf5c534eff0ad3d0c1a1d6a14d52ac6758f4efdccd924c9bb3a9aa4dc80a3446d48dc49f61733cd5bd5f74419d0240970e7b
-  languageName: node
-  linkType: hard
-
-"eslint@npm:^8.40.0":
-  version: 8.53.0
-  resolution: "eslint@npm:8.53.0"
-  dependencies:
-    "@eslint-community/eslint-utils": "npm:^4.2.0"
-    "@eslint-community/regexpp": "npm:^4.6.1"
-    "@eslint/eslintrc": "npm:^2.1.3"
-    "@eslint/js": "npm:8.53.0"
-    "@humanwhocodes/config-array": "npm:^0.11.13"
-    "@humanwhocodes/module-importer": "npm:^1.0.1"
-    "@nodelib/fs.walk": "npm:^1.2.8"
-    "@ungap/structured-clone": "npm:^1.2.0"
-    ajv: "npm:^6.12.4"
-    chalk: "npm:^4.0.0"
-    cross-spawn: "npm:^7.0.2"
-    debug: "npm:^4.3.2"
-    doctrine: "npm:^3.0.0"
-    escape-string-regexp: "npm:^4.0.0"
-    eslint-scope: "npm:^7.2.2"
-    eslint-visitor-keys: "npm:^3.4.3"
-    espree: "npm:^9.6.1"
-    esquery: "npm:^1.4.2"
-    esutils: "npm:^2.0.2"
-    fast-deep-equal: "npm:^3.1.3"
-    file-entry-cache: "npm:^6.0.1"
-    find-up: "npm:^5.0.0"
-    glob-parent: "npm:^6.0.2"
-    globals: "npm:^13.19.0"
-    graphemer: "npm:^1.4.0"
-    ignore: "npm:^5.2.0"
-    imurmurhash: "npm:^0.1.4"
-    is-glob: "npm:^4.0.0"
-    is-path-inside: "npm:^3.0.3"
-    js-yaml: "npm:^4.1.0"
-    json-stable-stringify-without-jsonify: "npm:^1.0.1"
-    levn: "npm:^0.4.1"
-    lodash.merge: "npm:^4.6.2"
-    minimatch: "npm:^3.1.2"
-    natural-compare: "npm:^1.4.0"
-    optionator: "npm:^0.9.3"
-    strip-ansi: "npm:^6.0.1"
-    text-table: "npm:^0.2.0"
-  bin:
-    eslint: bin/eslint.js
-  checksum: e305a71ce2b9a8631b293266fe53e346c76f28bc8d004af33f10e537cf133db1fb87af3599376e70ed6e0f89a78be10c4f08ddd0c1c9c0c497cd143b4a270420
   languageName: node
   linkType: hard
 
@@ -2680,9 +2592,9 @@ __metadata:
   linkType: hard
 
 "ignore@npm:^5.0.5, ignore@npm:^5.1.1, ignore@npm:^5.2.0, ignore@npm:^5.2.4":
-  version: 5.2.4
-  resolution: "ignore@npm:5.2.4"
-  checksum: 4f7caf5d2005da21a382d4bd1d2aa741a3bed51de185c8562dd7f899a81a620ac4fd0619b06f7029a38ae79e4e4c134399db3bd0192c703c3ef54bb82df3086c
+  version: 5.3.0
+  resolution: "ignore@npm:5.3.0"
+  checksum: 51594355cea4c6ad6b28b3b85eb81afa7b988a1871feefd7062baf136c95aa06760ee934fa9590e43d967bd377ce84a4cf6135fbeb6063e063f1182a0e9a3bcd
   languageName: node
   linkType: hard
 
