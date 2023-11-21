@@ -6,7 +6,7 @@ on:
       - update-image-digest
 
 concurrency:
-  group: deploy-${{ github.event.client_payload.images }}
+  group: deploy-${{ join(github.event.client_payload.images, ',') }}
 
 jobs:
   update-image-digest:
