@@ -5,6 +5,9 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    # db で hostPath を使用しているため、ロックを解放してもらわないと新しい Pod が起動できない
+    type: Recreate
   selector:
     matchLabels:
       app: default
