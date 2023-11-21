@@ -37,6 +37,7 @@ jobs:
           body: https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
 
       - name: Automerge
+        if: steps.create-pull-request.outputs.pull-request-number
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
