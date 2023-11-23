@@ -32,6 +32,9 @@ spec:
             - name: mnt
               mountPath: /srv/mnt
               readOnly: true
+            - name: konomitv-capture
+              mountPath: /srv/konomitv-capture
+              readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -42,5 +45,9 @@ spec:
         - name: mnt
           hostPath:
             path: /mnt/records
+            type: Directory
+        - name: konomitv-capture
+          hostPath:
+            path: /opt/k8s-volumes/konomitv/data/capture
             type: Directory
       restartPolicy: Always
