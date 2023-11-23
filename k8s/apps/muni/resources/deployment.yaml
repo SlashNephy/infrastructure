@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/slashnephy/muni-server:master@sha256:bbeeed7360be12c51bb75e60451727366e948ae2dbf32febb04e035c552e0aff
+          image: ghcr.io/slashnephy/muni-server:master@sha256:b314877e85c5642894c22689dcb72b5debca7e67f4db3c69b7cbd4e84ad55e92
           envFrom:
             - secretRef:
                 name: app-secrets
