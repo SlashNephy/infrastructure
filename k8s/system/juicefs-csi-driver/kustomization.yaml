@@ -14,6 +14,8 @@ helmCharts:
       storageClasses:
         - name: juicefs-r2
           allowVolumeExpansion: true
+          annotations:
+            storageclass.kubernetes.io/is-default-class: "true"
           enabled: true
           pathPattern: ${.PVC.namespace}/${.PVC.name}
           reclaimPolicy: Retain

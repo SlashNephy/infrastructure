@@ -327,11 +327,6 @@ spec:
             namespace: traefik
             path: k8s/system/traefik/bbc
             project: system
-          - name: storage-classes
-            cluster: https://kubernetes.default.svc
-            namespace: storage-classes
-            path: k8s/system/storage-classes
-            project: system
 
   template:
     metadata:
