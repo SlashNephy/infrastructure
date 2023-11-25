@@ -23,6 +23,7 @@ helmCharts:
 resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
+  - ./resources/ingress.yaml
   - ./resources/redis/deployment.yaml
   - ./resources/redis/service.yaml
 

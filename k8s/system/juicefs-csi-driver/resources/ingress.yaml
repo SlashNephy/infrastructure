@@ -1,0 +1,12 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`juicefs.starry.blue`)
+      services:
+        - name: juicefs-csi-dashboard
+          port: http
