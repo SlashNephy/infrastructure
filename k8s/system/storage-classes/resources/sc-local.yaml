@@ -6,4 +6,5 @@ metadata:
     storageclass.kubernetes.io/is-default-class: "true"
 
 provisioner: kubernetes.io/no-provisioner
+reclaimPolicy: Retain
 volumeBindingMode: WaitForFirstConsumer
