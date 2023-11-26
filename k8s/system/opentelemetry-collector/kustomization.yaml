@@ -24,11 +24,22 @@ helmCharts:
                 - otlp
       mode: deployment
       presets:
+        clusterMetrics:
+          enabled: true
         hostMetrics:
+          enabled: true
+        kubeletMetrics:
+          enabled: true
+        kubernetesAttributes:
+          enabled: true
+          extractAllPodAnnotations: true
+          extractAllPodLabels: true
+        kubernetesEvents:
           enabled: true
         logsCollection:
           enabled: true
-          includeCollectorLogs: true
+          includeCollectorLogs: false
+      replicaCount: 1
 
 resources:
   - ./resources/namespace.yaml
