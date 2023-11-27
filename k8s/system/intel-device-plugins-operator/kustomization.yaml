@@ -16,9 +16,7 @@ helmCharts:
     repo: https://intel.github.io/helm-charts/
     valuesInline:
       name: gpu-plugin
-      enableMonitoring: false
       nodeFeatureRule: true
-      resourceManager: false
       sharedDevNum: 4
 
 resources:
