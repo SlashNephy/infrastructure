@@ -26,8 +26,8 @@ resource "mackerel_monitor" "search" {
       CF-Access-Client-Id     = data.onepassword_item.cloudflare_access_client.username
       CF-Access-Client-Secret = data.onepassword_item.cloudflare_access_client.password
     }
-    certification_expiration_warning  = 14
-    certification_expiration_critical = 7
+    certification_expiration_warning  = 7
+    certification_expiration_critical = 3
     follow_redirect                   = false
   }
 

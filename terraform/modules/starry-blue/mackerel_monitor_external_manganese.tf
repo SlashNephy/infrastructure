@@ -18,8 +18,8 @@ resource "mackerel_monitor" "external_manganese" {
       Authorization = "Basic ${base64encode(format("%s:%s", data.onepassword_item.external-manganese_credential.username, data.onepassword_item.external-manganese_credential.password))}"
     }
     contains_string                   = "{"
-    certification_expiration_warning  = 14
-    certification_expiration_critical = 7
+    certification_expiration_warning  = 7
+    certification_expiration_critical = 3
     follow_redirect                   = false
   }
 

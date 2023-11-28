@@ -26,8 +26,8 @@ resource "mackerel_monitor" "mirakurun_api" {
       Authorization = "Basic ${base64encode(format("%s:%s", data.onepassword_item.lily-mahiron_credential.username, data.onepassword_item.lily-mahiron_credential.password))}"
     }
     contains_string                   = "{"
-    certification_expiration_warning  = 14
-    certification_expiration_critical = 7
+    certification_expiration_warning  = 7
+    certification_expiration_critical = 3
     follow_redirect                   = false
   }
 

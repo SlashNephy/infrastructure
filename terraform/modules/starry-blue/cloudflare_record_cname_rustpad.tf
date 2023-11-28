@@ -24,8 +24,8 @@ resource "mackerel_monitor" "rustpad" {
     headers                = {
       Cache-Control = "no-cache"
     }
-    certification_expiration_warning  = 14
-    certification_expiration_critical = 7
+    certification_expiration_warning  = 7
+    certification_expiration_critical = 3
     follow_redirect                   = false
   }
 }

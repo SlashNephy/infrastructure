@@ -26,8 +26,8 @@ resource "mackerel_monitor" "epgstation_api_v6" {
       Authorization = "Basic ${base64encode(format("%s:%s", data.onepassword_item.lily-epgstation_credential.username, data.onepassword_item.lily-epgstation_credential.password))}"
     }
     contains_string                   = "{"
-    certification_expiration_warning  = 14
-    certification_expiration_critical = 7
+    certification_expiration_warning  = 7
+    certification_expiration_critical = 3
     follow_redirect                   = false
   }
 
