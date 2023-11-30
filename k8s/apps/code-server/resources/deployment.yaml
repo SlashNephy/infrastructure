@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: codercom/code-server:4.19.0-bullseye@sha256:d485b27ce0eeb32bc09beb512825eb5ad2d5ad09202e64e0bd4ca27b1555062f
+          image: codercom/code-server:4.19.1-bullseye@sha256:993c381c28a3738b903ac21180f5f9dab8f2aa547bbb0b9d69bea558691e10d3
           workingDir: /opt
           args:
             - --auth=none
