@@ -3,7 +3,8 @@ resource "mackerel_service" "external_rhodium" {
 }
 
 resource "mackerel_monitor" "external_rhodium" {
-  name = format("%s に疎通できない", data.onepassword_item.external-rhodium_credential.url)
+  name    = format("%s に疎通できない", data.onepassword_item.external-rhodium_credential.url)
+  is_mute = true
 
   external {
     method                 = "GET"
