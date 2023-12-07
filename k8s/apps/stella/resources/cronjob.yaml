@@ -18,15 +18,9 @@ spec:
                 - -c
                 - |
                   mongoexport \
-                    -h db \
-                    -u $MONGODB_USER \
-                    -p $MONGODB_PASSWORD \
-                    --authenticationDatabase=admin \
-                    -d stella \
-                    -c $MONGODB_COLLECTION \
-                    --jsonArray \
-                    --jsonFormat=canonical \
-                    --quiet | jq > /backup/${MONGODB_COLLECTION}.json
+                    --uri="mongodb://$MONGODB_USER:$MONGODB_PASSWORD@db:27017/stella?authSource=admin" \
+                    --collection=$MONGODB_COLLECTION \
+                    --out /backup/${MONGODB_COLLECTION}.json
               env:
                 - name: MONGODB_USER
                   valueFrom:
@@ -50,16 +44,11 @@ spec:
               command:
                 - bash
                 - -c
-                - mongoexport \
-                  -h db \
-                  -u $MONGODB_USER \
-                  -p $MONGODB_PASSWORD \
-                  --authenticationDatabase=admin \
-                  -d stella \
-                  -c $MONGODB_COLLECTION \
-                  --jsonArray \
-                  --jsonFormat=canonical \
-                  --quiet | jq > /backup/${MONGODB_COLLECTION}.json
+                - |
+                  mongoexport \
+                  --uri="mongodb://$MONGODB_USER:$MONGODB_PASSWORD@db:27017/stella?authSource=admin" \
+                  --collection=$MONGODB_COLLECTION \
+                  --out /backup/${MONGODB_COLLECTION}.json
               env:
                 - name: MONGODB_USER
                   valueFrom:
