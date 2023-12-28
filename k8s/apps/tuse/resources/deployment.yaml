@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/tuse:master@sha256:7c24870beb768344dc044b92bf24c02dd64fd31df6465c2f52e2041eb45a419d
+          image: ghcr.io/slashnephy/tuse:master@sha256:bc4e8dc621c7cc86284750dbec3341cd8e3dc4128c84e447e6dce56f7acbeec8
           env:
             - name: TUSE_APP_NAME
               value: ksearch
