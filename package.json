@@ -1,10 +1,13 @@
 {
   "name": "infrastructure",
   "version": "1.0.0",
-  "main": "pulumi/index.ts",
-  "author": "SlashNephy <spica@starry.blue>",
   "repository": "https://github.com/SlashNephy/infrastructure",
   "license": "MIT",
+  "author": "SlashNephy <spica@starry.blue>",
+  "main": "pulumi/index.ts",
+  "workspaces": [
+    "pulumi"
+  ],
   "scripts": {
     "format": "concurrently -n format: -m 1 'yarn:format:*'",
     "format:eslint": "yarn lint:eslint --fix",
@@ -14,14 +17,11 @@
     "lint:prettier": "prettier --check ."
   },
   "devDependencies": {
-    "@slashnephy/eslint-config": "2.0.101",
+    "@slashnephy/eslint-config": "2.1.1",
     "@slashnephy/prettier-config": "1.0.73",
     "concurrently": "8.2.2",
     "eslint": "8.56.0",
     "prettier": "3.1.1"
   },
-  "packageManager": "yarn@4.0.2",
-  "workspaces": [
-    "pulumi"
-  ]
+  "packageManager": "yarn@4.0.2"
 }
