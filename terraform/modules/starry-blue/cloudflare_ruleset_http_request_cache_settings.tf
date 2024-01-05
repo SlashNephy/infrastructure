@@ -27,6 +27,7 @@ resource "cloudflare_ruleset" "http_request_cache_settings" {
     expression = <<-EOT
       ssl and (http.host in {
         "${cloudflare_record.cname_amq_proxy.hostname}"
+        "${cloudflare_record.cname_nebula_api.hostname}"
       })
     EOT
   }
