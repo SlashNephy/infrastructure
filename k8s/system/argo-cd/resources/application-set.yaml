@@ -238,6 +238,11 @@ spec:
             namespace: robusta
             path: k8s/apps/robusta
             project: apps
+          - name: nebula
+            cluster: https://kubernetes.default.svc
+            namespace: nebula
+            path: k8s/apps/nebula
+            project: apps
 
           # cron
           - name: cron-backup-node

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: server
+          image: ghcr.io/slashnephy/nebula-server:master
+          env:
+            - name: SERVER_ORIGIN
+              value: https://nebula-api.starry.blue
+          envFrom:
+            - secretRef:
+                name: server-secrets
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: media
+              mountPath: /app/media
+          securityContext:
+            allowPrivilegeEscalation: false
+        - name: db
+          image: public.ecr.aws/docker/library/postgres:16.1-bookworm
+          envFrom:
+            - secretRef:
+                name: app-secrets
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: db
+              mountPath: /var/lib/postgresql/data
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: media
+          hostPath:
+            path: /opt/k8s-volumes/nebula/media
+            type: DirectoryOrCreate
+        - name: db
+          hostPath:
+            path: /opt/k8s-volumes/nebula/db
+            type: DirectoryOrCreate
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-io-credentials
