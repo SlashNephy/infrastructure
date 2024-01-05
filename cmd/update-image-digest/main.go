@@ -42,7 +42,7 @@ func updateManifests(images []string, digest string) error {
 
 	patterns := map[string]*regexp.Regexp{}
 	for _, image := range images {
-		patterns[image] = regexp.MustCompile(fmt.Sprintf("%s@sha256:[0-9a-f]{64}", regexp.QuoteMeta(image)))
+		patterns[image] = regexp.MustCompile(fmt.Sprintf("%s(@sha256:[0-9a-f]{64})?", regexp.QuoteMeta(image)))
 	}
 
 	return filepath.Walk(basePath, func(path string, info os.FileInfo, err error) error {
