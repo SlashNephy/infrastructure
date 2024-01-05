@@ -29,6 +29,10 @@ spec:
           volumeMounts:
             - name: media
               mountPath: /app/media
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
           securityContext:
             allowPrivilegeEscalation: false
         - name: db
