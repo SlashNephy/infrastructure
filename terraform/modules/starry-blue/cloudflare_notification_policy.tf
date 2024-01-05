@@ -40,14 +40,15 @@ resource "cloudflare_notification_policy" "pages_event_alert" {
     environment = ["ENVIRONMENT_PRODUCTION"]
     event       = ["EVENT_DEPLOYMENT_FAILED"]
     project_id  = [
-      "07c48fd8-39c7-436e-a579-bf674f402a44",
       "1084a83a-fd3f-41b3-9a25-acf7fa8a1108",
-      "5677980c-e26f-4f57-821d-351151c98b2b",
-      "58a11813-e318-448a-9e1e-683574417039",
+      "07c48fd8-39c7-436e-a579-bf674f402a44",
       "7df1ccc1-971e-49a4-a55e-6c0c29fd996a",
-      "b76e433a-8ac6-413e-84c2-cb4cf79218f5",
-      "cbf48d47-4863-4b09-8e6d-13c72fd5f5f3",
+      "5677980c-e26f-4f57-821d-351151c98b2b",
       "f1355289-5f0e-41cf-90b7-cade667e91ec",
+      "cbf48d47-4863-4b09-8e6d-13c72fd5f5f3",
+      "8925d184-168f-478a-8e09-4b466a633006",
+      "b76e433a-8ac6-413e-84c2-cb4cf79218f5",
+      "58a11813-e318-448a-9e1e-683574417039"
     ]
   }
 }
