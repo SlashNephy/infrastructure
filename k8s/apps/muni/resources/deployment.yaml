@@ -21,6 +21,8 @@ spec:
           envFrom:
             - secretRef:
                 name: app-secrets
+          ports:
+            - containerPort: 7080
           securityContext:
             allowPrivilegeEscalation: false
         - name: envoy
