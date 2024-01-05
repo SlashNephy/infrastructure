@@ -32,7 +32,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: db
-          image: public.ecr.aws/docker/library/postgres:16.1-bookworm
+          image: public.ecr.aws/docker/library/postgres:16.1-bookworm@sha256:b09f2562ab14fcae750cfc5ae457cd97e90c37679f520bc4a84180913de90261
           envFrom:
             - secretRef:
                 name: app-secrets
