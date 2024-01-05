@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/tsukumijima/konomitv:latest@sha256:cc0fc2f045e4b73130c6b1c6ef40b976b9bb43a5f4239ad14fc9cb67eb6a0bf1
+          image: ghcr.io/tsukumijima/konomitv:latest@sha256:9ca5010a6dbd1877cfe8557faee89f5ddda67baefd8f75f7294a15e65c831b61
           # XXX: これが必要かは不明。digest が付いているとき IfNotPresent が設定されるはずだが、定期的に ErrImagePull が発生するため指定している
           imagePullPolicy: IfNotPresent
           volumeMounts:
