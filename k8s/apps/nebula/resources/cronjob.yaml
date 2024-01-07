@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup
+
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: pg-dump
+              image: public.ecr.aws/docker/library/postgres:16.1-bookworm@sha256:b09f2562ab14fcae750cfc5ae457cd97e90c37679f520bc4a84180913de90261
+              command:
+                - bash
+                - -c
+                - |
+                  pg_dump \
+                    -f /backup/nebula.sql \
+                    --if-exists \
+                    --clean \
+                    --column-inserts \
+                    "$DATABASE_DSN"
+              env:
+                - name: DATABASE_DSN
+                  valueFrom:
+                    secretKeyRef:
+                      name: server-secrets
+                      key: DATABASE_DSN
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+              securityContext:
+                allowPrivilegeEscalation: false
+          volumes:
+            - name: backup
+              hostPath:
+                path: /opt/k8s-volumes/nebula/backup
+                type: DirectoryOrCreate
+          restartPolicy: Never
+  concurrencyPolicy: Forbid
