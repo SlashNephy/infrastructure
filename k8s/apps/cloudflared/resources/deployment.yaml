@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: cloudflare/cloudflared:latest@sha256:908ad63a08ed0ef2058170aea0b1164dadb147974033ed0beeff4f1a1013d709
+          image: cloudflare/cloudflared:latest@sha256:5f422f099d2c047198db2132c48ef570dfb5f72ef53488d6a8c66f4fb68ea25e
           args:
             - tunnel
             - --metrics=0.0.0.0:2000
