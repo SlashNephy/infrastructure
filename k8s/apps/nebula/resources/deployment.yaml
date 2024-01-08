@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/slashnephy/nebula-server:master@sha256:661262a8187786f1d4c3bd44d6529bf112180092e301439d4b960baa1ec8ea25
+          image: ghcr.io/slashnephy/nebula-server:master@sha256:18b688ccc273462276328e2f930abb680411e535c12f55c0c88f69ae2a9e2484
           env:
             - name: SERVER_ORIGIN
               value: https://nebula-api.starry.blue
