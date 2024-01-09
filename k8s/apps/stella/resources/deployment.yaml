@@ -5,6 +5,9 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    # db で hostPath を使用しているため、ロックを解放してもらわないと新しい Pod が起動できない
+    type: Recreate
   selector:
     matchLabels:
       app: default
@@ -67,7 +70,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: db
-          image: public.ecr.aws/docker/library/mongo:7.0.5@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
+          image: public.ecr.aws/docker/library/mongo:7.0.5-jammy
           env:
             - name: MONGO_INITDB_DATABASE
               value: stella
