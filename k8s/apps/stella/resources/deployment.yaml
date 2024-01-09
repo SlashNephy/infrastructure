@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/stella:latest@sha256:ece645dd5e2fdad15484dbb21a5199301aae3b438c849a7e1b890cf882a1962b
+          image: ghcr.io/slashnephy/stella:latest@sha256:ffb83e6f6f28093537900748e203fe9f5613e49fdd7aad457d81c0d96df0dfe4
           env:
             - name: BEHIND_REVERSE_PROXY
               value: "1"
