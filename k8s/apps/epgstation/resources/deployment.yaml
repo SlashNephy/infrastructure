@@ -34,7 +34,7 @@ spec:
             limits:
               gpu.intel.com/i915: "1"
         - name: db
-          image: public.ecr.aws/docker/library/mariadb:10.11.6-jammy@sha256:40843b253d7b21fa83b10b8f0b4cf538e1c90bf4639fb3a2818f82ea0568172b
+          image: public.ecr.aws/docker/library/mariadb:11.2.2-jammy@sha256:4d5a0e687d469b1a1e08ea8829f46ef1d966d9e0a3a8f3613fcf61e933161c27
           args:
             - mysqld
             - --character-set-server=utf8mb4
