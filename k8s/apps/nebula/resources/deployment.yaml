@@ -29,6 +29,14 @@ spec:
           volumeMounts:
             - name: media
               mountPath: /app/media
+            - name: avatars
+              mountPath: /app/avatars
+            - name: stella-backup
+              mountPath: /app/stella-backup
+              readOnly: true
+            - name: stella-media
+              mountPath: /app/stella-media
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /health
@@ -52,6 +60,18 @@ spec:
           hostPath:
             path: /opt/k8s-volumes/nebula/media
             type: DirectoryOrCreate
+        - name: avatars
+          hostPath:
+            path: /opt/k8s-volumes/nebula/avatars
+            type: DirectoryOrCreate
+        - name: stella-backup
+          hostPath:
+            path: /opt/k8s-volumes/stella-backup
+            type: Directory
+        - name: stella-media
+          hostPath:
+            path: /opt/k8s-volumes/stella-media
+            type: Directory
         - name: db
           hostPath:
             path: /opt/k8s-volumes/nebula/db
