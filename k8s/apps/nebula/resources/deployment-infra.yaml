@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-infra
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: infra
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: infra
+    spec:
+      containers:
+        - name: db
+          image: public.ecr.aws/docker/library/postgres:16.1-bookworm@sha256:49c276fa02e3d61bd9b8db81dfb4784fe814f50f778dce5980a03817438293e3
+          envFrom:
+            - secretRef:
+                name: db-secrets
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: db
+              mountPath: /var/lib/postgresql/data
+          securityContext:
+            allowPrivilegeEscalation: false
+        - name: redis
+          image: public.ecr.aws/docker/library/redis:7.2.4-bookworm
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis
+              mountPath: /data
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: db
+          hostPath:
+            path: /opt/k8s-volumes/nebula/db
+            type: DirectoryOrCreate
+        - name: redis
+          hostPath:
+            path: /opt/k8s-volumes/nebula/redis
+            type: DirectoryOrCreate
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-io-credentials

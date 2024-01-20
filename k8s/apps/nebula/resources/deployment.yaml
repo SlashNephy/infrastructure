@@ -4,7 +4,7 @@ metadata:
   name: deployment
 
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: default
@@ -43,18 +43,6 @@ spec:
               port: 8080
           securityContext:
             allowPrivilegeEscalation: false
-        - name: db
-          image: public.ecr.aws/docker/library/postgres:16.1-bookworm@sha256:49c276fa02e3d61bd9b8db81dfb4784fe814f50f778dce5980a03817438293e3
-          envFrom:
-            - secretRef:
-                name: db-secrets
-          ports:
-            - containerPort: 5432
-          volumeMounts:
-            - name: db
-              mountPath: /var/lib/postgresql/data
-          securityContext:
-            allowPrivilegeEscalation: false
       volumes:
         - name: media
           hostPath:
@@ -72,10 +60,6 @@ spec:
           hostPath:
             path: /opt/k8s-volumes/stella-media
             type: Directory
-        - name: db
-          hostPath:
-            path: /opt/k8s-volumes/nebula/db
-            type: DirectoryOrCreate
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
