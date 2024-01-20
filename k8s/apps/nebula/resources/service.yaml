@@ -20,11 +20,26 @@ metadata:
 
 spec:
   selector:
-    app: default
+    app: infra
   type: NodePort
   ports:
     - name: "5432"
       port: 5432
       targetPort: 5432
       nodePort: 5432
+      protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+
+spec:
+  selector:
+    app: infra
+  ports:
+    - name: "6379"
+      port: 6379
+      targetPort: 6379
       protocol: TCP
