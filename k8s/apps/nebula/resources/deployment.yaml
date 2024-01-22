@@ -32,10 +32,10 @@ spec:
             - name: avatars
               mountPath: /app/avatars
             - name: stella-backup
-              mountPath: /app/stella-backup
+              mountPath: /app/stella/backup
               readOnly: true
             - name: stella-media
-              mountPath: /app/stella-media
+              mountPath: /app/stella/media
               readOnly: true
           livenessProbe:
             httpGet:
@@ -54,11 +54,11 @@ spec:
             type: DirectoryOrCreate
         - name: stella-backup
           hostPath:
-            path: /opt/k8s-volumes/stella-backup
+            path: /opt/k8s-volumes/nebula/stella/backup
             type: Directory
         - name: stella-media
           hostPath:
-            path: /opt/k8s-volumes/stella-media
+            path: /opt/k8s-volumes/nebula/stella/media
             type: Directory
       restartPolicy: Always
       imagePullSecrets:
