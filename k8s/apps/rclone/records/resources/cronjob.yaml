@@ -15,7 +15,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: public.ecr.aws/bitnami/rclone:1.65.2@sha256:b41004de852ae3bdb7164d7c9a7744beac0807e094680153a824ec54d52f4caf
+              image: public.ecr.aws/bitnami/rclone:1.65.2@sha256:5f92b278ac7cce83d59359188b235994ef3656a962ce8ee6ab02e4f505358f63
               args:
                 - copy
                 - /mnt/records_links
