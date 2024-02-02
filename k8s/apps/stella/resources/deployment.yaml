@@ -70,7 +70,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: db
-          image: public.ecr.aws/docker/library/mongo:7.0.5-jammy@sha256:fdab37560ff02fa389e01cc574ac8103a4394d8981eb864a37e13c6524c79a32
+          image: public.ecr.aws/docker/library/mongo:7.0.5-jammy@sha256:74439751b3f6373b8bbd69f082174fcc619abf2a5eb014d93933ba0cbfebd9df
           env:
             - name: MONGO_INITDB_DATABASE
               value: stella
