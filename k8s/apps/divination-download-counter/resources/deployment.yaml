@@ -29,7 +29,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: database
-          image: public.ecr.aws/docker/library/postgres:16.1-bullseye@sha256:58c3df8d5d41f753df3fb39ed42eddb55800bbce2d6e0a9dbd43e5739a91d057
+          image: public.ecr.aws/docker/library/postgres:16.1-bullseye@sha256:94568a0c449231f71bfa304754186092f56a58098b0f5b0dc8d7fcba532eddad
           env:
             - name: POSTGRES_USER
               value: app
