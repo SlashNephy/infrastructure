@@ -45,6 +45,4 @@ spec:
           configMap:
             name: app-config
       restartPolicy: Always
-      imagePullSecrets:
-        - name: ghcr-io-credentials
       serviceAccountName: service-account
