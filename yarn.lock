@@ -529,6 +529,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@grpc/grpc-js@npm:^1.9.14":
+  version: 1.9.14
+  resolution: "@grpc/grpc-js@npm:1.9.14"
+  dependencies:
+    "@grpc/proto-loader": "npm:^0.7.8"
+    "@types/node": "npm:>=12.12.47"
+  checksum: 10/417f8ce1b0a529b05f18f1432ccbe257ad4b305ad04b548dcc502adcffde48dfaa4f392e71cb782bfebc1fa23c1f32baed83da368d8c05296da0a243020a60d2
+  languageName: node
+  linkType: hard
+
 "@grpc/proto-loader@npm:^0.7.8":
   version: 0.7.10
   resolution: "@grpc/proto-loader@npm:0.7.10"
@@ -978,11 +988,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pulumi/pulumi@npm:3.103.1":
-  version: 3.103.1
-  resolution: "@pulumi/pulumi@npm:3.103.1"
+"@pulumi/pulumi@npm:3.104.2":
+  version: 3.104.2
+  resolution: "@pulumi/pulumi@npm:3.104.2"
   dependencies:
-    "@grpc/grpc-js": "npm:1.9.6"
+    "@grpc/grpc-js": "npm:^1.9.14"
     "@logdna/tail-file": "npm:^2.0.6"
     "@opentelemetry/api": "npm:^1.2.0"
     "@opentelemetry/exporter-zipkin": "npm:^1.6.0"
@@ -1012,7 +1022,7 @@ __metadata:
     ts-node: "npm:^7.0.1"
     typescript: "npm:~3.8.3"
     upath: "npm:^1.1.0"
-  checksum: 10/2dd95b531fa67676303738a1a44c6f3ce7df0cca2df7cd4487ac6af43908576463263efc73af51eb0bd6f6c36723f03fbd40d235b72bb29af757355bc8083e82
+  checksum: 10/0cdd35526110c81bc488246f2cd68a69ef2c417f9305f44e1f5c950180a71c8f3ef146e9cecb785f73e3c53df144032903fd3b10043f871656426a7b4bd6f37b
   languageName: node
   linkType: hard
 
@@ -5052,7 +5062,7 @@ __metadata:
   dependencies:
     "@pulumi/cloudflare": "npm:5.19.0"
     "@pulumi/github": "npm:5.26.0"
-    "@pulumi/pulumi": "npm:3.103.1"
+    "@pulumi/pulumi": "npm:3.104.2"
     "@pulumi/std": "npm:1.6.2"
     "@pulumi/terraform": "npm:5.13.4"
     "@types/node": "npm:20.11.5"
