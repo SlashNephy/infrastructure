@@ -6,6 +6,7 @@ autoscaling:
   enabled: false
 
 deployment:
+  minReadySeconds: 30
   replicas: 1
 
 envFrom:
@@ -68,9 +69,12 @@ ports:
 
 providers:
   kubernetesCRD:
+    allowCrossNamespaces: true
+    allowEmptyServices: true
     enabled: true
   kubernetesIngress:
     enabled: false
 
 service:
+  ipFamilyPolicy: PreferDualStack
   type: NodePort
