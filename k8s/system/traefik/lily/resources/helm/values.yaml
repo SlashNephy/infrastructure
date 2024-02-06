@@ -26,6 +26,8 @@ hub:
   enabled: true
 
 image:
+  pullPolicy: Always
+  registry: public.ecr.aws/docker/library
   tag: v3.0
 
 ingressRoute:
