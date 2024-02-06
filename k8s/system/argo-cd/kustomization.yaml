@@ -25,7 +25,8 @@ resources:
   - ./resources/secret.yaml
   - ./resources/ingress.yaml
   - ./resources/projects.yaml
-  - ./resources/application-set.yaml
+  - ./resources/application-set-lily.yaml
+  - ./resources/application-set-bbc.yaml
 
 patches:
   - path: ./resources/patch-argocd-cm.yaml

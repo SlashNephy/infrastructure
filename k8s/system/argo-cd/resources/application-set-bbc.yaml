@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: application-set
+
+spec:
+  generators:
+    - list:
+        elements:
+          # apps
+          - name: htpasswd-dashboard
+            namespace: htpasswd-dashboard
+            path: k8s/apps/htpasswd-dashboard/bbc
+            project: apps
+          - name: mahiron
+            namespace: mahiron
+            path: k8s/apps/mahiron/bbc
+            project: apps
+
+          # system
+          - name: 1password
+            namespace: 1password
+            path: k8s/system/1password-connect
+            project: system
+          - name: tigera-operator
+            namespace: tigera-operator
+            path: k8s/system/tigera-operator
+            project: system
+          - name: traefik
+            namespace: traefik
+            path: k8s/system/traefik/bbc
+            project: system
+
+  template:
+    metadata:
+      name: "{{.name}}-bbc"
+    spec:
+      destination:
+        namespace: "{{.namespace}}"
+        server: https://100.84.208.78:6443
+      project: "{{.project}}"
+      source:
+        path: "{{.path}}"
+        repoURL: https://github.com/SlashNephy/infrastructure
+        targetRevision: HEAD
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - RespectIgnoreDifferences=true
+  goTemplate: true
+  goTemplateOptions:
+    - missingkey=error
+  ignoreApplicationDifferences:
+    - jsonPointers:
+        - /spec/syncPolicy/automated
