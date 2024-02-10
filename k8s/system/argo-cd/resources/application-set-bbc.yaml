@@ -30,6 +30,10 @@ spec:
             namespace: traefik
             path: k8s/system/traefik/bbc
             project: system
+          - name: cilium
+            namespace: kube-system
+            path: k8s/system/cilium
+            project: system
 
   template:
     metadata:
