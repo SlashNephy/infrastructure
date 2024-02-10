@@ -128,10 +128,6 @@ spec:
             namespace: rustpad
             path: k8s/apps/rustpad
             project: apps
-          - name: sandbox
-            namespace: sandbox
-            path: k8s/apps/sandbox
-            project: apps
           - name: soundbot-reloaded
             namespace: soundbot-reloaded
             path: k8s/apps/soundbot-reloaded
@@ -223,10 +219,6 @@ spec:
           - name: intel-device-plugins-operator
             namespace: intel-device-plugins-operator
             path: k8s/system/intel-device-plugins-operator
-            project: system
-          - name: juicefs-csi-driver
-            namespace: juicefs-csi-driver
-            path: k8s/system/juicefs-csi-driver
             project: system
           - name: node-feature-discovery
             namespace: node-feature-discovery
