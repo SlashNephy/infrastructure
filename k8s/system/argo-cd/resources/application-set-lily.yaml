@@ -68,9 +68,9 @@ spec:
             namespace: feedchime
             path: k8s/apps/feedchime
             project: apps
-          - name: htpasswd-dashboard-lily
+          - name: htpasswd-dashboard
             namespace: htpasswd-dashboard
-            path: k8s/apps/htpasswd-dashboard/lily
+            path: k8s/apps/htpasswd-dashboard
             project: apps
           - name: konomitv
             namespace: konomitv
@@ -164,9 +164,9 @@ spec:
             namespace: kubeclarity
             path: k8s/apps/kubeclarity
             project: apps
-          - name: kubernetes-dashboard-lily
+          - name: kubernetes-dashboard
             namespace: kubernetes-dashboard
-            path: k8s/apps/kubernetes-dashboard/lily
+            path: k8s/apps/kubernetes-dashboard
             project: apps
           - name: muni
             namespace: muni

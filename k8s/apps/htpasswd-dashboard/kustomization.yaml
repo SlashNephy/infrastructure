@@ -8,3 +8,10 @@ resources:
   - ./resources/role.yaml
   - ./resources/deployment.yaml
   - ./resources/service.yaml
+  - ./resources/ingress.yaml
+  - ./resources/secret.yaml
+
+configMapGenerator:
+  - name: app-config
+    files:
+      - ./config/services.json

@@ -42,11 +42,6 @@ data "onepassword_item" "lily-epgstation_credential" {
   uuid  = "3oejtnfkitnvzdcqxu4avl3vfa"
 }
 
-data "onepassword_item" "bbc-mahiron_credential" {
-  vault = data.onepassword_vault.terraform.uuid
-  uuid  = "uvkstbocd4skmycspdhfvizb2q"
-}
-
 data "onepassword_item" "external-manganese_credential" {
   vault = data.onepassword_vault.terraform.uuid
   uuid  = "fuc6xybsk6suzz54norqfi3xyq"
