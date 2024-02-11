@@ -232,6 +232,10 @@ spec:
             namespace: traefik
             path: k8s/system/traefik/lily
             project: system
+          - name: core-dns
+            namespace: kube-system
+            path: k8s/system/core-dns/lily
+            project: system
 
   template:
     metadata:

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+
+data:
+  Corefile: |
+    .:53 {
+      errors
+      health {
+        lameduck 5s
+      }
+      ready
+      kubernetes cluster.local in-addr.arpa ip6.arpa {
+        pripods insecure
+        fallthrough in-addr.arpa ip6.arpa
+        ttl 30
+      }
+      prometheus :9153
+      forward . tls://94.140.14.49 tls://94.140.14.59 {
+        tls_servername c468a61f.d.adguard-dns.com
+      }
+      cache 30
+      loop
+      reload
+      loadbalance
+    }
