@@ -14,7 +14,7 @@ helmCharts:
       clusterName: lily
       disableCloudRouting: false
       enablePlatformPlaybooks: true
-      enablePrometheusStack: true
+      # enablePrometheusStack: true
       globalConfig:
         account_id: "{{ env.ACCOUNT_ID }}"
         signing_key: "{{ env.SIGNING_KEY }}"
