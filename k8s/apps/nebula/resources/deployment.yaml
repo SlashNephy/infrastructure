@@ -43,6 +43,23 @@ spec:
               port: 8080
           securityContext:
             allowPrivilegeEscalation: false
+        - name: worker
+          image: ghcr.io/slashnephy/nebula-server:master@sha256:4979ac2c1b19101bb4fd79d7b94d1ec38072d513f086d6d7bf1b95c539438b6d
+          command:
+            - /worker
+          env:
+            - name: SERVER_ORIGIN
+              value: https://nebula-api.starry.blue
+          envFrom:
+            - secretRef:
+                name: server-secrets
+          volumeMounts:
+            - name: media
+              mountPath: /app/media
+            - name: avatars
+              mountPath: /app/avatars
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: media
           hostPath:
