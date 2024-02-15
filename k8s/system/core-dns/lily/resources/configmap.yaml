@@ -8,11 +8,11 @@ data:
     .:53 {
       errors
       health {
-        lameduck 5s
+        lameduck 10s
       }
       ready
       kubernetes cluster.local in-addr.arpa ip6.arpa {
-        pripods insecure
+        pods insecure
         fallthrough in-addr.arpa ip6.arpa
         ttl 30
       }
