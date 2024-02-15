@@ -212,10 +212,6 @@ spec:
             namespace: cert-manager
             path: k8s/system/cert-manager
             project: system
-          - name: flannel-lily
-            namespace: kube-flannel
-            path: k8s/system/flannel
-            project: system
           - name: intel-device-plugins-operator
             namespace: intel-device-plugins-operator
             path: k8s/system/intel-device-plugins-operator
@@ -235,6 +231,10 @@ spec:
           - name: core-dns
             namespace: kube-system
             path: k8s/system/core-dns/lily
+            project: system
+          - name: cilium
+            namespace: kube-system
+            path: k8s/system/cilium
             project: system
 
   template:
