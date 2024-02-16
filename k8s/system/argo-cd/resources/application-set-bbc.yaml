@@ -24,10 +24,6 @@ spec:
             namespace: 1password
             path: k8s/system/1password-connect
             project: system
-          - name: traefik
-            namespace: traefik
-            path: k8s/system/traefik/bbc
-            project: system
           - name: cilium
             namespace: kube-system
             path: k8s/system/cilium

@@ -25,3 +25,6 @@ helmCharts:
       kubeProxyReplacement: true
       operator:
         replicas: 1
+
+resources:
+  - ./resources/ingress.yaml
