@@ -96,7 +96,7 @@ ports:
       - traefik-ban-robots@kubernetescrd
       - traefik-trust-cloudflare-ips@kubernetescrd
 
-    nodePort: 443
+    nodePort: 30443
     port: 8443
 
     # https://doc.traefik.io/traefik/routing/entrypoints/#tls
