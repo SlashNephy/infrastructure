@@ -18,6 +18,7 @@ helmCharts:
           enabled: true
         service:
           nodePortHttp: 30000
+          nodePortHttps: 30001
           type: NodePort
 
 resources:
