@@ -13,6 +13,11 @@ helmCharts:
     valuesInline:
       bpf:
         masquerade: true
+      hubble:
+        relay:
+          enabled: true
+        ui:
+          enabled: true
       ipv6:
         enabled: true
       operator:
