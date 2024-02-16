@@ -1,7 +1,7 @@
 resource "cloudflare_record" "cname_basic" {
   zone_id = cloudflare_zone.zone.id
   name    = "basic"
-  value   = cloudflare_record.a_gateway.hostname
+  value   = cloudflare_record.aaaa_gateway_v6.hostname
   type    = "CNAME"
   proxied = true
 }
