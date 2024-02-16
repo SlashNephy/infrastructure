@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./../../system/1password-connect
   - ./../../system/argo-cd
+  - ./../../system/cilium
 
 generatorOptions:
   disableNameSuffixHash: true
