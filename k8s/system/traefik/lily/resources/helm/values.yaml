@@ -1,7 +1,5 @@
 additionalArguments:
   - --providers.file.directory=/config
-  - --experimental.plugins.cloudflarewarp.modulename=github.com/BetterCorp/cloudflarewarp
-  - --experimental.plugins.cloudflarewarp.version=v1.3.3
 
 autoscaling:
   enabled: false
@@ -16,9 +14,9 @@ envFrom:
 
 experimental:
   plugins:
-    enabled: true
-  v3:
-    enabled: true
+    cloudflarewarp:
+      moduleName: github.com/BetterCorp/cloudflarewarp
+      version: v1.3.3
 
 globalArguments: []
 
@@ -26,9 +24,8 @@ hub:
   enabled: true
 
 image:
-  pullPolicy: Always
   registry: public.ecr.aws/docker/library
-  tag: v3.0
+  tag: v3.0.0-rc1
 
 ingressRoute:
   dashboard:
