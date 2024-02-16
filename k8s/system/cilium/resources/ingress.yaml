@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`hubble.starry.blue`)
+      match: Host(`cilium.starry.blue`)
       services:
         - name: hubble-ui
           port: http
