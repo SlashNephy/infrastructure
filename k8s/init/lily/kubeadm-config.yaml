@@ -1,0 +1,14 @@
+# https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta3/
+
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+networking:
+  podSubnet: 10.0.0.0/16,fdac:2d12:9f5::/64
+  serviceSubnet: 10.1.0.0/16,fdac:2d12:9f5::/112
+
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+nodeRegistration:
+  name: lily
+  criSocket: unix:///var/run/crio/crio.sock
