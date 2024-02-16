@@ -10,18 +10,6 @@ helmCharts:
     version: 0.81.1
     repo: https://open-telemetry.github.io/opentelemetry-helm-charts
     valuesInline:
-      config:
-        receivers:
-          jaeger: null
-          prometheus: null
-          zipkin: null
-        service:
-          pipelines:
-            logs: null
-            metrics: null
-            traces:
-              receivers:
-                - otlp
       mode: deployment
       presets:
         clusterMetrics:
