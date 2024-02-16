@@ -10,3 +10,6 @@ helmCharts:
     version: 1.15.0
     repo: https://helm.cilium.io
     includeCRDs: true
+    valuesInline:
+      bpf:
+        masquerade: true
