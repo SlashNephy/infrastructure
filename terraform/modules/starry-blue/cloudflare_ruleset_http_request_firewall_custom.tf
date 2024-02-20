@@ -47,11 +47,19 @@ resource "cloudflare_ruleset" "http_request_firewall_custom" {
     expression = <<-EOT
       (http.host in {
         "xiv-private.starry.blue"
-      } and not ip.src in {
-        240b:10:3f60:4800:dc56:f7de:5e49:2203
-      } and not ip.geoip.asnum in {
-        132892
-      })
+      } and not ip.src in $allow_list)
     EOT
+  }
+}
+
+resource "cloudflare_list" "allow_list" {
+  account_id = cloudflare_account.account.id
+  name       = "allow_list"
+  kind       = "ip"
+
+  item {
+    value {
+      ip = "240b:10:3f60:4800::/64"
+    }
   }
 }
