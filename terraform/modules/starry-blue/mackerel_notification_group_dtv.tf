@@ -8,6 +8,9 @@ resource "mackerel_notification_group" "dtv" {
   notification_level = "critical"
 
   monitor {
+    id = mackerel_monitor.mahiron.id
+  }
+  monitor {
     id = mackerel_monitor.mirakurun_fault_tuners.id
   }
   monitor {
