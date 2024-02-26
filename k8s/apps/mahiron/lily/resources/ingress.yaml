@@ -20,7 +20,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: (Host(`mahiron-api.starry.blue`) || Host(`mahiron-api-v6.starry.blue`) || Host(`mirakurun-api.starry.blue`) || Host(`mirakurun-api-v6.starry.blue`)) && PathPrefix(`/api`)
+      match: (Host(`mahiron-api.starry.blue`) || Host(`mirakurun-api.starry.blue`)) && PathPrefix(`/api`)
       services:
         - name: app
           port: 40772

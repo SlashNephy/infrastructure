@@ -20,7 +20,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: (Host(`epgstation-api.starry.blue`) || Host(`epgstation-api-v6.starry.blue`)) && PathPrefix(`/api`)
+      match: Host(`epgstation-api.starry.blue`) && PathPrefix(`/api`)
       services:
         - name: app
           port: 8888
