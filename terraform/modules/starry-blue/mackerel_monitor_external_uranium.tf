@@ -4,6 +4,7 @@ resource "mackerel_service" "external_uranium" {
 
 resource "mackerel_monitor" "external_uranium" {
   name = format("%s に疎通できない", data.onepassword_item.external-uranium_credential.url)
+  is_mute = true
 
   external {
     method                 = "GET"
