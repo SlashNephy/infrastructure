@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: server
+          image: ghcr.io/slashnephy/discord-broadcaster
+          envFrom:
+            - secretRef:
+                name: app-secrets
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+        - name: redis
+          image: public.ecr.aws/docker/library/redis:7.2.4-bookworm@sha256:e647cfe134bf5e8e74e620f66346f93418acfc240b71dd85640325cb7cd01402
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis
+              mountPath: /data
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: redis
+          hostPath:
+            path: /opt/k8s-volumes/discord-broadcaster/redis
+            type: DirectoryOrCreate
+      restartPolicy: Always
