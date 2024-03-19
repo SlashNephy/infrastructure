@@ -13,6 +13,5 @@ configMapGenerator:
       - CACHE_DIR=/app/data/ff14
   - name: releasechime-repositories-config
     literals:
-      - TARGET_COMMIT_REPOSITORIES_1=goatcorp/DalamudAssets
-      - TARGET_COMMIT_REPOSITORIES_2=goatcorp/dalamud-distrib
+      - TARGET_COMMIT_REPOSITORIES_1=goatcorp/dalamud-distrib
       - TARGET_RELEASE_REPOSITORIES_1=ravahn/FFXIV_ACT_Plugin
