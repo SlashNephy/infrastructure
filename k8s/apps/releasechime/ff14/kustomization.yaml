@@ -14,8 +14,5 @@ configMapGenerator:
   - name: releasechime-repositories-config
     literals:
       - TARGET_COMMIT_REPOSITORIES_1=goatcorp/DalamudAssets
-      - TARGET_PATH_COMMIT_REPOSITORIES_1=jayotterbein/FFXIV-Zoom-Hack,Offsets.xml
-      - TARGET_PATH_COMMIT_REPOSITORIES_2=imchillin/CMTool,ConceptMatrix/OffsetSettings.json
-      - TARGET_PATH_COMMIT_REPOSITORIES_3=qitana/sharlayan-resources,structures/latest/x64.json
-      - TARGET_PATH_COMMIT_REPOSITORIES_4=goatcorp/dalamud-distrib,version
+      - TARGET_COMMIT_REPOSITORIES_2=goatcorp/dalamud-distrib
       - TARGET_RELEASE_REPOSITORIES_1=ravahn/FFXIV_ACT_Plugin
