@@ -4,11 +4,11 @@ namespace: actions-runner-system
 
 helmCharts:
   - name: actions-runner-controller
-    namespace: actions-runner-system
     releaseName: actions-runner-controller
-    repo: https://actions-runner-controller.github.io/actions-runner-controller
+    namespace: actions-runner-system
     version: v0.23.7
 
+    repo: https://actions-runner-controller.github.io/actions-runner-controller
 resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
