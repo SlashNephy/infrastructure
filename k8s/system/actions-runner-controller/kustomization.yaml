@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: actions-runner-system
+
+helmCharts:
+  - name: actions-runner-controller
+    namespace: actions-runner-system
+    releaseName: actions-runner-controller
+    repo: https://actions-runner-controller.github.io/actions-runner-controller
+    version: v0.23.7
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml

@@ -224,6 +224,10 @@ spec:
             namespace: kube-system
             path: k8s/system/cilium
             project: system
+          - name: actions-runner-controller
+            namespace: actions-runner-system
+            path: k8s/system/actions-runner-controller
+            project: system
 
   template:
     metadata:
