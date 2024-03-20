@@ -1,0 +1,10 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: nebula
+
+spec:
+  replicas: 1
+  template:
+    spec:
+      repository: SlashNephy/nebula
