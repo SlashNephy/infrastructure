@@ -7,6 +7,6 @@ spec:
   replicas: 1
   template:
     spec:
-      repository: SlashNephy/nebula
-      image: summerwind/actions-runner-dind
       dockerdWithinRunnerContainer: true
+      image: summerwind/actions-runner-dind
+      repository: SlashNephy/nebula
