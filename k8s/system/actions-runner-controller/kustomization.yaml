@@ -7,8 +7,9 @@ helmCharts:
     releaseName: actions-runner-controller
     namespace: actions-runner-system
     version: v0.23.7
-
     repo: https://actions-runner-controller.github.io/actions-runner-controller
+    includeCRDs: true
+
 resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
