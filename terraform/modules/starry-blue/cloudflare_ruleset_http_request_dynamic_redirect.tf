@@ -60,23 +60,4 @@ resource "cloudflare_ruleset" "http_request_dynamic_redirect" {
       (http.host eq "${cloudflare_record.cname_apps.hostname}" and http.request.uri.path eq "/")
     EOT
   }
-
-  rules {
-    enabled     = true
-    description = "${cloudflare_record.cname_mirakurun.hostname} -> ${cloudflare_record.cname_mahiron.hostname}"
-    action      = "redirect"
-    action_parameters {
-      from_value {
-        status_code = 302
-        target_url {
-          value = "https://${cloudflare_record.cname_mahiron.hostname}"
-        }
-        preserve_query_string = false
-      }
-    }
-
-    expression = <<-EOT
-      (http.host eq "${cloudflare_record.cname_mirakurun.hostname}")
-    EOT
-  }
 }
