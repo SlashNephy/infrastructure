@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/slashnephy/discord-broadcaster:master@sha256:1735c1e3281f71c7f5d486f979eb319e5ae71eff16cc4a9135cdc7a9f8b55f4f
+          image: ghcr.io/slashnephy/discord-broadcaster:master@sha256:2f668490cf353441d818ffaf08a772b38da66a960c49c8cf481fbb19bf9c482e
           envFrom:
             - secretRef:
                 name: app-secrets
