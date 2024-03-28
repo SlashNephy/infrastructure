@@ -18,6 +18,9 @@ spec:
       containers:
         - name: server
           image: ghcr.io/slashnephy/discord-broadcaster:master@sha256:2f668490cf353441d818ffaf08a772b38da66a960c49c8cf481fbb19bf9c482e
+          env:
+            - name: TZ
+              value: Asia/Tokyo
           envFrom:
             - secretRef:
                 name: app-secrets
