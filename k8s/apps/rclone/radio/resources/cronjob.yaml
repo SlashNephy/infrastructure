@@ -15,7 +15,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: public.ecr.aws/bitnami/rclone:1.66.0@sha256:2a787b24e1297f680aafc36a037629c0383ef7167c9f7228eedf889289060bec
+              image: public.ecr.aws/bitnami/rclone:1.66.0@sha256:b71d7b09239f58fea5181ca181e8a2207eef43921b3ebc2fd9e19f80daf9f03f
               args:
                 - copy
                 - /mnt/records/radio
