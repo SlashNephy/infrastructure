@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+
+helmCharts:
+  # https://docs.cilium.io/en/stable/installation/k8s-install-helm/
+  - name: cilium
+    releaseName: cilium
+    namespace: kube-system
+    version: 1.15.2
+    repo: https://helm.cilium.io
+    includeCRDs: true
+    valuesInline:
+      bpf:
+        masquerade: true
+      hubble:
+        relay:
+          enabled: true
+        ui:
+          enabled: true
+      ipv6:
+        enabled: true
+      k8sServiceHost: 192.168.11.59
+      k8sServicePort: 6443
+      kubeProxyReplacement: true
+      operator:
+        replicas: 1
