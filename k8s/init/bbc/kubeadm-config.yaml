@@ -1,0 +1,15 @@
+# https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta3/
+
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+networking:
+  # https://yoshi0808.github.io/new-technology/2020/04/18/ipv6/
+  podSubnet: 10.2.0.0/16,fd11:eed0:a3e9::/64
+  serviceSubnet: 10.3.0.0/16,fd11:eed0:a3e9::/112
+
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+nodeRegistration:
+  name: bbc
+  criSocket: unix:///var/run/crio/crio.sock

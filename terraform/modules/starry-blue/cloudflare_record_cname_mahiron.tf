@@ -15,7 +15,7 @@ resource "mackerel_monitor" "mahiron" {
 
   external {
     method                 = "GET"
-    url                    = format("https://%s", cloudflare_record.cname_mahiron.hostname)
+    url                    = format("https://%s/api/status", cloudflare_record.cname_mahiron.hostname)
     service                = mackerel_service.mahiron.name
     response_time_warning  = 3000
     response_time_critical = 5000
