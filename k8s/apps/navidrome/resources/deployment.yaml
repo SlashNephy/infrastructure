@@ -28,9 +28,9 @@ spec:
             - name: ND_DEFAULTTHEME
               value: Spotify-ish
             - name: ND_ENABLEGRAVATAR
-              value: 'true'
+              value: "true"
             - name: ND_SEARCHFULLSTRING
-              value: 'true'
+              value: "true"
           envFrom:
             - secretRef:
                 name: app-secrets
