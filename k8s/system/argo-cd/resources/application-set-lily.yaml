@@ -168,6 +168,10 @@ spec:
             namespace: discord-broadcaster
             path: k8s/apps/discord-broadcaster
             project: apps
+          - name: navidrome
+            namespace: navidrome
+            path: k8s/apps/navidrome
+            project: apps
 
           # cron
           - name: cron-backup-node

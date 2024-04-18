@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: deluan/navidrome:0.51.1
+          env:
+            - name: ND_SCANSCHEDULE
+              value: 1h
+            - name: ND_LOGLEVEL
+              value: info
+            - name: ND_SESSIONTIMEOUT
+              value: 24h
+          ports:
+            - containerPort: 4533
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: music
+              mountPath: /music
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: data
+          hostPath:
+            path: /opt/k8s-volumes/navidrome/data
+            type: DirectoryOrCreate
+        - name: music
+          hostPath:
+            path: /opt/k8s-volumes/navidrome/music
+            type: DirectoryOrCreate
+      restartPolicy: Always
