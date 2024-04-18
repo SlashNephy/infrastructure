@@ -31,6 +31,12 @@ spec:
               value: "true"
             - name: ND_SEARCHFULLSTRING
               value: "true"
+            - name: ND_COVERARTPRIORITY
+              value: "cover.*, folder.*, front.*, external, embedded"
+            - name: ND_ARTISTARTPRIORITY
+              value: "artist.*, album/artist.*, external"
+            - name: ND_COVERJPEGQUALITY
+              value: "100"
           envFrom:
             - secretRef:
                 name: app-secrets
