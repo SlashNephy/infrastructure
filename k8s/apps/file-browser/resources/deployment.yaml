@@ -62,7 +62,7 @@ spec:
             type: DirectoryOrCreate
         - name: music
           hostPath:
-            path: /opt/k8s-volumes/navidrome/music
+            path: /mnt/music
             type: Directory
         - name: dtv-records
           hostPath:
