@@ -47,6 +47,8 @@ spec:
               value: 3000MB
             - name: ND_TRANSCODINGCACHESIZE
               value: 3000MB
+            - name: ND_SCANNER_EXTRACTOR
+              value: ffmpeg
           envFrom:
             - secretRef:
                 name: app-secrets
