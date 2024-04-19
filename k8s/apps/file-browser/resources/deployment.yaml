@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: filebrowser/filebrowser:v2.28.0
+          envFrom:
+            - secretRef:
+                name: app-secrets
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: config
+              mountPath: /.filebrowser.json
+              readOnly: true
+              subPath: config.json
+            - name: data
+              mountPath: /data
+            - name: public
+              mountPath: /srv/public
+              readOnly: true
+            - name: music
+              mountPath: /srv/music
+            - name: dtv-records
+              mountPath: /srv/dtv/records
+              readOnly: true
+            - name: dtv-konomitv-capture
+              mountPath: /srv/dtv/konomitv-capture
+          resources:
+            limits:
+              cpu: 500m
+              memory: 500Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: config
+          configMap:
+            name: app-config
+        - name: data
+          hostPath:
+            path: /opt/k8s-volumes/file-browser/data
+            type: DirectoryOrCreate
+        - name: public
+          hostPath:
+            path: /opt/k8s-volumes/file-browser/public
+            type: DirectoryOrCreate
+        - name: music
+          hostPath:
+            path: /opt/k8s-volumes/navidrome/music
+            type: Directory
+        - name: dtv-records
+          hostPath:
+            path: /mnt/records
+            type: Directory
+        - name: dtv-konomitv-capture
+          hostPath:
+            path: /opt/k8s-volumes/konomitv/data/capture
+            type: Directory
+      restartPolicy: Always

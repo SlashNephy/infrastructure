@@ -84,10 +84,6 @@ spec:
             namespace: mahiron
             path: k8s/apps/mahiron/lily
             project: apps
-          - name: miniserve
-            namespace: miniserve
-            path: k8s/apps/miniserve
-            project: apps
           - name: mirakurun-iptv-rewriter
             namespace: mirakurun-iptv-rewriter
             path: k8s/apps/mirakurun-iptv-rewriter
@@ -171,6 +167,10 @@ spec:
           - name: navidrome
             namespace: navidrome
             path: k8s/apps/navidrome
+            project: apps
+          - name: file-browser
+            namespace: file-browser
+            path: k8s/apps/file-browser
             project: apps
 
           # cron
