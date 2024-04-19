@@ -18,9 +18,9 @@ spec:
       containers:
         - name: app
           image: filebrowser/filebrowser:v2.28.0
-          envFrom:
-            - secretRef:
-                name: app-secrets
+          env:
+            - name: TZ
+              value: Asia/Tokyo
           ports:
             - containerPort: 8080
           volumeMounts:
