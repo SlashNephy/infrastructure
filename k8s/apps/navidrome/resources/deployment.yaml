@@ -20,7 +20,7 @@ spec:
           image: deluan/navidrome:0.51.1@sha256:ea426987cc4a148eb6a9fcea60ab44cc0dca4d7f0f1e12a4b48f5937454da4d9
           env:
             - name: ND_SCANSCHEDULE
-              value: "@every 5m"
+              value: "@every 1m"
             - name: ND_LOGLEVEL
               value: info
             - name: ND_SESSIONTIMEOUT
