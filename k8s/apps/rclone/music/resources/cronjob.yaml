@@ -24,6 +24,7 @@ spec:
                 - --drive-stop-on-upload-limit
                 - --order-by=name
                 - --progress
+                - --ignore-existing
                 - --verbose
                 - --config=/config/rclone/rclone.conf
               volumeMounts:
