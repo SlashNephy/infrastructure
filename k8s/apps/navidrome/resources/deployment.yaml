@@ -37,6 +37,16 @@ spec:
               value: "artist.*, album/artist.*, external"
             - name: ND_COVERJPEGQUALITY
               value: "100"
+            - name: ND_ENABLETRANSCODINGCONFIG
+              value: "true"
+            - name: ND_AUTHREQUESTLIMIT
+              value: "3"
+            - name: ND_AUTHWINDOWLENGTH
+              value: 60s
+            - name: ND_IMAGECACHESIZE
+              value: 3000MB
+            - name: ND_TRANSCODINGCACHESIZE
+              value: 3000MB
           envFrom:
             - secretRef:
                 name: app-secrets
