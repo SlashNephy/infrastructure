@@ -232,6 +232,10 @@ spec:
             namespace: kube-system
             path: k8s/system/cilium/lily
             project: system
+          - name: authentik
+            namespace: authentik
+            path: k8s/system/authentik
+            project: system
 
   template:
     metadata:

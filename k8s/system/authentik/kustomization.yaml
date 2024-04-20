@@ -1,0 +1,63 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: authentik
+
+helmCharts:
+  # https://artifacthub.io/packages/helm/goauthentik/authentik
+  - name: authentik
+    releaseName: authentik
+    namespace: authentik
+    version: 2024.2.3
+    repo: https://charts.goauthentik.io
+    includeCRDs: true
+    valuesInline:
+      authentik:
+        email:
+          from: dummy
+          host: dummy
+          password: dummy
+          port: 587
+          timeout: 30
+          use_tls: true
+          username: dummy
+        postgresql:
+          password: dummy
+        secret_key: dummy
+      geoip:
+        accountId: dummy
+        enabled: true
+        licenseKey: dummy
+      postgresql:
+        auth:
+          password: dummy
+        enabled: true
+      redis:
+        enabled: true
+      server:
+        ingress:
+          enabled: false
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
+  - ./resources/ingress.yaml
+
+patches:
+  # authentik / authentik-postgresql Secret は 1Password で管理されるので自動で作成されるシークレットをリネームする
+  - target:
+      version: v1
+      kind: Secret
+      name: authentik
+    patch: |-
+      - path: /metadata/name
+        op: replace
+        value: authentik-dummy
+  - target:
+      version: v1
+      kind: Secret
+      name: authentik-postgresql
+    patch: |-
+      - path: /metadata/name
+        op: replace
+        value: authentik-postgresql-dummy
+
