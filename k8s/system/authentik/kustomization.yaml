@@ -68,21 +68,18 @@ patches:
       name: authentik
     patch: |-
       - path: /data
-        op: replace
-        value: {}
+        op: remove
   - target:
       version: v1
       kind: Secret
       name: authentik-postgresql
     patch: |-
       - path: /data
-        op: replace
-        value: {}
+        op: remove
   - target:
       version: v1
       kind: Secret
       name: authentik-redis
     patch: |-
       - path: /data
-        op: replace
-        value: {}
+        op: remove
