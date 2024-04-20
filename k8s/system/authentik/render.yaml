@@ -6,6 +6,8 @@ metadata:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
+  name: authentik
+  namespace: authentik
   labels:
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/managed-by: Helm
@@ -13,25 +15,25 @@ metadata:
     app.kubernetes.io/part-of: authentik
     app.kubernetes.io/version: 2.0.0
     helm.sh/chart: serviceAccount-2.0.0
-  name: authentik
-  namespace: authentik
 ---
 apiVersion: v1
-automountServiceAccountToken: true
 kind: ServiceAccount
 metadata:
+  name: authentik-redis
+  namespace: authentik
   labels:
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: redis
     app.kubernetes.io/version: 7.2.3
     helm.sh/chart: redis-18.6.1
-  name: authentik-redis
-  namespace: authentik
+automountServiceAccountToken: true
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
+  name: authentik
+  namespace: authentik
   labels:
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/managed-by: Helm
@@ -39,74 +41,73 @@ metadata:
     app.kubernetes.io/part-of: authentik
     app.kubernetes.io/version: 2.0.0
     helm.sh/chart: serviceAccount-2.0.0
-  name: authentik
-  namespace: authentik
 rules:
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  - services
-  - configmaps
-  verbs:
-  - get
-  - create
-  - delete
-  - list
-  - patch
-- apiGroups:
-  - extensions
-  - apps
-  resources:
-  - deployments
-  verbs:
-  - get
-  - create
-  - delete
-  - list
-  - patch
-- apiGroups:
-  - extensions
-  - networking.k8s.io
-  resources:
-  - ingresses
-  verbs:
-  - get
-  - create
-  - delete
-  - list
-  - patch
-- apiGroups:
-  - traefik.containo.us
-  - traefik.io
-  resources:
-  - middlewares
-  verbs:
-  - get
-  - create
-  - delete
-  - list
-  - patch
-- apiGroups:
-  - monitoring.coreos.com
-  resources:
-  - servicemonitors
-  verbs:
-  - get
-  - create
-  - delete
-  - list
-  - patch
-- apiGroups:
-  - apiextensions.k8s.io
-  resources:
-  - customresourcedefinitions
-  verbs:
-  - list
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+      - services
+      - configmaps
+    verbs:
+      - get
+      - create
+      - delete
+      - list
+      - patch
+  - apiGroups:
+      - extensions
+      - apps
+    resources:
+      - deployments
+    verbs:
+      - get
+      - create
+      - delete
+      - list
+      - patch
+  - apiGroups:
+      - extensions
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - create
+      - delete
+      - list
+      - patch
+  - apiGroups:
+      - traefik.containo.us
+      - traefik.io
+    resources:
+      - middlewares
+    verbs:
+      - get
+      - create
+      - delete
+      - list
+      - patch
+  - apiGroups:
+      - monitoring.coreos.com
+    resources:
+      - servicemonitors
+    verbs:
+      - get
+      - create
+      - delete
+      - list
+      - patch
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - list
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
+  name: authentik-authentik
   labels:
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/managed-by: Helm
@@ -114,18 +115,19 @@ metadata:
     app.kubernetes.io/part-of: authentik
     app.kubernetes.io/version: 2.0.0
     helm.sh/chart: serviceAccount-2.0.0
-  name: authentik-authentik
 rules:
-- apiGroups:
-  - apiextensions.k8s.io
-  resources:
-  - customresourcedefinitions
-  verbs:
-  - list
+  - apiGroups:
+      - apiextensions.k8s.io
+    resources:
+      - customresourcedefinitions
+    verbs:
+      - list
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
+  name: authentik
+  namespace: authentik
   labels:
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/managed-by: Helm
@@ -133,20 +135,19 @@ metadata:
     app.kubernetes.io/part-of: authentik
     app.kubernetes.io/version: 2.0.0
     helm.sh/chart: serviceAccount-2.0.0
-  name: authentik
-  namespace: authentik
 roleRef:
+  name: authentik
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: authentik
 subjects:
-- kind: ServiceAccount
-  name: authentik
-  namespace: authentik
+  - name: authentik
+    kind: ServiceAccount
+    namespace: authentik
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
+  name: authentik-authentik
   labels:
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/managed-by: Helm
@@ -154,21 +155,20 @@ metadata:
     app.kubernetes.io/part-of: authentik
     app.kubernetes.io/version: 2.0.0
     helm.sh/chart: serviceAccount-2.0.0
-  name: authentik-authentik
 roleRef:
+  name: authentik-authentik
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: authentik-authentik
 subjects:
-- kind: ServiceAccount
-  name: authentik
-  namespace: authentik
+  - name: authentik
+    kind: ServiceAccount
+    namespace: authentik
 ---
 apiVersion: v1
-data:
-  override.conf: max_connections = 500
 kind: ConfigMap
 metadata:
+  name: authentik-postgresql-extended-configuration
+  namespace: authentik
   labels:
     app.kubernetes.io/component: primary
     app.kubernetes.io/instance: authentik
@@ -176,10 +176,20 @@ metadata:
     app.kubernetes.io/name: postgresql
     app.kubernetes.io/version: 15.4.0
     helm.sh/chart: postgresql-12.12.10
-  name: authentik-postgresql-extended-configuration
-  namespace: authentik
+data:
+  override.conf: max_connections = 500
 ---
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: authentik-redis-configuration
+  namespace: authentik
+  labels:
+    app.kubernetes.io/instance: authentik
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/version: 7.2.3
+    helm.sh/chart: redis-18.6.1
 data:
   master.conf: |-
     dir /data
@@ -200,18 +210,18 @@ data:
     rename-command FLUSHDB ""
     rename-command FLUSHALL ""
     # End of replica configuration
+---
+apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: authentik-redis-health
+  namespace: authentik
   labels:
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: redis
     app.kubernetes.io/version: 7.2.3
     helm.sh/chart: redis-18.6.1
-  name: authentik-redis-configuration
-  namespace: authentik
----
-apiVersion: v1
 data:
   ping_liveness_local.sh: |-
     #!/bin/bash
@@ -307,18 +317,18 @@ data:
       echo "$response"
       exit 1
     fi
+---
+apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: authentik-redis-scripts
+  namespace: authentik
   labels:
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: redis
     app.kubernetes.io/version: 7.2.3
     helm.sh/chart: redis-18.6.1
-  name: authentik-redis-health
-  namespace: authentik
----
-apiVersion: v1
 data:
   start-master.sh: |
     #!/bin/bash
@@ -335,27 +345,28 @@ data:
     ARGS+=("--include" "/opt/bitnami/redis/etc/redis.conf")
     ARGS+=("--include" "/opt/bitnami/redis/etc/master.conf")
     exec redis-server "${ARGS[@]}"
-kind: ConfigMap
+---
+apiVersion: v1
+kind: Secret
 metadata:
+  name: authentik-dummy
+  namespace: authentik
   labels:
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: redis
-    app.kubernetes.io/version: 7.2.3
-    helm.sh/chart: redis-18.6.1
-  name: authentik-redis-scripts
-  namespace: authentik
----
-apiVersion: v1
+    app.kubernetes.io/name: authentik
+    app.kubernetes.io/part-of: authentik
+    app.kubernetes.io/version: 2024.2.3
+    helm.sh/chart: authentik-2024.2.3
 data:
   AUTHENTIK_EMAIL__FROM: ZHVtbXk=
   AUTHENTIK_EMAIL__HOST: ZHVtbXk=
   AUTHENTIK_EMAIL__PASSWORD: ZHVtbXk=
   AUTHENTIK_EMAIL__PORT: NTg3
   AUTHENTIK_EMAIL__TIMEOUT: MzA=
+  AUTHENTIK_EMAIL__USERNAME: ZHVtbXk=
   AUTHENTIK_EMAIL__USE_SSL: ZmFsc2U=
   AUTHENTIK_EMAIL__USE_TLS: dHJ1ZQ==
-  AUTHENTIK_EMAIL__USERNAME: ZHVtbXk=
   AUTHENTIK_ERROR_REPORTING__ENABLED: ZmFsc2U=
   AUTHENTIK_ERROR_REPORTING__ENVIRONMENT: azhz
   AUTHENTIK_ERROR_REPORTING__SEND_PII: ZmFsc2U=
@@ -372,37 +383,28 @@ data:
   AUTHENTIK_SECRET_KEY: ZHVtbXk=
   GEOIPUPDATE_ACCOUNT_ID: ZHVtbXk=
   GEOIPUPDATE_LICENSE_KEY: ZHVtbXk=
-kind: Secret
-metadata:
-  labels:
-    app.kubernetes.io/instance: authentik
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: authentik
-    app.kubernetes.io/part-of: authentik
-    app.kubernetes.io/version: 2024.2.3
-    helm.sh/chart: authentik-2024.2.3
-  name: authentik-dummy
-  namespace: authentik
 ---
 apiVersion: v1
-data:
-  password: ZHVtbXk=
-  postgres-password: SXF5N0gzZHI0NA==
 kind: Secret
 metadata:
+  name: authentik-postgresql-dummy
+  namespace: authentik
   labels:
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: postgresql
     app.kubernetes.io/version: 15.4.0
     helm.sh/chart: postgresql-12.12.10
-  name: authentik-postgresql-dummy
-  namespace: authentik
 type: Opaque
+data:
+  password: ZHVtbXk=
+  postgres-password: SXF5N0gzZHI0NA==
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  name: authentik-postgresql
+  namespace: authentik
   labels:
     app.kubernetes.io/component: primary
     app.kubernetes.io/instance: authentik
@@ -410,24 +412,24 @@ metadata:
     app.kubernetes.io/name: postgresql
     app.kubernetes.io/version: 15.4.0
     helm.sh/chart: postgresql-12.12.10
-  name: authentik-postgresql
-  namespace: authentik
 spec:
-  ports:
-  - name: tcp-postgresql
-    nodePort: null
-    port: 5432
-    targetPort: tcp-postgresql
   selector:
     app.kubernetes.io/component: primary
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/name: postgresql
-  sessionAffinity: None
   type: ClusterIP
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+      nodePort: null
+  sessionAffinity: None
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  name: authentik-postgresql-hl
+  namespace: authentik
   annotations:
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
   labels:
@@ -437,46 +439,46 @@ metadata:
     app.kubernetes.io/name: postgresql
     app.kubernetes.io/version: 15.4.0
     helm.sh/chart: postgresql-12.12.10
-  name: authentik-postgresql-hl
-  namespace: authentik
 spec:
-  clusterIP: None
-  ports:
-  - name: tcp-postgresql
-    port: 5432
-    targetPort: tcp-postgresql
-  publishNotReadyAddresses: true
   selector:
     app.kubernetes.io/component: primary
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/name: postgresql
   type: ClusterIP
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+  clusterIP: None
+  publishNotReadyAddresses: true
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/instance: authentik
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: redis
-    app.kubernetes.io/version: 7.2.3
-    helm.sh/chart: redis-18.6.1
   name: authentik-redis-headless
   namespace: authentik
+  labels:
+    app.kubernetes.io/instance: authentik
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/version: 7.2.3
+    helm.sh/chart: redis-18.6.1
 spec:
-  clusterIP: None
-  ports:
-  - name: tcp-redis
-    port: 6379
-    targetPort: redis
   selector:
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/name: redis
   type: ClusterIP
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+  clusterIP: None
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  name: authentik-redis-master
+  namespace: authentik
   labels:
     app.kubernetes.io/component: master
     app.kubernetes.io/instance: authentik
@@ -484,25 +486,25 @@ metadata:
     app.kubernetes.io/name: redis
     app.kubernetes.io/version: 7.2.3
     helm.sh/chart: redis-18.6.1
-  name: authentik-redis-master
-  namespace: authentik
 spec:
-  internalTrafficPolicy: Cluster
-  ports:
-  - name: tcp-redis
-    nodePort: null
-    port: 6379
-    targetPort: redis
   selector:
     app.kubernetes.io/component: master
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/name: redis
-  sessionAffinity: None
   type: ClusterIP
+  ports:
+    - name: tcp-redis
+      port: 6379
+      targetPort: redis
+      nodePort: null
+  internalTrafficPolicy: Cluster
+  sessionAffinity: None
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  name: authentik-server
+  namespace: authentik
   labels:
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: authentik
@@ -511,27 +513,27 @@ metadata:
     app.kubernetes.io/part-of: authentik
     app.kubernetes.io/version: 2024.2.3
     helm.sh/chart: authentik-2024.2.3
-  name: authentik-server
-  namespace: authentik
 spec:
-  ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 9000
-  - name: https
-    port: 443
-    protocol: TCP
-    targetPort: 9443
   selector:
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: authentik
     app.kubernetes.io/name: authentik
   type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 9000
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: 9443
+      protocol: TCP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: authentik-server
+  namespace: authentik
   labels:
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: authentik
@@ -540,11 +542,8 @@ metadata:
     app.kubernetes.io/part-of: authentik
     app.kubernetes.io/version: 2024.2.3
     helm.sh/chart: authentik-2024.2.3
-  name: authentik-server
-  namespace: authentik
 spec:
   replicas: 1
-  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app.kubernetes.io/component: server
@@ -563,107 +562,110 @@ spec:
         app.kubernetes.io/version: 2024.2.3
         helm.sh/chart: authentik-2024.2.3
     spec:
+      containers:
+        - name: server
+          image: ghcr.io/goauthentik/server:2024.2.3
+          imagePullPolicy: IfNotPresent
+          args:
+            - server
+          env:
+            - name: AUTHENTIK_LISTEN__HTTP
+              value: 0.0.0.0:9000
+            - name: AUTHENTIK_LISTEN__HTTPS
+              value: 0.0.0.0:9443
+            - name: AUTHENTIK_LISTEN__METRICS
+              value: 0.0.0.0:9300
+          envFrom:
+            - secretRef:
+                name: authentik-dummy
+          ports:
+            - name: http
+              containerPort: 9000
+              protocol: TCP
+            - name: https
+              containerPort: 9443
+              protocol: TCP
+            - name: metrics
+              containerPort: 9300
+              protocol: TCP
+          volumeMounts:
+            - name: geoip-db
+              mountPath: /geoip
+          resources: {}
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /-/health/live/
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /-/health/ready/
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          startupProbe:
+            failureThreshold: 60
+            httpGet:
+              path: /-/health/live/
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+        - name: geoip
+          image: ghcr.io/maxmind/geoipupdate:v6.0.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: GEOIPUPDATE_FREQUENCY
+              value: "8"
+            - name: GEOIPUPDATE_PRESERVE_FILE_TIMES
+              value: "1"
+            - name: GEOIPUPDATE_ACCOUNT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-dummy
+                  key: GEOIPUPDATE_ACCOUNT_ID
+            - name: GEOIPUPDATE_LICENSE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-dummy
+                  key: GEOIPUPDATE_LICENSE_KEY
+            - name: GEOIPUPDATE_EDITION_IDS
+              value: GeoLite2-City GeoLite2-ASN
+          volumeMounts:
+            - name: geoip-db
+              mountPath: /usr/share/GeoIP
+          resources: {}
+      volumes:
+        - name: geoip-db
+          emptyDir: {}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/component: server
-                  app.kubernetes.io/instance: authentik
-                  app.kubernetes.io/name: authentik
-              topologyKey: kubernetes.io/hostname
-            weight: 100
-      containers:
-      - args:
-        - server
-        env:
-        - name: AUTHENTIK_LISTEN__HTTP
-          value: 0.0.0.0:9000
-        - name: AUTHENTIK_LISTEN__HTTPS
-          value: 0.0.0.0:9443
-        - name: AUTHENTIK_LISTEN__METRICS
-          value: 0.0.0.0:9300
-        envFrom:
-        - secretRef:
-            name: authentik-dummy
-        image: ghcr.io/goauthentik/server:2024.2.3
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /-/health/live/
-            port: http
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
-        name: server
-        ports:
-        - containerPort: 9000
-          name: http
-          protocol: TCP
-        - containerPort: 9443
-          name: https
-          protocol: TCP
-        - containerPort: 9300
-          name: metrics
-          protocol: TCP
-        readinessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /-/health/ready/
-            port: http
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
-        resources: {}
-        startupProbe:
-          failureThreshold: 60
-          httpGet:
-            path: /-/health/live/
-            port: http
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
-        volumeMounts:
-        - mountPath: /geoip
-          name: geoip-db
-      - env:
-        - name: GEOIPUPDATE_FREQUENCY
-          value: "8"
-        - name: GEOIPUPDATE_PRESERVE_FILE_TIMES
-          value: "1"
-        - name: GEOIPUPDATE_ACCOUNT_ID
-          valueFrom:
-            secretKeyRef:
-              key: GEOIPUPDATE_ACCOUNT_ID
-              name: authentik-dummy
-        - name: GEOIPUPDATE_LICENSE_KEY
-          valueFrom:
-            secretKeyRef:
-              key: GEOIPUPDATE_LICENSE_KEY
-              name: authentik-dummy
-        - name: GEOIPUPDATE_EDITION_IDS
-          value: GeoLite2-City GeoLite2-ASN
-        image: ghcr.io/maxmind/geoipupdate:v6.0.0
-        imagePullPolicy: IfNotPresent
-        name: geoip
-        resources: {}
-        volumeMounts:
-        - mountPath: /usr/share/GeoIP
-          name: geoip-db
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/component: server
+                    app.kubernetes.io/instance: authentik
+                    app.kubernetes.io/name: authentik
+                topologyKey: kubernetes.io/hostname
+              weight: 100
       enableServiceLinks: true
       terminationGracePeriodSeconds: 30
-      volumes:
-      - emptyDir: {}
-        name: geoip-db
+  revisionHistoryLimit: 3
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: authentik-worker
+  namespace: authentik
   labels:
     app.kubernetes.io/component: worker
     app.kubernetes.io/instance: authentik
@@ -672,11 +674,8 @@ metadata:
     app.kubernetes.io/part-of: authentik
     app.kubernetes.io/version: 2024.2.3
     helm.sh/chart: authentik-2024.2.3
-  name: authentik-worker
-  namespace: authentik
 spec:
   replicas: 1
-  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app.kubernetes.io/component: worker
@@ -695,65 +694,68 @@ spec:
         app.kubernetes.io/version: 2024.2.3
         helm.sh/chart: authentik-2024.2.3
     spec:
+      containers:
+        - name: worker
+          image: ghcr.io/goauthentik/server:2024.2.3
+          imagePullPolicy: IfNotPresent
+          args:
+            - worker
+          env: null
+          envFrom:
+            - secretRef:
+                name: authentik-dummy
+          volumeMounts:
+            - name: geoip-db
+              mountPath: /geoip
+          resources: {}
+        - name: geoip
+          image: ghcr.io/maxmind/geoipupdate:v6.0.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: GEOIPUPDATE_FREQUENCY
+              value: "8"
+            - name: GEOIPUPDATE_PRESERVE_FILE_TIMES
+              value: "1"
+            - name: GEOIPUPDATE_ACCOUNT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-dummy
+                  key: GEOIPUPDATE_ACCOUNT_ID
+            - name: GEOIPUPDATE_LICENSE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-dummy
+                  key: GEOIPUPDATE_LICENSE_KEY
+            - name: GEOIPUPDATE_EDITION_IDS
+              value: GeoLite2-City GeoLite2-ASN
+          volumeMounts:
+            - name: geoip-db
+              mountPath: /usr/share/GeoIP
+          resources: {}
+      volumes:
+        - name: geoip-db
+          emptyDir: {}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/component: worker
-                  app.kubernetes.io/instance: authentik
-                  app.kubernetes.io/name: authentik
-              topologyKey: kubernetes.io/hostname
-            weight: 100
-      containers:
-      - args:
-        - worker
-        env: null
-        envFrom:
-        - secretRef:
-            name: authentik-dummy
-        image: ghcr.io/goauthentik/server:2024.2.3
-        imagePullPolicy: IfNotPresent
-        name: worker
-        resources: {}
-        volumeMounts:
-        - mountPath: /geoip
-          name: geoip-db
-      - env:
-        - name: GEOIPUPDATE_FREQUENCY
-          value: "8"
-        - name: GEOIPUPDATE_PRESERVE_FILE_TIMES
-          value: "1"
-        - name: GEOIPUPDATE_ACCOUNT_ID
-          valueFrom:
-            secretKeyRef:
-              key: GEOIPUPDATE_ACCOUNT_ID
-              name: authentik-dummy
-        - name: GEOIPUPDATE_LICENSE_KEY
-          valueFrom:
-            secretKeyRef:
-              key: GEOIPUPDATE_LICENSE_KEY
-              name: authentik-dummy
-        - name: GEOIPUPDATE_EDITION_IDS
-          value: GeoLite2-City GeoLite2-ASN
-        image: ghcr.io/maxmind/geoipupdate:v6.0.0
-        imagePullPolicy: IfNotPresent
-        name: geoip
-        resources: {}
-        volumeMounts:
-        - mountPath: /usr/share/GeoIP
-          name: geoip-db
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/component: worker
+                    app.kubernetes.io/instance: authentik
+                    app.kubernetes.io/name: authentik
+                topologyKey: kubernetes.io/hostname
+              weight: 100
       enableServiceLinks: true
       serviceAccountName: authentik
       terminationGracePeriodSeconds: 30
-      volumes:
-      - emptyDir: {}
-        name: geoip-db
+  revisionHistoryLimit: 3
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  name: authentik-postgresql
+  namespace: authentik
   labels:
     app.kubernetes.io/component: primary
     app.kubernetes.io/instance: authentik
@@ -761,8 +763,6 @@ metadata:
     app.kubernetes.io/name: postgresql
     app.kubernetes.io/version: 15.4.0
     helm.sh/chart: postgresql-12.12.10
-  name: authentik-postgresql
-  namespace: authentik
 spec:
   replicas: 1
   selector:
@@ -770,9 +770,9 @@ spec:
       app.kubernetes.io/component: primary
       app.kubernetes.io/instance: authentik
       app.kubernetes.io/name: postgresql
-  serviceName: authentik-postgresql-hl
   template:
     metadata:
+      name: authentik-postgresql
       annotations:
         checksum/extended-configuration: f231c584ead90a4176b09eb6d6073240ab2939b8bd09b20013265962083b3208
       labels:
@@ -782,145 +782,147 @@ spec:
         app.kubernetes.io/name: postgresql
         app.kubernetes.io/version: 15.4.0
         helm.sh/chart: postgresql-12.12.10
-      name: authentik-postgresql
     spec:
+      containers:
+        - name: postgresql
+          image: docker.io/bitnami/postgresql:15.4.0-debian-11-r45
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: POSTGRESQL_PORT_NUMBER
+              value: "5432"
+            - name: POSTGRESQL_VOLUME_DIR
+              value: /bitnami/postgresql
+            - name: PGDATA
+              value: /bitnami/postgresql/data
+            - name: POSTGRES_USER
+              value: authentik
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-postgresql-dummy
+                  key: password
+            - name: POSTGRES_POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-postgresql-dummy
+                  key: postgres-password
+            - name: POSTGRES_DATABASE
+              value: authentik
+            - name: POSTGRESQL_ENABLE_LDAP
+              value: no
+            - name: POSTGRESQL_ENABLE_TLS
+              value: no
+            - name: POSTGRESQL_LOG_HOSTNAME
+              value: "false"
+            - name: POSTGRESQL_LOG_CONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_LOG_DISCONNECTIONS
+              value: "false"
+            - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
+              value: off
+            - name: POSTGRESQL_CLIENT_MIN_MESSAGES
+              value: error
+            - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
+              value: pgaudit
+          ports:
+            - name: tcp-postgresql
+              containerPort: 5432
+          volumeMounts:
+            - name: postgresql-extended-config
+              mountPath: /bitnami/postgresql/conf/conf.d/
+            - name: dshm
+              mountPath: /dev/shm
+            - name: data
+              mountPath: /bitnami/postgresql
+          resources:
+            limits: {}
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "authentik" -d "dbname=authentik" -h 127.0.0.1 -p
+                  5432
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - -e
+                - |
+                  exec pg_isready -U "authentik" -d "dbname=authentik" -h 127.0.0.1 -p 5432
+                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+            failureThreshold: 6
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsGroup: 0
+            runAsNonRoot: true
+            runAsUser: 1001
+            seccompProfile:
+              type: RuntimeDefault
+      volumes:
+        - name: postgresql-extended-config
+          configMap:
+            name: authentik-postgresql-extended-configuration
+        - name: dshm
+          emptyDir:
+            medium: Memory
       affinity:
         nodeAffinity: null
         podAffinity: null
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/component: primary
-                  app.kubernetes.io/instance: authentik
-                  app.kubernetes.io/name: postgresql
-              topologyKey: kubernetes.io/hostname
-            weight: 1
-      containers:
-      - env:
-        - name: BITNAMI_DEBUG
-          value: "false"
-        - name: POSTGRESQL_PORT_NUMBER
-          value: "5432"
-        - name: POSTGRESQL_VOLUME_DIR
-          value: /bitnami/postgresql
-        - name: PGDATA
-          value: /bitnami/postgresql/data
-        - name: POSTGRES_USER
-          value: authentik
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: password
-              name: authentik-postgresql-dummy
-        - name: POSTGRES_POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: postgres-password
-              name: authentik-postgresql-dummy
-        - name: POSTGRES_DATABASE
-          value: authentik
-        - name: POSTGRESQL_ENABLE_LDAP
-          value: "no"
-        - name: POSTGRESQL_ENABLE_TLS
-          value: "no"
-        - name: POSTGRESQL_LOG_HOSTNAME
-          value: "false"
-        - name: POSTGRESQL_LOG_CONNECTIONS
-          value: "false"
-        - name: POSTGRESQL_LOG_DISCONNECTIONS
-          value: "false"
-        - name: POSTGRESQL_PGAUDIT_LOG_CATALOG
-          value: "off"
-        - name: POSTGRESQL_CLIENT_MIN_MESSAGES
-          value: error
-        - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
-          value: pgaudit
-        image: docker.io/bitnami/postgresql:15.4.0-debian-11-r45
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -c
-            - exec pg_isready -U "authentik" -d "dbname=authentik" -h 127.0.0.1 -p
-              5432
-          failureThreshold: 6
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
-        name: postgresql
-        ports:
-        - containerPort: 5432
-          name: tcp-postgresql
-        readinessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -c
-            - -e
-            - |
-              exec pg_isready -U "authentik" -d "dbname=authentik" -h 127.0.0.1 -p 5432
-              [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
-          failureThreshold: 6
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
-        resources:
-          limits: {}
-          requests:
-            cpu: 250m
-            memory: 256Mi
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
-          runAsGroup: 0
-          runAsNonRoot: true
-          runAsUser: 1001
-          seccompProfile:
-            type: RuntimeDefault
-        volumeMounts:
-        - mountPath: /bitnami/postgresql/conf/conf.d/
-          name: postgresql-extended-config
-        - mountPath: /dev/shm
-          name: dshm
-        - mountPath: /bitnami/postgresql
-          name: data
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/component: primary
+                    app.kubernetes.io/instance: authentik
+                    app.kubernetes.io/name: postgresql
+                topologyKey: kubernetes.io/hostname
+              weight: 1
       hostIPC: false
       hostNetwork: false
       securityContext:
         fsGroup: 1001
       serviceAccountName: default
-      volumes:
-      - configMap:
-          name: authentik-postgresql-extended-configuration
-        name: postgresql-extended-config
-      - emptyDir:
-          medium: Memory
-        name: dshm
+  serviceName: authentik-postgresql-hl
   updateStrategy:
     rollingUpdate: {}
     type: RollingUpdate
   volumeClaimTemplates:
-  - apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: data
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 8Gi
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 8Gi
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  name: authentik-redis-master
+  namespace: authentik
   labels:
     app.kubernetes.io/component: master
     app.kubernetes.io/instance: authentik
@@ -928,8 +930,6 @@ metadata:
     app.kubernetes.io/name: redis
     app.kubernetes.io/version: 7.2.3
     helm.sh/chart: redis-18.6.1
-  name: authentik-redis-master
-  namespace: authentik
 spec:
   replicas: 1
   selector:
@@ -937,7 +937,6 @@ spec:
       app.kubernetes.io/component: master
       app.kubernetes.io/instance: authentik
       app.kubernetes.io/name: redis
-  serviceName: authentik-redis-headless
   template:
     metadata:
       annotations:
@@ -953,133 +952,136 @@ spec:
         app.kubernetes.io/version: 7.2.3
         helm.sh/chart: redis-18.6.1
     spec:
+      containers:
+        - name: redis
+          image: registry-1.docker.io/bitnami/redis:7.2.3-debian-11-r2
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+          args:
+            - -c
+            - /opt/bitnami/scripts/start-scripts/start-master.sh
+          env:
+            - name: BITNAMI_DEBUG
+              value: "false"
+            - name: REDIS_REPLICATION_MODE
+              value: master
+            - name: ALLOW_EMPTY_PASSWORD
+              value: yes
+            - name: REDIS_TLS_ENABLED
+              value: no
+            - name: REDIS_PORT
+              value: "6379"
+          ports:
+            - name: redis
+              containerPort: 6379
+          volumeMounts:
+            - name: start-scripts
+              mountPath: /opt/bitnami/scripts/start-scripts
+            - name: health
+              mountPath: /health
+            - name: redis-data
+              mountPath: /data
+            - name: config
+              mountPath: /opt/bitnami/redis/mounted-etc
+            - name: redis-tmp-conf
+              mountPath: /opt/bitnami/redis/etc/
+            - name: tmp
+              mountPath: /tmp
+          resources:
+            limits: {}
+            requests: {}
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - /health/ping_liveness_local.sh 5
+            failureThreshold: 5
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 6
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - /health/ping_readiness_local.sh 1
+            failureThreshold: 5
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsGroup: 0
+            runAsNonRoot: true
+            runAsUser: 1001
+            seccompProfile:
+              type: RuntimeDefault
+      volumes:
+        - name: start-scripts
+          configMap:
+            name: authentik-redis-scripts
+            defaultMode: 493
+        - name: health
+          configMap:
+            name: authentik-redis-health
+            defaultMode: 493
+        - name: config
+          configMap:
+            name: authentik-redis-configuration
+        - name: redis-tmp-conf
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
       affinity:
         nodeAffinity: null
         podAffinity: null
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/component: master
-                  app.kubernetes.io/instance: authentik
-                  app.kubernetes.io/name: redis
-              topologyKey: kubernetes.io/hostname
-            weight: 1
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/component: master
+                    app.kubernetes.io/instance: authentik
+                    app.kubernetes.io/name: redis
+                topologyKey: kubernetes.io/hostname
+              weight: 1
       automountServiceAccountToken: true
-      containers:
-      - args:
-        - -c
-        - /opt/bitnami/scripts/start-scripts/start-master.sh
-        command:
-        - /bin/bash
-        env:
-        - name: BITNAMI_DEBUG
-          value: "false"
-        - name: REDIS_REPLICATION_MODE
-          value: master
-        - name: ALLOW_EMPTY_PASSWORD
-          value: "yes"
-        - name: REDIS_TLS_ENABLED
-          value: "no"
-        - name: REDIS_PORT
-          value: "6379"
-        image: registry-1.docker.io/bitnami/redis:7.2.3-debian-11-r2
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          exec:
-            command:
-            - sh
-            - -c
-            - /health/ping_liveness_local.sh 5
-          failureThreshold: 5
-          initialDelaySeconds: 20
-          periodSeconds: 5
-          successThreshold: 1
-          timeoutSeconds: 6
-        name: redis
-        ports:
-        - containerPort: 6379
-          name: redis
-        readinessProbe:
-          exec:
-            command:
-            - sh
-            - -c
-            - /health/ping_readiness_local.sh 1
-          failureThreshold: 5
-          initialDelaySeconds: 20
-          periodSeconds: 5
-          successThreshold: 1
-          timeoutSeconds: 2
-        resources:
-          limits: {}
-          requests: {}
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
-          runAsGroup: 0
-          runAsNonRoot: true
-          runAsUser: 1001
-          seccompProfile:
-            type: RuntimeDefault
-        volumeMounts:
-        - mountPath: /opt/bitnami/scripts/start-scripts
-          name: start-scripts
-        - mountPath: /health
-          name: health
-        - mountPath: /data
-          name: redis-data
-        - mountPath: /opt/bitnami/redis/mounted-etc
-          name: config
-        - mountPath: /opt/bitnami/redis/etc/
-          name: redis-tmp-conf
-        - mountPath: /tmp
-          name: tmp
       enableServiceLinks: true
       securityContext:
         fsGroup: 1001
       serviceAccountName: authentik-redis
       terminationGracePeriodSeconds: 30
-      volumes:
-      - configMap:
-          defaultMode: 493
-          name: authentik-redis-scripts
-        name: start-scripts
-      - configMap:
-          defaultMode: 493
-          name: authentik-redis-health
-        name: health
-      - configMap:
-          name: authentik-redis-configuration
-        name: config
-      - emptyDir: {}
-        name: redis-tmp-conf
-      - emptyDir: {}
-        name: tmp
+  serviceName: authentik-redis-headless
   updateStrategy:
     type: RollingUpdate
   volumeClaimTemplates:
-  - apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      labels:
-        app.kubernetes.io/component: master
-        app.kubernetes.io/instance: authentik
-        app.kubernetes.io/name: redis
-      name: redis-data
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 8Gi
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: redis-data
+        labels:
+          app.kubernetes.io/component: master
+          app.kubernetes.io/instance: authentik
+          app.kubernetes.io/name: redis
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 8Gi
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  name: authentik-server
+  namespace: authentik
   labels:
     app.kubernetes.io/component: server
     app.kubernetes.io/instance: authentik
@@ -1088,19 +1090,17 @@ metadata:
     app.kubernetes.io/part-of: authentik
     app.kubernetes.io/version: 2024.2.3
     helm.sh/chart: authentik-2024.2.3
-  name: authentik-server
-  namespace: authentik
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          service:
-            name: authentik-server
-            port:
-              number: 80
-        path: /
-        pathType: Prefix
+    - http:
+        paths:
+          - backend:
+              service:
+                name: authentik-server
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
@@ -1115,6 +1115,6 @@ kind: OnePasswordItem
 metadata:
   name: authentik-postgresql
   namespace: authentik
+type: Opaque
 spec:
   itemPath: vaults/4mogpcwrvtvsnpooum4vcevwkm/items/eufkmaql3e72bf2ehfaovj4yv4
-type: Opaque
