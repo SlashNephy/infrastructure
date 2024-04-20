@@ -13,4 +13,12 @@ spec:
     storage: 8Gi
   local:
     path: /opt/k8s-volume/authentik/postgres
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - lily
   persistentVolumeReclaimPolicy: Retain
