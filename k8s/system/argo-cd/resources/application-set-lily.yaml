@@ -236,6 +236,10 @@ spec:
             namespace: authentik
             path: k8s/system/authentik
             project: system
+          - name: storage-class
+            namespace: kube-system
+            path: k8s/system/storage-class
+            project: system
 
   template:
     metadata:
