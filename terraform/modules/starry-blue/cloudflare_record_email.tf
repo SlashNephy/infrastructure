@@ -5,7 +5,7 @@ resource "cloudflare_record" "txt_spf" {
   type    = "TXT"
 }
 
-resource "cloudflare_re" "txt_dmarc" {
+resource "cloudflare_record" "txt_dmarc" {
   zone_id = cloudflare_zone.zone.id
   name    = "_dmarc"
   value   = "v=DMARC1; p=quarantine; rua=mailto:0ba6694f5bc7409c8af47777fb7da4ca@dmarc-reports.cloudflare.net"
