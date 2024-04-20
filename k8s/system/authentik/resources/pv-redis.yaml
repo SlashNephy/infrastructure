@@ -12,7 +12,7 @@ spec:
   capacity:
     storage: 8Gi
   local:
-    path: /opt/k8s-volume/authentik/redis
+    path: /opt/k8s-volumes/authentik/redis
   nodeAffinity:
     required:
       nodeSelectorTerms:
