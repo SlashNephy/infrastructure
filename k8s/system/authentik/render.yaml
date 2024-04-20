@@ -564,7 +564,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/goauthentik/server:2024.2.3
+          image: ghcr.io/goauthentik/server:2024.2.3@sha256:07a07c26552fe777500700d0d3f2c9ba6d63dad3e81982f9e8232d5c6db44116
           imagePullPolicy: IfNotPresent
           args:
             - server
@@ -620,7 +620,7 @@ spec:
             successThreshold: 1
             timeoutSeconds: 1
         - name: geoip
-          image: ghcr.io/maxmind/geoipupdate:v6.0.0
+          image: ghcr.io/maxmind/geoipupdate:v6.0.0@sha256:e0d5c1dee7379d360e0f355557542d9672c616215dfdd5aaf917382de84cb84c
           imagePullPolicy: IfNotPresent
           env:
             - name: GEOIPUPDATE_FREQUENCY
@@ -696,7 +696,7 @@ spec:
     spec:
       containers:
         - name: worker
-          image: ghcr.io/goauthentik/server:2024.2.3
+          image: ghcr.io/goauthentik/server:2024.2.3@sha256:07a07c26552fe777500700d0d3f2c9ba6d63dad3e81982f9e8232d5c6db44116
           imagePullPolicy: IfNotPresent
           args:
             - worker
@@ -709,7 +709,7 @@ spec:
               mountPath: /geoip
           resources: {}
         - name: geoip
-          image: ghcr.io/maxmind/geoipupdate:v6.0.0
+          image: ghcr.io/maxmind/geoipupdate:v6.0.0@sha256:e0d5c1dee7379d360e0f355557542d9672c616215dfdd5aaf917382de84cb84c
           imagePullPolicy: IfNotPresent
           env:
             - name: GEOIPUPDATE_FREQUENCY
@@ -785,7 +785,7 @@ spec:
     spec:
       containers:
         - name: postgresql
-          image: docker.io/bitnami/postgresql:15.4.0-debian-11-r45
+          image: docker.io/bitnami/postgresql:15.4.0-debian-11-r45@sha256:5dba7e6a514d5d628d484d23212dcaf3d7c5816af1d4970649547a03a99f78dc
           imagePullPolicy: IfNotPresent
           env:
             - name: BITNAMI_DEBUG
@@ -954,7 +954,7 @@ spec:
     spec:
       containers:
         - name: redis
-          image: registry-1.docker.io/bitnami/redis:7.2.3-debian-11-r2
+          image: registry-1.docker.io/bitnami/redis:7.2.3-debian-11-r2@sha256:cae4e1e12b52166698ba032f919bc21c63fc9250cac060cd6fdcf8f92d86fe8b
           imagePullPolicy: IfNotPresent
           command:
             - /bin/bash
