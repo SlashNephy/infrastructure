@@ -22,17 +22,33 @@ helmCharts:
           username: dummy
         postgresql:
           password: dummy
+        redis:
+          password: dummy
         secret_key: dummy
       geoip:
         accountId: dummy
         enabled: true
         licenseKey: dummy
+      # TODO: enable backup
       postgresql:
         auth:
           password: dummy
         enabled: true
+        primary:
+          persistence:
+            selector:
+              matchLabels:
+                name: authentik-postgres
       redis:
+        auth:
+          enabled: true
+          password: dummy
         enabled: true
+        master:
+          persistence:
+            selector:
+              matchLabels:
+                name: authentik-redis
       server:
         ingress:
           enabled: false
@@ -41,9 +57,11 @@ resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
   - ./resources/ingress.yaml
+  - ./resources/pv-postgres.yaml
+  - ./resources/pv-redis.yaml
 
 patches:
-  # authentik / authentik-postgresql Secret は 1Password で管理されるので自動で作成されるシークレットをリネームする
+  # authentik / authentik-postgresql / authentik-redis Secret は 1Password で管理されるので自動で作成されるシークレットをリネームする
   - target:
       version: v1
       kind: Secret
@@ -60,3 +78,11 @@ patches:
       - path: /metadata/name
         op: replace
         value: authentik-postgresql-dummy
+  - target:
+      version: v1
+      kind: Secret
+      name: authentik-redis
+    patch: |-
+      - path: /metadata/name
+        op: replace
+        value: authentik-redis-dummy
