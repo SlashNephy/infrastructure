@@ -16,6 +16,5 @@ spec:
       priority: 15
       services:
         - name: authentik-server
-          kind: Service
           namespace: authentik
-          port: 9000
+          port: http

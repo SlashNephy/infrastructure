@@ -9,4 +9,4 @@ spec:
       match: Host(`id.starry.blue`)
       services:
         - name: authentik-server
-          port: 80
+          port: http
