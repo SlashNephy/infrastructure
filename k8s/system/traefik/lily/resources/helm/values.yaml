@@ -110,7 +110,7 @@ ports:
 
 providers:
   kubernetesCRD:
-    allowCrossNamespaces: true
+    allowCrossNamespace: true
     allowEmptyServices: true
     enabled: true
   kubernetesIngress:
