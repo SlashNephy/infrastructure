@@ -10,3 +10,12 @@ spec:
       services:
         - name: app
           port: 4533
+
+    - kind: Rule
+      match: Host(`navidrome.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          kind: Service
+          namespace: authentik
+          port: 9000
