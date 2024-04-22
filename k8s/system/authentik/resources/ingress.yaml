@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`sso.starry.blue`)
+      match: Host(`id.starry.blue`)
       services:
         - name: authentik-server
           port: 80
