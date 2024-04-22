@@ -10,6 +10,9 @@ spec:
       services:
         - name: app
           port: 4533
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
 
     - kind: Rule
       match: Host(`navidrome.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
