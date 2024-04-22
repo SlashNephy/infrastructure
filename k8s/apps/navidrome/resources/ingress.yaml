@@ -7,6 +7,7 @@ spec:
   routes:
     - kind: Rule
       match: Host(`navidrome.starry.blue`)
+      priority: 10
       services:
         - name: app
           port: 4533
