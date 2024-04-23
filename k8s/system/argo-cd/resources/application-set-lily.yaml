@@ -176,6 +176,10 @@ spec:
             namespace: file-browser
             path: k8s/apps/file-browser
             project: apps
+          - name: komga
+            namespace: komga
+            path: k8s/apps/komga
+            project: apps
 
           # cron
           - name: cron-backup-node

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: docker pull ghcr.io/gotson/komga:1.11.0
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+          ports:
+            - containerPort: 25600
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: data
+              mountPath: /data
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsGroup: 1000
+            runAsUser: 1000
+      volumes:
+        - name: config
+          hostPath:
+            path: /opt/k8s-volumes/komga/config
+            type: DirectoryOrCreate
+        - name: data
+          hostPath:
+            path: /opt/k8s-volumes/komga/data
+            type: DirectoryOrCreate
+      restartPolicy: Always
