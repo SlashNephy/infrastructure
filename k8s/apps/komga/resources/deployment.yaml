@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: docker pull ghcr.io/gotson/komga:1.11.0
+          image: ghcr.io/gotson/komga:1.11.0
           env:
             - name: TZ
               value: Asia/Tokyo
