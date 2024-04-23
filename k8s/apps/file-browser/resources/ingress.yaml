@@ -7,6 +7,18 @@ spec:
   routes:
     - kind: Rule
       match: Host(`files.starry.blue`)
+      priority: 10
       services:
         - name: app
           port: 8080
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
+
+    - kind: Rule
+      match: Host(`files.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: http
