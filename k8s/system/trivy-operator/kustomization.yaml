@@ -6,7 +6,7 @@ helmCharts:
   - name: trivy-operator
     releaseName: trivy-operator
     namespace: trivy-system
-    version: 0.21.4
+    version: 0.22.1
     repo: https://aquasecurity.github.io/helm-charts/
     includeCRDs: true
     valuesInline:
