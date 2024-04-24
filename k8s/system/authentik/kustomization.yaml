@@ -29,10 +29,23 @@ helmCharts:
         accountId: dummy
         enabled: true
         licenseKey: dummy
-      # TODO: enable backup
       postgresql:
         auth:
           password: dummy
+        backup:
+          cronjob:
+            concurrencyPolicy: Forbid
+            containerSecurityContext:
+              runAsGroup: 1000
+              runAsUser: 1000
+            restartPolicy: Never
+            schedule: "0 * * * *" # @hourly
+            storage:
+              volumeClaimTemplates:
+                selector:
+                  matchLabels:
+                    name: authentik-postgres-backup
+          enabled: true
         enabled: true
         primary:
           persistence:
@@ -59,6 +72,7 @@ resources:
   - ./resources/ingress.yaml
   - ./resources/pv-postgres.yaml
   - ./resources/pv-redis.yaml
+  - ./resources/pv-postgres-backup.yaml
   - ./resources/middleware.yaml
 
 patches:
