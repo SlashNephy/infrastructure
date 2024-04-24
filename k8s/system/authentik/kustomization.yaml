@@ -31,9 +31,8 @@ helmCharts:
         licenseKey: dummy
       postgresql:
         auth:
-          enablePostgresUser: false
           password: dummy
-          username: authentik
+          postgresPassword: dummy
         backup:
           cronjob:
             concurrencyPolicy: Forbid
