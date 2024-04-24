@@ -8,7 +8,6 @@ metadata:
     app.kubernetes.io/part-of: argocd
 
 data:
-  # enable exec
-  policy.csv: p, role:admin, exec, create, */*, allow
-
-  policy.default: role:readonly
+  policy.csv: |
+    g, ArgoCD Admin, role:admin
+    p, role:admin, exec, create, */*, allow

@@ -8,7 +8,23 @@ metadata:
     app.kubernetes.io/part-of: argocd
 
 data:
+  dex.config: |
+    connectors:
+      - id: authentik
+        name: Authentik
+        type: oidc
+        config:
+          issuer: https://id.starry.blue/application/o/argocd/
+          clientID: 8GakiR150BGbrWcW6nkDpS0yyyFizEeif1RhtlKO
+          clientSecret: $dex.authentik.clientSecret
+          insecureEnableGroups: true
+          scopes:
+            - openid
+            - profile
+            - email
+
   exec.enabled: "true"
+  exec.shells: zsh,bash,ash,sh
 
   helm.enabled: "true"
   kustomize.buildOptions: --enable-helm --load-restrictor LoadRestrictionsNone
@@ -17,5 +33,3 @@ data:
   statusbadge.enabled: "true"
 
   url: https://argocd.starry.blue
-
-  users.anonymous.enabled: "true"
