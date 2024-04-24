@@ -8,6 +8,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
 
 data:
+  # https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
   policy.csv: |
     g, ArgoCD/Admin, role:admin
-    p, role:admin, exec, create, */*, allow
+    g, ArgoCD/ReadOnly, role:readonly
