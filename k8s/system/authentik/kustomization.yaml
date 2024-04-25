@@ -40,7 +40,8 @@ helmCharts:
               runAsGroup: 1000
               runAsUser: 1000
             restartPolicy: Never
-            schedule: "0 * * * *" # @hourly
+            # @hourly
+            schedule: "0 * * * *"
             storage:
               volumeClaimTemplates:
                 selector:
