@@ -51,7 +51,8 @@ metrics:
 ports:
   web:
     asDefault: true
-    expose: true
+    expose:
+      default: true
     exposedPort: 30080
 
     forwardedHeaders:

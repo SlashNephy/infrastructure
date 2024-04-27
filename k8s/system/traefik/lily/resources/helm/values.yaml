@@ -75,7 +75,8 @@ ports:
 
   websecure:
     asDefault: true
-    expose: true
+    expose:
+      default: true
     exposedPort: 443
 
     forwardedHeaders:
