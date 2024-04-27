@@ -16,6 +16,7 @@ experimental:
   plugins:
     cloudflarewarp:
       moduleName: github.com/BetterCorp/cloudflarewarp
+      # renovate: datasource=github-tags depName=BetterCorp/cloudflarewarp
       version: v1.3.3
 
 globalArguments: []
@@ -25,7 +26,8 @@ hub:
 
 image:
   registry: public.ecr.aws/docker/library
-  tag: v3.0.0-rc1
+  repository: traefik
+  tag: v3.0.0-rc5
 
 ingressRoute:
   dashboard:
