@@ -80,9 +80,8 @@ ports:
 
     forwardedHeaders:
       trustedIPs:
-        # /run/flannel/subnet.env
-        - 10.244.0.0/16
-        - 192.168.1.0/24
+        - 10.0.0.0/16
+        - fdac:2d12:9f5::/64
 
     # http3:
     #   advertisedPort: 8443

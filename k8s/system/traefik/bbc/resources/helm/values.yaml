@@ -56,8 +56,8 @@ ports:
 
     forwardedHeaders:
       trustedIPs:
-        # /run/flannel/subnet.env
-        - 10.244.0.0/16
+        - 10.2.0.0/16
+        - fd11:eed0:a3e9::/64
 
     nodePort: 30080
     port: 30080
