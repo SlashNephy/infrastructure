@@ -6,7 +6,7 @@ autoscaling:
 
 deployment:
   minReadySeconds: 30
-  replicas: 4
+  replicas: 2
 
 envFrom:
   - configMapRef:
