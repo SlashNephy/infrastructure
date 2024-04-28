@@ -114,6 +114,7 @@ providers:
   kubernetesCRD:
     allowCrossNamespace: true
     allowEmptyServices: true
+    allowExternalNameServices: true
     enabled: true
   kubernetesIngress:
     enabled: false
