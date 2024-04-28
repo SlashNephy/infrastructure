@@ -15,13 +15,11 @@ resources:
   - ./resources/middlewares/security-headers.yaml
   - ./resources/middlewares/trust-cloudflare-ips.yaml
   - ./resources/routes/dashboard.yaml
+  - ./resources/routes/router.yaml
+  - ./resources/routes/ai.yaml
   - ./resources/custom-error-pages
 
 configMapGenerator:
-  - name: dynamic-configurations
-    files:
-      - ./config/route-ai.yml
-      - ./config/route-router.yml
   - name: traefik-env
     literals:
       - TZ=Asia/Tokyo

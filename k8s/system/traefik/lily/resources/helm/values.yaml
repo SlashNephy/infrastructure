@@ -121,8 +121,3 @@ providers:
 service:
   ipFamilyPolicy: PreferDualStack
   type: NodePort
-
-volumes:
-  - name: dynamic-configurations
-    mountPath: /config
-    type: configMap
