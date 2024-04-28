@@ -7,6 +7,18 @@ spec:
   routes:
     - kind: Rule
       match: Host(`amq-proxy.starry.blue`)
+      priority: 10
       services:
         - name: service
           port: app
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
+
+    - kind: Rule
+      match: Host(`amq-proxy.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: http
