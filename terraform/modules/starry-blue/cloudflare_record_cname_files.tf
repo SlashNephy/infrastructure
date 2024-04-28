@@ -28,6 +28,4 @@ resource "mackerel_monitor" "files" {
     certification_expiration_critical = 3
     follow_redirect                   = false
   }
-
-  depends_on = [data.onepassword_item.cloudflare_access_client]
 }

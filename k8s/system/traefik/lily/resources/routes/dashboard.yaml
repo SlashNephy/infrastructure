@@ -7,11 +7,22 @@ spec:
   routes:
     - kind: Rule
       match: Host(`traefik.starry.blue`)
+      priority: 10
       services:
         - name: api@internal
           kind: TraefikService
       middlewares:
         - name: auto-detect-content-type
+        - name: forward-auth-authentik
+          namespace: authentik
+
+    - kind: Rule
+      match: Host(`traefik.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: http
 
 ---
 apiVersion: traefik.io/v1alpha1

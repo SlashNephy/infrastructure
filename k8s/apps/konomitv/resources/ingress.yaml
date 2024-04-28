@@ -7,11 +7,23 @@ spec:
   routes:
     - kind: Rule
       match: Host(`konomitv.starry.blue`)
+      priority: 10
       services:
         - name: service
           port: 7000
           scheme: https
           serversTransport: patch-hostname
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
+
+    - kind: Rule
+      match: Host(`konomitv.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: http
 
 ---
 apiVersion: traefik.io/v1alpha1
