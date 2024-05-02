@@ -34,7 +34,7 @@ spec:
             limits:
               gpu.intel.com/i915: "1"
         - name: db
-          image: public.ecr.aws/docker/library/mariadb:11.2.3-jammy@sha256:65c0c44bc4754bd03dc17396328f2adae8f156ebe6ec1edb928386886654785e
+          image: public.ecr.aws/docker/library/mariadb:11.2.3-jammy@sha256:502fd9fe7409657340f5f0fc58764295de3a2346737d95e00fac8ac3d8d19e1a
           args:
             - --character-set-server=utf8mb4
             - --collation-server=utf8mb4_unicode_520_ci
