@@ -26,7 +26,7 @@ spec:
             - name: data
               mountPath: /code/server/data
             - name: records
-              mountPath: /mnt/records
+              mountPath: /mnt/pool
           resources:
             limits:
               gpu.intel.com/i915: "1"
@@ -42,6 +42,6 @@ spec:
             type: DirectoryOrCreate
         - name: records
           hostPath:
-            path: /mnt/records
+            path: /mnt/pool
             type: Directory
       restartPolicy: Always

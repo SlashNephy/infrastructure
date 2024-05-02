@@ -50,7 +50,7 @@ spec:
               mountPath: /myapp/config/settings.yml
               readOnly: true
             - name: radio
-              mountPath: /mnt/records/radio
+              mountPath: /mnt/pool/radio
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -68,6 +68,6 @@ spec:
             type: File
         - name: radio
           hostPath:
-            path: /mnt/records/radio
+            path: /mnt/pool/radio
             type: DirectoryOrCreate
       restartPolicy: Always

@@ -18,7 +18,7 @@ spec:
               image: public.ecr.aws/bitnami/rclone:1.66.0@sha256:2e8231c2cae5561ca81322914652dbff78b497d17ea802a61a031877ad2226cc
               args:
                 - copy
-                - /mnt/records/radio
+                - /mnt/pool/radio
                 - atmos2:radio
                 - --drive-stop-on-upload-limit
                 - --skip-links

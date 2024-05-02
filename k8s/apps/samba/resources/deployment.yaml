@@ -55,6 +55,6 @@ spec:
             name: app-config
         - name: records
           hostPath:
-            path: /mnt/records
+            path: /mnt/pool
             type: Directory
       restartPolicy: Always

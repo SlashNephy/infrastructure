@@ -9,12 +9,12 @@ resources:
 configMapGenerator:
   - name: rclone-watch-config
     literals:
-      - INOTIFYWAIT_DIR=/mnt/records/radio
+      - INOTIFYWAIT_DIR=/mnt/pool/radio
       - INOTIFYWAIT_EVENTS=create,move
       - INOTIFYWAIT_OPTIONS=--timeout 1800 --recursive
       - >-
         RCLONE_COMMAND=copy
-        /mnt/records/radio
+        /mnt/pool/radio
         atmos2:radio
         --drive-stop-on-upload-limit
         --skip-links

@@ -48,7 +48,7 @@ spec:
       volumes:
         - name: cache
           hostPath:
-            path: /mnt/records/amq
+            path: /mnt/pool/amq
             type: DirectoryOrCreate
         - name: questions-json
           hostPath:

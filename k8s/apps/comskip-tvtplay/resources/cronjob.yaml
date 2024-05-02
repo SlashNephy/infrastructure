@@ -31,10 +31,10 @@ spec:
                 - name: COMSKIP_PROCESSES
                   value: "2"
                 - name: MOUNT_POINT
-                  value: /mnt/records
+                  value: /mnt/pool
               volumeMounts:
                 - name: records
-                  mountPath: /mnt/records
+                  mountPath: /mnt/pool
                 - name: comskip-config
                   mountPath: /comskip.ini
                   readOnly: true
@@ -44,7 +44,7 @@ spec:
           volumes:
             - name: records
               hostPath:
-                path: /mnt/records
+                path: /mnt/pool
                 type: Directory
             - name: comskip-config
               configMap:

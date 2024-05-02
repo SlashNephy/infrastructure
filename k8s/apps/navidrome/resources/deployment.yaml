@@ -77,6 +77,6 @@ spec:
             type: DirectoryOrCreate
         - name: music
           hostPath:
-            path: /mnt/music
+            path: /mnt/pool/music
             type: DirectoryOrCreate
       restartPolicy: Always

@@ -18,7 +18,7 @@ spec:
               image: public.ecr.aws/bitnami/rclone:1.66.0@sha256:2e8231c2cae5561ca81322914652dbff78b497d17ea802a61a031877ad2226cc
               args:
                 - copy
-                - /mnt/music
+                - /mnt/pool/music
                 - "atmos1:music"
                 - --buffer-size=1Gi
                 - --drive-stop-on-upload-limit
