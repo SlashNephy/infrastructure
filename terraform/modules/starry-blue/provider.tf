@@ -6,7 +6,7 @@ terraform {
     }
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "4.30.0"
+      version = "4.31.0"
     }
     mackerel = {
       source  = "mackerelio-labs/mackerel"
