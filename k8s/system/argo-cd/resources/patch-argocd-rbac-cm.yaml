@@ -11,4 +11,4 @@ data:
   # https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
   policy.csv: |
     g, ArgoCD/Admin, role:admin
-    g, ArgoCD/ReadOnly, role:readonly
+    g, ArgoCD/Viewer, role:readonly
