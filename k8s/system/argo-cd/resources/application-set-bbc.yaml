@@ -13,12 +13,6 @@ spec:
             path: k8s/apps/mahiron/bbc
             project: apps
 
-          # cron
-          - name: cron-backup-node
-            namespace: cron-backup-node
-            path: k8s/cron/backup-node
-            project: cron
-
           # system
           - name: 1password
             namespace: 1password
