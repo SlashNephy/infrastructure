@@ -9,8 +9,10 @@ spec:
       match: Host(`k8s.starry.blue`)
       priority: 10
       services:
-        - name: kubernetes-dashboard-web
-          port: web
+        - name: kubernetes-dashboard-kong-proxy
+          port: kong-proxy-tls
+          scheme: https
+          serversTransport: allow-insecure
       middlewares:
         - name: forward-auth-authentik
           namespace: authentik
@@ -22,3 +24,12 @@ spec:
         - name: authentik-server
           namespace: authentik
           port: http
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: allow-insecure
+
+spec:
+  insecureSkipVerify: true
