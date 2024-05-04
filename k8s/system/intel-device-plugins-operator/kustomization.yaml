@@ -17,8 +17,18 @@ helmCharts:
     valuesInline:
       name: gpu-plugin
       nodeFeatureRule: true
-      resourceManager: false
       sharedDevNum: 4
 
 resources:
   - ./resources/namespace.yaml
+
+patches:
+  # なぜか resourceManager によって無限に差分が発生しているのでマニフェストから落とす
+  - target:
+      group: deviceplugin.intel.com
+      version: v1
+      kind: GpuDevicePlugin
+      name: gpu-plugin
+    patch: |-
+      - op: remove
+        path: /spec/resourceManager
