@@ -104,6 +104,7 @@ ports:
         - main: starry.blue
           sans:
             - "*.starry.blue"
+            - "*.gateway.starry.blue"
       enabled: true
       options: traefik-cloudflare@kubernetescrd
 

@@ -8,6 +8,7 @@ spec:
   dnsNames:
     - starry.blue
     - "*.starry.blue"
+    - "*.gateway.starry.blue"
   issuerRef:
     name: letsencrypt-issuer
     kind: ClusterIssuer
