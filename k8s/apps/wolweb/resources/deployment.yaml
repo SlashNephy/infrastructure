@@ -26,8 +26,8 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /wolweb/devices.json
-              subpath: devices.json
               readOnly: true
+              subpath: devices.json
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
