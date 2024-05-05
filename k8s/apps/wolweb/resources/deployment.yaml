@@ -27,9 +27,12 @@ spec:
             - name: config
               mountPath: /wolweb/devices.json
               readOnly: true
-              subpath: devices.json
           securityContext:
             allowPrivilegeEscalation: false
+          resources:
+            limits:
+              memory: 128Mi
+              cpu: 10m
       volumes:
         - name: config
           secret:

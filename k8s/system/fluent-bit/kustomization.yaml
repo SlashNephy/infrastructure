@@ -23,7 +23,6 @@ helmCharts:
         - name: gcp-service-account
           mountPath: /gcp-service-account.json
           readOnly: true
-          subpath: gcp-service-account.json
       extraVolumes:
         - name: gcp-service-account
           secret:
