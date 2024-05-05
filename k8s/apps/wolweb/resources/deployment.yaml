@@ -26,8 +26,8 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /wolweb/devices.json
-              subPath: devices.json
               readOnly: true
+              subPath: devices.json
           resources:
             limits:
               cpu: 10m
