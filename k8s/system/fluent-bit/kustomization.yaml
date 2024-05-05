@@ -23,13 +23,14 @@ helmCharts:
         - name: gcp-service-account
           mountPath: /gcp-service-account.json
           readOnly: true
+          subpath: gcp-service-account.json
       extraVolumes:
         - name: gcp-service-account
-          hostPath:
-            path: /opt/k8s-volumes/fluent-bit/starrybluesky-8297949999e8.json
-            type: File
+          secret:
+            secretName: gcp-service-account
       podAnnotations:
         fluentbit.io/exclude: "true"
 
 resources:
   - ./resources/namespace.yaml
+  - ./resources/secret.yaml
