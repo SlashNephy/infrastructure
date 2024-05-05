@@ -14,8 +14,7 @@ resource "mackerel_monitor" "external_selenium" {
     response_time_critical = 5000
     response_time_duration = 3
     max_check_attempts     = 3
-    headers                = {
-      Cache-Control = "no-cache"
+    headers = {
       Authorization = "Basic ${base64encode(format("%s:%s", data.onepassword_item.external-selenium_credential.username, data.onepassword_item.external-selenium_credential.password))}"
     }
     contains_string                   = "{"

@@ -3,7 +3,7 @@ resource "mackerel_service" "external_uranium" {
 }
 
 resource "mackerel_monitor" "external_uranium" {
-  name = format("%s に疎通できない", data.onepassword_item.external-uranium_credential.url)
+  name    = format("%s に疎通できない", data.onepassword_item.external-uranium_credential.url)
   is_mute = true
 
   external {
@@ -14,8 +14,7 @@ resource "mackerel_monitor" "external_uranium" {
     response_time_critical = 5000
     response_time_duration = 3
     max_check_attempts     = 3
-    headers                = {
-      Cache-Control = "no-cache"
+    headers = {
       Authorization = "Basic ${base64encode(format("%s:%s", data.onepassword_item.external-uranium_credential.username, data.onepassword_item.external-uranium_credential.password))}"
     }
     contains_string                   = "{"
