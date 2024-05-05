@@ -36,14 +36,14 @@ spec:
                 - name: INCLUDE_CHAPTER_FILE
                   value: "1"
                 - name: SOURCE_DIRECTORY
-                  value: /mnt/pool
+                  value: /mnt/pool/records
                 - name: SOURCE_FILE_GLOB
                   value: "*.m2ts"
                 - name: TARGET_DIRECTORY
                   value: /mnt/pool/records_links
               volumeMounts:
                 - name: records
-                  mountPath: /mnt/pool
+                  mountPath: /mnt/pool/records
                   readOnly: true
                 - name: output
                   mountPath: /mnt/pool/records_links
@@ -52,7 +52,7 @@ spec:
           volumes:
             - name: records
               hostPath:
-                path: /mnt/pool
+                path: /mnt/pool/records
             - name: output
               hostPath:
                 path: /mnt/pool/records_links

@@ -40,11 +40,11 @@ spec:
             - name: dtv-records-links
               mountPath: /srv/dtv/records
               readOnly: true
+            - name: dtv-records
+              mountPath: /mnt/pool/records
+              readOnly: true
             - name: dtv-konomitv-capture
               mountPath: /srv/dtv/konomitv-capture
-            - name: pool
-              mountPath: /mnt/pool
-              readOnly: true
           resources:
             limits:
               cpu: 500m
@@ -77,13 +77,13 @@ spec:
           hostPath:
             path: /mnt/pool/records_links
             type: Directory
+        # シンボリックリンクの解決用
+        - name: dtv-records
+          hostPath:
+            path: /mnt/pool/records
+            type: Directory
         - name: dtv-konomitv-capture
           hostPath:
             path: /mnt/pool/volumes/konomitv/data/capture
-            type: Directory
-        # シンボリックリンクの解決用
-        - name: pool
-          hostPath:
-            path: /mnt/pool
             type: Directory
       restartPolicy: Always

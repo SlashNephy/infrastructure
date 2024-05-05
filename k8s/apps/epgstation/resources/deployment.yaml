@@ -29,7 +29,7 @@ spec:
               mountPath: /app/config
               readOnly: true
             - name: records
-              mountPath: /mnt/records
+              mountPath: /mnt/pool/records
           resources:
             limits:
               gpu.intel.com/i915: "1"
@@ -58,19 +58,19 @@ spec:
       volumes:
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/epgstation-data
+            path: /mnt/pool/volumes/epgstation/data
             type: DirectoryOrCreate
         - name: config
           hostPath:
-            path: /opt/k8s-volumes/epgstation-config
+            path: /mnt/pool/volumes/epgstation/config
             type: Directory
         - name: records
           hostPath:
-            path: /mnt/records
+            path: /mnt/pool/records
             type: Directory
         - name: db
           hostPath:
-            path: /opt/k8s-volumes/epgstation-db
+            path: /mnt/pool/volumes/epgstation/db
             type: DirectoryOrCreate
       restartPolicy: Always
       imagePullSecrets:
