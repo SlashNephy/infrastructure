@@ -37,7 +37,7 @@ spec:
       volumes:
         - name: work
           hostPath:
-            path: /opt/k8s-volumes/jupyter/work
+            path: /mnt/pool/volumes/jupyter/work
             type: DirectoryOrCreate
         - name: config
           configMap:

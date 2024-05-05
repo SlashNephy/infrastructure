@@ -26,13 +26,14 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /wolweb/devices.json
+              subpath: devices.json
+              readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
         - name: config
-          hostPath:
-            path: /opt/k8s-volumes/wolweb-config/devices.json
-            type: File
+          secret:
+            secretName: config
       restartPolicy: Always
       dnsPolicy: ClusterFirstWithHostNet
       hostNetwork: true

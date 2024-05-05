@@ -40,7 +40,7 @@ spec:
       volumes:
         - name: config
           hostPath:
-            path: /opt/k8s-volumes/satisfactory/config
+            path: /mnt/pool/volumes/satisfactory/config
             type: DirectoryOrCreate
       restartPolicy: Always
       hostname: gateway.starry.blue
