@@ -40,7 +40,7 @@ spec:
       volumes:
         - name: files
           hostPath:
-            path: /opt/k8s-volumes/miniserve-files
+            path: /mnt/pool/volumes/miniserve-files
             type: Directory
         - name: mnt
           hostPath:
@@ -48,6 +48,6 @@ spec:
             type: Directory
         - name: konomitv-capture
           hostPath:
-            path: /opt/k8s-volumes/konomitv/data/capture
+            path: /mnt/pool/volumes/konomitv/data/capture
             type: Directory
       restartPolicy: Always

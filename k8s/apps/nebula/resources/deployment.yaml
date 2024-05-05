@@ -63,19 +63,19 @@ spec:
       volumes:
         - name: media
           hostPath:
-            path: /opt/k8s-volumes/nebula/media
+            path: /mnt/pool/volumes/nebula/media
             type: DirectoryOrCreate
         - name: avatars
           hostPath:
-            path: /opt/k8s-volumes/nebula/avatars
+            path: /mnt/pool/volumes/nebula/avatars
             type: DirectoryOrCreate
         - name: stella-backup
           hostPath:
-            path: /opt/k8s-volumes/nebula/stella/backup
+            path: /mnt/pool/volumes/nebula/stella/backup
             type: Directory
         - name: stella-media
           hostPath:
-            path: /opt/k8s-volumes/nebula/stella/media
+            path: /mnt/pool/volumes/nebula/stella/media
             type: Directory
       restartPolicy: Always
       imagePullSecrets:

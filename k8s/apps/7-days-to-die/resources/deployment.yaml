@@ -56,19 +56,19 @@ spec:
       volumes:
         - name: server
           hostPath:
-            path: /opt/k8s-volumes/7-days-to-die/server
+            path: /mnt/pool/volumes/7-days-to-die/server
             type: DirectoryOrCreate
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/7-days-to-die/data
+            path: /mnt/pool/volumes/7-days-to-die/data
             type: DirectoryOrCreate
         - name: logs
           hostPath:
-            path: /opt/k8s-volumes/7-days-to-die/logs
+            path: /mnt/pool/volumes/7-days-to-die/logs
             type: DirectoryOrCreate
         - name: backups
           hostPath:
-            path: /opt/k8s-volumes/7-days-to-die/backups
+            path: /mnt/pool/volumes/7-days-to-die/backups
             type: DirectoryOrCreate
         - name: config
           configMap:

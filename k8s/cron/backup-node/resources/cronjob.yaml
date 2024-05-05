@@ -30,7 +30,7 @@ spec:
           volumes:
             - name: backup
               hostPath:
-                path: /opt/k8s-volumes/backup-node
+                path: /mnt/pool/volumes/backup-node
                 type: DirectoryOrCreate
           restartPolicy: Never
           serviceAccountName: service-account

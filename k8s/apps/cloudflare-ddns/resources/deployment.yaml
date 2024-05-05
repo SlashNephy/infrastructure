@@ -35,6 +35,6 @@ spec:
       volumes:
         - name: config
           hostPath:
-            path: /opt/k8s-volumes/cloudflare-ddns/config.json
+            path: /mnt/pool/volumes/cloudflare-ddns/config.json
             type: File
       restartPolicy: Always
