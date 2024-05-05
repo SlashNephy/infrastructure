@@ -35,9 +35,11 @@ spec:
               readOnly: true
             - name: music
               mountPath: /srv/music
-            - name: dtv-records
+            - name: dtv-records-links
               mountPath: /srv/dtv/records
               readOnly: true
+            - name: dtv-records
+              mountPath: /mnt/pool/records
             - name: dtv-konomitv-capture
               mountPath: /srv/dtv/konomitv-capture
           resources:
@@ -54,22 +56,26 @@ spec:
             name: app-config
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/file-browser/data
+            path: /mnt/pool/volumes/file-browser/data
             type: DirectoryOrCreate
         - name: public
           hostPath:
-            path: /opt/k8s-volumes/file-browser/public
+            path: /mnt/pool/public
             type: DirectoryOrCreate
         - name: music
           hostPath:
             path: /mnt/pool/music
             type: Directory
-        - name: dtv-records
+        - name: dtv-records-links
           hostPath:
             path: /mnt/records_links
             type: Directory
+        - name: dtv-records
+          hostPath:
+            path: /mnt/pool/records
+            type: Directory
         - name: dtv-konomitv-capture
           hostPath:
-            path: /opt/k8s-volumes/konomitv/data/capture
+            path: /mnt/pool/volumes/konomitv/data/capture
             type: Directory
       restartPolicy: Always
