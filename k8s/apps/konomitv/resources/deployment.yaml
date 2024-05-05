@@ -26,7 +26,7 @@ spec:
             - name: data
               mountPath: /code/server/data
             - name: records
-              mountPath: /mnt/pool
+              mountPath: /records
           resources:
             limits:
               gpu.intel.com/i915: "1"
@@ -38,10 +38,10 @@ spec:
             name: app-config
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/konomitv/data
+            path: /mnt/pool/volumes/konomitv/data
             type: DirectoryOrCreate
         - name: records
           hostPath:
-            path: /mnt/pool
+            path: /mnt/pool/records
             type: Directory
       restartPolicy: Always
