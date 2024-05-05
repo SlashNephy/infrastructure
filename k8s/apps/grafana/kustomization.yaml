@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: grafana
+
+helmCharts:
+  - name: grafana
+    releaseName: grafana
+    namespace: grafana
+    version: 7.3.9
+    repo: https://grafana.github.io/helm-charts
+    includeCRDs: true
+    valuesInline:
+      admin:
+        existingSecret: secrets
+      persistence:
+        enabled: true
+        selectorLabels:
+          name: grafana-data
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
+  - ./resources/pv-data.yaml

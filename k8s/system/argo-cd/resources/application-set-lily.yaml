@@ -192,6 +192,10 @@ spec:
             namespace: cloudflare-ddns
             path: k8s/apps/cloudflare-ddns
             project: apps
+          - name: grafana
+            namespace: grafana
+            path: k8s/apps/grafana
+            project: apps
 
           # cron
           - name: cron-backup-node
