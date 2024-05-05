@@ -33,10 +33,10 @@ spec:
       volumes:
         - name: config
           secret:
-            secretName: config
             items:
               - key: devices.json
                 path: devices.json
+            secretName: config
       restartPolicy: Always
       dnsPolicy: ClusterFirstWithHostNet
       hostNetwork: true
