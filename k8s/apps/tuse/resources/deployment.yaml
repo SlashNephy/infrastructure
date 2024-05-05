@@ -33,7 +33,6 @@ spec:
             allowPrivilegeEscalation: false
       volumes:
         - name: config
-          hostPath:
-            path: /mnt/pool/volumes/tuse/config
-            type: DirectoryOrCreate
+          secret:
+            secretName: config
       restartPolicy: Always

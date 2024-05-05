@@ -22,6 +22,7 @@ spec:
             - name: config
               mountPath: /app/config.yml
               readOnly: true
+              subPath: config.yml
             - name: cache
               mountPath: /app/data
           resources:
@@ -31,9 +32,8 @@ spec:
             allowPrivilegeEscalation: false
       volumes:
         - name: config
-          hostPath:
-            path: /mnt/pool/volumes/feedchime/config/config.yml
-            type: File
+          secret:
+            secretName: config
         - name: cache
           hostPath:
             path: /mnt/pool/volumes/feedchime/cache

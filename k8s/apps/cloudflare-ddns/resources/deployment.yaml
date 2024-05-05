@@ -26,6 +26,8 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config.json
+              readOnly: true
+              subPath: config.json
           resources:
             limits:
               cpu: 50m
@@ -34,7 +36,6 @@ spec:
             allowPrivilegeEscalation: false
       volumes:
         - name: config
-          hostPath:
-            path: /mnt/pool/volumes/cloudflare-ddns/config.json
-            type: File
+          secret:
+            secretName: config
       restartPolicy: Always
