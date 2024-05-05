@@ -37,7 +37,7 @@ spec:
           volumes:
             - name: src
               hostPath:
-                path: /opt/k8s-volumes
+                path: /mnt/pool/volumes
                 type: Directory
             - name: dest
               hostPath:
@@ -45,7 +45,7 @@ spec:
                 type: DirectoryOrCreate
             - name: config
               hostPath:
-                path: /opt/k8s-volumes/rclone-config
+                path: /mnt/pool/volumes/rclone-config
                 type: Directory
           restartPolicy: Never
   concurrencyPolicy: Forbid

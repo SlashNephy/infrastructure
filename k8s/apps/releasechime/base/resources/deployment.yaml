@@ -46,6 +46,6 @@ spec:
       volumes:
         - name: cache
           hostPath:
-            path: /opt/k8s-volumes/releasechime/cache
+            path: /mnt/pool/volumes/releasechime/cache
             type: DirectoryOrCreate
       restartPolicy: Always

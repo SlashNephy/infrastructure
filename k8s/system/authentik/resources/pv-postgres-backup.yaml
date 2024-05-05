@@ -12,7 +12,7 @@ spec:
   capacity:
     storage: 8Gi
   local:
-    path: /opt/k8s-volumes/authentik/postgres-backup
+    path: /mnt/pool/volumes/authentik/postgres-backup
   nodeAffinity:
     required:
       nodeSelectorTerms:

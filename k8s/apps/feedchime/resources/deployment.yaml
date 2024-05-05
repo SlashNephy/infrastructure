@@ -32,10 +32,10 @@ spec:
       volumes:
         - name: config
           hostPath:
-            path: /opt/k8s-volumes/feedchime-config/config.yml
+            path: /mnt/pool/volumes/feedchime/config/config.yml
             type: File
         - name: cache
           hostPath:
-            path: /opt/k8s-volumes/feedchime-cache
+            path: /mnt/pool/volumes/feedchime/cache
             type: DirectoryOrCreate
       restartPolicy: Always

@@ -34,6 +34,6 @@ spec:
       volumes:
         - name: config
           hostPath:
-            path: /opt/k8s-volumes/tuse/config
+            path: /mnt/pool/volumes/tuse/config
             type: DirectoryOrCreate
       restartPolicy: Always
