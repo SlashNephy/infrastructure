@@ -28,7 +28,7 @@ spec:
           volumes:
             - name: target
               hostPath:
-                path: /mnt/pool
+                path: /mnt/pool/records
                 type: Directory
           restartPolicy: Never
   concurrencyPolicy: Forbid
