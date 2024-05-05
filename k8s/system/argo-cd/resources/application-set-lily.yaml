@@ -92,25 +92,9 @@ spec:
             namespace: net-radio-archive
             path: k8s/apps/net-radio-archive
             project: apps
-          - name: rclone-radio
-            namespace: rclone-radio
-            path: k8s/apps/rclone/radio
-            project: apps
-          - name: rclone-records
-            namespace: rclone-records
-            path: k8s/apps/rclone/records
-            project: apps
-          - name: rclone-music
-            namespace: rclone-music
-            path: k8s/apps/rclone/music
-            project: apps
-          - name: rclone-books
-            namespace: rclone-books
-            path: k8s/apps/rclone/books
-            project: apps
-          - name: rclone-public
-            namespace: rclone-public
-            path: k8s/apps/rclone/public
+          - name: rclone
+            namespace: rclone-
+            path: k8s/apps/rclone
             project: apps
           - name: releasechime-ai
             namespace: releasechime-ai
