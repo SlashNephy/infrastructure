@@ -43,6 +43,6 @@ spec:
             type: DirectoryOrCreate
         - name: data
           hostPath:
-            path: /mnt/pool/volumes/komga/data
-            type: DirectoryOrCreate
+            path: /mnt/pool/books
+            type: Directory
       restartPolicy: Always

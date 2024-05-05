@@ -44,7 +44,7 @@ spec:
                 type: Directory
             - name: config
               hostPath:
-                path: /opt/k8s-volumes/rclone-config
+                path: /mnt/pool/volumes/rclone-config
                 type: Directory
           restartPolicy: Never
   concurrencyPolicy: Forbid
