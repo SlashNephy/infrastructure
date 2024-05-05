@@ -10,7 +10,7 @@ spec:
       priority: 10
       services:
         - name: grafana
-          port: 3000
+          port: service
       middlewares:
         - name: forward-auth-authentik
           namespace: authentik
