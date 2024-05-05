@@ -25,16 +25,16 @@ spec:
                   name: app-secret
                   key: discord-bot-token
             - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: /service_account.json
+              value: /service-account.json
           volumeMounts:
             - name: service-account
-              mountPath: /service_account.json
+              mountPath: /service-account.json
               readOnly: true
+              subPath: service-account.json
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
         - name: service-account
-          hostPath:
-            path: /opt/k8s-volumes/symm/starrybluesky-c6d25c065875.json
-            type: File
+          secret:
+            secretName: service-account
       restartPolicy: Always

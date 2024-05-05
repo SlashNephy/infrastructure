@@ -22,11 +22,11 @@ spec:
             - name: config
               mountPath: /app/config.yaml
               readOnly: true
+              subPath: config.yaml
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
         - name: config
-          hostPath:
-            path: /opt/k8s-volumes/stable-journey-bot/config.yaml
-            type: File
+          secret:
+            secretName: config
       restartPolicy: Always

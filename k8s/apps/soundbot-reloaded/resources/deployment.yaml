@@ -35,5 +35,5 @@ spec:
       volumes:
         - name: sounds
           hostPath:
-            path: /opt/k8s-volumes/soundbot-sounds
+            path: /mnt/pool/volumes/soundbot/sounds
       restartPolicy: Always
