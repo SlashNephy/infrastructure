@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob
+
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          annotations:
+            fluentbit.io/exclude: "true"
+        spec:
+          containers:
+            - name: app
+              image: public.ecr.aws/bitnami/rclone:1.66.0@sha256:c2c04212d1bdb4613c1dcf2d99940099a36add17153428e4c456c9eb28d5ec93
+              args:
+                - copy
+                - /mnt/pool/public
+                - "atmos1:public"
+                - --buffer-size=1Gi
+                - --drive-stop-on-upload-limit
+                - --order-by=name
+                - --progress
+                - --ignore-existing
+                - --verbose
+                - --config=/config/rclone/rclone.conf
+              volumeMounts:
+                - name: mnt
+                  mountPath: /mnt
+                  readOnly: true
+                - name: config
+                  mountPath: /config/rclone
+                  readOnly: true
+              securityContext:
+                allowPrivilegeEscalation: false
+          volumes:
+            - name: mnt
+              hostPath:
+                path: /mnt
+                type: Directory
+            - name: config
+              hostPath:
+                path: /mnt/pool/volumes/rclone-config
+                type: Directory
+          restartPolicy: Never
+  concurrencyPolicy: Forbid

@@ -104,6 +104,14 @@ spec:
             namespace: rclone-music
             path: k8s/apps/rclone/music
             project: apps
+          - name: rclone-books
+            namespace: rclone-books
+            path: k8s/apps/rclone/books
+            project: apps
+          - name: rclone-public
+            namespace: rclone-public
+            path: k8s/apps/rclone/public
+            project: apps
           - name: releasechime-ai
             namespace: releasechime-ai
             path: k8s/apps/releasechime/ai
