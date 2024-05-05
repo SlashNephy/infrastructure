@@ -25,14 +25,14 @@ spec:
                 - secretRef:
                     name: app-secret
               volumeMounts:
-                - name: app-volume
+                - name: token
                   mountPath: /app/token
               securityContext:
                 allowPrivilegeEscalation: false
           volumes:
-            - name: app-volume
+            - name: token
               hostPath:
-                path: /opt/k8s-volumes/annict2anilist-token
+                path: /mnt/pool/volumes/annict2anilist/token
                 type: DirectoryOrCreate
           restartPolicy: Never
   concurrencyPolicy: Forbid

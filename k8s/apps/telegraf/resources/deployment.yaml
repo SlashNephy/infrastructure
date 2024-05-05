@@ -85,7 +85,7 @@ spec:
             name: app-config
         - name: plugins
           hostPath:
-            path: /opt/k8s-volumes/telegraf/plugins
+            path: /mnt/pool/volumes/telegraf/plugins
             type: Directory
         - name: host-var
           hostPath:

@@ -18,7 +18,7 @@ spec:
       containers:
         - name: app
           image: codercom/code-server:4.19.1-bullseye@sha256:993c381c28a3738b903ac21180f5f9dab8f2aa547bbb0b9d69bea558691e10d3
-          workingDir: /opt
+          workingDir: /mnt
           args:
             - --auth=none
             - --disable-telemetry
@@ -29,17 +29,17 @@ spec:
             - containerPort: 8080
           volumeMounts:
             - name: volumes
-              mountPath: /opt/volumes
+              mountPath: /mnt/pool
             - name: juicefs
-              mountPath: /opt/juicefs
+              mountPath: /mnt/juicefs
             - name: data
               mountPath: /home/coder/.local/share/code-server
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
-        - name: volumes
+        - name: pool
           hostPath:
-            path: /opt/k8s-volumes
+            path: /mnt/pool
             type: Directory
         - name: juicefs
           hostPath:
@@ -47,6 +47,6 @@ spec:
             type: Directory
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/code-server/data
+            path: /mnt/pool/volumes/code-server/data
             type: DirectoryOrCreate
       restartPolicy: Always

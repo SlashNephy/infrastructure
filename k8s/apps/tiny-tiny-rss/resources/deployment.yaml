@@ -101,18 +101,18 @@ spec:
       volumes:
         - name: app
           hostPath:
-            path: /opt/k8s-volumes/tiny-tiny-rss/app
+            path: /mnt/pool/volumes/tiny-tiny-rss/app
             type: DirectoryOrCreate
         - name: backups
           hostPath:
-            path: /opt/k8s-volumes/tiny-tiny-rss/backups
+            path: /mnt/pool/volumes/tiny-tiny-rss/backups
             type: DirectoryOrCreate
         - name: config
           hostPath:
-            path: /opt/k8s-volumes/tiny-tiny-rss/config
+            path: /mnt/pool/volumes/tiny-tiny-rss/config
             type: DirectoryOrCreate
         - name: db
           hostPath:
-            path: /opt/k8s-volumes/tiny-tiny-rss/db
+            path: /mnt/pool/volumes/tiny-tiny-rss/db
             type: DirectoryOrCreate
       restartPolicy: Always

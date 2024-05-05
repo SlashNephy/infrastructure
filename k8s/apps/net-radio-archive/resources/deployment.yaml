@@ -56,15 +56,15 @@ spec:
       volumes:
         - name: db
           hostPath:
-            path: /opt/k8s-volumes/net-radio-archive/db
+            path: /mnt/pool/volumes/net-radio-archive/db
             type: DirectoryOrCreate
         - name: config-database
           hostPath:
-            path: /opt/k8s-volumes/net-radio-archive/database.yml
+            path: /mnt/pool/volumes/net-radio-archive/database.yml
             type: File
         - name: config-settings
           hostPath:
-            path: /opt/k8s-volumes/net-radio-archive/settings.yml
+            path: /mnt/pool/volumes/net-radio-archive/settings.yml
             type: File
         - name: radio
           hostPath:

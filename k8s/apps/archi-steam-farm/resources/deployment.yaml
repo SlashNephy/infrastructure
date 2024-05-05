@@ -35,7 +35,7 @@ spec:
       volumes:
         - name: config
           hostPath:
-            path: /opt/k8s-volumes/archi-steam-farm-config
+            path: /mnt/pool/volumes/archi-steam-farm
             type: DirectoryOrCreate
         - name: nlog
           configMap:
