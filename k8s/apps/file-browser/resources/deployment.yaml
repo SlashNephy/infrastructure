@@ -35,6 +35,8 @@ spec:
               readOnly: true
             - name: music
               mountPath: /srv/music
+            - name: books
+              mountPath: /srv/books
             - name: dtv-records-links
               mountPath: /srv/dtv/records
               readOnly: true
@@ -65,6 +67,10 @@ spec:
         - name: music
           hostPath:
             path: /mnt/pool/music
+            type: Directory
+        - name: books
+          hostPath:
+            path: /mnt/pool/books
             type: Directory
         - name: dtv-records-links
           hostPath:
