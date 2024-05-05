@@ -28,7 +28,7 @@ spec:
           ports:
             - containerPort: 8080
           volumeMounts:
-            - name: volumes
+            - name: pool
               mountPath: /mnt/pool
             - name: juicefs
               mountPath: /mnt/juicefs
