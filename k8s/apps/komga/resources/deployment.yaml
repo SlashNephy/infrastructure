@@ -28,10 +28,6 @@ spec:
               mountPath: /config
             - name: data
               mountPath: /data
-          resources:
-            limits:
-              cpu: 500m
-              memory: 1Gi
           securityContext:
             allowPrivilegeEscalation: false
             runAsGroup: 1000
