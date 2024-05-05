@@ -18,15 +18,15 @@ helmCharts:
               location asia-northeast1
       env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
-          value: /gcp-service-account.json
+          value: /secrets/gcp-service-account.json
       extraVolumeMounts:
-        - name: gcp-service-account
-          mountPath: /gcp-service-account.json
+        - name: secrets
+          mountPath: /secrets
           readOnly: true
       extraVolumes:
-        - name: gcp-service-account
+        - name: secrets
           secret:
-            secretName: gcp-service-account
+            secretName: secrets
       podAnnotations:
         fluentbit.io/exclude: "true"
 

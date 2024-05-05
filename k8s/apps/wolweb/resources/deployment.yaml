@@ -26,6 +26,8 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /wolweb/devices.json
+              subPath: devices.json
+              readOnly: true
           resources:
             limits:
               cpu: 10m
@@ -35,9 +37,6 @@ spec:
       volumes:
         - name: config
           secret:
-            items:
-              - key: devices.json
-                path: devices.json
             secretName: config
       restartPolicy: Always
       dnsPolicy: ClusterFirstWithHostNet
