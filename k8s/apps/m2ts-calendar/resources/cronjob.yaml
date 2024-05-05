@@ -40,13 +40,13 @@ spec:
                 - name: SOURCE_FILE_GLOB
                   value: "*.m2ts"
                 - name: TARGET_DIRECTORY
-                  value: /mnt/records_links
+                  value: /mnt/pool/records_links
               volumeMounts:
                 - name: records
                   mountPath: /mnt/pool
                   readOnly: true
                 - name: output
-                  mountPath: /mnt/records_links
+                  mountPath: /mnt/pool/records_links
               securityContext:
                 allowPrivilegeEscalation: false
           volumes:
@@ -55,6 +55,6 @@ spec:
                 path: /mnt/pool
             - name: output
               hostPath:
-                path: /mnt/records_links
+                path: /mnt/pool/records_links
           restartPolicy: Never
   concurrencyPolicy: Forbid

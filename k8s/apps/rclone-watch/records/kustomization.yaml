@@ -9,12 +9,12 @@ resources:
 configMapGenerator:
   - name: rclone-watch-config
     literals:
-      - INOTIFYWAIT_DIR=/mnt/records_links
+      - INOTIFYWAIT_DIR=/mnt/pool/records_links
       - INOTIFYWAIT_EVENTS=create,move
       - INOTIFYWAIT_OPTIONS=--timeout 1800 --recursive
       - >-
         RCLONE_COMMAND=copy
-        /mnt/records_links
+        /mnt/pool/records_links
         atmos1:
         --buffer-size=1Gi
         --drive-stop-on-upload-limit
