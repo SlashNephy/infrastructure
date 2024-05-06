@@ -8,10 +8,15 @@ spec:
   jobTemplate:
     spec:
       backoffLimit: 0
+      selector:
+        matchLabels:
+          app: records
       template:
         metadata:
           annotations:
             fluentbit.io/exclude: "true"
+          labels:
+            app: records
         spec:
           containers:
             - name: app
@@ -29,6 +34,17 @@ spec:
                 - --transfers=1
                 - --verbose
                 - --config=/config/rclone/rclone.conf
+                - --rc
+                - --rc-addr=0.0.0.0:5572
+                - --rc-baseurl=/records
+                - --rc-no-auth
+                - --rc-user=user
+                - --rc-pass=pass
+                - --rc-web-gui
+                - --rc-web-gui-no-open-browser
+                - --rc-web-gui-update
+              ports:
+                - containerPort: 5572
               volumeMounts:
                 - name: mnt
                   mountPath: /mnt

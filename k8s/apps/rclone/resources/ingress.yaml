@@ -1,0 +1,27 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`rclone.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: http
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: rclone-authorization-header
+
+spec:
+  headers:
+    customRequestHeaders:
+      # intended; not insecure
+      # user:pass
+      Authorization: Basic dXNlcjpwYXNz

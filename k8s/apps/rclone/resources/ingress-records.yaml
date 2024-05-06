@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: records
+
+spec:
+  selector:
+    app: records
+  ports:
+    - port: 5572
+      targetPort: 5572
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: records
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`rclone.starry.blue`) && PathPrefix(`/records`)
+      priority: 10
+      services:
+        - name: records
+          port: 5572
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
+        - name: rclone-authorization-header

@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: radio
+
+spec:
+  selector:
+    app: radio
+  ports:
+    - port: 5572
+      targetPort: 5572
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: radio
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`rclone.starry.blue`) && PathPrefix(`/radio`)
+      priority: 10
+      services:
+        - name: radio
+          port: 5572
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
+        - name: rclone-authorization-header
