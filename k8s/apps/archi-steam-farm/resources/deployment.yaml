@@ -26,6 +26,8 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /app/config
+            - name: plugins
+              mountPath: /asf/plugins/external
           resources:
             limits:
               cpu: 500m
@@ -36,5 +38,9 @@ spec:
         - name: config
           hostPath:
             path: /mnt/pool/volumes/archi-steam-farm/config
+            type: Directory
+        - name: plugins
+          hostPath:
+            path: /mnt/pool/volumes/archi-steam-farm/plugins
             type: Directory
       restartPolicy: Always
