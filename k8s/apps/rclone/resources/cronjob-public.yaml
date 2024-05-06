@@ -8,9 +8,6 @@ spec:
   jobTemplate:
     spec:
       backoffLimit: 0
-      selector:
-        matchLabels:
-          app: public
       template:
         metadata:
           annotations:
