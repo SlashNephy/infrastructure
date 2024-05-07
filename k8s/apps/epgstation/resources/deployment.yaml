@@ -29,7 +29,7 @@ spec:
               mountPath: /app/config
               readOnly: true
             - name: records
-              mountPath: /mnt/pool/records
+              mountPath: /records
           resources:
             limits:
               gpu.intel.com/i915: "1"
