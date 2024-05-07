@@ -75,15 +75,15 @@ spec:
       volumes:
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/mahiron/data
+            path: /mnt/pool/volumes/mahiron/data
             type: DirectoryOrCreate
         - name: config
           hostPath:
-            path: /opt/k8s-volumes/mahiron/config
+            path: /mnt/pool/volumes/mahiron/config
             type: Directory
         - name: check-services
           hostPath:
-            path: /opt/k8s-volumes/mahiron/check-services
+            path: /mnt/pool/volumes/mahiron/check-services
             type: DirectoryOrCreate
         - name: dev-px4video0
           hostPath:
