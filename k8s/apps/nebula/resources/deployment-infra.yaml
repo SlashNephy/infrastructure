@@ -28,6 +28,9 @@ spec:
           volumeMounts:
             - name: db
               mountPath: /var/lib/postgresql/data
+            - name: backup
+              mountPath: /backup
+              readonly: true
           securityContext:
             allowPrivilegeEscalation: false
         - name: redis
@@ -37,9 +40,6 @@ spec:
           volumeMounts:
             - name: redis
               mountPath: /data
-            - name: backup
-              mountPath: /backup
-              readonly: true
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
