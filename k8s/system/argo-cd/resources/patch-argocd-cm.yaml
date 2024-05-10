@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/part-of: argocd
 
 data:
-  admin.enabled: "false"
+  # admin.enabled: "false"
   dex.config: |
     connectors:
       - id: authentik
