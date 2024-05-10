@@ -37,6 +37,9 @@ spec:
           volumeMounts:
             - name: redis
               mountPath: /data
+            - name: backup
+              mountPath: /backup
+              readonly: true
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -48,6 +51,10 @@ spec:
           hostPath:
             path: /mnt/pool/volumes/nebula/redis
             type: DirectoryOrCreate
+        - name: backup
+          hostPath:
+            path: /mnt/pool/volumes/nebula/backup
+            type: Directory
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
