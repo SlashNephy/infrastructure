@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: music-gdrive
+
+spec:
+  schedule: "*/3 * * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        metadata:
+          annotations:
+            fluentbit.io/exclude: "true"
+          labels:
+            app: music-gdrive
+        spec:
+          containers:
+            - name: app
+              image: public.ecr.aws/bitnami/rclone:1.66.0@sha256:e950ecf61df56f81bfc9b1859013e6f002525651e518f5ff957c90bb2f8cb236
+              args:
+                - sync
+                - "unicorn:"
+                - /mnt/pool/music/sync
+                - --order-by=name
+                - --progress
+                - --verbose
+                - --config=/config/rclone/rclone.conf
+                - --fast-list
+              volumeMounts:
+                - name: mnt
+                  mountPath: /mnt
+                - name: config
+                  mountPath: /config/rclone
+              securityContext:
+                allowPrivilegeEscalation: false
+          volumes:
+            - name: mnt
+              hostPath:
+                path: /mnt
+                type: Directory
+            - name: config
+              hostPath:
+                path: /mnt/pool/volumes/rclone-config
+                type: Directory
+          restartPolicy: Never
+  concurrencyPolicy: Forbid
