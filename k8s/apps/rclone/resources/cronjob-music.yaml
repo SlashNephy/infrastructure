@@ -12,34 +12,19 @@ spec:
         metadata:
           annotations:
             fluentbit.io/exclude: "true"
-          labels:
-            app: music
         spec:
           containers:
             - name: app
               image: public.ecr.aws/bitnami/rclone:1.66.0@sha256:e950ecf61df56f81bfc9b1859013e6f002525651e518f5ff957c90bb2f8cb236
               args:
-                - copy
+                - sync
                 - /mnt/pool/music
-                - "atmos1:music"
-                - --buffer-size=1Gi
+                - atmos1:music
                 - --drive-stop-on-upload-limit
                 - --order-by=name
                 - --progress
-                - --ignore-existing
                 - --verbose
                 - --config=/config/rclone/rclone.conf
-                - --rc
-                - --rc-addr=0.0.0.0:5572
-                - --rc-baseurl=/music
-                - --rc-no-auth
-                - --rc-user=user
-                - --rc-pass=pass
-                - --rc-web-gui
-                - --rc-web-gui-no-open-browser
-                - --rc-web-gui-update
-              ports:
-                - containerPort: 5572
               volumeMounts:
                 - name: mnt
                   mountPath: /mnt
