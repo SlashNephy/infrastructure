@@ -20,6 +20,7 @@ spec:
                 - sync
                 - /mnt/pool/music
                 - atmos1:music
+                - --exclude="/mnt/pool/music/sync/**"
                 - --drive-stop-on-upload-limit
                 - --order-by=name
                 - --progress
