@@ -4,7 +4,7 @@ metadata:
   name: music
 
 spec:
-  schedule: "*/3 * * * *"
+  schedule: "*/15 * * * *"
   jobTemplate:
     spec:
       backoffLimit: 0
@@ -20,7 +20,6 @@ spec:
                 - sync
                 - /mnt/pool/music
                 - atmos1:music
-                - --exclude="/mnt/pool/music/sync/**"
                 - --drive-stop-on-upload-limit
                 - --order-by=name
                 - --progress
