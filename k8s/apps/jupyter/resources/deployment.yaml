@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: public.ecr.aws/bitnami/jupyter-base-notebook:latest@sha256:85327561c51e8d54eb881b9b99d5398135a5b4068ac08bb21542e4e26605f79e
+          image: public.ecr.aws/bitnami/jupyter-base-notebook:latest@sha256:a3dae7bd14f2ad923aa393874198ff112f56be48e4783221f3c1fdaabe6415a8
           workingDir: /home/jovyan/work
           command:
             - start-notebook.sh
