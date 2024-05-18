@@ -36,6 +36,8 @@ spec:
                   readOnly: true
               securityContext:
                 allowPrivilegeEscalation: false
+                runAsGroup: 1000
+                runAsUser: 1000
           volumes:
             - name: mnt
               hostPath:
