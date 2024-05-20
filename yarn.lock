@@ -1259,14 +1259,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rushstack/eslint-patch@npm:1.10.2":
-  version: 1.10.2
-  resolution: "@rushstack/eslint-patch@npm:1.10.2"
-  checksum: 10/a92563ee28aa903ee37f5d34c747a8f5641c0a5a7020881902da8fccf94e208c923ed708aef41989f4b1d328cb4c216166ab108c6c2d72ebf0b5b6c18d1461d0
-  languageName: node
-  linkType: hard
-
-"@rushstack/eslint-patch@npm:^1.3.3":
+"@rushstack/eslint-patch@npm:1.10.3, @rushstack/eslint-patch@npm:^1.3.3":
   version: 1.10.3
   resolution: "@rushstack/eslint-patch@npm:1.10.3"
   checksum: 10/e1986178618bfb5fb636a54c420a7c359879d7aed6a0e456333a92fdc93e0e7a9a914114284308317cdc75e522c0696f760cd6d0b77409ed8b9633e75f096628
@@ -1338,14 +1331,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@slashnephy/eslint-config@npm:2.3.61":
-  version: 2.3.61
-  resolution: "@slashnephy/eslint-config@npm:2.3.61"
+"@slashnephy/eslint-config@npm:2.3.63":
+  version: 2.3.63
+  resolution: "@slashnephy/eslint-config@npm:2.3.63"
   dependencies:
     "@emotion/eslint-plugin": "npm:11.11.0"
     "@graphql-eslint/eslint-plugin": "npm:3.20.1"
     "@next/eslint-plugin-next": "npm:14.2.3"
-    "@rushstack/eslint-patch": "npm:1.10.2"
+    "@rushstack/eslint-patch": "npm:1.10.3"
     "@stylistic/eslint-plugin": "npm:2.1.0"
     "@susisu/eslint-plugin-safe-typescript": "npm:0.7.0"
     "@typescript-eslint/eslint-plugin": "npm:7.2.0"
@@ -1365,7 +1358,7 @@ __metadata:
     eslint-plugin-jest: "npm:28.5.0"
     eslint-plugin-jest-formatting: "npm:3.1.0"
     eslint-plugin-jsx-a11y: "npm:6.8.0"
-    eslint-plugin-n: "npm:17.6.0"
+    eslint-plugin-n: "npm:17.7.0"
     eslint-plugin-no-void-return-type: "npm:1.0.2"
     eslint-plugin-node: "npm:11.1.0"
     eslint-plugin-package-json: "npm:0.2.0"
@@ -1386,7 +1379,7 @@ __metadata:
     yaml-eslint-parser: "npm:1.2.2"
   peerDependencies:
     eslint: ^8
-  checksum: 10/fb8905b81086e64a60dc78148391605eaa1aec5e675700cb2c7bd6b95bfe174051a615ed1a249169a90fbd66a7720b995d31230d814894409134471d6c48777b
+  checksum: 10/ca63bb6fab85cc4262a597ef7fad8cb29d9b71c03f8c9fceb9d50f752f2d3774759306b53f440fc3c98e3dbc1b865cc7284f2fbbb2186dcbb6f99c266b08f5d6
   languageName: node
   linkType: hard
 
@@ -3326,9 +3319,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:17.6.0":
-  version: 17.6.0
-  resolution: "eslint-plugin-n@npm:17.6.0"
+"eslint-plugin-n@npm:17.7.0":
+  version: 17.7.0
+  resolution: "eslint-plugin-n@npm:17.7.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.4.0"
     enhanced-resolve: "npm:^5.15.0"
@@ -3340,7 +3333,7 @@ __metadata:
     semver: "npm:^7.5.3"
   peerDependencies:
     eslint: ">=8.23.0"
-  checksum: 10/b972b2aabea7592b00773910cd40b5d6d022c775755945a0aa92f7d1f8e25d56c3ab03e10c4d18c513b26fbef933cb8ad6b682564923a33c836a027674c426d8
+  checksum: 10/5fad81e4ed2e83754f2c7499756360fd1f829737c68fb384b83f82f92347e4b755014dcdbe17a88db2360c69da332a56c5b82480377cd0d562b187d97861f7e3
   languageName: node
   linkType: hard
 
@@ -4432,7 +4425,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "infrastructure@workspace:."
   dependencies:
-    "@slashnephy/eslint-config": "npm:2.3.61"
+    "@slashnephy/eslint-config": "npm:2.3.63"
     "@slashnephy/prettier-config": "npm:1.0.73"
     concurrently: "npm:8.2.2"
     eslint: "npm:8.57.0"
