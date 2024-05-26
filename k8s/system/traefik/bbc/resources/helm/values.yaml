@@ -9,9 +9,6 @@ envFrom:
   - configMapRef:
       name: traefik-env
 
-hub:
-  enabled: false
-
 image:
   registry: public.ecr.aws/docker/library
 
