@@ -24,6 +24,8 @@ spec:
               value: lab
             - name: GRANT_SUDO
               value: "true"
+            - name: JUPYTERHUB_SERVICE_URL
+              value: "https://jupyter.starry.blue"
           volumeMounts:
             - name: work
               mountPath: /home/jovyan/work
