@@ -19,13 +19,14 @@ spec:
         - name: app
           image: public.ecr.aws/bitnami/jupyter-base-notebook:latest@sha256:a3dae7bd14f2ad923aa393874198ff112f56be48e4783221f3c1fdaabe6415a8
           workingDir: /home/jovyan/work
+          command:
+            - jupyter
+            - lab
           env:
             - name: DOCKER_STACKS_JUPYTER_CMD
               value: lab
             - name: GRANT_SUDO
               value: "true"
-            - name: JUPYTERHUB_SERVICE_URL
-              value: "https://jupyter.starry.blue"
           volumeMounts:
             - name: work
               mountPath: /home/jovyan/work
