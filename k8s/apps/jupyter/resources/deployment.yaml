@@ -27,6 +27,8 @@ spec:
               value: lab
             - name: GRANT_SUDO
               value: "true"
+          ports:
+            - containerPort: 8888
           volumeMounts:
             - name: work
               mountPath: /home/jovyan/work
