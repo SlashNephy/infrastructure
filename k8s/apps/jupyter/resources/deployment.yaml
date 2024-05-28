@@ -18,23 +18,18 @@ spec:
       containers:
         - name: app
           image: public.ecr.aws/bitnami/jupyter-base-notebook:latest@sha256:a3dae7bd14f2ad923aa393874198ff112f56be48e4783221f3c1fdaabe6415a8
-          workingDir: /home/jovyan/work
+          workingDir: /work
           command:
             - jupyter
             - lab
-          env:
-            - name: DOCKER_STACKS_JUPYTER_CMD
-              value: lab
-            - name: GRANT_SUDO
-              value: "true"
+            - --ServerApp.allow_remote_access
+            - --NotebookApp.token=''
+            - --NotebookApp.websocket_url='wss://jupyter.starry.blue'
           ports:
             - containerPort: 8888
           volumeMounts:
             - name: work
-              mountPath: /home/jovyan/work
-            - name: config
-              mountPath: /home/jovyan/.jupyter/jupyter_notebook_config.py
-              subPath: jupyter_notebook_config.py
+              mountPath: /work
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -42,7 +37,4 @@ spec:
           hostPath:
             path: /mnt/pool/volumes/jupyter/work
             type: DirectoryOrCreate
-        - name: config
-          configMap:
-            name: app-config
       restartPolicy: Always

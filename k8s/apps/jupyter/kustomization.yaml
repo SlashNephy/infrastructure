@@ -7,8 +7,3 @@ resources:
   - ./resources/deployment.yaml
   - ./resources/service.yaml
   - ./resources/ingress.yaml
-
-configMapGenerator:
-  - name: app-config
-    files:
-      - ./config/jupyter_notebook_config.py
