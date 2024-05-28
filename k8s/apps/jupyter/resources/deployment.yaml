@@ -22,9 +22,9 @@ spec:
           command:
             - jupyter
             - lab
-            - --ServerApp.allow_remote_access
-            - --NotebookApp.token=''
-            - --NotebookApp.websocket_url='wss://jupyter.starry.blue'
+            - --ServerApp.allow_remote_access=True
+            - --NotebookApp.token=""
+            - --NotebookApp.websocket_url="wss://jupyter.starry.blue"
           ports:
             - containerPort: 8888
           volumeMounts:
