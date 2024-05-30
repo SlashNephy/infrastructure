@@ -12,7 +12,7 @@ spec:
         spec:
           containers:
             - name: pic-table
-              image: public.ecr.aws/docker/library/mongo:7.0.11-jammy@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
+              image: public.ecr.aws/docker/library/mongo:7.0.11-jammy@sha256:b16a898d42f47b669c6ba804cd22b78c68d7bd0bcb63568c6c266fac0d66ebe4
               command:
                 - bash
                 - -c
@@ -40,7 +40,7 @@ spec:
               securityContext:
                 allowPrivilegeEscalation: false
             - name: pic-tag-replace-table
-              image: public.ecr.aws/docker/library/mongo:7.0.11-jammy@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
+              image: public.ecr.aws/docker/library/mongo:7.0.11-jammy@sha256:b16a898d42f47b669c6ba804cd22b78c68d7bd0bcb63568c6c266fac0d66ebe4
               command:
                 - bash
                 - -c
