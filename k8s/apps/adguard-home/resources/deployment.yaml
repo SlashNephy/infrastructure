@@ -25,18 +25,6 @@ spec:
               mountPath: /opt/adguardhome/work
             - name: conf
               mountPath: /opt/adguardhome/conf
-          livenessProbe:
-            httpGet:
-              path: /api
-              port: 5000
-            initialDelaySeconds: 5
-            timeoutSeconds: 5
-          readinessProbe:
-            httpGet:
-              path: /api
-              port: 5000
-            initialDelaySeconds: 5
-            timeoutSeconds: 5
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
