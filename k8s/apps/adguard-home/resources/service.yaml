@@ -10,3 +10,6 @@ spec:
     - name: app
       port: 3000
       targetPort: 3000
+    - name: dns-over-https
+      port: 443
+      targetPort: 443

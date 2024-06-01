@@ -22,3 +22,10 @@ spec:
         - name: authentik-server
           namespace: authentik
           port: http
+
+    - kind: Rule
+      match: Host(`adguard.starry.blue`) && PathPrefix(`/dns-query`)
+      priority: 20
+      services:
+        - name: service
+          port: dns-over-https
