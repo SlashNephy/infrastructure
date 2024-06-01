@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: adguard/adguardhome:v0.107.50
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: work
+              mountPath: /opt/adguardhome/work
+            - name: conf
+              mountPath: /opt/adguardhome/conf
+          livenessProbe:
+            httpGet:
+              path: /api
+              port: 5000
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /api
+              port: 5000
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: work
+          hostPath:
+            path: /mnt/pool/volumes/adguard-home/work
+            type: DirectoryOrCreate
+        - name: conf
+          hostPath:
+            path: /mnt/pool/volumes/adguard-home/conf
+            type: DirectoryOrCreate
+      restartPolicy: Always
