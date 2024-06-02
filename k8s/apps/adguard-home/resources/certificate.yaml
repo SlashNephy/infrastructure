@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: certificate
+
+spec:
+  commonName: dns.starry.blue
+  dnsNames:
+    - dns.starry.blue
+    - 240b:10:3f60:4800:1efd:8ff:fe79:714f
+  issuerRef:
+    name: letsencrypt-issuer
+    kind: ClusterIssuer
+  secretName: certificate-secret
