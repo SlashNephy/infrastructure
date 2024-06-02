@@ -21,6 +21,7 @@ spec:
           ports:
             - containerPort: 3000
             - containerPort: 443
+            - containerPort: 853
           volumeMounts:
             - name: work
               mountPath: /opt/adguardhome/work
