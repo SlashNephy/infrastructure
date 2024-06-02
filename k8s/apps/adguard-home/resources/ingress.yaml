@@ -6,7 +6,7 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`adguard.starry.blue`)
+      match: Host(`dns.starry.blue`)
       priority: 10
       services:
         - name: service
@@ -16,7 +16,7 @@ spec:
           namespace: authentik
 
     - kind: Rule
-      match: Host(`adguard.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      match: Host(`dns.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
       priority: 15
       services:
         - name: authentik-server
@@ -24,7 +24,7 @@ spec:
           port: http
 
     - kind: Rule
-      match: Host(`adguard.starry.blue`) && PathPrefix(`/dns-query`)
+      match: Host(`dns.starry.blue`) && PathPrefix(`/dns-query`)
       priority: 20
       services:
         - name: service

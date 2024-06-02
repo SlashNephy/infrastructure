@@ -1,22 +1,22 @@
-resource "cloudflare_record" "cname_adguard" {
+resource "cloudflare_record" "cname_dns" {
   zone_id = cloudflare_zone.zone.id
-  name    = "adguard"
+  name    = "dns"
   value   = cloudflare_record.aaaa_gateway_v6.hostname
   type    = "CNAME"
-  proxied = true
+  proxied = false
 }
 
-resource "mackerel_service" "adguard" {
+resource "mackerel_service" "dns" {
   name = "Lily_AdGuard-Home"
 }
 
-resource "mackerel_monitor" "adguard" {
-  name = format("%s に疎通できない", cloudflare_record.cname_adguard.hostname)
+resource "mackerel_monitor" "dns" {
+  name = format("%s に疎通できない", cloudflare_record.cname_dns.hostname)
 
   external {
     method                            = "GET"
-    url                               = format("https://%s/healthcheck", cloudflare_record.cname_adguard.hostname)
-    service                           = mackerel_service.adguard.name
+    url                               = format("https://%s/healthcheck", cloudflare_record.cname_dns.hostname)
+    service                           = mackerel_service.dns.name
     response_time_warning             = 3000
     response_time_critical            = 5000
     response_time_duration            = 3
