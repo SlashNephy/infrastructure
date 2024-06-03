@@ -27,9 +27,6 @@ spec:
               mountPath: /opt/adguardhome/work
             - name: conf
               mountPath: /opt/adguardhome/conf
-            # - name: certificate
-            #   mountPath: /certificate
-            #   readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
         - name: nginx
@@ -50,9 +47,6 @@ spec:
           hostPath:
             path: /mnt/pool/volumes/adguard-home/conf
             type: DirectoryOrCreate
-        # - name: certificate
-        #   secret:
-        #     secretName: certificate-secret
         - name: public
           configMap:
             name: nginx-public
