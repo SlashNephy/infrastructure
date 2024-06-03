@@ -65,7 +65,13 @@ metrics:
 
 ports:
   metrics: null
-  web: null
+
+  web:
+    expose:
+      default: true
+    exposedPort: 80
+    nodePort: 80
+    port: 8080
 
   websecure:
     asDefault: true

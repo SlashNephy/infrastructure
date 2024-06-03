@@ -30,3 +30,19 @@ spec:
         - name: service
           port: dns-over-https
           scheme: https
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: http-route
+
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: PathPrefix(`/.well-known/pki-validation`)
+      services:
+        - name: service
+          port: http

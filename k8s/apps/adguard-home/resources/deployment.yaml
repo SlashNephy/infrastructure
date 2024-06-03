@@ -29,7 +29,17 @@ spec:
               mountPath: /opt/adguardhome/conf
             - name: certificate
               mountPath: /certificate
+              optional: true
               readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
+        - name: nginx
+          image: public.ecr.aws/nginx/nginx:1.27-bookworm
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: public
+              mountPath: /usr/share/nginx/html
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -44,4 +54,10 @@ spec:
         - name: certificate
           secret:
             secretName: certificate-secret
+        - name: public
+          configMap:
+            name: nginx-public
+            items:
+              - key: pki-validation.txt
+                path: .well-known/pki-validation/01BAE488EBE3E5BEFC26E3AE26BAABF8.txt
       restartPolicy: Always
