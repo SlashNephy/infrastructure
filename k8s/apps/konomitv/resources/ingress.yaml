@@ -26,11 +26,13 @@ spec:
           port: http
 
     - kind: Rule
-      match: Host(`konomitv.starry.blue`) && Path(`/sw.js`)
+      match: Host(`konomitv.starry.blue`) && PathPrefix(`/sw.js`)
       priority: 20
       services:
         - name: noop@internal
           kind: TraefikService
+      middlewares:
+        - name: redirect-to-404
 
 ---
 apiVersion: traefik.io/v1alpha1
@@ -40,3 +42,14 @@ metadata:
 
 spec:
   serverName: my.local.konomi.tv
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-to-404
+
+spec:
+  replacePathRegex:
+    regex: ".*"
+    replacement: /404.html
