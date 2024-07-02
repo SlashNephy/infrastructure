@@ -34,7 +34,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: redis
-          image: public.ecr.aws/docker/library/redis:7.2.5-bookworm@sha256:e422889e156ebea83856b6ff973bfe0c86bce867d80def228044eeecf925592b
+          image: public.ecr.aws/docker/library/redis:7.2.5-bookworm@sha256:94f604c382f8322bbc6c96bf87233e7379d4d2e4e3ed289394b6d6f0eeb7dfe6
           ports:
             - containerPort: 6379
           volumeMounts:
