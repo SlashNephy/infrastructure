@@ -176,10 +176,6 @@ spec:
             namespace: grafana
             path: k8s/apps/grafana
             project: apps
-          - name: jupyter
-            namespace: jupyter
-            path: k8s/apps/jupyter
-            project: apps
 
           # cron
           - name: cron-backup-node
