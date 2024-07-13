@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service
+
+spec:
+  selector:
+    app: default
+  type: NodePort
+  ports:
+    - name: "1935"
+      port: 1935
+      targetPort: 1935
+      nodePort: 1935
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-internal
+
+spec:
+  selector:
+    app: default
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080

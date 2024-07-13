@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: couchdb
+          image: public.ecr.aws/docker/library/couchdb:3.3.3
+          ports:
+            - containerPort: 5984
+          volumeMounts:
+            - name: data
+              mountPath: /opt/couchdb/data
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: data
+          hostPath:
+            path: /opt/k8s-volumes/obsidian-livesync/data
+            type: DirectoryOrCreate
+      restartPolicy: Always
