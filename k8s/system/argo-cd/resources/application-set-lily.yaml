@@ -180,10 +180,6 @@ spec:
             namespace: jupyter
             path: k8s/apps/jupyter
             project: apps
-          - name: adguard-home
-            namespace: adguard-home
-            path: k8s/apps/adguard-home
-            project: apps
 
           # cron
           - name: cron-backup-node
