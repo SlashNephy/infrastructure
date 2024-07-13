@@ -61,9 +61,7 @@ helmCharts:
         enabled: true
         master:
           persistence:
-            selector:
-              matchLabels:
-                name: authentik-redis
+            enabled: false
       server:
         ingress:
           enabled: false
@@ -73,7 +71,6 @@ resources:
   - ./resources/secret.yaml
   - ./resources/ingress.yaml
   - ./resources/pv-postgres.yaml
-  - ./resources/pv-redis.yaml
   - ./resources/pv-postgres-backup.yaml
   - ./resources/middleware.yaml
 
