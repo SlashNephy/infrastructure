@@ -41,11 +41,11 @@ spec:
       volumes:
         - name: work
           hostPath:
-            path: /mnt/pool/volumes/adguard-home/work
+            path: /opt/k8s-volumes/adguard-home/work
             type: DirectoryOrCreate
         - name: conf
           hostPath:
-            path: /mnt/pool/volumes/adguard-home/conf
+            path: /opt/k8s-volumes/adguard-home/conf
             type: DirectoryOrCreate
         - name: public
           configMap:

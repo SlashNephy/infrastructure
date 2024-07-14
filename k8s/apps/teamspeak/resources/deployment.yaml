@@ -81,10 +81,10 @@ spec:
       volumes:
         - name: data
           hostPath:
-            path: /mnt/pool/volumes/teamspeak/data
+            path: /opt/k8s-volumes/teamspeak/data
             type: DirectoryOrCreate
         - name: mysql
           hostPath:
-            path: /mnt/pool/volumes/teamspeak/mysql
+            path: /opt/k8s-volumes/teamspeak/mysql
             type: DirectoryOrCreate
       restartPolicy: Always

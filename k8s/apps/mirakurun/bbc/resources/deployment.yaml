@@ -47,11 +47,11 @@ spec:
       volumes:
         - name: data
           hostPath:
-            path: /mnt/pool/volumes/mirakurun/bbc/data
+            path: /opt/k8s-volumes/mirakurun/bbc/data
             type: DirectoryOrCreate
         - name: config
           hostPath:
-            path: /mnt/pool/volumes/mirakurun/bbc/config
+            path: /opt/k8s-volumes/mirakurun/bbc/config
             type: Directory
         - name: dev-px4video0
           hostPath:

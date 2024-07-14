@@ -70,7 +70,7 @@ spec:
           volumes:
             - name: backup
               hostPath:
-                path: /mnt/pool/volumes/stella-backup
+                path: /opt/k8s-volumes/stella-backup
                 type: DirectoryOrCreate
           restartPolicy: Never
   concurrencyPolicy: Forbid

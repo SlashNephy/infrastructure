@@ -89,10 +89,10 @@ spec:
       volumes:
         - name: media
           hostPath:
-            path: /mnt/pool/volumes/stella-media
+            path: /opt/k8s-volumes/stella-media
             type: DirectoryOrCreate
         - name: db
           hostPath:
-            path: /mnt/pool/volumes/stella-db
+            path: /opt/k8s-volumes/stella-db
             type: DirectoryOrCreate
       restartPolicy: Always

@@ -78,7 +78,7 @@ spec:
       volumes:
         - name: data
           hostPath:
-            path: /mnt/pool/volumes/diun/data
+            path: /opt/k8s-volumes/diun/data
             type: DirectoryOrCreate
       restartPolicy: Always
       serviceAccountName: diun
