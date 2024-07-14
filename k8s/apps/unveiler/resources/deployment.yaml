@@ -67,10 +67,10 @@ spec:
       volumes:
         - name: db
           hostPath:
-            path: /mnt/pool/volumes/unveiler/db
+            path: /opt/k8s-volumes/unveiler/db
             type: DirectoryOrCreate
         - name: data
           hostPath:
-            path: /mnt/pool/volumes/unveiler/data
+            path: /mnt/pool/unveiler_data
             type: DirectoryOrCreate
       restartPolicy: Always
