@@ -37,10 +37,10 @@ spec:
       volumes:
         - name: config
           hostPath:
-            path: /mnt/pool/volumes/archi-steam-farm/config
+            path: /opt/k8s-volumes/archi-steam-farm/config
             type: Directory
         - name: plugins
           hostPath:
-            path: /mnt/pool/volumes/archi-steam-farm/plugins
+            path: /opt/k8s-volumes/archi-steam-farm/plugins
             type: Directory
       restartPolicy: Always
