@@ -32,6 +32,8 @@ spec:
               mountPath: /mnt/pool
             - name: juicefs
               mountPath: /mnt/juicefs
+            - name: k8s-volumes
+              mountPath: /mnt/k8s-volumes
             - name: data
               mountPath: /home/coder/.local/share/code-server
           securityContext:
@@ -44,6 +46,10 @@ spec:
         - name: juicefs
           hostPath:
             path: /var/lib/juicefs/volume
+            type: Directory
+        - name: k8s-volumes
+          hostPath:
+            path: /opt/k8s-volumes
             type: Directory
         - name: data
           hostPath:
