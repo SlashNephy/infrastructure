@@ -37,7 +37,7 @@ spec:
           volumes:
             - name: token
               hostPath:
-                path: /mnt/pool/volumes/anilist-synchronizer/token
+                path: /opt/k8s-volumes/anilist-synchronizer/token
                 type: DirectoryOrCreate
           restartPolicy: Never
   concurrencyPolicy: Forbid
