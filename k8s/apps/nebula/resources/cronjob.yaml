@@ -37,7 +37,7 @@ spec:
           volumes:
             - name: backup
               hostPath:
-                path: /mnt/pool/volumes/nebula/backup
+                path: /opt/k8s-volumes/nebula/backup
                 type: DirectoryOrCreate
           restartPolicy: Never
   concurrencyPolicy: Forbid

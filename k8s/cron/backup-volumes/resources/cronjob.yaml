@@ -37,7 +37,7 @@ spec:
           volumes:
             - name: src
               hostPath:
-                path: /mnt/pool/volumes
+                path: /opt/k8s-volumes
                 type: Directory
             - name: dest
               hostPath:

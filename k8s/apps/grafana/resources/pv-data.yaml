@@ -12,7 +12,7 @@ spec:
   capacity:
     storage: 10Gi
   local:
-    path: /mnt/pool/volumes/grafana/data
+    path: /opt/k8s-volumes/grafana/data
   nodeAffinity:
     required:
       nodeSelectorTerms:
