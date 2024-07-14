@@ -45,15 +45,15 @@ spec:
       volumes:
         - name: db
           hostPath:
-            path: /mnt/pool/volumes/nebula/db
+            path: /opt/k8s-volumes/nebula/db
             type: DirectoryOrCreate
         - name: redis
           hostPath:
-            path: /mnt/pool/volumes/nebula/redis
+            path: /opt/k8s-volumes/nebula/redis
             type: DirectoryOrCreate
         - name: backup
           hostPath:
-            path: /mnt/pool/volumes/nebula/backup
+            path: /opt/k8s-volumes/nebula/backup
             type: Directory
       restartPolicy: Always
       imagePullSecrets:

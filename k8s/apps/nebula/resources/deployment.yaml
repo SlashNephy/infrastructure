@@ -31,12 +31,6 @@ spec:
               mountPath: /app/media
             - name: avatars
               mountPath: /app/avatars
-            - name: stella-backup
-              mountPath: /app/stella/backup
-              readOnly: true
-            - name: stella-media
-              mountPath: /app/stella/media
-              readOnly: true
           livenessProbe:
             httpGet:
               path: /health
@@ -63,20 +57,12 @@ spec:
       volumes:
         - name: media
           hostPath:
-            path: /mnt/pool/volumes/nebula/media
+            path: /mnt/pool/nebula_media
             type: DirectoryOrCreate
         - name: avatars
           hostPath:
-            path: /mnt/pool/volumes/nebula/avatars
+            path: /opt/k8s-volumes/nebula/avatars
             type: DirectoryOrCreate
-        - name: stella-backup
-          hostPath:
-            path: /mnt/pool/volumes/nebula/stella/backup
-            type: Directory
-        - name: stella-media
-          hostPath:
-            path: /mnt/pool/volumes/nebula/stella/media
-            type: Directory
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials

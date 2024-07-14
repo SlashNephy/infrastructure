@@ -47,6 +47,6 @@ spec:
             type: Directory
         - name: data
           hostPath:
-            path: /mnt/pool/volumes/code-server/data
+            path: /opt/k8s-volumes/code-server/data
             type: DirectoryOrCreate
       restartPolicy: Always
