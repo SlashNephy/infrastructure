@@ -34,15 +34,15 @@ spec:
           volumes:
             - name: backup
               hostPath:
-                path: /mnt/pool/volumes/epgstation/backup
+                path: /opt/k8s-volumes/epgstation/backup
                 type: DirectoryOrCreate
             - name: data
               hostPath:
-                path: /mnt/pool/volumes/epgstation/data
+                path: /opt/k8s-volumes/epgstation/data
                 type: DirectoryOrCreate
             - name: config
               hostPath:
-                path: /mnt/pool/volumes/epgstation/config
+                path: /opt/k8s-volumes/epgstation/config
                 type: Directory
           restartPolicy: Never
   concurrencyPolicy: Forbid
