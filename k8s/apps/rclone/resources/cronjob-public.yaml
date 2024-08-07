@@ -15,7 +15,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: public.ecr.aws/bitnami/rclone:1.67.0@sha256:94bff7b9ed8324564994ce566af18b21eb0a478f8bcc2f2a6566b1da512cde0f
+              image: public.ecr.aws/bitnami/rclone:1.67.0@sha256:7727ddb94003ae7219c6bf6514bbd11339c6ec012229146cf70b6903f5e04ccf
               args:
                 - sync
                 - /mnt/pool/public
