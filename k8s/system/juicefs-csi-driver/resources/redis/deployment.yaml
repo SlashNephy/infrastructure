@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: public.ecr.aws/docker/library/redis:7.4.0-bookworm@sha256:e30eac723e308f27e92cb609024b6be3ed2b2fb67899ec37043f743b169e17a5
+          image: public.ecr.aws/docker/library/redis:7.4.0-bookworm@sha256:878983f8f5045b28384fc300268cec62bca3b14d5e1a448bec21f28cfcc7bf78
           ports:
             - containerPort: 6379
           securityContext:
