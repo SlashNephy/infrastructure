@@ -1292,9 +1292,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@slashnephy/eslint-config@npm:2.3.99":
-  version: 2.3.99
-  resolution: "@slashnephy/eslint-config@npm:2.3.99"
+"@slashnephy/eslint-config@npm:2.3.100":
+  version: 2.3.100
+  resolution: "@slashnephy/eslint-config@npm:2.3.100"
   dependencies:
     "@emotion/eslint-plugin": "npm:11.12.0"
     "@graphql-eslint/eslint-plugin": "npm:3.20.1"
@@ -1330,7 +1330,7 @@ __metadata:
     eslint-plugin-relay: "npm:1.8.3"
     eslint-plugin-storybook: "npm:0.8.0"
     eslint-plugin-tsdoc: "npm:0.3.0"
-    eslint-plugin-unused-imports: "npm:4.0.1"
+    eslint-plugin-unused-imports: "npm:4.1.3"
     eslint-plugin-userscripts: "npm:0.5.4"
     eslint-plugin-vitest: "npm:0.5.4"
     eslint-plugin-xss: "npm:0.1.12"
@@ -1340,7 +1340,7 @@ __metadata:
     yaml-eslint-parser: "npm:1.2.3"
   peerDependencies:
     eslint: ^8
-  checksum: 10/7d54128daada5f7710b189f5c3d917d25fbc1bed79ff68eb461ce43826211fb2a607393482650d9f5c68b166e136b7ea26f0ffb49b28657f05585f79d6f3287b
+  checksum: 10/2fee353646ff53365f4760e205a2a19f5ca87041c081af2ab17b64a9fe05ba229422ec2f4ab96e16141ffaf337194a4516586ee88c0662602c2db1b90de02903
   languageName: node
   linkType: hard
 
@@ -3504,18 +3504,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-unused-imports@npm:4.0.1":
-  version: 4.0.1
-  resolution: "eslint-plugin-unused-imports@npm:4.0.1"
-  dependencies:
-    eslint-rule-composer: "npm:^0.3.0"
+"eslint-plugin-unused-imports@npm:4.1.3":
+  version: 4.1.3
+  resolution: "eslint-plugin-unused-imports@npm:4.1.3"
   peerDependencies:
-    "@typescript-eslint/eslint-plugin": ^8.0.0-0
-    eslint: ^9.0.0
+    "@typescript-eslint/eslint-plugin": ^8.0.0-0 || ^7.0.0 || ^6.0.0 || ^5.0.0
+    eslint: ^9.0.0 || ^8.0.0
   peerDependenciesMeta:
     "@typescript-eslint/eslint-plugin":
       optional: true
-  checksum: 10/ca6265c899c4ea36ac37d694f4356e57e2f6f93f835e2a1aecf405813a196db71b8e67e75a2b3433525e1b80d89714f1e27e6d67daa0d9b630dc602aa247f466
+  checksum: 10/1606c6b1cfa4abb04e68c69c590385753fb5c1b9b2075f35c03747483ef0ea83e3100bb7458ea8920131eef901449c7f9e765a74c05d6706545c5b7bc8fad1fd
   languageName: node
   linkType: hard
 
@@ -3568,13 +3566,6 @@ __metadata:
   peerDependencies:
     eslint: ">=6.0.0"
   checksum: 10/11611f94aced40d688f1d7c28d378e713149f0fa0711a6459865f37f994fb47395a94c4c27241e8749e9746b34d6a869aa3074793a5d3b5c4fe499a3946abbfe
-  languageName: node
-  linkType: hard
-
-"eslint-rule-composer@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "eslint-rule-composer@npm:0.3.0"
-  checksum: 10/c751e71243c6750de553ca0f586a71c7e9d43864bcbd0536639f287332e3f1ed3337bb0db07020652fa90937ceb63b6cc14c0f71fb227e8fc20ca44ee67e837f
   languageName: node
   linkType: hard
 
@@ -4471,7 +4462,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "infrastructure@workspace:."
   dependencies:
-    "@slashnephy/eslint-config": "npm:2.3.99"
+    "@slashnephy/eslint-config": "npm:2.3.100"
     "@slashnephy/prettier-config": "npm:1.0.73"
     concurrently: "npm:8.2.2"
     eslint: "npm:8.57.0"
