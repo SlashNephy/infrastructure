@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: cthulhoo/ttrss-fpm-pgsql-static:latest@sha256:7271693b936ba62d10687177fb825c2e0cfd1a5e4860a545bccbe7d1adf0c057
+          image: cthulhoo/ttrss-fpm-pgsql-static:latest@sha256:7b5d78416810624831299e502fa801750196e8f20b23b8b5b11019ae3aa52e75
           envFrom:
             - configMapRef:
                 name: app-config
@@ -32,7 +32,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: backups
-          image: cthulhoo/ttrss-fpm-pgsql-static:latest@sha256:7271693b936ba62d10687177fb825c2e0cfd1a5e4860a545bccbe7d1adf0c057
+          image: cthulhoo/ttrss-fpm-pgsql-static:latest@sha256:7b5d78416810624831299e502fa801750196e8f20b23b8b5b11019ae3aa52e75
           args:
             - /opt/tt-rss/dcron.sh
             - -f
@@ -74,7 +74,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: updater
-          image: cthulhoo/ttrss-fpm-pgsql-static:latest@sha256:7271693b936ba62d10687177fb825c2e0cfd1a5e4860a545bccbe7d1adf0c057
+          image: cthulhoo/ttrss-fpm-pgsql-static:latest@sha256:7b5d78416810624831299e502fa801750196e8f20b23b8b5b11019ae3aa52e75
           args:
             - /opt/tt-rss/updater.sh
           envFrom:
