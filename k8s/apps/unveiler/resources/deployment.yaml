@@ -42,7 +42,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: app
-          image: ghcr.io/slashnephy/unveiler:master@sha256:b19f7195bf9613701374583b8716cedbb85f9c73001f70724b4cf20ee4c6a10e
+          image: ghcr.io/slashnephy/unveiler:master@sha256:28b2c7ec75f252de8b20ead95b379b827670115aad27c05c2fa8dc9e0a046115
           env:
             - name: DISCORD_CHANNEL_ID
               value: "989882802789044244"
