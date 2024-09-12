@@ -91,7 +91,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: web-nginx
-          image: cthulhoo/ttrss-web-nginx:latest@sha256:7101591f8564fc956293fb5ed6cc594201828be4bd6cfba4792f436f06f43541
+          image: cthulhoo/ttrss-web-nginx:latest@sha256:4eab6a6f740b76bd49966047c2e4c5a3d32b9f2162f49230b42c34f6e314673c
           volumeMounts:
             - name: app
               mountPath: /var/www/html
