@@ -32,9 +32,7 @@ spec:
               mountPath: /records
           resources:
             limits:
-              cpu: "1"
               gpu.intel.com/i915: "1"
-              memory: 8Gi
         - name: db
           image: public.ecr.aws/docker/library/mariadb:11.3.2-jammy@sha256:e101f9db31916a5d4d7d594dd0dd092fb23ab4f499f1d7a7425d1afd4162c4bc
           args:
@@ -55,10 +53,6 @@ spec:
           volumeMounts:
             - name: db
               mountPath: /var/lib/mysql
-          resources:
-            limits:
-              cpu: "1"
-              memory: 4Gi
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
