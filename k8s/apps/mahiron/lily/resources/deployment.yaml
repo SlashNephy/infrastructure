@@ -63,6 +63,10 @@ spec:
               mountPath: /dev/pxmlt8video6
             - name: dev-pxmlt8video7
               mountPath: /dev/pxmlt8video7
+          resources:
+            limits:
+              cpu: "1"
+              memory: 8Gi
           securityContext:
             capabilities:
               add:
