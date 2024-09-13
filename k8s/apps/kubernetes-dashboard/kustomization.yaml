@@ -7,7 +7,7 @@ helmCharts:
   - name: kubernetes-dashboard
     releaseName: kubernetes-dashboard
     namespace: kubernetes-dashboard
-    version: 7.5.0
+    version: 7.6.1
     repo: https://kubernetes.github.io/dashboard/
     valuesInline:
       podAnnotations:
