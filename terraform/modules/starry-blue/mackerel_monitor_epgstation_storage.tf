@@ -4,8 +4,8 @@ resource "mackerel_monitor" "epgstation_storage" {
   host_metric {
     metric             = "custom.epgstation.storages.available"
     operator           = "<"
-    warning            = "32212254720"
-    critical           = "21474836480"
+    warning            = "500000000000" // 500 GB
+    critical           = "250000000000" // 250 GB
     duration           = 1
     max_check_attempts = 1
     scopes             = [mackerel_role.server.id]
