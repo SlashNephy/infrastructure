@@ -31,6 +31,8 @@ spec:
                   key: cloudflare-app-audience
             - name: SERVICES_JSON_PATH
               value: /app/services.json
+            - name: HOSTNAME
+              value: 0.0.0.0
           ports:
             - containerPort: 3000
           volumeMounts:
