@@ -1304,9 +1304,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@slashnephy/eslint-config@npm:2.3.118":
-  version: 2.3.118
-  resolution: "@slashnephy/eslint-config@npm:2.3.118"
+"@slashnephy/eslint-config@npm:2.3.121":
+  version: 2.3.121
+  resolution: "@slashnephy/eslint-config@npm:2.3.121"
   dependencies:
     "@emotion/eslint-plugin": "npm:11.12.0"
     "@graphql-eslint/eslint-plugin": "npm:3.20.1"
@@ -1316,6 +1316,7 @@ __metadata:
     "@susisu/eslint-plugin-safe-typescript": "npm:0.9.0"
     "@typescript-eslint/eslint-plugin": "npm:7.2.0"
     "@typescript-eslint/parser": "npm:7.2.0"
+    "@vitest/eslint-plugin": "npm:1.1.4"
     eslint-config-airbnb: "npm:19.0.4"
     eslint-config-next: "npm:14.2.13"
     eslint-config-prettier: "npm:9.1.0"
@@ -1336,15 +1337,14 @@ __metadata:
     eslint-plugin-node: "npm:11.1.0"
     eslint-plugin-package-json: "npm:0.2.0"
     eslint-plugin-promise: "npm:7.1.0"
-    eslint-plugin-react: "npm:7.36.1"
+    eslint-plugin-react: "npm:7.37.0"
     eslint-plugin-react-hooks: "npm:4.6.2"
     eslint-plugin-react-refresh: "npm:0.4.12"
     eslint-plugin-relay: "npm:1.8.3"
-    eslint-plugin-storybook: "npm:0.8.0"
+    eslint-plugin-storybook: "npm:0.9.0"
     eslint-plugin-tsdoc: "npm:0.3.0"
     eslint-plugin-unused-imports: "npm:4.1.4"
     eslint-plugin-userscripts: "npm:0.5.5"
-    eslint-plugin-vitest: "npm:0.5.4"
     eslint-plugin-xss: "npm:0.1.12"
     eslint-plugin-yml: "npm:1.14.0"
     graphql: "npm:16.9.0"
@@ -1352,7 +1352,7 @@ __metadata:
     yaml-eslint-parser: "npm:1.2.3"
   peerDependencies:
     eslint: ^8
-  checksum: 10/52e14b8227314df7aca5898b0afed551277a9a7842b112e7bcc231c7e8801aceeff49b64b88b90800f5240c53f28299236d4d65eee0813fcb6a26d2f01e9df05
+  checksum: 10/5ff672eeaa5cfa96fe13ebeacb30da280cb1da63d4978e1b722df11536bcc592fcf9fc0d59ccc4fcf64b33a9710ae80804ce96dbbcb2d1dbed85fd76ba895e8a
   languageName: node
   linkType: hard
 
@@ -1882,7 +1882,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:^7.0.0, @typescript-eslint/utils@npm:^7.7.1":
+"@typescript-eslint/utils@npm:^7.0.0":
   version: 7.18.0
   resolution: "@typescript-eslint/utils@npm:7.18.0"
   dependencies:
@@ -1940,6 +1940,25 @@ __metadata:
   version: 1.2.0
   resolution: "@ungap/structured-clone@npm:1.2.0"
   checksum: 10/c6fe89a505e513a7592e1438280db1c075764793a2397877ff1351721fe8792a966a5359769e30242b3cd023f2efb9e63ca2ca88019d73b564488cc20e3eab12
+  languageName: node
+  linkType: hard
+
+"@vitest/eslint-plugin@npm:1.1.4":
+  version: 1.1.4
+  resolution: "@vitest/eslint-plugin@npm:1.1.4"
+  peerDependencies:
+    "@typescript-eslint/utils": ">= 8.0"
+    eslint: ">= 8.57.0"
+    typescript: ">= 5.0.0"
+    vitest: "*"
+  peerDependenciesMeta:
+    "@typescript-eslint/utils":
+      optional: true
+    typescript:
+      optional: true
+    vitest:
+      optional: true
+  checksum: 10/becfa0d0c67c06f19f77e409e067e38499e4ceb0c19a4e3a928c727a95372c3918056edddf11632d0e20773d0aa9ea27b68ff8692daf22f115f4e065812be09c
   languageName: node
   linkType: hard
 
@@ -3440,35 +3459,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:7.36.1":
-  version: 7.36.1
-  resolution: "eslint-plugin-react@npm:7.36.1"
-  dependencies:
-    array-includes: "npm:^3.1.8"
-    array.prototype.findlast: "npm:^1.2.5"
-    array.prototype.flatmap: "npm:^1.3.2"
-    array.prototype.tosorted: "npm:^1.1.4"
-    doctrine: "npm:^2.1.0"
-    es-iterator-helpers: "npm:^1.0.19"
-    estraverse: "npm:^5.3.0"
-    hasown: "npm:^2.0.2"
-    jsx-ast-utils: "npm:^2.4.1 || ^3.0.0"
-    minimatch: "npm:^3.1.2"
-    object.entries: "npm:^1.1.8"
-    object.fromentries: "npm:^2.0.8"
-    object.values: "npm:^1.2.0"
-    prop-types: "npm:^15.8.1"
-    resolve: "npm:^2.0.0-next.5"
-    semver: "npm:^6.3.1"
-    string.prototype.matchall: "npm:^4.0.11"
-    string.prototype.repeat: "npm:^1.0.0"
-  peerDependencies:
-    eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
-  checksum: 10/bca154b446c35af4859a92fd043dcfe5c74851eb27652234020548570bb81d37cc9f1eb1795b3c9e7514de6c9b48f42fcc00153062eca879dab45ab84e49d0b1
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-react@npm:^7.33.2":
+"eslint-plugin-react@npm:7.37.0, eslint-plugin-react@npm:^7.33.2":
   version: 7.37.0
   resolution: "eslint-plugin-react@npm:7.37.0"
   dependencies:
@@ -3505,9 +3496,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-storybook@npm:0.8.0":
-  version: 0.8.0
-  resolution: "eslint-plugin-storybook@npm:0.8.0"
+"eslint-plugin-storybook@npm:0.9.0":
+  version: 0.9.0
+  resolution: "eslint-plugin-storybook@npm:0.9.0"
   dependencies:
     "@storybook/csf": "npm:^0.0.1"
     "@typescript-eslint/utils": "npm:^5.62.0"
@@ -3515,7 +3506,7 @@ __metadata:
     ts-dedent: "npm:^2.2.0"
   peerDependencies:
     eslint: ">=6"
-  checksum: 10/a66e6737298af9bb830e3b14cdbd204e589a38adb810f02d843849936ef9175a80a49c8b8fa9263f8c2b9a8f36fdd3a2d429382d8051568c58d6272c65c2f5d3
+  checksum: 10/5207e016cca6e095ddce911acfa12e973092fdc1ec716dfb54be70b859ac9be7ebde9ba6baa04a0e2fc4e34c772c4e9261d36a78c2cd5a873eeebf6087073b9f
   languageName: node
   linkType: hard
 
@@ -3550,23 +3541,6 @@ __metadata:
   peerDependencies:
     eslint: ">=8.40.0 <11"
   checksum: 10/b1d26b3d42408ed157c45fc15fd129c5140eaffe9e1310079ea1f26c487873571bc52743a003fdf3105b8a561f69cc9f2f992c41856a15cbcf3f0b8063076708
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-vitest@npm:0.5.4":
-  version: 0.5.4
-  resolution: "eslint-plugin-vitest@npm:0.5.4"
-  dependencies:
-    "@typescript-eslint/utils": "npm:^7.7.1"
-  peerDependencies:
-    eslint: ^8.57.0 || ^9.0.0
-    vitest: "*"
-  peerDependenciesMeta:
-    "@typescript-eslint/eslint-plugin":
-      optional: true
-    vitest:
-      optional: true
-  checksum: 10/a81eda0b6fff5f05afa9e4e2deb114562e8a53e224293a0dd3f524c01a240a1f8b6c7284d15862c5b740adc6816a2f23e5b96fc65d95c0abd24a5ef171215589
   languageName: node
   linkType: hard
 
@@ -4487,7 +4461,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "infrastructure@workspace:."
   dependencies:
-    "@slashnephy/eslint-config": "npm:2.3.118"
+    "@slashnephy/eslint-config": "npm:2.3.121"
     "@slashnephy/prettier-config": "npm:1.0.73"
     concurrently: "npm:9.0.1"
     eslint: "npm:8.57.1"
