@@ -1,6 +1,7 @@
 resource "mackerel_monitor" "epgstation_storage" {
-  name = "録画ストレージの空き容量が低下している"
-  memo = "EPGStation の自動削除が機能していません。手動で不要なファイルを削除してください。"
+  name                  = "録画ストレージの空き容量が低下している"
+  memo                  = "EPGStation の自動削除が機能していません。手動で不要なファイルを削除してください。"
+  notification_interval = 180 // 3 hours
 
   host_metric {
     metric             = "custom.epgstation.storages.available"
