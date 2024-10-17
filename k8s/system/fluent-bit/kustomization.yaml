@@ -13,9 +13,8 @@ helmCharts:
       config:
         outputs: |
           [OUTPUT]
-              Name stackdriver
+              Name  stdout
               Match *
-              location asia-northeast1
       env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /secrets/gcp-service-account.json
