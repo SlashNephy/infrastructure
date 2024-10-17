@@ -12,7 +12,7 @@ spec:
         spec:
           containers:
             - name: pg-dump
-              image: public.ecr.aws/docker/library/postgres:16.4-bookworm@sha256:17b6fe3a18780358f7f44a02bc21a8ef5f349aa83d8dae96d43cd168a97cf6fa
+              image: public.ecr.aws/docker/library/postgres:16.4-bookworm@sha256:5024e82349c20ff7c3621247e95de34a6f971a5f012e426b2a54e36d31a4d387
               command:
                 - bash
                 - -c
