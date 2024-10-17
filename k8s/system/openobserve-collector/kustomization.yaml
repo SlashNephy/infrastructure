@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: openobserve-collector
+
+helmCharts:
+  # https://github.com/openobserve/openobserve-helm-chart/tree/main/charts/openobserve-collector
+  - name: openobserve-collector
+    releaseName: openobserve-collector
+    namespace: openobserve-collector
+    version: 0.3.12
+    repo: https://charts.openobserve.ai
+
+resources:
+  - ./resources/namespace.yaml

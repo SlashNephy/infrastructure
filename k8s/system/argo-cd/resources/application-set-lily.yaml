@@ -232,6 +232,10 @@ spec:
             namespace: actions-runner-system
             path: k8s/system/actions-runner-controller
             project: system
+          - name: opentelemetry-operator
+            namespace: opentelemetry-operator
+            path: k8s/system/opentelemetry-operator
+            project: system
 
   template:
     metadata:
