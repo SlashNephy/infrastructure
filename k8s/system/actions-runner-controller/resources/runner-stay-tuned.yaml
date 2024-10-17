@@ -1,0 +1,12 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: stay-tuned
+
+spec:
+  replicas: 1
+  template:
+    spec:
+      dockerdWithinRunnerContainer: true
+      image: summerwind/actions-runner-dind@sha256:d720564bbd5c2726abf9c76aef18657b14ac66967f8108e55fad128b53beeb51
+      repository: SlashNephy/stay-tuned
