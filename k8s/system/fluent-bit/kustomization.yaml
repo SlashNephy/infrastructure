@@ -26,6 +26,8 @@ helmCharts:
         - name: secrets
           secret:
             secretName: secrets
+      image:
+        repository: public.ecr.aws/bitnami/fluent-bit
       podAnnotations:
         fluentbit.io/exclude: "true"
 
