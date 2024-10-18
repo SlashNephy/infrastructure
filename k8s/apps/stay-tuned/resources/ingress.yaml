@@ -1,0 +1,12 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`stay-tuned-api.starry.blue`)
+      services:
+        - name: server
+          port: 8080

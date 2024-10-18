@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: server
+          image: ghcr.io/slashnephy/stay-tuned-server:initial
+          envFrom:
+            - secretRef:
+                name: server-secrets
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+        - name: worker
+          image: ghcr.io/slashnephy/stay-tuned-server:initial
+          command:
+            - /app/worker
+          envFrom:
+            - secretRef:
+                name: server-secrets
+          volumeMounts:
+            - name: records
+              mountPath: /app/records
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: records
+          hostPath:
+            path: /mnt/pool/records
+            type: DirectoryOrCreate
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-io-credentials

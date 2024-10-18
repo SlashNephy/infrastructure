@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-infra
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: infra
+  template:
+    metadata:
+      annotations:
+        fluentbit.io/exclude: "true"
+      labels:
+        app: infra
+    spec:
+      containers:
+        - name: db
+          image: public.ecr.aws/docker/library/postgres:17.0-bookworm
+          envFrom:
+            - secretRef:
+                name: db-secrets
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: db
+              mountPath: /var/lib/postgresql/data
+            - name: backup
+              mountPath: /backup
+              readonly: true
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: db
+          hostPath:
+            path: /opt/k8s-volumes/stay-tuned/db
+            type: DirectoryOrCreate
+        - name: backup
+          hostPath:
+            path: /opt/k8s-volumes/stay-tuned/backup
+            type: Directory
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-io-credentials

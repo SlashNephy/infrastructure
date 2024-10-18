@@ -1,0 +1,66 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup
+
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: pg-dump
+              image: public.ecr.aws/docker/library/postgres:17.0-bookworm
+              command:
+                - bash
+                - -c
+                - |
+                  pg_dump \
+                    -f /backup/stay-tuned.sql \
+                    --if-exists \
+                    --clean \
+                    --column-inserts \
+                    "$DATABASE_DSN"
+              env:
+                - name: DATABASE_DSN
+                  valueFrom:
+                    secretKeyRef:
+                      name: server-secrets
+                      key: DATABASE_DSN
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+              securityContext:
+                allowPrivilegeEscalation: false
+            - name: pg-dump-river
+              image: public.ecr.aws/docker/library/postgres:17.0-bookworm
+              command:
+                - bash
+                - -c
+                - |
+                  pg_dump \
+                    -f /backup/stay-tuned-river.sql \
+                    --if-exists \
+                    --clean \
+                    --column-inserts \
+                    "$DATABASE_DSN"
+              env:
+                - name: DATABASE_DSN
+                  valueFrom:
+                    secretKeyRef:
+                      name: server-secrets
+                      key: RIVER_DSN
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+              securityContext:
+                allowPrivilegeEscalation: false
+          volumes:
+            - name: backup
+              hostPath:
+                path: /opt/k8s-volumes/stay-tuned/backup
+                type: DirectoryOrCreate
+          restartPolicy: Never
+  concurrencyPolicy: Forbid

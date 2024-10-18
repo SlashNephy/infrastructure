@@ -164,6 +164,10 @@ spec:
             namespace: grafana
             path: k8s/apps/grafana
             project: apps
+          - name: stay-tuned
+            namespace: stay-tuned
+            path: k8s/apps/stay-tuned
+            project: apps
 
           # cron
           - name: cron-backup-node
