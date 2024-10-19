@@ -40,7 +40,7 @@ spec:
         - name: worker
           image: ghcr.io/slashnephy/nebula-server:master@sha256:3b6e43d27d3ae8e6685bc2b6362a19d2f0bec93621590ba40adcbebbc90f37a0
           command:
-            - /app/worker
+            - /backend/worker
           env:
             - name: SERVER_ORIGIN
               value: https://nebula-api.starry.blue
