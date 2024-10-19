@@ -1,7 +1,7 @@
 resource "cloudflare_record" "cname_stay_tuned_api" {
   zone_id = cloudflare_zone.zone.id
   name    = "stay-tuned-api"
-  value   = cloudflare_record.aaaa_gateway_v6.hostname
+  content = cloudflare_record.aaaa_gateway_v6.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -9,7 +9,7 @@ resource "cloudflare_record" "cname_stay_tuned_api" {
 resource "cloudflare_record" "cname_stay_tuned_river" {
   zone_id = cloudflare_zone.zone.id
   name    = "stay-tuned-river"
-  value   = cloudflare_record.aaaa_gateway_v6.hostname
+  content = cloudflare_record.aaaa_gateway_v6.hostname
   type    = "CNAME"
   proxied = true
 }
