@@ -38,7 +38,7 @@ spec:
                 name: server-secrets
           volumeMounts:
             - name: records
-              mountPath: /app/records
+              mountPath: /backend/records
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
