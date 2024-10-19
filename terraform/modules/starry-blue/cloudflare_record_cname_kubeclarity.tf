@@ -1,7 +1,7 @@
 resource "cloudflare_record" "cname_kubeclarity" {
   zone_id = cloudflare_zone.zone.id
   name    = "kubeclarity"
-  value   = cloudflare_record.aaaa_gateway_v6.hostname
+  content = cloudflare_record.aaaa_gateway_v6.hostname
   type    = "CNAME"
   proxied = true
 }

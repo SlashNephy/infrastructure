@@ -1,7 +1,7 @@
 resource "cloudflare_record" "cname_op-tfc" {
   zone_id = cloudflare_zone.zone.id
   name    = "op-tfc"
-  value   = cloudflare_record.aaaa_gateway_v6.hostname
+  content = cloudflare_record.aaaa_gateway_v6.hostname
   type    = "CNAME"
   proxied = true
 }
