@@ -28,9 +28,9 @@ spec:
             - containerPort: 8080
           volumeMounts:
             - name: media
-              mountPath: /app/media
+              mountPath: /backend/media
             - name: avatars
-              mountPath: /app/avatars
+              mountPath: /backend/avatars
           livenessProbe:
             httpGet:
               path: /health
@@ -49,9 +49,9 @@ spec:
                 name: server-secrets
           volumeMounts:
             - name: media
-              mountPath: /app/media
+              mountPath: /backend/media
             - name: avatars
-              mountPath: /app/avatars
+              mountPath: /backend/avatars
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
