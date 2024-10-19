@@ -33,6 +33,18 @@ spec:
               readonly: true
           securityContext:
             allowPrivilegeEscalation: false
+        - name: river-ui
+          image: ghcr.io/riverqueue/riverui:0.5.3
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: server-secrets
+                  key: JOB_QUEUE_DSN
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: db
           hostPath:
