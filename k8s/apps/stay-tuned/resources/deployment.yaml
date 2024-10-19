@@ -32,7 +32,7 @@ spec:
         - name: worker
           image: ghcr.io/slashnephy/stay-tuned-server:initial@sha256:a014617b94b7ff357709d03f391c2106febef87ecabd6d03aba8c28bc1664a5d
           command:
-            - /app/worker
+            - /backend/worker
           envFrom:
             - secretRef:
                 name: server-secrets
