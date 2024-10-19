@@ -51,7 +51,7 @@ spec:
                   valueFrom:
                     secretKeyRef:
                       name: server-secrets
-                      key: RIVER_DSN
+                      key: JOB_QUEUE_DSN
               volumeMounts:
                 - name: backup
                   mountPath: /backup
