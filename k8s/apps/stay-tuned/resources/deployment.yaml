@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/slashnephy/stay-tuned-server:initial@sha256:ccaf6cc570473e5ae54ce334b07e74f69498ef1a856b97c54ea6fac45d0bd50a
+          image: ghcr.io/slashnephy/stay-tuned-server:initial@sha256:4ea0c5f66aac11ffc091761b6e67f1eb027340fb3de9660d26b81c1dc7f27358
           envFrom:
             - secretRef:
                 name: server-secrets
@@ -30,7 +30,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: worker
-          image: ghcr.io/slashnephy/stay-tuned-server:initial@sha256:ccaf6cc570473e5ae54ce334b07e74f69498ef1a856b97c54ea6fac45d0bd50a
+          image: ghcr.io/slashnephy/stay-tuned-server:initial@sha256:4ea0c5f66aac11ffc091761b6e67f1eb027340fb3de9660d26b81c1dc7f27358
           command:
             - /app/worker
           envFrom:
