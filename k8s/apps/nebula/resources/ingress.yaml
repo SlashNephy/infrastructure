@@ -10,3 +10,20 @@ spec:
       services:
         - name: server
           port: 8080
+
+    - kind: Rule
+      match: Host(`nebula-river.starry.blue`)
+      services:
+        - name: river-ui
+          port: 8080
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
+
+    - kind: Rule
+      match: Host(`nebula-river.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: http

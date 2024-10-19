@@ -6,6 +6,14 @@ resource "cloudflare_record" "cname_nebula_api" {
   proxied = true
 }
 
+resource "cloudflare_record" "cname_nebula_river" {
+  zone_id = cloudflare_zone.zone.id
+  name    = "nebula-river"
+  content = cloudflare_record.aaaa_gateway_v6.hostname
+  type    = "CNAME"
+  proxied = true
+}
+
 resource "mackerel_service" "nebula_api" {
   name = "Lily_nebula-server"
 }

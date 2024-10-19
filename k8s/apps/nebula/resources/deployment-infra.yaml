@@ -42,6 +42,18 @@ spec:
               mountPath: /data
           securityContext:
             allowPrivilegeEscalation: false
+        - name: river-ui
+          image: ghcr.io/riverqueue/riverui:0.5.3@sha256:2dc54179b25a86d520d65b6536d82a4d21c362a16fe9e469362ed986ed0a611f
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: server-secrets
+                  key: RIVER_DSN
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
       volumes:
         - name: db
           hostPath:

@@ -43,3 +43,18 @@ spec:
       port: 6379
       targetPort: 6379
       protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: river-ui
+
+spec:
+  selector:
+    app: infra
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
