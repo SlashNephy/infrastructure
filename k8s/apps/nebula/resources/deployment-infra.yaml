@@ -49,7 +49,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: server-secrets
-                  key: RIVER_DSN
+                  key: DATABASE_DSN
           ports:
             - containerPort: 8080
           securityContext:
