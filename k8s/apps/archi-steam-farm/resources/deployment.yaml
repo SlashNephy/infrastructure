@@ -10,8 +10,6 @@ spec:
       app: app
   template:
     metadata:
-      annotations:
-        fluentbit.io/exclude: "true"
       labels:
         app: app
     spec:
@@ -28,7 +26,11 @@ spec:
               mountPath: /app/config
             - name: plugins
               mountPath: /asf/plugins/external
+              readOnly: true
           resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
             limits:
               cpu: 500m
               memory: 1Gi
