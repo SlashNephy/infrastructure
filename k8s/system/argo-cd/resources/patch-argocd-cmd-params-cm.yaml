@@ -8,15 +8,15 @@ metadata:
     app.kubernetes.io/part-of: argocd
 
 data:
-  applicationsetcontroller.log.level: info
   applicationsetcontroller.log.format: json
-  controller.log.level: warn
+  applicationsetcontroller.log.level: info
   controller.log.format: json
-  reposerver.log.level: warn
-  reposerver.log.format: json
-  server.log.level: info
-  server.log.format: json
-  dexserver.log.level: info
+  controller.log.level: warn
   dexserver.log.format: json
-  notificationscontroller.log.level: warn
+  dexserver.log.level: info
   notificationscontroller.log.format: json
+  notificationscontroller.log.level: warn
+  reposerver.log.format: json
+  reposerver.log.level: warn
+  server.log.format: json
+  server.log.level: info
