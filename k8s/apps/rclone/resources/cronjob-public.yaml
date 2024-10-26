@@ -9,9 +9,6 @@ spec:
     spec:
       backoffLimit: 0
       template:
-        metadata:
-          annotations:
-            fluentbit.io/exclude: "true"
         spec:
           containers:
             - name: app
@@ -23,6 +20,7 @@ spec:
                 - --drive-stop-on-upload-limit
                 - --order-by=name
                 - --config=/config/rclone/rclone.conf
+                - --log-level=ERROR
               volumeMounts:
                 - name: mnt
                   mountPath: /mnt
