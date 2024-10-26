@@ -47,7 +47,7 @@ data:
                 {{if eq .app.status.operationState.phase "Failed"}}"color": 14036256,{{end}}
                 "title": "{{.app.metadata.name}}",
                 "description": "Application state is now **{{.app.status.operationState.phase}}**.",
-                "url": "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}"
+                "url": "https://argocd.starry.blue/applications/{{.app.metadata.name}}"
               }
             ]
           }
@@ -57,7 +57,7 @@ data:
       status:
         state: success
         label: "CD/{{.app.metadata.name}}"
-        targetURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
+        targetURL: "https://argocd.starry.blue/applications/{{.app.metadata.name}}?operation=true"
 
   trigger.failed-deploy: |
     - when: app.status.operationState != nil and app.status.operationState.phase in ['Error', 'Failed']
