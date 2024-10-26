@@ -11,8 +11,8 @@ helmCharts:
     repo: https://argoproj.github.io/argo-helm
     valuesInline:
       notifications:
-        logLevel: warn
         logFormat: json
+        logLevel: warn
       server:
         extensions:
           enabled: true
