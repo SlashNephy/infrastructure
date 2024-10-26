@@ -10,9 +10,9 @@ helmCharts:
     version: 7.6.12
     repo: https://argoproj.github.io/argo-helm
     valuesInline:
-      global:
-        podAnnotations:
-          fluentbit.io/exclude: "true"
+      notifications:
+        logLevel: warn
+        logFormat: json
       server:
         extensions:
           enabled: true

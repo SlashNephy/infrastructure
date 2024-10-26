@@ -9,8 +9,8 @@ metadata:
 
 data:
   defaultTriggers: |
-    - on-deployed
-    - on-status-change
+    - success-deploy
+    - failed-deploy
 
   service.github: |
     appID: 662004
@@ -41,19 +41,19 @@ data:
               }
             ]
           }
-  template.github-success: |
-    message: Application {{.app.metadata.name}} is now running new version of deployments manifests.
+  template.github-status: |
+    message: Application {{.app.metadata.name}} is now running with new manifest.
     github:
       status:
         state: success
         label: "CD/{{.app.metadata.name}}"
         targetURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
 
-  trigger.on-deployed: |
+  trigger.success-deploy: |
     - when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
       oncePer: app.status.operationState.syncResult.revision
-      send: [github-success]
-  trigger.on-status-change: |
+      send: [github-status]
+  trigger.failed-deploy: |
     - when: app.status.operationState.phase in ['Error', 'Failed']
       oncePer: app.status.operationState.syncResult.revision
       send: [discord-status]
