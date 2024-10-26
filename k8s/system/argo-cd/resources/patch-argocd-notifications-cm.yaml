@@ -54,10 +54,17 @@ data:
   template.github-status: |
     message: Application {{.app.metadata.name}} is now running with new manifest.
     github:
+      repoURLPath: "{{.app.spec.source.repoURL}}"
+      revisionPath: "{{.app.status.operationState.syncResult.revision}}"
       status:
         state: success
         label: "CD/{{.app.metadata.name}}"
         targetURL: "https://argocd.starry.blue/applications/{{.app.metadata.name}}?operation=true"
+      pullRequestComment:
+        content: |
+          ✅ Application {{.app.metadata.name}} is now running with new manifest.
+
+          https://argocd.starry.blue/applications/{{.app.metadata.name}}?operation=true
 
   trigger.failed-deploy: |
     - when: app.status.operationState != nil and app.status.operationState.phase in ['Error', 'Failed']
