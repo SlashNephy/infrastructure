@@ -60,10 +60,12 @@ data:
         targetURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
 
   trigger.failed-deploy: |
-    - when: app.status.operationState.phase in ['Error', 'Failed']
+    - when: app.status.operationState != nil and app.status.operationState.phase in ['Error', 'Failed']
       oncePer: app.status.operationState.syncResult.revision
-      send: [discord-status]
+      send:
+        - discord-status
   trigger.success-deploy: |
-    - when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+    - when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
       oncePer: app.status.operationState.syncResult.revision
-      send: [github-status]
+      send:
+        - github-status
