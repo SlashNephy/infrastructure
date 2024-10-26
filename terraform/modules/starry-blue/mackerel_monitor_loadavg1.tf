@@ -4,10 +4,10 @@ resource "mackerel_monitor" "loadavg1" {
   host_metric {
     metric             = "loadavg1"
     operator           = ">"
-    warning            = "15"
-    critical           = "20"
+    warning            = "25"
+    critical           = "50"
     duration           = 3
-    max_check_attempts = 1
+    max_check_attempts = 3
     scopes             = [mackerel_role.server.id]
   }
 }
