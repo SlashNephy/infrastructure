@@ -9,6 +9,14 @@ metadata:
 
 data:
   applicationsetcontroller.log.level: info
-  controller.log.level: info
-  reposerver.log.level: info
+  applicationsetcontroller.log.format: json
+  controller.log.level: warn
+  controller.log.format: json
+  reposerver.log.level: warn
+  reposerver.log.format: json
   server.log.level: info
+  server.log.format: json
+  dexserver.log.level: info
+  dexserver.log.format: json
+  notificationscontroller.log.level: warn
+  notificationscontroller.log.format: json
