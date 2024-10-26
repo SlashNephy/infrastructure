@@ -19,7 +19,6 @@ spec:
                 - /mnt/pool/music/sync
                 - --order-by=name
                 - --config=/config/rclone/rclone.conf
-                - --fast-list
                 - --log-level=ERROR
                 - --use-json-log
               volumeMounts:
