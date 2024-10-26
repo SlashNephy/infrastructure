@@ -21,6 +21,7 @@ spec:
                 - --config=/config/rclone/rclone.conf
                 - --fast-list
                 - --log-level=ERROR
+                - --use-json-log
               volumeMounts:
                 - name: mnt
                   mountPath: /mnt

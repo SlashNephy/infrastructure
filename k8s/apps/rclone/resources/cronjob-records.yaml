@@ -23,6 +23,7 @@ spec:
                 - --ignore-existing
                 - --config=/config/rclone/rclone.conf
                 - --log-level=ERROR
+                - --use-json-log
               volumeMounts:
                 - name: mnt
                   mountPath: /mnt
