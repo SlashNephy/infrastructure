@@ -59,11 +59,11 @@ data:
         label: "CD/{{.app.metadata.name}}"
         targetURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
 
-  trigger.success-deploy: |
-    - when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
-      oncePer: app.status.operationState.syncResult.revision
-      send: [github-status]
   trigger.failed-deploy: |
     - when: app.status.operationState.phase in ['Error', 'Failed']
       oncePer: app.status.operationState.syncResult.revision
       send: [discord-status]
+  trigger.success-deploy: |
+    - when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+      oncePer: app.status.operationState.syncResult.revision
+      send: [github-status]
