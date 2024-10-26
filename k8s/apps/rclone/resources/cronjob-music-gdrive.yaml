@@ -23,8 +23,6 @@ spec:
                 - "unicorn:"
                 - /mnt/pool/music/sync
                 - --order-by=name
-                - --progress
-                - --verbose
                 - --config=/config/rclone/rclone.conf
                 - --fast-list
               volumeMounts:

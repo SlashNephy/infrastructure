@@ -22,8 +22,6 @@ spec:
                 - atmos1:music
                 - --drive-stop-on-upload-limit
                 - --order-by=name
-                - --progress
-                - --verbose
                 - --config=/config/rclone/rclone.conf
               volumeMounts:
                 - name: mnt

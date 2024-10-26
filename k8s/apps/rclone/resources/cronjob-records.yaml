@@ -24,8 +24,6 @@ spec:
                 - --copy-links
                 - --order-by=name
                 - --ignore-existing
-                - --progress
-                - --verbose
                 - --config=/config/rclone/rclone.conf
               volumeMounts:
                 - name: mnt
