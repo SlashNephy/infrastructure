@@ -11,11 +11,15 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       admin:
-        existingSecret: secrets
-      envFromConfigMaps:
-        - name: grafana-config
+        existingSecret: grafana-secret
+        userKey: GF_SECURITY_ADMIN_USER
+        passwordKey: GF_SECURITY_ADMIN_PASSWORD
       envFromSecrets:
         - name: grafana-secret
+      grafana.ini:
+        server:
+          domain: grafana.starry.blue
+          root_url: https://grafana.starry.blue
       persistence:
         enabled: true
         selectorLabels:
