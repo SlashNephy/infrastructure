@@ -4,14 +4,11 @@ metadata:
   name: cronjob
 
 spec:
-  schedule: "* * * * *"
+  schedule: "*/2 * * * *"
   jobTemplate:
     spec:
       backoffLimit: 3
       template:
-        metadata:
-          annotations:
-            fluentbit.io/exclude: "true"
         spec:
           containers:
             - name: app
