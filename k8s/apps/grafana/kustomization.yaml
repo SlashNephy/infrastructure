@@ -30,7 +30,3 @@ resources:
   - ./resources/secret.yaml
   - ./resources/pv-data.yaml
   - ./resources/ingress.yaml
-configMapGenerator:
-  - name: grafana-config
-    literals:
-      - GF_SERVER_ROOT_URL=https://grafana.starry.blue
