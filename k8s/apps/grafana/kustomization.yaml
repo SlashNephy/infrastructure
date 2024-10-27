@@ -12,8 +12,8 @@ helmCharts:
     valuesInline:
       admin:
         existingSecret: grafana-secret
-        userKey: GF_SECURITY_ADMIN_USER
         passwordKey: GF_SECURITY_ADMIN_PASSWORD
+        userKey: GF_SECURITY_ADMIN_USER
       envFromSecrets:
         - name: grafana-secret
       grafana.ini:
