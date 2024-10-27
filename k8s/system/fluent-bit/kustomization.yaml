@@ -28,8 +28,6 @@ helmCharts:
             secretName: secrets
       image:
         repository: fluent/fluent-bit
-      podAnnotations:
-        fluentbit.io/exclude: "true"
 
 resources:
   - ./resources/namespace.yaml

@@ -10,8 +10,6 @@ spec:
       app: default
   template:
     metadata:
-      annotations:
-        fluentbit.io/exclude: "true"
       labels:
         app: default
     spec:

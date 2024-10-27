@@ -11,8 +11,6 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       connect:
-        podAnnotations:
-          fluentbit.io/exclude: "true"
         serviceType: ClusterIP
       operator:
         create: false

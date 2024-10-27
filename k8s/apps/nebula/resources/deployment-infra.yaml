@@ -12,8 +12,6 @@ spec:
       app: infra
   template:
     metadata:
-      annotations:
-        fluentbit.io/exclude: "true"
       labels:
         app: infra
     spec:

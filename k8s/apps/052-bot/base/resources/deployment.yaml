@@ -10,8 +10,6 @@ spec:
       app: 052-bot
   template:
     metadata:
-      annotations:
-        fluentbit.io/exclude: "true"
       labels:
         app: 052-bot
     spec:

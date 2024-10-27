@@ -10,12 +10,8 @@ helmCharts:
     repo: https://aquasecurity.github.io/helm-charts/
     includeCRDs: true
     valuesInline:
-      podAnnotations:
-        fluentbit.io/exclude: "true"
       trivy:
         ignoreUnfixed: true
-      trivyOperator:
-        scanJobAnnotations: fluentbit.io/exclude=true
 
 resources:
   - ./resources/namespace.yaml

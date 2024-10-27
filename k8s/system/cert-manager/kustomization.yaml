@@ -11,22 +11,14 @@ helmCharts:
     repo: https://charts.jetstack.io
     includeCRDs: true
     valuesInline:
-      cainjector:
-        podAnnotations:
-          fluentbit.io/exclude: "true"
       global:
         leaderElection:
           namespace: cert-manager
       installCRDs: true
       livenessProbe:
         enabled: true
-      podAnnotations:
-        fluentbit.io/exclude: "true"
       prometheus:
         enabled: false
-      webhook:
-        podAnnotations:
-          fluentbit.io/exclude: "true"
 
 resources:
   - ./resources/namespace.yaml

@@ -9,8 +9,6 @@ spec:
       name: binfmt
   template:
     metadata:
-      annotations:
-        fluentbit.io/exclude: "true"
       labels:
         name: binfmt
     spec:

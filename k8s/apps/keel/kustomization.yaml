@@ -12,8 +12,6 @@ helmCharts:
     valuesInline:
       helmProvider:
         enabled: false
-      podAnnotations:
-        fluentbit.io/exclude: "true"
       secret:
         name: app-secret
         create: false

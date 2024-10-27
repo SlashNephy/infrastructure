@@ -10,9 +10,6 @@ helmCharts:
     version: v3.28.2
     repo: https://docs.tigera.io/calico/charts
     includeCRDs: true
-    valuesInline:
-      podAnnotations:
-        fluentbit.io/exclude: "true"
 
 resources:
   - ./resources/namespace.yaml
