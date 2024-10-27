@@ -12,10 +12,19 @@ helmCharts:
     valuesInline:
       admin:
         existingSecret: secrets
+      envFromConfigMaps:
+        - name: grafana-config
+      envFromSecrets:
+        - name: grafana-secret
       persistence:
         enabled: true
         selectorLabels:
           name: grafana-data
+
+configMapGenerator:
+  - name: grafana-config
+    literals:
+      - GF_SERVER_ROOT_URL=https://grafana.starry.blue
 
 resources:
   - ./resources/namespace.yaml
