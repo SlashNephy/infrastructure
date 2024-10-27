@@ -56,10 +56,6 @@ spec:
             namespace: feedchime
             path: k8s/apps/feedchime
             project: apps
-          - name: htpasswd-dashboard
-            namespace: htpasswd-dashboard
-            path: k8s/apps/htpasswd-dashboard
-            project: apps
           - name: konomitv
             namespace: konomitv
             path: k8s/apps/konomitv
@@ -131,10 +127,6 @@ spec:
           - name: kubernetes-dashboard
             namespace: kubernetes-dashboard
             path: k8s/apps/kubernetes-dashboard
-            project: apps
-          - name: muni
-            namespace: muni
-            path: k8s/apps/muni
             project: apps
           - name: nebula
             namespace: nebula
