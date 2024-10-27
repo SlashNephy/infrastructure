@@ -25,6 +25,10 @@ spec:
             - --health-probe-bind-address=:8081
             - --metrics-bind-address=127.0.0.1:8080
             - --leader-elect
+          env:
+            # TODO: renovate に更新してもらう
+            - name: SIDECAR_AGENT_IMAGE
+              value: public.ecr.aws/mackerel/mackerel-container-agent:v0.11.1-plugins
           envFrom:
             - secretRef:
                 name: injector-secret
