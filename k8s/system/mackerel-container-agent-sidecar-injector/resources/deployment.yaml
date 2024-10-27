@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: manager
-          image: ghcr.io/slashnephy/mackerel-container-agent-sidecar-injector:main@sha256:cf6886396f875950f1a6949daa9ca684676992243c2878da8524e8d21baaeb5a
+          image: ghcr.io/slashnephy/mackerel-container-agent-sidecar-injector:main@sha256:9792bfc4a5eadb2d8213702956abe1443ccf48dc90a93cc929d9522a049d45b1
           command:
             - /manager
           args:
