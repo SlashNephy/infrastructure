@@ -1,0 +1,27 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: mackerel-sidecar-injector-mutating-webhook-configuration
+  annotations:
+    cert-manager.io/inject-ca-from: mackerel-container-agent-sidecar-injector/mackerel-sidecar-injector-serving-cert
+webhooks:
+  - name: mutate.pod.mackerel.io
+    admissionReviewVersions:
+      - v1
+    clientConfig:
+      service:
+        name: mackerel-sidecar-injector-webhook-service
+        namespace: mackerel-container-agent-sidecar-injector
+        path: /mutate--v1-pod
+    failurePolicy: Ignore
+    rules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pods
+    sideEffects: None

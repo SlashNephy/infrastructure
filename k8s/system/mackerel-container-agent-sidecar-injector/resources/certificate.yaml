@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mackerel-sidecar-injector-serving-cert
+spec:
+  dnsNames:
+    - mackerel-sidecar-injector-webhook-service.mackerel-container-agent-sidecar-injector.svc
+    - mackerel-sidecar-injector-webhook-service.mackerel-container-agent-sidecar-injector.svc.cluster.local
+  issuerRef:
+    name: mackerel-sidecar-injector-selfsigned-issuer
+    kind: Issuer
+  secretName: webhook-server-cert
+
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: mackerel-sidecar-injector-selfsigned-issuer
+spec:
+  selfSigned: {}

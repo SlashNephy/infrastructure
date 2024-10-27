@@ -228,6 +228,10 @@ spec:
             namespace: opentelemetry-operator
             path: k8s/system/opentelemetry-operator
             project: system
+          - name: mackerel-container-agent-sidecar-injector
+            namespace: mackerel-container-agent-sidecar-injector
+            path: k8s/system/mackerel-container-agent-sidecar-injector
+            project: system
 
   template:
     metadata:
