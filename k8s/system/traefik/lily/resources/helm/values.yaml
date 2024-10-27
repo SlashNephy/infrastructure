@@ -2,6 +2,8 @@ autoscaling:
   enabled: false
 
 deployment:
+  annotations:
+    agent-injector.contrib.mackerel.io/inject: "true"
   minReadySeconds: 30
   replicas: 2
 
