@@ -63,6 +63,10 @@ logs:
 metrics:
   prometheus: null
 
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
 ports:
   metrics: null
 
@@ -108,6 +112,8 @@ ports:
             - "*.gateway.starry.blue"
       enabled: true
       options: traefik-cloudflare@kubernetescrd
+
+priorityClassName: load-balancer
 
 providers:
   kubernetesCRD:

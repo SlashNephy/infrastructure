@@ -19,6 +19,7 @@ resources:
   - ./resources/routes/router.yaml
   - ./resources/routes/ai.yaml
   - ./resources/custom-error-pages
+  - ./resources/priority-class.yaml
 
 configMapGenerator:
   - name: traefik-env
