@@ -16,6 +16,9 @@ spec:
       containers:
         - name: server
           image: ghcr.io/slashnephy/stay-tuned-server:initial@sha256:5306a41e44c1fb4721370b5f0325edf8ff323dbe0f95a03c1788fec4eb323d4a
+          env:
+            - name: TZ
+              value: Asia/Tokyo
           envFrom:
             - secretRef:
                 name: server-secrets

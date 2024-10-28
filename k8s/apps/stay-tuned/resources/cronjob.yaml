@@ -24,6 +24,8 @@ spec:
                     --column-inserts \
                     "$DATABASE_DSN"
               env:
+                - name: TZ
+                  value: Asia/Tokyo
                 - name: DATABASE_DSN
                   valueFrom:
                     secretKeyRef:
@@ -47,6 +49,8 @@ spec:
                     --column-inserts \
                     "$DATABASE_DSN"
               env:
+                - name: TZ
+                  value: Asia/Tokyo
                 - name: DATABASE_DSN
                   valueFrom:
                     secretKeyRef:
