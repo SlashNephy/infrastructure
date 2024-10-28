@@ -17,6 +17,9 @@ helmCharts:
       envFromSecrets:
         - name: grafana-secret
       grafana.ini:
+        plugins:
+          allow_loading_unsigned_plugins: zinclabs_openobserve
+          enable_alpha: true
         server:
           domain: grafana.starry.blue
           root_url: https://grafana.starry.blue
