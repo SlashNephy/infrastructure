@@ -1,32 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment
+  name: deployment-worker
 
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: default
+      app: worker
   template:
     metadata:
       labels:
-        app: default
+        app: worker
     spec:
       containers:
-        - name: server
+        - name: worker
           image: ghcr.io/slashnephy/stay-tuned-server:initial@sha256:5306a41e44c1fb4721370b5f0325edf8ff323dbe0f95a03c1788fec4eb323d4a
+          command:
+            - /backend/worker
           envFrom:
             - secretRef:
                 name: server-secrets
-          ports:
-            - containerPort: 8080
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
+          volumeMounts:
+            - name: records
+              mountPath: /backend/records
           securityContext:
             allowPrivilegeEscalation: false
+      volumes:
+        - name: records
+          hostPath:
+            path: /mnt/pool/records
+            type: DirectoryOrCreate
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
+      terminationGracePeriodSeconds: 7200
