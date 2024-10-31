@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: worker
-          image: ghcr.io/slashnephy/stay-tuned-server:initial@sha256:5306a41e44c1fb4721370b5f0325edf8ff323dbe0f95a03c1788fec4eb323d4a
+          image: ghcr.io/slashnephy/stay-tuned-server:initial@sha256:707db7585985d41376327f3b0e805efb5e7c4ffb576e62854d20fa7071abfe39
           command:
             - /backend/worker
           env:
