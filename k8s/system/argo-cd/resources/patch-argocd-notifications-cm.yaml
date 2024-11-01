@@ -72,7 +72,7 @@ data:
       send:
         - discord-status
   trigger.success-deploy: |
-    - when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+    - when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy' and app.status.operationState.syncResult.source.path == app.spec.source.path
       oncePer: app.status.operationState.syncResult.revision
       send:
         - github-status
