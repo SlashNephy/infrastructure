@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/slashnephy/nebula-server:master@sha256:596d935d44a72ac106d7b16d4a7c44732bbe7c6d1b4efb4b481e103b8d839d22
+          image: ghcr.io/slashnephy/nebula-server:master@sha256:7e6cca66d620795ed9b2ad4943257ecb8ed365bb9574b933d234288eefba15c5
           env:
             - name: SERVER_ORIGIN
               value: https://nebula-api.starry.blue
@@ -36,7 +36,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: worker
-          image: ghcr.io/slashnephy/nebula-server:master@sha256:596d935d44a72ac106d7b16d4a7c44732bbe7c6d1b4efb4b481e103b8d839d22
+          image: ghcr.io/slashnephy/nebula-server:master@sha256:7e6cca66d620795ed9b2ad4943257ecb8ed365bb9574b933d234288eefba15c5
           command:
             - /backend/worker
           env:
