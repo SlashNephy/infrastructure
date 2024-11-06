@@ -6,6 +6,7 @@ resources:
   - ./resources/namespace.yaml
   - ./resources/deployment.yaml
   - ./resources/secret.yaml
+  - ./resources/service-account.yaml
 
 configMapGenerator:
   - name: app-config

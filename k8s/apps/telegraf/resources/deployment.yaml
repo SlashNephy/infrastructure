@@ -17,41 +17,35 @@ spec:
         - name: app
           image: public.ecr.aws/bitnami/telegraf:1.32.2@sha256:c5afd4511a4e5c8173d65dd861186988b8ce7f41fd16896596808116d0d23958
           command:
-            - /bin/bash
-            - -c
-            - |
-              apt update
-              apt install -y sudo smartmontools
-              rm -rf /var/lib/apt/lists/*
-              echo "Cmnd_Alias SMARTCTL = /usr/sbin/smartctl" >> /etc/sudoers
-              echo "telegraf  ALL=(ALL) NOPASSWD: SMARTCTL" >> /etc/sudoers
-              echo "Defaults!SMARTCTL !logfile, !syslog, !pam_session" >> /etc/sudoers
-              telegraf
+            - telegraf
           env:
+            - name: TZ
+              value: Asia/Tokyo
+            - name: HOST_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
             - name: HOST_ETC
               value: /hostfs/etc
-            - name: HOST_MOUNT_PREFIX
-              value: /hostfs
             - name: HOST_PROC
               value: /hostfs/proc
-            - name: HOST_RUN
-              value: /hostfs/run
             - name: HOST_SYS
               value: /hostfs/sys
             - name: HOST_VAR
               value: /hostfs/var
-            - name: TZ
-              value: Asia/Tokyo
-            - name: MACKEREL_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: mackerel-api-key
-            - name: MACKEREL_HOST_ID
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: mackerel-host-id
+            - name: HOST_RUN
+              value: /hostfs/run
+            - name: HOST_MOUNT_PREFIX
+              value: /hostfs
+            - name: PROC_ROOT
+              value: /hostfs/proc
+          envFrom:
+            - secretRef:
+                name: app-secret
           volumeMounts:
             - name: config
               mountPath: /etc/telegraf/telegraf.conf
@@ -60,21 +54,19 @@ spec:
             - name: plugins
               mountPath: /opt/telegraf/plugins
               readOnly: true
-            - name: host-var
-              mountPath: /hostfs/var
+            - name: hostfs
+              mountPath: /hostfs
               readOnly: true
-            - name: host-proc
-              mountPath: /hostfs/proc
+            - name: run-udev
+              mountPath: /run/udev
               readOnly: true
-            - name: host-sys
-              mountPath: /hostfs/sys
-              readOnly: true
-            - name: host-etc
-              mountPath: /hostfs/etc
-              readOnly: true
-            - name: host-run
-              mountPath: /hostfs/run
-              readOnly: true
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
           securityContext:
             privileged: true
       volumes:
@@ -85,24 +77,13 @@ spec:
           hostPath:
             path: /opt/k8s-volumes/telegraf/plugins
             type: Directory
-        - name: host-var
+        - name: hostfs
           hostPath:
-            path: /var
+            path: /
             type: Directory
-        - name: host-proc
+        - name: run-udev
           hostPath:
-            path: /proc
-            type: Directory
-        - name: host-sys
-          hostPath:
-            path: /sys
-            type: Directory
-        - name: host-etc
-          hostPath:
-            path: /etc
-            type: Directory
-        - name: host-run
-          hostPath:
-            path: /run
+            path: /run/udev
             type: Directory
       restartPolicy: Always
+      serviceAccountName: telegraf
