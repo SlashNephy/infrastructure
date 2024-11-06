@@ -156,6 +156,10 @@ spec:
             namespace: stay-tuned
             path: k8s/apps/stay-tuned
             project: apps
+          - name: influxdb
+            namespace: influxdb
+            path: k8s/apps/influxdb
+            project: apps
 
           # cron
           - name: cron-backup-node

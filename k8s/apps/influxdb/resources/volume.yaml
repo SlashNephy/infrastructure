@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: influxdb-data
+spec:
+  selector:
+    matchLabels:
+      name: influxdb-data
+  storageClassName: local
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: influxdb-data
+  labels:
+    name: influxdb-data
+
+spec:
+  storageClassName: local
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  local:
+    path: /opt/k8s-volumes/influxdb/data
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - lily
+  persistentVolumeReclaimPolicy: Retain
