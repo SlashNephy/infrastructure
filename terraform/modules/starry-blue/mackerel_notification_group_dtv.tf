@@ -35,4 +35,7 @@ resource "mackerel_notification_group" "dtv" {
   monitor {
     id = mackerel_monitor.external_selenium.id
   }
+  monitor {
+    id = "5fgcNMpFtJ9" // unmanaged: 夜時間帯に録画が0件になっていたら警告
+  }
 }
