@@ -17,10 +17,6 @@ helmCharts:
       envFromSecrets:
         - name: grafana-secret
       grafana.ini:
-        auth.anonymous:
-          enabled: true
-          org_name: Anonymous
-          org_role: Viewer
         plugins:
           allow_loading_unsigned_plugins: zinclabs_openobserve
           enable_alpha: true
