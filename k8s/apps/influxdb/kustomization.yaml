@@ -13,6 +13,8 @@ helmCharts:
         existingSecret: admin-secret
       global:
         imageRegistry: public.ecr.aws
+      influxdb:
+        resourcesPreset: small
       persistence:
         existingClaim: influxdb-data
 
