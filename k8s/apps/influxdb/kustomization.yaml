@@ -15,6 +15,11 @@ helmCharts:
         imageRegistry: public.ecr.aws
       influxdb:
         resourcesPreset: small
+        service:
+          nodePorts:
+            http: 8086
+            rpc: 8088
+          type: NodePort
       persistence:
         existingClaim: influxdb-data
 
