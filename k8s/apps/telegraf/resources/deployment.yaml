@@ -29,20 +29,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
-            - name: HOST_ETC
-              value: /hostfs/etc
-            - name: HOST_PROC
-              value: /hostfs/proc
-            - name: HOST_SYS
-              value: /hostfs/sys
-            - name: HOST_VAR
-              value: /hostfs/var
-            - name: HOST_RUN
-              value: /hostfs/run
-            - name: HOST_MOUNT_PREFIX
-              value: /hostfs
-            - name: PROC_ROOT
-              value: /hostfs/proc
           envFrom:
             - secretRef:
                 name: app-secret
@@ -51,42 +37,18 @@ spec:
               mountPath: /etc/telegraf/telegraf.conf
               readOnly: true
               subPath: telegraf.conf
-            - name: plugins
-              mountPath: /opt/telegraf/plugins
-              readOnly: true
-            - name: hostfs
-              mountPath: /hostfs
-              readOnly: true
-            - name: run-udev
-              mountPath: /run/udev
-              readOnly: true
           resources:
             limits:
               cpu: 100m
               memory: 128Mi
             requests:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 10m
+              memory: 64Mi
           securityContext:
-            capabilities:
-              add:
-                - SYS_ADMIN # inputs.ethtool
-            privileged: true
+            allowPrivilegeEscalation: false
       volumes:
         - name: config
           configMap:
             name: app-config
-        - name: plugins
-          hostPath:
-            path: /opt/k8s-volumes/telegraf/plugins
-            type: Directory
-        - name: hostfs
-          hostPath:
-            path: /
-            type: Directory
-        - name: run-udev
-          hostPath:
-            path: /run/udev
-            type: Directory
       restartPolicy: Always
       serviceAccountName: telegraf
