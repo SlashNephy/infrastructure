@@ -20,6 +20,8 @@ helmCharts:
             http: 30086
             rpc: 30088
           type: NodePort
+        updateStrategy:
+          type: Recreate # host volume を使っているので RollingUpdate できない
       persistence:
         existingClaim: influxdb-data
 
