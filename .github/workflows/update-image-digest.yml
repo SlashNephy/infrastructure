@@ -35,6 +35,7 @@ jobs:
           delete-branch: true
           title: update ${{ github.event.client_payload.images[0] }} 🔜 ${{ github.event.client_payload.digest }}
           body: https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
+          labels: automerge
 
       - name: Automerge
         if: steps.create-pull-request.outputs.pull-request-number

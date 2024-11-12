@@ -1,0 +1,19 @@
+name: 'Stale'
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # JST 09:00 every day
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  close-automerge-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          close-pr-label: automerge
+          days-before-pr-close: 1
+          delete-branch: true
