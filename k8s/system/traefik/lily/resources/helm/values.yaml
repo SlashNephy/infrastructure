@@ -69,15 +69,12 @@ ports:
   web:
     expose:
       default: true
-    exposedPort: 80
     nodePort: 80
-    port: 8080
 
   websecure:
     asDefault: true
     expose:
       default: true
-    exposedPort: 443
 
     forwardedHeaders:
       trustedIPs:
@@ -97,7 +94,6 @@ ports:
       - traefik-trust-cloudflare-ips@kubernetescrd
 
     nodePort: 443
-    port: 8443
 
     # https://doc.traefik.io/traefik/routing/entrypoints/#tls
     tls:
