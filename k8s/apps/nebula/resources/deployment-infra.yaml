@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: db
-          image: public.ecr.aws/docker/library/postgres:16.4-bookworm@sha256:8cc723ade737ab3ace6bfc679e02ea6fa0aa45073582ef8d2b605f8342424f37
+          image: public.ecr.aws/docker/library/postgres:16.4-bookworm@sha256:e62fbf9d3e2b49816a32c400ed2dba83e3b361e6833e624024309c35d334b412
           envFrom:
             - secretRef:
                 name: db-secrets
@@ -32,7 +32,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: redis
-          image: public.ecr.aws/docker/library/redis:7.4.1-bookworm@sha256:a06cea905344470eb49c972f3d030e22f28f632c1b4f43bbe4a26a4329dd6be5
+          image: public.ecr.aws/docker/library/redis:7.4.1-bookworm@sha256:af0be38eb8e43191bae9b03fe5c928803930b6f93e2dde3a7ad1165c04b1ce22
           ports:
             - containerPort: 6379
           volumeMounts:
