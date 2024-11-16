@@ -1,5 +1,5 @@
 additionalVolumeMounts:
-  - name: plugins-storage
+  - name: plugins
     mountPath: /plugins-storage
 
 autoscaling:
@@ -7,7 +7,7 @@ autoscaling:
 
 deployment:
   additionalVolumes:
-    - name: plugins-storage
+    - name: plugins
       persistentVolumeClaim:
         claimName: plugins-storage
   minReadySeconds: 30
@@ -138,8 +138,7 @@ ports:
       - traefik-security-headers@kubernetescrd
       # - traefik-custom-error-pages@kubernetescrd
       - traefik-ban-robots@kubernetescrd
-      # temporary disabled
-      # - traefik-trust-cloudflare-ips@kubernetescrd
+      - traefik-trust-cloudflare-ips@kubernetescrd
 
     nodePort: 443
 
