@@ -11,13 +11,16 @@ helmCharts:
     repo: https://helm.cilium.io
     includeCRDs: true
     valuesInline:
+      autoDirectNodeRoutes: true
       bpf:
         masquerade: true
+      enableIPv4Masquerade: true
       hubble:
         relay:
           enabled: true
         ui:
           enabled: true
+      ipv4NativeRoutingCIDR: 10.0.0.0/16
       ipv6:
         enabled: true
       k8sServiceHost: 192.168.1.2
@@ -28,6 +31,7 @@ helmCharts:
         mode: hybrid
       operator:
         replicas: 1
+      routingMode: native
 
 resources:
   - ./resources/ingress.yaml
