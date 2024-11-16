@@ -28,7 +28,6 @@ helmCharts:
         mode: hybrid
       operator:
         replicas: 1
-      routingMode: native
 
 resources:
   - ./resources/ingress.yaml
