@@ -1,7 +1,15 @@
+additionalVolumeMounts:
+  - name: plugins-storage
+    mountPath: /plugins-storage
+
 autoscaling:
   enabled: false
 
 deployment:
+  additionalVolumes:
+    - name: plugins-storage
+      persistentVolumeClaim:
+        claimName: plugins-storage
   minReadySeconds: 30
   replicas: 2
 
@@ -15,6 +23,45 @@ experimental:
       moduleName: github.com/BetterCorp/cloudflarewarp
       # renovate: datasource=github-tags depName=BetterCorp/cloudflarewarp
       version: v1.3.3
+
+extraObjects:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: plugins-storage
+    spec:
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 1Gi
+      selector:
+        matchLabels:
+          name: plugins-storage
+      storageClassName: local
+  - apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: plugins-storage
+      labels:
+        name: plugins-storage
+    spec:
+      accessModes:
+        - ReadWriteMany
+      capacity:
+        storage: 1Gi
+      local:
+        path: /opt/k8s-volumes/traefik/plugins-storage
+      nodeAffinity:
+        required:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - lily
+      persistentVolumeReclaimPolicy: Retain
+      storageClassName: local
 
 globalArguments: []
 
