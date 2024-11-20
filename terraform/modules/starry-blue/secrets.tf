@@ -21,23 +21,3 @@ data "onepassword_item" "dtv_slack_webhook_url" {
   vault = data.onepassword_vault.terraform.uuid
   uuid  = "uwlqjbuowntpe2njzvk3xk6m2m"
 }
-
-data "onepassword_item" "external-manganese_credential" {
-  vault = data.onepassword_vault.terraform.uuid
-  uuid  = "fuc6xybsk6suzz54norqfi3xyq"
-}
-
-data "onepassword_item" "external-rhodium_credential" {
-  vault = data.onepassword_vault.terraform.uuid
-  uuid  = "cofdojufkusps5ftoz6rj3ucgu"
-}
-
-data "onepassword_item" "external-uranium_credential" {
-  vault = data.onepassword_vault.terraform.uuid
-  uuid  = "umuxhtvvkl6ae7llrat6x3jg5e"
-}
-
-data "onepassword_item" "external-selenium_credential" {
-  vault = data.onepassword_vault.terraform.uuid
-  uuid  = "4uc6ztmuv6drw4xe37nobd7aqu"
-}

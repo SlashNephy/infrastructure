@@ -9,12 +9,6 @@ resource "mackerel_notification_group" "dtv" {
     id = mackerel_monitor.mahiron.id
   }
   monitor {
-    id = mackerel_monitor.mirakurun_fault_tuners.id
-  }
-  monitor {
-    id = mackerel_monitor.mirakurun_available_tuners.id
-  }
-  monitor {
     id = mackerel_monitor.epgstation_conflicts.id
   }
   monitor {
@@ -22,18 +16,6 @@ resource "mackerel_notification_group" "dtv" {
   }
   monitor {
     id = mackerel_monitor.epgstation.id
-  }
-  monitor {
-    id = mackerel_monitor.external_manganese.id
-  }
-  monitor {
-    id = mackerel_monitor.external_rhodium.id
-  }
-  monitor {
-    id = mackerel_monitor.external_uranium.id
-  }
-  monitor {
-    id = mackerel_monitor.external_selenium.id
   }
   monitor {
     id = "5fgcNMpFtJ9" // unmanaged: 夜時間帯に録画が0件になっていたら警告
