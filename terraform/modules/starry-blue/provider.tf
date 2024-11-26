@@ -16,8 +16,7 @@ terraform {
 }
 
 provider "onepassword" {
-  url   = "https://op-tfc.starry.blue"
-  token = var.onepassword_connect_token
+  service_account_token = var.onepassword_service_account_token
 }
 
 provider "cloudflare" {

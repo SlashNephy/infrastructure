@@ -3,7 +3,7 @@ locals {
   github_organization_name = "StarryBlueSky"
 }
 
-variable "onepassword_connect_token" {
+variable "onepassword_service_account_token" {
   type = string
 }
 
