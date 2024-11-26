@@ -10,8 +10,8 @@ terraform {
 }
 
 module "starry-blue" {
-  source                    = "./modules/starry-blue"
-  onepassword_connect_token = var.onepassword_connect_token
-  cloudflare_api_token      = var.cloudflare_api_token
-  mackerel_api_key          = var.mackerel_api_key
+  source                            = "./modules/starry-blue"
+  onepassword_service_account_token = var.onepassword_service_account_token
+  cloudflare_api_token              = var.cloudflare_api_token
+  mackerel_api_key                  = var.mackerel_api_key
 }
