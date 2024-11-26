@@ -2,7 +2,7 @@ resource "mackerel_channel" "general" {
   name = "#mackerel"
 
   slack {
-    url                 = data.onepassword_item.general_slack_webhook_url.password
+    url                 = var.general_slack_webhook_url
     enabled_graph_image = true
     events              = [
       "alert",
@@ -13,5 +13,5 @@ resource "mackerel_channel" "general" {
     ]
   }
 
-  depends_on = [data.onepassword_item.general_slack_webhook_url]
+  depends_on = [var.general_slack_webhook_url]
 }
