@@ -7,11 +7,6 @@ data "onepassword_item" "github_oauth_client" {
   uuid  = "47j2n5ecdeulpja5mh5hud7eom"
 }
 
-data "onepassword_item" "email_routing_catch_all_address" {
-  vault = data.onepassword_vault.terraform.uuid
-  uuid  = "gfkmkrndebubvjkdn34zx6fsxy"
-}
-
 data "onepassword_item" "general_slack_webhook_url" {
   vault = data.onepassword_vault.terraform.uuid
   uuid  = "y7x5qzuvf4bkqw6g7uosnqwfw4"
