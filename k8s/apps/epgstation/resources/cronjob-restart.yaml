@@ -4,7 +4,7 @@ metadata:
   name: restart
 
 spec:
-  schedule: "0 4 * * *" # JST 04:00 everyday
+  schedule: "0 0 * * *" # JST 00:00 everyday
   timeZone: Asia/Tokyo
   jobTemplate:
     spec:
