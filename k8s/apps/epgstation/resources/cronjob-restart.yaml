@@ -1,0 +1,64 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: restart
+
+spec:
+  schedule: "0 4 * * *" # JST 04:00 everyday
+  timeZone: Asia/Tokyo
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: restart
+              image: ghcr.io/slashnephy/restart-epgstation-deployment:master
+              env:
+                - name: EPGSTATION_URL
+                  value: http://app:8888
+                - name: K8S_NAMESPACE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.namespace
+                - name: K8S_DEPLOYMENT
+                  value: deployment
+              securityContext:
+                allowPrivilegeEscalation: false
+          restartPolicy: Never
+  concurrencyPolicy: Forbid
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: restart
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: restart
+
+rules:
+  - apiGroups:
+      - apps
+    resources:
+      - deployments
+    verbs:
+      # allow rollout restart
+      - patch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: restart
+
+roleRef:
+  name: restart
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+subjects:
+  - name: restart
+    kind: ServiceAccount
