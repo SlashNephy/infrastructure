@@ -18,9 +18,9 @@ import (
 )
 
 type Config struct {
-	EPGStationURL  string `env:"EPGSTATION_URL,notEmpty"`
-	Namespace      string `env:"NAMESPACE,notEmpty"`
-	DeploymentName string `env:"DEPLOYMENT_NAME,notEmpty"`
+	EPGStationURL        string `env:"EPGSTATION_URL,notEmpty"`
+	KubernetesNamespace  string `env:"K8S_NAMESPACE,notEmpty"`
+	KubernetesDeployment string `env:"K8S_DEPLOYMENT,notEmpty"`
 }
 
 func main() {
@@ -48,7 +48,7 @@ func main() {
 		time.Sleep(5 * time.Second)
 	}
 
-	if err = rolloutDeploymentRestart(ctx, httpClient, config.Namespace, config.DeploymentName); err != nil {
+	if err = rolloutDeploymentRestart(ctx, httpClient, config.KubernetesNamespace, config.KubernetesDeployment); err != nil {
 		slog.ErrorContext(ctx, "failed to restart EPGStation deployment", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
@@ -84,7 +84,7 @@ func fetchEPGStationRecordingCount(ctx context.Context, httpClient *http.Client,
 	return result.Total, nil
 }
 
-func rolloutDeploymentRestart(ctx context.Context, httpClient *http.Client, namespace, deploymentName string) error {
+func rolloutDeploymentRestart(ctx context.Context, httpClient *http.Client, namespace, deployment string) error {
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		return err
@@ -113,7 +113,7 @@ func rolloutDeploymentRestart(ctx context.Context, httpClient *http.Client, name
 		return err
 	}
 
-	_, err = k8s.AppsV1().Deployments(namespace).Patch(ctx, deploymentName, types.StrategicMergePatchType, patchData, meta.PatchOptions{
+	_, err = k8s.AppsV1().Deployments(namespace).Patch(ctx, deployment, types.StrategicMergePatchType, patchData, meta.PatchOptions{
 		FieldManager: "restart-epgstation-deployment",
 	})
 	return err
