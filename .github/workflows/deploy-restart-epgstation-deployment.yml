@@ -1,0 +1,23 @@
+name: Deploy restart-epgstation-deployment
+
+on:
+  push:
+    paths:
+      - cmd/restart-epgstation-deployment/**
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: SlashNephy/.github/.github/workflows/docker-build.yml@master
+    permissions:
+      contents: read
+      packages: write
+      actions: read
+      security-events: write
+    with:
+      context: cmd/restart-epgstation-deployment
+      image-name: ghcr.io/slashnephy/restart-epgstation-deployment
+      image-platforms: linux/amd64
+      dispatch-update-image-digest: true
+    secrets:
+      dispatch-github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
