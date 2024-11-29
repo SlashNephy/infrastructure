@@ -1,6 +1,8 @@
-module github.com/SlashNephy/infrastructure
+module update-image-digest
 
-go 1.21
+go 1.23.0
+
+toolchain go1.23.3
 
 require github.com/jessevdk/go-flags v1.6.1
 
