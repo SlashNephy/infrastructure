@@ -18,9 +18,10 @@ import (
 )
 
 type Config struct {
-	EPGStationURL        string `env:"EPGSTATION_URL,notEmpty"`
-	KubernetesNamespace  string `env:"K8S_NAMESPACE,notEmpty"`
-	KubernetesDeployment string `env:"K8S_DEPLOYMENT,notEmpty"`
+	EPGStationURL         string `env:"EPGSTATION_URL,notEmpty"`
+	KubernetesNamespace   string `env:"K8S_NAMESPACE,notEmpty"`
+	KubernetesDeployment  string `env:"K8S_DEPLOYMENT,notEmpty"`
+	KubernetesTLSInsecure bool   `env:"K8S_TLS_INSECURE" envDefault:"false"`
 }
 
 func main() {
@@ -48,7 +49,7 @@ func main() {
 		time.Sleep(5 * time.Second)
 	}
 
-	if err = rolloutDeploymentRestart(ctx, httpClient, config.KubernetesNamespace, config.KubernetesDeployment); err != nil {
+	if err = rolloutDeploymentRestart(ctx, httpClient, config.KubernetesNamespace, config.KubernetesDeployment, config.KubernetesTLSInsecure); err != nil {
 		slog.ErrorContext(ctx, "failed to restart EPGStation deployment", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
@@ -84,11 +85,13 @@ func fetchEPGStationRecordingCount(ctx context.Context, httpClient *http.Client,
 	return result.Total, nil
 }
 
-func rolloutDeploymentRestart(ctx context.Context, httpClient *http.Client, namespace, deployment string) error {
+func rolloutDeploymentRestart(ctx context.Context, httpClient *http.Client, namespace, deployment string, tlsInsecure bool) error {
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		return err
 	}
+
+	config.TLSClientConfig.Insecure = tlsInsecure
 
 	k8s, err := kubernetes.NewForConfigAndClient(config, httpClient)
 	if err != nil {
