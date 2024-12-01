@@ -45,7 +45,7 @@ func main() {
 			break
 		}
 
-		slog.WarnContext(ctx, "At least one recording is in progress; wait 5 seconds...")
+		slog.DebugContext(ctx, "At least one recording is in progress; wait 5 seconds...")
 		time.Sleep(5 * time.Second)
 	}
 

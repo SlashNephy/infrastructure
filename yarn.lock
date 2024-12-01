@@ -1129,9 +1129,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pulumi/pulumi@npm:3.141.0":
-  version: 3.141.0
-  resolution: "@pulumi/pulumi@npm:3.141.0"
+"@pulumi/pulumi@npm:3.142.0":
+  version: 3.142.0
+  resolution: "@pulumi/pulumi@npm:3.142.0"
   dependencies:
     "@grpc/grpc-js": "npm:^1.10.1"
     "@logdna/tail-file": "npm:^2.0.6"
@@ -1171,7 +1171,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 10/a1aad6e68e6ca5cc3ba9702b057bb37aaf079e5a7901230ea12045d75fdf73f1de21d1edc821e84438fce8466f0137d715d1615d12dc9b533d32d846e9afb48e
+  checksum: 10/1e3ac699ea07b265e04f00147cbc15cf2760f916726bdb65c898dc681a3789c99226e51a9be6411a9525eb47abeceb34392cb5e149ddd4d780943edabaf4e597
   languageName: node
   linkType: hard
 
@@ -1561,12 +1561,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:22.9.4":
-  version: 22.9.4
-  resolution: "@types/node@npm:22.9.4"
+"@types/node@npm:22.10.1":
+  version: 22.10.1
+  resolution: "@types/node@npm:22.10.1"
   dependencies:
-    undici-types: "npm:~6.19.8"
-  checksum: 10/1a30017634e1b7da253858fbc5874a7aded5543d62b25362fe2f839d6e8f950934a44b3ff4dc412892bb5fdb6c26762a381a504e75554e1a1d5f74d6c3de80de
+    undici-types: "npm:~6.20.0"
+  checksum: 10/c802a526da2f3fa3ccefd00a71244e7cb825329951719e79e8fec62b1dbc2855388c830489770611584665ce10be23c05ed585982038b24924e1ba2c2cce03fd
   languageName: node
   linkType: hard
 
@@ -4410,7 +4410,7 @@ __metadata:
     "@slashnephy/prettier-config": "npm:1.0.73"
     concurrently: "npm:9.1.0"
     eslint: "npm:8.57.1"
-    prettier: "npm:3.3.3"
+    prettier: "npm:3.4.1"
   languageName: unknown
   linkType: soft
 
@@ -5874,12 +5874,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:3.3.3":
-  version: 3.3.3
-  resolution: "prettier@npm:3.3.3"
+"prettier@npm:3.4.1":
+  version: 3.4.1
+  resolution: "prettier@npm:3.4.1"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10/5beac1f30b5b40162532b8e2f7c3a4eb650910a2695e9c8512a62ffdc09dae93190c29db9107fa7f26d1b6c71aad3628ecb9b5de1ecb0911191099be109434d7
+  checksum: 10/1ee4d1b1a9b6761cbb847cd81b9d87e51a0f4b2a4d5fe5755627c24828afe057a7ee9b764c3ee777d84abd46218d173d8a204ee9cb3acdd321ff9a6b25f99c1c
   languageName: node
   linkType: hard
 
@@ -5965,10 +5965,10 @@ __metadata:
   dependencies:
     "@pulumi/cloudflare": "npm:5.43.1"
     "@pulumi/github": "npm:6.4.0"
-    "@pulumi/pulumi": "npm:3.141.0"
+    "@pulumi/pulumi": "npm:3.142.0"
     "@pulumi/std": "npm:1.7.3"
     "@pulumi/terraform": "npm:5.13.4"
-    "@types/node": "npm:22.9.4"
+    "@types/node": "npm:22.10.1"
     typescript: "npm:5.7.2"
   languageName: unknown
   linkType: soft
@@ -6983,6 +6983,13 @@ __metadata:
   version: 6.19.8
   resolution: "undici-types@npm:6.19.8"
   checksum: 10/cf0b48ed4fc99baf56584afa91aaffa5010c268b8842f62e02f752df209e3dea138b372a60a963b3b2576ed932f32329ce7ddb9cb5f27a6c83040d8cd74b7a70
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~6.20.0":
+  version: 6.20.0
+  resolution: "undici-types@npm:6.20.0"
+  checksum: 10/583ac7bbf4ff69931d3985f4762cde2690bb607844c16a5e2fbb92ed312fe4fa1b365e953032d469fa28ba8b224e88a595f0b10a449332f83fa77c695e567dbe
   languageName: node
   linkType: hard
 
