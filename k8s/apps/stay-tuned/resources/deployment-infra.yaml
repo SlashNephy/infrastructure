@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: db
-          image: public.ecr.aws/docker/library/postgres:17.0-bookworm@sha256:f176fef320ed02c347e9f85352620945547a9a23038f02b57cf7939a198182ae
+          image: public.ecr.aws/docker/library/postgres:17.2-bookworm@sha256:fe4efc6901dda0d952306fd962643d8022d7bb773ffe13fe8a21551b9276e50c
           env:
             - name: TZ
               value: Asia/Tokyo
