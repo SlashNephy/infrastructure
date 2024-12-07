@@ -23,8 +23,6 @@ spec:
                       fieldPath: metadata.namespace
                 - name: K8S_DEPLOYMENT
                   value: deployment
-                - name: K8S_TLS_INSECURE
-                  value: "true"
               securityContext:
                 allowPrivilegeEscalation: false
           restartPolicy: Never

@@ -18,10 +18,9 @@ import (
 )
 
 type Config struct {
-	EPGStationURL         string `env:"EPGSTATION_URL,notEmpty"`
-	KubernetesNamespace   string `env:"K8S_NAMESPACE,notEmpty"`
-	KubernetesDeployment  string `env:"K8S_DEPLOYMENT,notEmpty"`
-	KubernetesTLSInsecure bool   `env:"K8S_TLS_INSECURE" envDefault:"false"`
+	EPGStationURL        string `env:"EPGSTATION_URL,notEmpty"`
+	KubernetesNamespace  string `env:"K8S_NAMESPACE,notEmpty"`
+	KubernetesDeployment string `env:"K8S_DEPLOYMENT,notEmpty"`
 }
 
 func main() {
@@ -32,10 +31,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	httpClient := http.DefaultClient
-
 	for {
-		count, err := fetchEPGStationRecordingCount(ctx, httpClient, config.EPGStationURL)
+		count, err := fetchEPGStationRecordingCount(ctx, config.EPGStationURL)
 		if err != nil {
 			slog.ErrorContext(ctx, "failed to fetch EPGStation recording count", slog.String("error", err.Error()))
 			os.Exit(1)
@@ -49,7 +46,7 @@ func main() {
 		time.Sleep(5 * time.Second)
 	}
 
-	if err = rolloutDeploymentRestart(ctx, httpClient, config.KubernetesNamespace, config.KubernetesDeployment, config.KubernetesTLSInsecure); err != nil {
+	if err = rolloutDeploymentRestart(ctx, config.KubernetesNamespace, config.KubernetesDeployment); err != nil {
 		slog.ErrorContext(ctx, "failed to restart EPGStation deployment", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
@@ -57,14 +54,14 @@ func main() {
 	slog.InfoContext(ctx, "EPGStation deployment restarted")
 }
 
-func fetchEPGStationRecordingCount(ctx context.Context, httpClient *http.Client, epgStationURL string) (int, error) {
+func fetchEPGStationRecordingCount(ctx context.Context, epgStationURL string) (int, error) {
 	url := fmt.Sprintf("%s/api/recording?isHalfWidth=false", epgStationURL)
 	request, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return 0, err
 	}
 
-	response, err := httpClient.Do(request)
+	response, err := http.DefaultClient.Do(request)
 	if err != nil {
 		return 0, err
 	}
@@ -85,15 +82,13 @@ func fetchEPGStationRecordingCount(ctx context.Context, httpClient *http.Client,
 	return result.Total, nil
 }
 
-func rolloutDeploymentRestart(ctx context.Context, httpClient *http.Client, namespace, deployment string, tlsInsecure bool) error {
+func rolloutDeploymentRestart(ctx context.Context, namespace, deployment string) error {
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		return err
 	}
 
-	config.TLSClientConfig.Insecure = tlsInsecure
-
-	k8s, err := kubernetes.NewForConfigAndClient(config, httpClient)
+	k8s, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		return err
 	}
