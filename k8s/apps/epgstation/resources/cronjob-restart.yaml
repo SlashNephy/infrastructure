@@ -26,6 +26,7 @@ spec:
               securityContext:
                 allowPrivilegeEscalation: false
           restartPolicy: Never
+          serviceAccountName: restart
   concurrencyPolicy: Forbid
 
 ---
