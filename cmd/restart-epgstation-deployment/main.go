@@ -31,6 +31,23 @@ func main() {
 		os.Exit(1)
 	}
 
+	k8sConfig, err := rest.InClusterConfig()
+	if err != nil {
+		slog.ErrorContext(ctx, "failed to create Kubernetes client config", slog.String("error", err.Error()))
+		os.Exit(1)
+	}
+
+	k8s, err := kubernetes.NewForConfig(k8sConfig)
+	if err != nil {
+		slog.ErrorContext(ctx, "failed to create Kubernetes client", slog.String("error", err.Error()))
+		os.Exit(1)
+	}
+
+	if err = checkDeployment(ctx, k8s, config.KubernetesNamespace, config.KubernetesDeployment); err != nil {
+		slog.ErrorContext(ctx, "failed to check EPGStation deployment", slog.String("error", err.Error()))
+		os.Exit(1)
+	}
+
 	for {
 		count, err := fetchEPGStationRecordingCount(ctx, config.EPGStationURL)
 		if err != nil {
@@ -46,12 +63,17 @@ func main() {
 		time.Sleep(5 * time.Second)
 	}
 
-	if err = rolloutDeploymentRestart(ctx, config.KubernetesNamespace, config.KubernetesDeployment); err != nil {
+	if err = rolloutDeploymentRestart(ctx, k8s, config.KubernetesNamespace, config.KubernetesDeployment); err != nil {
 		slog.ErrorContext(ctx, "failed to restart EPGStation deployment", slog.String("error", err.Error()))
 		os.Exit(1)
 	}
 
 	slog.InfoContext(ctx, "EPGStation deployment restarted")
+}
+
+func checkDeployment(ctx context.Context, k8s *kubernetes.Clientset, namespace, deployment string) error {
+	_, err := k8s.AppsV1().Deployments(namespace).Get(ctx, deployment, meta.GetOptions{})
+	return err
 }
 
 func fetchEPGStationRecordingCount(ctx context.Context, epgStationURL string) (int, error) {
@@ -82,17 +104,7 @@ func fetchEPGStationRecordingCount(ctx context.Context, epgStationURL string) (i
 	return result.Total, nil
 }
 
-func rolloutDeploymentRestart(ctx context.Context, namespace, deployment string) error {
-	config, err := rest.InClusterConfig()
-	if err != nil {
-		return err
-	}
-
-	k8s, err := kubernetes.NewForConfig(config)
-	if err != nil {
-		return err
-	}
-
+func rolloutDeploymentRestart(ctx context.Context, k8s *kubernetes.Clientset, namespace, deployment string) error {
 	var patch struct {
 		Spec struct {
 			Template struct {

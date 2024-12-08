@@ -47,6 +47,7 @@ rules:
       - deployments
     verbs:
       # allow rollout restart
+      - get
       - patch
 
 ---
