@@ -47,7 +47,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: server-secrets
-                  key: DATABASE_DSN
+                  key: JOBQUEUE_DSN
           ports:
             - containerPort: 8080
           securityContext:
