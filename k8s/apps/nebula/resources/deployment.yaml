@@ -29,6 +29,8 @@ spec:
               mountPath: /backend/media
             - name: avatars
               mountPath: /backend/avatars
+            - name: content
+              mountPath: /backend/content
           livenessProbe:
             httpGet:
               path: /health
@@ -50,6 +52,8 @@ spec:
               mountPath: /backend/media
             - name: avatars
               mountPath: /backend/avatars
+            - name: content
+              mountPath: /backend/content
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -60,6 +64,10 @@ spec:
         - name: avatars
           hostPath:
             path: /opt/k8s-volumes/nebula/avatars
+            type: DirectoryOrCreate
+        - name: content
+          hostPath:
+            path: /mnt/pool/nebula_media
             type: DirectoryOrCreate
       restartPolicy: Always
       imagePullSecrets:
