@@ -38,6 +38,10 @@ spec:
             namespace: node-feature-discovery
             path: k8s/system/node-feature-discovery
             project: system
+          - name: cert-manager
+            namespace: cert-manager
+            path: k8s/system/cert-manager/bbc
+            project: system
 
   template:
     metadata:
