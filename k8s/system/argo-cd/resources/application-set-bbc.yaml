@@ -30,6 +30,14 @@ spec:
             namespace: kube-system
             path: k8s/system/core-dns/bbc
             project: system
+          - name: intel-device-plugins-operator
+            namespace: intel-device-plugins-operator
+            path: k8s/system/intel-device-plugins-operator
+            project: system
+          - name: node-feature-discovery
+            namespace: node-feature-discovery
+            path: k8s/system/node-feature-discovery
+            project: system
 
   template:
     metadata:
