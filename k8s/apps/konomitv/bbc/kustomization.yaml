@@ -5,6 +5,7 @@ namespace: konomitv
 resources:
   - ./resources/deployment.yaml
   - ./resources/service.yaml
+  - ./../../../common/registry-ghcr-io/bbc
 
 configMapGenerator:
   - name: app-config
