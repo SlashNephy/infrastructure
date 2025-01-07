@@ -1,0 +1,29 @@
+capture:
+  upload_folder: /code/server/data/capture
+
+general:
+  backend: Mirakurun
+  debug: false
+  debug_encoder: false
+
+  edcb_url: "tcp://localhost:4510/"
+  encoder: FFmpeg
+  mirakurun_url: "http://app.mahiron:40772/"
+  program_update_interval: 15
+
+server:
+  custom_https_certificate: null
+  custom_https_private_key: null
+  port: 7000
+
+tv:
+  debug_mode_ts_path: null
+  max_alive_time: 10
+
+twitter:
+  consumer_key: null
+  consumer_secret: null
+
+video:
+  recorded_folders:
+    - /records
