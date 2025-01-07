@@ -1111,25 +1111,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pulumi/cloudflare@npm:5.45.0":
-  version: 5.45.0
-  resolution: "@pulumi/cloudflare@npm:5.45.0"
+"@pulumi/cloudflare@npm:5.46.0":
+  version: 5.46.0
+  resolution: "@pulumi/cloudflare@npm:5.46.0"
   dependencies:
-    "@pulumi/pulumi": "npm:^3.136.0"
-  checksum: 10/d3738eb7fb46e5091d3acf03339dc84a6f500e6c94dded040743a603d74c5024fef81d3439613dafe166516e0d486d71a6552019a5be01baa32d45804cd989a1
+    "@pulumi/pulumi": "npm:^3.142.0"
+  checksum: 10/3cd30357edd114831d884a86d35e9bd5bc283462c77cd5c05d144cf5f2cae74ace342bbd6ccac13d1dfa6571685171822705bdc6e0631c6b00331f84b5ee57bf
   languageName: node
   linkType: hard
 
-"@pulumi/github@npm:6.4.0":
-  version: 6.4.0
-  resolution: "@pulumi/github@npm:6.4.0"
+"@pulumi/github@npm:6.5.0":
+  version: 6.5.0
+  resolution: "@pulumi/github@npm:6.5.0"
   dependencies:
-    "@pulumi/pulumi": "npm:^3.136.0"
-  checksum: 10/a1f3cfae4e26a8dc69242a53f2abfb9b0d5ab0b10780c459660d07873da1aefc8a4f30509205a2b4dacc1286060523f6de963c632f9f7e15574ca739f0c78aff
+    "@pulumi/pulumi": "npm:^3.142.0"
+  checksum: 10/620670368b2cc7e4631b7edd7d4a4991001606f243740abab9b7ab873d5d2c507f72874afb425897ad441e979d4521919d085463678dedd15c02340fa14ec981
   languageName: node
   linkType: hard
 
-"@pulumi/pulumi@npm:3.144.1, @pulumi/pulumi@npm:^3.0.0, @pulumi/pulumi@npm:^3.136.0":
+"@pulumi/pulumi@npm:3.144.1, @pulumi/pulumi@npm:^3.0.0, @pulumi/pulumi@npm:^3.142.0":
   version: 3.144.1
   resolution: "@pulumi/pulumi@npm:3.144.1"
   dependencies:
@@ -1506,21 +1506,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=13.7.0":
+"@types/node@npm:*, @types/node@npm:22.10.5, @types/node@npm:>=13.7.0":
   version: 22.10.5
   resolution: "@types/node@npm:22.10.5"
   dependencies:
     undici-types: "npm:~6.20.0"
   checksum: 10/a5366961ffa9921e8f15435bc18ea9f8b7a7bb6b3d92dd5e93ebcd25e8af65708872bd8e6fee274b4655bab9ca80fbff9f0e42b5b53857790f13cf68cf4cbbfc
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:22.10.2":
-  version: 22.10.2
-  resolution: "@types/node@npm:22.10.2"
-  dependencies:
-    undici-types: "npm:~6.20.0"
-  checksum: 10/451adfefed4add58b069407173e616220fd4aaa3307cdde1bb701aa053b65b54ced8483db2f870dcedec7a58cb3b06101fbc19d85852716672ec1fd3660947fa
   languageName: node
   linkType: hard
 
@@ -6014,12 +6005,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "pulumi@workspace:pulumi"
   dependencies:
-    "@pulumi/cloudflare": "npm:5.45.0"
-    "@pulumi/github": "npm:6.4.0"
+    "@pulumi/cloudflare": "npm:5.46.0"
+    "@pulumi/github": "npm:6.5.0"
     "@pulumi/pulumi": "npm:3.144.1"
     "@pulumi/std": "npm:1.7.3"
     "@pulumi/terraform": "npm:5.13.4"
-    "@types/node": "npm:22.10.2"
+    "@types/node": "npm:22.10.5"
     typescript: "npm:5.7.2"
   languageName: unknown
   linkType: soft
