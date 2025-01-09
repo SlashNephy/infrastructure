@@ -42,7 +42,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: app
-          image: public.ecr.aws/docker/library/teamspeak:3.13.7@sha256:18ccbec6813ee925034491867a4ab2a1c578974dfc763981fd5c50ddc17ee789
+          image: public.ecr.aws/docker/library/teamspeak:3.13.7@sha256:12b89d83f86068c0e9486afc10335db26297b87c7029022bdcaaaa479e9127c0
           env:
             - name: TS3SERVER_DB_HOST
               value: mysql
