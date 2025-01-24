@@ -15,7 +15,7 @@ resource "mackerel_monitor" "wol" {
 
   external {
     method                            = "GET"
-    url                               = format("https://%s", cloudflare_record.cname_wol.hostname)
+    url                               = format("https://%s/health", cloudflare_record.cname_wol.hostname)
     service                           = mackerel_service.wol.name
     response_time_warning             = 5000
     response_time_critical            = 10000
