@@ -22,4 +22,22 @@ resource "cloudflare_ruleset" "http_request_dynamic_redirect" {
       (http.host eq "${cloudflare_record.cname_www.hostname}")
     EOT
   }
+
+  rules {
+    enabled     = true
+    description = "${cloudflare_record.cname_root.hostname} -> spica.starry.blue"
+    action      = "redirect"
+    action_parameters {
+      from_value {
+        status_code = 302
+        target_url {
+          value = "https://spica.starry.blue"
+        }
+        preserve_query_string = false
+      }
+    }
+    expression = <<-EOT
+      (http.host eq "${cloudflare_record.cname_root.hostname}")
+    EOT
+  }
 }
