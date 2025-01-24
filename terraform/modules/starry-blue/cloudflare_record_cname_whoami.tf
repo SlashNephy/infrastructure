@@ -11,18 +11,18 @@ resource "mackerel_service" "whoami" {
 }
 
 resource "mackerel_monitor" "whoami" {
-  name = format("%s に疎通できない", cloudflare_record.cname_whoami.hostname)
+  name = cloudflare_record.cname_whoami.hostname
 
   external {
     method                            = "GET"
     url                               = format("https://%s", cloudflare_record.cname_whoami.hostname)
     service                           = mackerel_service.whoami.name
-    response_time_warning             = 3000
-    response_time_critical            = 5000
+    response_time_warning             = 5000
+    response_time_critical            = 10000
     response_time_duration            = 3
     max_check_attempts                = 1
-    certification_expiration_warning  = 7
-    certification_expiration_critical = 3
+    certification_expiration_warning  = 30
+    certification_expiration_critical = 7
     follow_redirect                   = false
   }
 }
