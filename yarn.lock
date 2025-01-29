@@ -1111,12 +1111,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pulumi/cloudflare@npm:5.48.0":
-  version: 5.48.0
-  resolution: "@pulumi/cloudflare@npm:5.48.0"
+"@pulumi/cloudflare@npm:5.49.0":
+  version: 5.49.0
+  resolution: "@pulumi/cloudflare@npm:5.49.0"
   dependencies:
     "@pulumi/pulumi": "npm:^3.142.0"
-  checksum: 10/e2f9ae963c94ff172143b1e703e885b57aff5e6ec62c7a8b43455f2b0b6d6f22d9b8f41214c745266f3edaf405deae17bde48426207268d6a21f2dccaebac66c
+  checksum: 10/acf9c46a591ad49247537f4525b335ccdbba63b201bbf1f2db3f0b7f6f2e662375c494b95db8996a0a771b0b3282d331d5b3cd6d105b929536b840ac394788f5
   languageName: node
   linkType: hard
 
@@ -1129,7 +1129,53 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pulumi/pulumi@npm:3.146.0, @pulumi/pulumi@npm:^3.0.0, @pulumi/pulumi@npm:^3.142.0":
+"@pulumi/pulumi@npm:3.147.0":
+  version: 3.147.0
+  resolution: "@pulumi/pulumi@npm:3.147.0"
+  dependencies:
+    "@grpc/grpc-js": "npm:^1.10.1"
+    "@logdna/tail-file": "npm:^2.0.6"
+    "@npmcli/arborist": "npm:^7.3.1"
+    "@opentelemetry/api": "npm:^1.9"
+    "@opentelemetry/exporter-zipkin": "npm:^1.28"
+    "@opentelemetry/instrumentation": "npm:^0.55"
+    "@opentelemetry/instrumentation-grpc": "npm:^0.55"
+    "@opentelemetry/resources": "npm:^1.28"
+    "@opentelemetry/sdk-trace-base": "npm:^1.28"
+    "@opentelemetry/sdk-trace-node": "npm:^1.28"
+    "@opentelemetry/semantic-conventions": "npm:^1.28"
+    "@pulumi/query": "npm:^0.3.0"
+    "@types/google-protobuf": "npm:^3.15.5"
+    "@types/semver": "npm:^7.5.6"
+    "@types/tmp": "npm:^0.2.6"
+    execa: "npm:^5.1.0"
+    fdir: "npm:^6.1.1"
+    google-protobuf: "npm:^3.5.0"
+    got: "npm:^11.8.6"
+    ini: "npm:^2.0.0"
+    js-yaml: "npm:^3.14.0"
+    minimist: "npm:^1.2.6"
+    normalize-package-data: "npm:^6.0.0"
+    picomatch: "npm:^3.0.1"
+    pkg-dir: "npm:^7.0.0"
+    require-from-string: "npm:^2.0.1"
+    semver: "npm:^7.5.2"
+    source-map-support: "npm:^0.5.6"
+    tmp: "npm:^0.2.1"
+    upath: "npm:^1.1.0"
+  peerDependencies:
+    ts-node: ">= 7.0.1 < 12"
+    typescript: ">= 3.8.3 < 6"
+  peerDependenciesMeta:
+    ts-node:
+      optional: true
+    typescript:
+      optional: true
+  checksum: 10/249c21ad21eec8750adc1df070e602c4a890ac2e3558335e47fb63511deaf55f0dd380dfc9398177071c9cf756608157d98c365288d824b8facbcc0c67d467ca
+  languageName: node
+  linkType: hard
+
+"@pulumi/pulumi@npm:^3.0.0, @pulumi/pulumi@npm:^3.142.0":
   version: 3.146.0
   resolution: "@pulumi/pulumi@npm:3.146.0"
   dependencies:
@@ -1506,12 +1552,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:22.10.7, @types/node@npm:>=13.7.0":
+"@types/node@npm:*, @types/node@npm:>=13.7.0":
   version: 22.10.7
   resolution: "@types/node@npm:22.10.7"
   dependencies:
     undici-types: "npm:~6.20.0"
   checksum: 10/64cde1c2f5e5f7d597d3bd462f52c3c2d688a66623eb75d25e1d1d63d384ef553a27100635ad0dbb7d74da517048aa636947863eb624cf85f25d2f22370ce474
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:22.10.10":
+  version: 22.10.10
+  resolution: "@types/node@npm:22.10.10"
+  dependencies:
+    undici-types: "npm:~6.20.0"
+  checksum: 10/61559b62bc7e62b947876e097c99472dd01317dd3b5916b538e2c40db8d68a1fc23c8de48149ef04cd2790a97bf2c005ea60cbb067e55ddbefd013d73da7a147
   languageName: node
   linkType: hard
 
@@ -5865,12 +5920,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "pulumi@workspace:pulumi"
   dependencies:
-    "@pulumi/cloudflare": "npm:5.48.0"
+    "@pulumi/cloudflare": "npm:5.49.0"
     "@pulumi/github": "npm:6.6.0"
-    "@pulumi/pulumi": "npm:3.146.0"
+    "@pulumi/pulumi": "npm:3.147.0"
     "@pulumi/std": "npm:1.7.3"
     "@pulumi/terraform": "npm:5.13.4"
-    "@types/node": "npm:22.10.7"
+    "@types/node": "npm:22.10.10"
     typescript: "npm:5.7.3"
   languageName: unknown
   linkType: soft
