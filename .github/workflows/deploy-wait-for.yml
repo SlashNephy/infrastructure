@@ -1,0 +1,23 @@
+name: Deploy wait-for
+
+on:
+  push:
+    paths:
+      - cmd/wait-for/**
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: SlashNephy/.github/.github/workflows/docker-build.yml@master
+    permissions:
+      contents: read
+      packages: write
+      actions: read
+      security-events: write
+    with:
+      context: cmd/wait-for
+      image-name: ghcr.io/slashnephy/wait-for
+      image-platforms: linux/amd64
+      dispatch-update-image-digest: true
+    secrets:
+      dispatch-github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
