@@ -10,6 +10,13 @@ helmCharts:
     version: 7.7.17
     repo: https://argoproj.github.io/argo-helm
     valuesInline:
+      dex:
+        initContainers:
+          - name: wait-for-authentik
+            args:
+              - --url
+              - https://id.starry.blue/application/o/argo-cd/
+            image: ghcr.io/slashnephy/wait-for:master
       notifications:
         logFormat: json
         logLevel: warn
