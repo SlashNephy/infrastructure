@@ -4,6 +4,7 @@ namespace: kube-system
 
 helmCharts:
   # https://docs.cilium.io/en/stable/installation/k8s-install-helm/
+  # https://github.com/cilium/cilium/blob/main/install/kubernetes/cilium/values.yaml
   - name: cilium
     releaseName: cilium
     namespace: kube-system
@@ -14,17 +15,27 @@ helmCharts:
       autoDirectNodeRoutes: true
       bpf:
         masquerade: true
+      enableIPv4BIGTCP: true
       enableIPv4Masquerade: true
+      enableIPv6BIGTCP: true
       enableIPv6Masquerade: true
+      hostPort:
+        enabled: true
       hubble:
+        preferIpv6: true
         relay:
           enabled: true
         ui:
           enabled: true
+      ipMasqAgent:
+        enabled: true
       ipv4NativeRoutingCIDR: 10.0.0.0/16
       ipv6:
         enabled: true
       ipv6NativeRoutingCIDR: fdac:2d12:9f5::/64
+      k8s:
+        requireIPv4PodCIDR: true
+        requireIPv6PodCIDR: true
       k8sServiceHost: 192.168.1.2
       k8sServicePort: 6443
       kubeProxyReplacement: true
