@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: rustpad
-          image: ekzhang/rustpad:latest@sha256:5f1bdfaa1ac807669157e474ff591670ca84233189f280301d68ec746d34b5b9
+          image: ekzhang/rustpad:latest@sha256:d39e24ab3c09d1575e277a1671b6bf6cdcaf68dc1950b92fe3f7bb86db6c113f
           ports:
             - containerPort: 3030
           securityContext:
