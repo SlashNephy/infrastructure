@@ -16,7 +16,7 @@ helmCharts:
             args:
               - --url
               - https://id.starry.blue/application/o/argo-cd/
-            image: ghcr.io/slashnephy/wait-for:master@sha256:7be892604577ef4190e0c21a2741d8f97acef34af38e9231420d10fabafdc601
+            image: ghcr.io/slashnephy/wait-for:master@sha256:38633b4b624ae9d19e2ff0b322ff84ff844cf7d1437e00e24218f792dbf238f2
       notifications:
         logFormat: json
         logLevel: warn
