@@ -42,6 +42,10 @@ spec:
             namespace: cert-manager
             path: k8s/system/cert-manager/bbc
             project: system
+          - name: tailscale-operator
+            namespace: tailscale-operator
+            path: k8s/system/tailscale-operator/bbc
+            project: system
 
   template:
     metadata:
