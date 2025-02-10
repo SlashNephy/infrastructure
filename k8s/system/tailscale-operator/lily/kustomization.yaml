@@ -12,7 +12,8 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       operatorConfig:
-        hostname: lily
+        hostname: lily-k8s
 
 resources:
   - ./resources/secret.yaml
+  - ./resources/service.yaml
