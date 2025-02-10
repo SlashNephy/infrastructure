@@ -45,6 +45,8 @@ helmCharts:
       operator:
         replicas: 1
       routingMode: native
+      socketLB:
+        hostNamespaceOnly: true
 
 resources:
   - ./resources/ingress.yaml
