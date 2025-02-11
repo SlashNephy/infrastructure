@@ -11,11 +11,11 @@ helmCharts:
     repo: https://pkgs.tailscale.com/helmcharts
     includeCRDs: true
     valuesInline:
-      operatorConfig:
-        hostname: bbc-operator
       apiServerProxyConfig:
         mode: noauth
 
+      operatorConfig:
+        hostname: bbc-operator
 resources:
   - ./resources/secret.yaml
   - ./resources/connector.yaml
