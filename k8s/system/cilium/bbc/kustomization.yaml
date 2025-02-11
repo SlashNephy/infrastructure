@@ -11,17 +11,31 @@ helmCharts:
     repo: https://helm.cilium.io
     includeCRDs: true
     valuesInline:
+      autoDirectNodeRoutes: true
       bpf:
         masquerade: true
+      enableIPv4BIGTCP: true
+      enableIPv4Masquerade: true
+      hostPort:
+        enabled: true
       hubble:
         relay:
           enabled: true
         ui:
           enabled: true
-      ipv6:
+      ipMasqAgent:
         enabled: true
+      ipv4NativeRoutingCIDR: 10.3.0.0/16
+      k8s:
+        requireIPv4PodCIDR: true
       k8sServiceHost: 192.168.11.59
       k8sServicePort: 6443
       kubeProxyReplacement: true
+      loadBalancer:
+        acceleration: best-effort
+        mode: hybrid
       operator:
         replicas: 1
+      routingMode: native
+      socketLB:
+        hostNamespaceOnly: true
