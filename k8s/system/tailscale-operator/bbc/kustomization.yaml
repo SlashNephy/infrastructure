@@ -12,7 +12,8 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       operatorConfig:
-        hostname: bbc-k8s
+        hostname: bbc-operator
 
 resources:
   - ./resources/secret.yaml
+  - ./resources/connector.yaml

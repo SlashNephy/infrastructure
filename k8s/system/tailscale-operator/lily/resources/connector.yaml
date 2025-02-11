@@ -1,0 +1,10 @@
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: connector
+
+spec:
+  hostname: lily-connector
+  subnetRouter:
+    advertiseRoutes:
+      - 192.168.1.0/24
