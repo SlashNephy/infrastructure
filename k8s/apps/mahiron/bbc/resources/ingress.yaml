@@ -1,0 +1,9 @@
+apiVersion: operator.tailscale.io/v1alpha1
+kind: Ingress
+metadata:
+  name: tailscale
+
+spec:
+  service:
+    name: app
+    port: 40772
