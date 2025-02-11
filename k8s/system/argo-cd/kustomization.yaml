@@ -36,6 +36,7 @@ resources:
   - ./resources/application-set-lily.yaml
   - ./resources/application-set-bbc.yaml
   - ./resources/application-private.yaml
+  - ./resources/service.yaml
 
 patches:
   - path: ./resources/patch-argocd-cm.yaml
