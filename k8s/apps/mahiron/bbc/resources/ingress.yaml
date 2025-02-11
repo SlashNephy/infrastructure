@@ -1,9 +1,14 @@
-apiVersion: operator.tailscale.io/v1alpha1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: tailscale
+  annotations:
+    tailscale.com/experimental-forward-cluster-traffic-via-ingress: "true"
 
 spec:
-  service:
-    name: app
-    port: 40772
+  defaultBackend:
+    service:
+      name: app
+      port:
+        name: 40772
+  ingressClassName: tailscale
