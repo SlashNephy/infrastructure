@@ -53,7 +53,7 @@ spec:
     spec:
       destination:
         namespace: "{{.namespace}}"
-        server: https://bbc.tailscale-operator:6443
+        server: https://bbc:443
       project: "{{.project}}"
       source:
         path: "{{.path}}"
