@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: bbc
   annotations:
-    tailscale.com/tailnet-ip: 100.84.208.78
+    tailscale.com/tailnet-fqdn: bbc-connector.spotted-halfmoon.ts.net
 
 spec:
   type: ExternalName
