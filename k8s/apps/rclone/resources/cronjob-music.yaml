@@ -12,7 +12,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: public.ecr.aws/bitnami/rclone:1.69.0@sha256:a8341fce4647c61b2318b536a0edf5fcea2672bf1fcb5f6f41c3de0730527b37
+              image: public.ecr.aws/bitnami/rclone:1.69.0@sha256:85501c49a248133e2d52d995372c20889369ac2e91363fd1d91740a9f926363f
               args:
                 - sync
                 - /mnt/pool/music
