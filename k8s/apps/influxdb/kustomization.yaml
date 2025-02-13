@@ -13,6 +13,9 @@ helmCharts:
         existingSecret: admin-secret
       global:
         imageRegistry: public.ecr.aws
+        security:
+          # imageRegistry を変更するために必要
+          allowInsecureImages: true
       influxdb:
         resourcesPreset: small
         service:
