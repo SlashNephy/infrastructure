@@ -31,6 +31,15 @@ data:
   kustomize.buildOptions: --enable-helm --load-restrictor LoadRestrictionsNone
   kustomize.enabled: "true"
 
+  # TODO: Annotation で ignoreDifferences を管理できるようになったら移行したい
+  # https://github.com/argoproj/argo-cd/issues/12686
+  resource.customizations.ignoreDifferences.Service: |
+    jsonPointers:
+      - /spec/externalName
+  resource.customizations.ignoreDifferences.apps_Deployment: |
+    jqPathExpressions:
+      - '.spec.template.spec.containers[]?.securityContext.sysctls'
+
   statusbadge.enabled: "true"
 
   url: https://argocd.starry.blue
