@@ -13,9 +13,10 @@ helmCharts:
     valuesInline:
       apiServerProxyConfig:
         mode: noauth
-
       operatorConfig:
         hostname: bbc-operator
+
 resources:
   - ./resources/secret.yaml
   - ./resources/connector.yaml
+  - ./resources/service-account.yaml
