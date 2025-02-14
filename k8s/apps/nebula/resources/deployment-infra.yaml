@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: db
-          image: public.ecr.aws/docker/library/postgres:17.3-bookworm@sha256:6e3358e46e34dae6c184f48fd06fe1b3dbf958ad5b83480031907e52b9ec2a7d
+          image: public.ecr.aws/docker/library/postgres:16.7-bookworm@sha256:4b73d95cd1c7c886c4a0633e153a49c6aa01e1164905c349de398bb56ec4ff71
           envFrom:
             - secretRef:
                 name: db-secrets
