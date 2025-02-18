@@ -23,7 +23,7 @@ helmCharts:
             value: Asia/Tokyo
         persistence:
           existingClaim: nebula-postgresql-data
-        resourcesPreset: small
+        resourcesPreset: nano
 
 resources:
   - ./resources/namespace.yaml
