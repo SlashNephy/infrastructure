@@ -10,9 +10,9 @@ helmCharts:
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       auth:
+        database: photoprism
         existingSecret: mysql-secret
         username: photoprism
-        database: photoprism
       global:
         imageRegistry: public.ecr.aws
         security:
