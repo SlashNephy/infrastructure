@@ -23,7 +23,7 @@ helmCharts:
             value: Asia/Tokyo
         persistence:
           existingClaim: stay-tuned-postgresql-data
-        resourcesPreset: small
+        resourcesPreset: nano
 
 resources:
   - ./resources/secret.yaml
