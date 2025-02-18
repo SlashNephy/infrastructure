@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/htpasswd-dashboard:master@sha256:01f46b93966906d2b46b0f032030db2d1655e34afc59d2df8e7d86319320507a
+          image: ghcr.io/slashnephy/htpasswd-dashboard:master@sha256:6bc297d22b2a90f46779c8cfc6195e95369ba17b49bba721d5c2308b54c73a9d
           env:
             - name: CF_TEAM_DOMAIN
               valueFrom:
