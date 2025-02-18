@@ -16,24 +16,6 @@ spec:
         app: infra
     spec:
       containers:
-        - name: db
-          image: public.ecr.aws/docker/library/postgres:17.0-bookworm@sha256:f176fef320ed02c347e9f85352620945547a9a23038f02b57cf7939a198182ae
-          env:
-            - name: TZ
-              value: Asia/Tokyo
-          envFrom:
-            - secretRef:
-                name: db-secrets
-          ports:
-            - containerPort: 5432
-          volumeMounts:
-            - name: db
-              mountPath: /var/lib/postgresql/data
-            - name: backup
-              mountPath: /backup
-              readonly: true
-          securityContext:
-            allowPrivilegeEscalation: false
         - name: river-ui
           image: ghcr.io/riverqueue/riverui:0.8.0@sha256:a11999ed0274ccebf43f981174e0521a4c5ee31beedd7394ccac95ffc52d305e
           env:
@@ -46,13 +28,4 @@ spec:
             - containerPort: 8080
           securityContext:
             allowPrivilegeEscalation: false
-      volumes:
-        - name: db
-          hostPath:
-            path: /opt/k8s-volumes/stay-tuned/db
-            type: DirectoryOrCreate
-        - name: backup
-          hostPath:
-            path: /opt/k8s-volumes/stay-tuned/backup
-            type: Directory
       restartPolicy: Always

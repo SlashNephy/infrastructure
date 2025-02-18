@@ -2,13 +2,35 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: stay-tuned
 
+helmCharts:
+  - name: postgresql
+    releaseName: postgresql
+    version: 16.4.9
+    repo: oci://registry-1.docker.io/bitnamicharts
+    valuesInline:
+      auth:
+        database: stay-tuned
+        existingSecret: postgresql-secret
+        username: stay-tuned
+      global:
+        imageRegistry: public.ecr.aws
+        security:
+          # imageRegistry を変更するために必要
+          allowInsecureImages: true
+      primary:
+        extraEnvVars:
+          - name: TZ
+            value: Asia/Tokyo
+        persistence:
+          existingClaim: stay-tuned-postgresql-data
+        resourcesPreset: small
+
 resources:
-  - ./resources/namespace.yaml
   - ./resources/secret.yaml
   - ./resources/deployment.yaml
   - ./resources/deployment-worker.yaml
   - ./resources/deployment-infra.yaml
   - ./resources/service.yaml
   - ./resources/ingress.yaml
-  - ./resources/cronjob.yaml
+  - ./resources/volume.yaml
   - ./../../common/registry-ghcr-io/lily
