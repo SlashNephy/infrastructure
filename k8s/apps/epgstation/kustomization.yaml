@@ -2,12 +2,41 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: epgstation
 
+helmCharts:
+  - name: mariadb
+    releaseName: mariadb
+    version: 20.2.4
+    repo: oci://registry-1.docker.io/bitnamicharts
+    valuesInline:
+      auth:
+        database: epgstation
+        existingSecret: mariadb-secret
+        username: epgstation
+      global:
+        imageRegistry: public.ecr.aws
+        security:
+          # imageRegistry を変更するために必要
+          allowInsecureImages: true
+      primary:
+        args:
+          - --character-set-server=utf8mb4
+          - --collation-server=utf8mb4_unicode_520_ci
+          - --performance-schema=false
+          - --expire-logs-days=1
+        extraEnvVars:
+          - name: TZ
+            value: Asia/Tokyo
+        persistence:
+          existingClaim: mariadb-data
+        resourcesPreset: small
+
 resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
   - ./resources/deployment.yaml
   - ./resources/service.yaml
   - ./resources/ingress.yaml
+  - ./resources/volume.yaml
   - ./resources/cronjob-backup.yaml
   - ./resources/cronjob-restart.yaml
   - ./../../common/registry-ghcr-io/lily
