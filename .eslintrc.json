@@ -277,16 +277,6 @@
       "rules": {
         "yml/file-extension": "off"
       }
-    },
-    {
-      "files": "pulumi/**/*.ts",
-      "parserOptions": {
-        "project": "./pulumi/tsconfig.json"
-      },
-      "rules": {
-        "import/no-default-export": "off",
-        "import/extensions": "off"
-      }
     }
   ]
 }
