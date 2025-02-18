@@ -18,14 +18,10 @@ helmCharts:
           # imageRegistry を変更するために必要
           allowInsecureImages: true
       primary:
-        args:
-          - --character-set-server=utf8mb4
-          - --collation-server=utf8mb4_unicode_520_ci
-          - --performance-schema=false
-          - --expire-logs-days=1
         extraEnvVars:
           - name: TZ
             value: Asia/Tokyo
+        extraFlags: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_520_ci --expire-logs-days=30
         persistence:
           existingClaim: epgstation-mariadb-data
         resourcesPreset: small
