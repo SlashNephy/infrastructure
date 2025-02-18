@@ -27,7 +27,7 @@ helmCharts:
           - name: TZ
             value: Asia/Tokyo
         persistence:
-          existingClaim: mariadb-data
+          existingClaim: epgstation-mariadb-data
         resourcesPreset: small
 
 resources:

@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mariadb-data
+  name: epgstation-mariadb-data
 spec:
   selector:
     matchLabels:
-      name: mariadb-data
+      name: epgstation-mariadb-data
   storageClassName: local
   accessModes:
     - ReadWriteOnce
@@ -17,9 +17,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mariadb-data
+  name: epgstation-mariadb-data
   labels:
-    name: mariadb-data
+    name: epgstation-mariadb-data
 
 spec:
   storageClassName: local
