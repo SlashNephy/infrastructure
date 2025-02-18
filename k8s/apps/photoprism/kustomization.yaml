@@ -18,12 +18,12 @@ helmCharts:
         security:
           # imageRegistry を変更するために必要
           allowInsecureImages: true
-      influxdb:
+      primary:
         resourcesPreset: small
         updateStrategy:
           type: Recreate # host volume を使っているので RollingUpdate できない
-      persistence:
-        existingClaim: mysql-data
+        persistence:
+          existingClaim: mysql-data
 
 resources:
   - ./resources/deployment.yaml
