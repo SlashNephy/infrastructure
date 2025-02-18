@@ -19,12 +19,10 @@ helmCharts:
           # imageRegistry を変更するために必要
           allowInsecureImages: true
       primary:
+        resourcesPreset: small
         persistence:
           existingClaim: mysql-data
 
-        resourcesPreset: small
-        updateStrategy:
-          type: Recreate # host volume を使っているので RollingUpdate できない
 resources:
   - ./resources/deployment.yaml
   - ./resources/service.yaml
