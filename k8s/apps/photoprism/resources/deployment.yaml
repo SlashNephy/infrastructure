@@ -37,7 +37,7 @@ spec:
             - name: PHOTOPRISM_DATABASE_NAME
               value: photoprism
             - name: PHOTOPRISM_DATABASE_SERVER
-              value: mariadb:3306
+              value: mysql:3306
             - name: PHOTOPRISM_DEFAULT_TLS
               value: "false"
             - name: PHOTOPRISM_DETECT_NSFW
@@ -59,7 +59,7 @@ spec:
             - name: PHOTOPRISM_DISABLE_VECTORS
               value: "false"
             - name: PHOTOPRISM_DISABLE_WEBDAV
-              value: "false"
+              value: "true"
             - name: PHOTOPRISM_EXPERIMENTAL
               value: "false"
             - name: PHOTOPRISM_HTTP_COMPRESSION
@@ -80,7 +80,7 @@ spec:
               value: AI-Powered Photos App
             - name: PHOTOPRISM_SITE_DESCRIPTION
             - name: PHOTOPRISM_SITE_URL
-              value: http://localhost:2342/
+              value: https://photos.starry.blue/
             - name: PHOTOPRISM_UPLOAD_NSFW
               value: "true"
             - name: PHOTOPRISM_UID
