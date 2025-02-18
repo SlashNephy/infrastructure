@@ -37,7 +37,7 @@ spec:
             - name: PHOTOPRISM_DATABASE_NAME
               value: photoprism
             - name: PHOTOPRISM_DATABASE_SERVER
-              value: mysql:3306
+              value: mariadb:3306
             - name: PHOTOPRISM_DEFAULT_TLS
               value: "false"
             - name: PHOTOPRISM_DETECT_NSFW

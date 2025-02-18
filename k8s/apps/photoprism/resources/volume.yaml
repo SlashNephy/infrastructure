@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-data
+  name: mariadb-data
 spec:
   selector:
     matchLabels:
-      name: mysql-data
+      name: mariadb-data
   storageClassName: local
   accessModes:
     - ReadWriteOnce
@@ -17,9 +17,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mysql-data
+  name: mariadb-data
   labels:
-    name: mysql-data
+    name: mariadb-data
 
 spec:
   storageClassName: local
@@ -28,7 +28,7 @@ spec:
   capacity:
     storage: 4Gi
   local:
-    path: /opt/k8s-volumes/photoprism/mysql
+    path: /opt/k8s-volumes/photoprism/mariadb
   nodeAffinity:
     required:
       nodeSelectorTerms:

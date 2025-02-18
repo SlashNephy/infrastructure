@@ -3,15 +3,14 @@ kind: Kustomization
 namespace: photoprism
 
 helmCharts:
-  - name: mysql
-    releaseName: mysql
-    namespace: mysql
-    version: 12.2.2
+  - name: mariadb
+    releaseName: mariadb
+    version: 20.2.4
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       auth:
         database: photoprism
-        existingSecret: mysql-secret
+        existingSecret: mariadb-secret
         username: photoprism
       global:
         imageRegistry: public.ecr.aws
@@ -20,9 +19,9 @@ helmCharts:
           allowInsecureImages: true
       primary:
         persistence:
-          existingClaim: mysql-data
-
+          existingClaim: mariadb-data
         resourcesPreset: small
+
 resources:
   - ./resources/deployment.yaml
   - ./resources/service.yaml
