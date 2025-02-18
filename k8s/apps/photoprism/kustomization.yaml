@@ -19,10 +19,10 @@ helmCharts:
           # imageRegistry を変更するために必要
           allowInsecureImages: true
       primary:
-        resourcesPreset: small
         persistence:
           existingClaim: mysql-data
 
+        resourcesPreset: small
 resources:
   - ./resources/deployment.yaml
   - ./resources/service.yaml
