@@ -156,6 +156,10 @@ spec:
             namespace: influxdb
             path: k8s/apps/influxdb
             project: apps
+          - name: photoprism
+            namespace: photoprism
+            path: k8s/apps/photoprism
+            project: apps
 
           # cron
           - name: cron-backup-node

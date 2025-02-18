@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: photoprism/photoprism:latest
+          workingDir: /photoprism
+          env:
+            - name: PHOTOPRISM_AUTH_MODE
+              value: password
+            - name: PHOTOPRISM_AUTO_IMPORT
+              value: "-1"
+            - name: PHOTOPRISM_AUTO_INDEX
+              value: "300"
+            - name: PHOTOPRISM_BACKUP_ALBUMS
+              value: "true"
+            - name: PHOTOPRISM_BACKUP_DATABASE
+              value: "true"
+            - name: PHOTOPRISM_BACKUP_SCHEDULE
+              value: daily
+            - name: PHOTOPRISM_DATABASE_DRIVER
+              value: mysql
+            - name: PHOTOPRISM_DATABASE_NAME
+              value: photoprism
+            - name: PHOTOPRISM_DATABASE_SERVER
+              value: mariadb:3306
+            - name: PHOTOPRISM_DEFAULT_TLS
+              value: "false"
+            - name: PHOTOPRISM_DETECT_NSFW
+              value: "false"
+            - name: PHOTOPRISM_DISABLE_CHOWN
+              value: "false"
+            - name: PHOTOPRISM_DISABLE_CLASSIFICATION
+              value: "false"
+            - name: PHOTOPRISM_DISABLE_FACES
+              value: "false"
+            - name: PHOTOPRISM_DISABLE_RAW
+              value: "false"
+            - name: PHOTOPRISM_DISABLE_SETTINGS
+              value: "false"
+            - name: PHOTOPRISM_DISABLE_TENSORFLOW
+              value: "false"
+            - name: PHOTOPRISM_DISABLE_TLS
+              value: "true"
+            - name: PHOTOPRISM_DISABLE_VECTORS
+              value: "false"
+            - name: PHOTOPRISM_DISABLE_WEBDAV
+              value: "false"
+            - name: PHOTOPRISM_EXPERIMENTAL
+              value: "false"
+            - name: PHOTOPRISM_HTTP_COMPRESSION
+              value: gzip
+            - name: PHOTOPRISM_INDEX_SCHEDULE
+            - name: PHOTOPRISM_LOG_LEVEL
+              value: info
+            - name: PHOTOPRISM_ORIGINALS_LIMIT
+              value: "5000"
+            - name: PHOTOPRISM_RAW_PRESETS
+              value: "false"
+            - name: PHOTOPRISM_READONLY
+              value: "false"
+            - name: PHOTOPRISM_SIDECAR_YAML
+              value: "true"
+            - name: PHOTOPRISM_SITE_AUTHOR
+            - name: PHOTOPRISM_SITE_CAPTION
+              value: AI-Powered Photos App
+            - name: PHOTOPRISM_SITE_DESCRIPTION
+            - name: PHOTOPRISM_SITE_URL
+              value: http://localhost:2342/
+            - name: PHOTOPRISM_UPLOAD_NSFW
+              value: "true"
+            - name: PHOTOPRISM_UID
+              value: "1000"
+            - name: PHOTOPRISM_GID
+              value: "1000"
+            - name: PHOTOPRISM_UMASK
+              value: "0000"
+            - name: PHOTOPRISM_FFMPEG_ENCODER
+              value: intel
+          envFrom:
+            - secretRef:
+                name: app-secret
+          ports:
+            - containerPort: 2342
+              protocol: TCP
+          volumeMounts:
+            - name: pictures
+              mountPath: /photoprism/originals
+            - name: storage
+              mountPath: /photoprism/storage
+          resources:
+            limits:
+              gpu.intel.com/i915: "1"
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+      volumes:
+        - name: pictures
+          hostPath:
+            path: /mnt/pool/pictures
+            type: Directory
+        - name: storage
+          hostPath:
+            path: /opt/k8s-volumes/photoprism/storage
+            type: DirectoryOrCreate
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 10

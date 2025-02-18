@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: photoprism
+
+helmCharts:
+  - name: mysql
+    releaseName: mysql
+    namespace: mysql
+    version: 12.2.2
+    repo: oci://registry-1.docker.io/bitnamicharts
+    valuesInline:
+      auth:
+        existingSecret: mysql-secret
+        username: photoprism
+        database: photoprism
+      global:
+        imageRegistry: public.ecr.aws
+        security:
+          # imageRegistry を変更するために必要
+          allowInsecureImages: true
+      influxdb:
+        resourcesPreset: small
+        updateStrategy:
+          type: Recreate # host volume を使っているので RollingUpdate できない
+      persistence:
+        existingClaim: mysql-data
+
+resources:
+  - ./resources/deployment.yaml
+  - ./resources/service.yaml
+  - ./resources/ingress.yaml
+  - ./resources/secret.yaml
+  - ./resources/volume.yaml
