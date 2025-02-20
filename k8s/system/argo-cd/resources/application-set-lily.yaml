@@ -162,10 +162,6 @@ spec:
             project: apps
 
           # cron
-          - name: cron-backup-node
-            namespace: cron-backup-node
-            path: k8s/cron/backup-node
-            project: cron
           - name: cron-backup-volumes
             namespace: cron-backup-volumes
             path: k8s/cron/backup-volumes
@@ -173,10 +169,6 @@ spec:
           - name: cron-create-tvtest-release
             namespace: cron-create-tvtest-release
             path: k8s/cron/create-tvtest-release
-            project: cron
-          - name: cron-rm-empty-files
-            namespace: cron-rm-empty-files
-            path: k8s/cron/rm-empty-files
             project: cron
 
           # system
