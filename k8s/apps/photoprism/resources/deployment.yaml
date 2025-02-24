@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: photoprism/photoprism:latest@sha256:b02a377489f73bd44f4981b1ac887e5c4115f82820951c139e81ccb03b88cc32
+          image: photoprism/photoprism:latest@sha256:c1e788ecabad56211ab7b09a1be0c383105eb964d6df38a1af1ce040292f9055
           workingDir: /photoprism
           env:
             - name: PHOTOPRISM_AUTH_MODE
