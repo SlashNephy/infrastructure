@@ -28,7 +28,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: nginx
-          image: public.ecr.aws/nginx/nginx:1.27-bookworm@sha256:f62145615fb0af3b134ca97f6df890dab3172eb14ded120ec09fe3ebde90af25
+          image: public.ecr.aws/nginx/nginx:1.27-bookworm@sha256:014b3d914c77078e1cd1d7f59a9773f71acbd04957862e05e961bb7bbf2bd656
           ports:
             - containerPort: 80
           volumeMounts:
