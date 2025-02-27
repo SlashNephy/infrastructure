@@ -17,4 +17,7 @@ resource "mackerel_notification_group" "dtv" {
   monitor {
     id = mackerel_monitor.epgstation.id
   }
+  monitor {
+    id = mackerel_monitor.connectivity.id
+  }
 }
