@@ -41,7 +41,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: river-ui
-          image: ghcr.io/riverqueue/riverui:0.8.0@sha256:a11999ed0274ccebf43f981174e0521a4c5ee31beedd7394ccac95ffc52d305e
+          image: ghcr.io/riverqueue/riverui:0.8.1@sha256:53c4b7ca46022eafcf15e4d724a86182e50c4018d8451f4039be22ab00e86ff8
           env:
             - name: DATABASE_URL
               valueFrom:
