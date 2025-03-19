@@ -16,11 +16,9 @@ spec:
               args:
                 - sync
                 - /mnt/pool/music
-                - atmos1:music
-                - --drive-stop-on-upload-limit
+                - Neotopia:Music/share
                 - --order-by=name
                 - --config=/config/rclone/rclone.conf
-                - --log-level=ERROR
                 - --use-json-log
               volumeMounts:
                 - name: mnt
@@ -28,7 +26,6 @@ spec:
                   readOnly: true
                 - name: config
                   mountPath: /config/rclone
-                  readOnly: true
               securityContext:
                 allowPrivilegeEscalation: false
                 runAsGroup: 1000
