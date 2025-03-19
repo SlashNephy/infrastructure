@@ -27,7 +27,6 @@ spec:
                   readOnly: true
                 - name: config
                   mountPath: /config/rclone
-                  readOnly: true
               securityContext:
                 allowPrivilegeEscalation: false
                 runAsGroup: 1000
