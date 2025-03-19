@@ -16,8 +16,7 @@ spec:
               args:
                 - sync
                 - /mnt/pool/books
-                - atmos1:books
-                - --drive-stop-on-upload-limit
+                - Neotopia:Books
                 - --order-by=name
                 - --config=/config/rclone/rclone.conf
                 - --log-level=ERROR
