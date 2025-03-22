@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: lloesche/valheim-server:latest@sha256:71515225d91be7bfa8667a67b7e9702f29cf8886154068fcb3e99c808acea5dc
+          image: lloesche/valheim-server:latest@sha256:b5cf995bf62ec26317489e3e72d1c9d70b3589208ee9f8a46cc5973e43c240f1
           env:
             - name: SERVER_NAME
               valueFrom:
