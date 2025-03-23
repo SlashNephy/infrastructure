@@ -1,4 +1,4 @@
-name: 'Lint k8s Manifest'
+name: Lint k8s Manifest
 
 on:
   push:
@@ -6,8 +6,7 @@ on:
       - master
     paths:
       - 'k8s/**/*.yaml'
-    paths-ignore:
-      - 'k8s/init/**/*.yaml'
+      - '!k8s/init/**/*.yaml'
 
   pull_request:
     types:
@@ -15,8 +14,7 @@ on:
       - synchronize
     paths:
       - 'k8s/**/*.yaml'
-    paths-ignore:
-      - 'k8s/init/**/*.yaml'
+      - '!k8s/init/**/*.yaml'
 
   workflow_dispatch:
 
@@ -33,14 +31,14 @@ jobs:
       - name: Login to Registry
         uses: docker/login-action@v3
         with:
-          registry: 'ghcr.io'
+          registry: ghcr.io
           username: '${{ github.repository_owner }}'
           password: '${{ secrets.GITHUB_TOKEN }}'
 
       - name: kubeconform
         uses: docker://ghcr.io/yannh/kubeconform
         with:
-          entrypoint: '/kubeconform'
+          entrypoint: /kubeconform
           args: -schema-location default -schema-location $CRDS_CATALOG_URL -ignore-missing-schemas -ignore-filename-pattern=$IGNORE_PATTERN ./k8s
         env:
           CRDS_CATALOG_URL: 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json'

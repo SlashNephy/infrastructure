@@ -1,4 +1,4 @@
-name: 'Scan k8s Manifest'
+name: Scan k8s Manifest
 
 on:
   push:
@@ -30,11 +30,11 @@ jobs:
       - name: Run Trivy
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'config'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
+          scan-type: config
+          format: sarif
+          output: trivy-results.sarif
 
       - name: Upload Result
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: trivy-results.sarif

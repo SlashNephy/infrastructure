@@ -1,8 +1,16 @@
 {
-  "eslint.validate": ["yaml"],
-  "eslint.probe": ["yaml"],
+  "eslint.validate": [
+    "javascript",
+    "yaml"
+  ],
+  "eslint.probe": [
+    "javascript",
+    "yaml"
+  ],
   "[yaml]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
-  "cSpell.words": ["PHOTOPRISM"]
+  "cSpell.words": [
+    "PHOTOPRISM"
+  ]
 }

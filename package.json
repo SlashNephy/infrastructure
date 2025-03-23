@@ -1,23 +1,23 @@
 {
   "name": "infrastructure",
   "version": "1.0.0",
-  "repository": "https://github.com/SlashNephy/infrastructure",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SlashNephy/infrastructure"
+  },
   "license": "MIT",
   "author": "SlashNephy <spica@starry.blue>",
+  "type": "module",
   "scripts": {
-    "format": "concurrently -n format: -m 1 'yarn:format:*'",
-    "format:eslint": "yarn lint:eslint --fix",
-    "format:prettier": "yarn lint:prettier --write",
-    "lint": "concurrently -n lint: 'yarn:lint:*'",
-    "lint:eslint": "eslint .",
-    "lint:prettier": "prettier --check ."
+    "format": "eslint . --fix",
+    "lint": "eslint ."
   },
   "devDependencies": {
-    "@slashnephy/eslint-config": "2.3.186",
-    "@slashnephy/prettier-config": "1.0.73",
+    "@slashnephy/eslint-config": "3.0.1",
     "concurrently": "9.1.2",
-    "eslint": "8.57.1",
-    "prettier": "3.5.3"
+    "eslint": "9.23.0",
+    "eslint-plugin-yml": "1.17.0",
+    "yaml-eslint-parser": "1.3.0"
   },
   "packageManager": "yarn@4.7.0"
 }
