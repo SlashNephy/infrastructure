@@ -19,7 +19,7 @@ jobs:
       contents: read
       pull-requests: write
     with:
-      enable-prettier: 'false'
+      enable-prettier: false
 
   format:
     if: github.event_name == 'push'
