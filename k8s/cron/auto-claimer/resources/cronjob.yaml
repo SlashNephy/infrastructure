@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob
+
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: app
+              image: ghcr.io/slashnephy/auto-claimer:latest
+              env:
+                - name: DATABASE_DSN
+                  value: /data/auto-claimer.db
+              envFrom:
+                - secretRef:
+                    name: app-secret
+              volumeMounts:
+                - name: data
+                  mountPath: /data
+              securityContext:
+                allowPrivilegeEscalation: false
+          volumes:
+            - name: data
+              hostPath:
+                path: /opt/k8s-volumes/auto-claimer
+                type: Directory
+          restartPolicy: Never
+  concurrencyPolicy: Forbid

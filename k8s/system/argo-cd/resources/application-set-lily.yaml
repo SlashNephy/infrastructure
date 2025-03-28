@@ -170,6 +170,10 @@ spec:
             namespace: cron-create-tvtest-release
             path: k8s/cron/create-tvtest-release
             project: cron
+          - name: auto-claimer
+            namespace: auto-claimer
+            path: k8s/cron/auto-claimer
+            project: cron
 
           # system
           - name: 1password-lily
