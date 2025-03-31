@@ -23,8 +23,6 @@ spec:
               subPath: config.yaml
             - name: data
               mountPath: /code/server/data
-            - name: records
-              mountPath: /records
           resources:
             limits:
               gpu.intel.com/i915: "1"
@@ -35,8 +33,6 @@ spec:
           configMap:
             name: app-config
         - name: data
-          emptyDir: {}
-        - name: records
           emptyDir: {}
       restartPolicy: Always
       imagePullSecrets:
