@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: chinachu/mirakurun:4.0.0-beta.16
+          image: chinachu/mirakurun:4.0.0-beta.16@sha256:64e7ee56574b46f9361e8eab59cf74df3665fbc29352bce03eca321dbc978c9b
           env:
             - name: TZ
               value: Asia/Tokyo
