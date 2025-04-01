@@ -15,25 +15,19 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/starrybluesky/mirakurun-custom:master@sha256:2dcf9c253ba4647a705f585a72f37355d00de5deeb5354b7fd440832bc6587b4
+          image: chinachu/mirakurun:4.0.0-beta.16
           env:
-            - name: EXTERNAL_JSON_PATH
-              value: /etc/mirakurun/services.yml
             - name: TZ
               value: Asia/Tokyo
-          envFrom:
-            - secretRef:
-                name: app-secret
           ports:
-            - containerPort: 40772
+            - name: http
+              containerPort: 40772
           volumeMounts:
             - name: data
               mountPath: /var/db/mirakurun
             - name: config
               mountPath: /etc/mirakurun
               readOnly: true
-            - name: check-services
-              mountPath: /tmp/mirakurun-check-services
             - name: dev-px4video0
               mountPath: /dev/px4video0
             - name: dev-px4video1
@@ -68,6 +62,7 @@ spec:
               mountPath: /dev/pxmlt8video7
           resources:
             limits:
+              cpu: "1"
               memory: 4Gi
           securityContext:
             capabilities:
@@ -78,16 +73,12 @@ spec:
       volumes:
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/mirakurun-data
+            path: /opt/k8s-volumes/mirakurun/data
             type: DirectoryOrCreate
         - name: config
           hostPath:
-            path: /opt/k8s-volumes/mirakurun-config
+            path: /opt/k8s-volumes/mirakurun/config
             type: Directory
-        - name: check-services
-          hostPath:
-            path: /opt/k8s-volumes/mirakurun-check-services
-            type: DirectoryOrCreate
         - name: dev-px4video0
           hostPath:
             path: /dev/px4video0
@@ -137,5 +128,3 @@ spec:
           hostPath:
             path: /dev/pxmlt8video7
       restartPolicy: Always
-      imagePullSecrets:
-        - name: ghcr-io-credentials

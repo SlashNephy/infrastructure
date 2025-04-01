@@ -8,8 +8,8 @@ spec:
     app: default
   type: NodePort
   ports:
-    - name: "40772"
+    - name: http
       port: 40772
-      targetPort: 40772
-      nodePort: 40772
+      targetPort: http
+      nodePort: 30772
       protocol: TCP
