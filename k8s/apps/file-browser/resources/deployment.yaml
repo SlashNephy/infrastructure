@@ -41,6 +41,9 @@ spec:
             - name: dtv-records
               mountPath: /mnt/pool/records
               readOnly: true
+            - name: dtv-records-local
+              mountPath: /mnt/pool/records_local
+              readOnly: true
             - name: dtv-konomitv-capture
               mountPath: /srv/dtv/konomitv-capture
           resources:
@@ -79,6 +82,10 @@ spec:
         - name: dtv-records
           hostPath:
             path: /mnt/pool/records
+            type: Directory
+        - name: dtv-records-local
+          hostPath:
+            path: /mnt/pool/records_local
             type: Directory
         - name: dtv-konomitv-capture
           hostPath:

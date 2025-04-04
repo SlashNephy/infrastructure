@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: cronjob
+  name: cronjob-records
 
 spec:
   schedule: "* * * * *"
@@ -33,25 +33,25 @@ spec:
                 - name: INCLUDE_CHAPTER_FILE
                   value: "1"
                 - name: SOURCE_DIRECTORY
-                  value: /mnt/pool/records
+                  value: /mnt/pool/records_local
                 - name: SOURCE_FILE_GLOB
                   value: "*.m2ts"
                 - name: TARGET_DIRECTORY
-                  value: /mnt/pool/records_links
+                  value: /mnt/pool/records_local_links
               volumeMounts:
                 - name: records
-                  mountPath: /mnt/pool/records
+                  mountPath: /mnt/pool/records_local
                   readOnly: true
                 - name: output
-                  mountPath: /mnt/pool/records_links
+                  mountPath: /mnt/pool/records_local_links
               securityContext:
                 allowPrivilegeEscalation: false
           volumes:
             - name: records
               hostPath:
-                path: /mnt/pool/records
+                path: /mnt/pool/records_local
             - name: output
               hostPath:
-                path: /mnt/pool/records_links
+                path: /mnt/pool/records_local_links
           restartPolicy: Never
   concurrencyPolicy: Forbid
