@@ -4,7 +4,7 @@ metadata:
   name: cronjob-records-local
 
 spec:
-  schedule: "* * * * *"
+  schedule: "*/5 * * * *"
   jobTemplate:
     spec:
       backoffLimit: 0
