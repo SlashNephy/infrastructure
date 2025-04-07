@@ -6,7 +6,7 @@ terraform {
     }
     mackerel = {
       source  = "mackerelio-labs/mackerel"
-      version = "0.4.1"
+      version = "0.5.0"
     }
   }
 }
