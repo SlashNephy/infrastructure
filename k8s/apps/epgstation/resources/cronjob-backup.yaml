@@ -12,7 +12,7 @@ spec:
         spec:
           containers:
             - name: backup
-              image: ghcr.io/slashnephy/epgstation-custom-hwaccel:master@sha256:66e481f18482f9c0bc569c888d4c857173fb8668c42f2777764b1baf6567f8e0
+              image: ghcr.io/slashnephy/epgstation-custom-hwaccel:master@sha256:053ef491675fad98290d1a40c24e5a2f23100ae9e1fadc860fee5cd6142efadc
               command:
                 - node
                 - dist/DBTools.js
