@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/tsukumijima/konomitv:latest@sha256:dae6a77a501540132747b3a0289d3a749a3ca875b479f1db2a7dad74fcd06812
+          image: ghcr.io/tsukumijima/konomitv:latest@sha256:b2888db5c64919d6617db76ce0467577c3158b87ff72d3b3f0577d9212e9317e
           volumeMounts:
             - name: config
               mountPath: /code/config.yaml
