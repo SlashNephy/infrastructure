@@ -12,7 +12,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: public.ecr.aws/bitnami/rclone:1.69.1@sha256:cc5aacde370fd78e557db2b06dd9331bbede605ff20a7842b68ac18cda9449a7
+              image: public.ecr.aws/bitnami/rclone:1.69.1@sha256:a20ce3e046222e4a93a2477984432bdcd9306ebd5ffe9a872377494fd8ed5012
               args:
                 - sync
                 - "unicorn:"
