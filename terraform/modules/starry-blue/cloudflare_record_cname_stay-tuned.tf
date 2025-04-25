@@ -24,6 +24,7 @@ resource "mackerel_monitor" "stay_tuned_api" {
   external {
     method                            = "GET"
     url                               = format("https://%s/health", cloudflare_record.cname_stay_tuned_api.hostname)
+    expected_status_code              = 200
     service                           = mackerel_service.stay_tuned_api.name
     response_time_warning             = 5000
     response_time_critical            = 10000

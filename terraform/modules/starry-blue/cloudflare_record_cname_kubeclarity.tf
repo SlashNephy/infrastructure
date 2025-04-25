@@ -16,6 +16,7 @@ resource "mackerel_monitor" "kubeclarity" {
   external {
     method                            = "GET"
     url                               = format("https://%s", cloudflare_record.cname_kubeclarity.hostname)
+    expected_status_code              = 302 # TODO: アプリケーションに到達できるようにし 200 を確認する
     service                           = mackerel_service.kubeclarity.name
     response_time_warning             = 5000
     response_time_critical            = 10000

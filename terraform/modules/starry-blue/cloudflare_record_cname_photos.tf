@@ -16,6 +16,7 @@ resource "mackerel_monitor" "photos" {
   external {
     method                            = "GET"
     url                               = format("https://%s", cloudflare_record.cname_photos.hostname)
+    expected_status_code              = 200
     service                           = mackerel_service.photos.name
     response_time_warning             = 5000
     response_time_critical            = 10000

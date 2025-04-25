@@ -16,6 +16,7 @@ resource "mackerel_monitor" "asf" {
   external {
     method                            = "GET"
     url                               = format("https://%s/healthcheck", cloudflare_record.cname_asf.hostname)
+    expected_status_code              = 200
     service                           = mackerel_service.asf.name
     response_time_warning             = 5000
     response_time_critical            = 10000

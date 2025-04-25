@@ -24,6 +24,7 @@ resource "mackerel_monitor" "nebula_api" {
   external {
     method                            = "GET"
     url                               = format("https://%s/health", cloudflare_record.cname_nebula_api.hostname)
+    expected_status_code              = 200
     service                           = mackerel_service.nebula_api.name
     response_time_warning             = 5000
     response_time_critical            = 10000

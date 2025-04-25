@@ -16,6 +16,7 @@ resource "mackerel_monitor" "grafana" {
   external {
     method                            = "GET"
     url                               = format("https://%s/api/health", cloudflare_record.cname_grafana.hostname)
+    expected_status_code              = 200
     service                           = mackerel_service.grafana.name
     response_time_warning             = 5000
     response_time_critical            = 10000

@@ -16,6 +16,7 @@ resource "mackerel_monitor" "navidrome" {
   external {
     method                            = "GET"
     url                               = format("https://%s/ping", cloudflare_record.cname_navidrome.hostname)
+    expected_status_code              = 200
     service                           = mackerel_service.navidrome.name
     response_time_warning             = 5000
     response_time_critical            = 10000

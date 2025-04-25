@@ -16,6 +16,7 @@ resource "mackerel_monitor" "whoami" {
   external {
     method                            = "GET"
     url                               = format("https://%s", cloudflare_record.cname_whoami.hostname)
+    expected_status_code              = 200
     service                           = mackerel_service.whoami.name
     response_time_warning             = 5000
     response_time_critical            = 10000

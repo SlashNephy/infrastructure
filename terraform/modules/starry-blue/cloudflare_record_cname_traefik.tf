@@ -16,6 +16,7 @@ resource "mackerel_monitor" "traefik" {
   external {
     method                            = "GET"
     url                               = format("https://%s", cloudflare_record.cname_traefik.hostname)
+    expected_status_code              = 302 # TODO: アプリケーションに到達できるようにし 200 を確認する
     service                           = mackerel_service.traefik.name
     response_time_warning             = 5000
     response_time_critical            = 10000

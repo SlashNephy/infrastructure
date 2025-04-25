@@ -1,7 +1,7 @@
 resource "cloudflare_record" "cname_id" {
   zone_id = cloudflare_zone.zone.id
   name    = "id"
-  content   = cloudflare_record.aaaa_gateway_v6.hostname
+  content = cloudflare_record.aaaa_gateway_v6.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -16,6 +16,7 @@ resource "mackerel_monitor" "authentik" {
   external {
     method                            = "GET"
     url                               = format("https://%s/-/health/live/", cloudflare_record.cname_id.hostname)
+    expected_status_code              = 200
     service                           = mackerel_service.authentik.name
     response_time_warning             = 5000
     response_time_critical            = 10000
