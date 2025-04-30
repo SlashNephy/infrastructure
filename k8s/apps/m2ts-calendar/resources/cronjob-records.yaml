@@ -12,7 +12,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: ghcr.io/slashnephy/m2ts-calendar:master@sha256:673fa76a7487d8d135409628b970e983b071ca74c5566514107a27adce5b5862
+              image: ghcr.io/slashnephy/m2ts-calendar:master@sha256:09cc8c572760dd2cef04c53f9241754def63ee30b7e76348e853aa19d7d13312
               env:
                 - name: CHECK_INTERVAL_SECONDS
                   value: "0"
