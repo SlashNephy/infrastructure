@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: public.ecr.aws/bitnami/jupyter-base-notebook:latest@sha256:5a6798938d288dce713f4371d59abd08a7742e22049eab856e7301a615a1ac8e
+          image: public.ecr.aws/bitnami/jupyter-base-notebook:latest@sha256:8548f4673e20d6b394c6566eacaabbb3cd1cc72093984875d77071070873da9c
           workingDir: /work
           command:
             - jupyter
