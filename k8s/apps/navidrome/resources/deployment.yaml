@@ -60,10 +60,6 @@ spec:
             - name: music
               mountPath: /music
               readOnly: true
-          resources:
-            limits:
-              cpu: 1000m
-              memory: 1Gi
           securityContext:
             allowPrivilegeEscalation: false
             runAsGroup: 1000

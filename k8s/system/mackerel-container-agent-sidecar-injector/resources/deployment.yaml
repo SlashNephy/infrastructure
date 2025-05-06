@@ -40,13 +40,6 @@ spec:
             - name: cert
               mountPath: /tmp/k8s-webhook-server/serving-certs
               readOnly: true
-          resources:
-            limits:
-              cpu: 500m
-              memory: 128Mi
-            requests:
-              cpu: 10m
-              memory: 64Mi
           livenessProbe:
             httpGet:
               path: /healthz
@@ -72,13 +65,6 @@ spec:
             - name: https
               containerPort: 8443
               protocol: TCP
-          resources:
-            limits:
-              cpu: 500m
-              memory: 128Mi
-            requests:
-              cpu: 5m
-              memory: 64Mi
       volumes:
         - name: cert
           secret:

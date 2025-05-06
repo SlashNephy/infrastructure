@@ -46,10 +46,6 @@ spec:
               readOnly: true
             - name: dtv-konomitv-capture
               mountPath: /srv/dtv/konomitv-capture
-          resources:
-            limits:
-              cpu: 500m
-              memory: 500Mi
           securityContext:
             allowPrivilegeEscalation: false
             runAsGroup: 1000

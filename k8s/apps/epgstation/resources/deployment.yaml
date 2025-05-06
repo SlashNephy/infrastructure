@@ -53,10 +53,6 @@ spec:
           volumeMounts:
             - name: db
               mountPath: /var/lib/mysql
-          resources:
-            limits:
-              cpu: "1"
-              memory: 4Gi
           securityContext:
             allowPrivilegeEscalation: false
       volumes:

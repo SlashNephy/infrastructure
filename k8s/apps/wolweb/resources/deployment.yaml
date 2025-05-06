@@ -28,10 +28,6 @@ spec:
               mountPath: /wolweb/devices.json
               readOnly: true
               subPath: devices.json
-          resources:
-            limits:
-              cpu: 10m
-              memory: 128Mi
           securityContext:
             allowPrivilegeEscalation: false
       volumes:

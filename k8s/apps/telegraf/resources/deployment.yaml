@@ -37,13 +37,6 @@ spec:
               mountPath: /etc/telegraf/telegraf.conf
               readOnly: true
               subPath: telegraf.conf
-          resources:
-            limits:
-              cpu: 100m
-              memory: 128Mi
-            requests:
-              cpu: 10m
-              memory: 64Mi
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
