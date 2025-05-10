@@ -5,7 +5,7 @@ namespace: nebula
 helmCharts:
   - name: postgresql
     releaseName: postgresql
-    version: 16.6.7
+    version: 16.7.2
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       auth:
