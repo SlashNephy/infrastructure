@@ -24,14 +24,6 @@ spec:
             namespace: anilist-synchronizer
             path: k8s/apps/anilist-synchronizer
             project: apps
-          - name: annict-profile-card-dev
-            namespace: annict-profile-card-dev
-            path: k8s/apps/annict-profile-card/dev
-            project: apps
-          - name: annict-profile-card-production
-            namespace: annict-profile-card-production
-            path: k8s/apps/annict-profile-card/production
-            project: apps
           - name: annict2anilist
             namespace: annict2anilist
             path: k8s/apps/annict2anilist
