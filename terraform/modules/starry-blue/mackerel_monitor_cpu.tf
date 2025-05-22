@@ -4,7 +4,7 @@ resource "mackerel_monitor" "cpu" {
   host_metric {
     metric             = "CPU %"
     operator           = ">"
-    warning            = "80"
+    warning            = "75"
     critical           = "90"
     duration           = 3
     max_check_attempts = 1
