@@ -60,10 +60,6 @@ spec:
             namespace: mahiron
             path: k8s/apps/mahiron/lily
             project: apps
-          - name: mirakurun
-            namespace: mirakurun
-            path: k8s/apps/mirakurun/lily
-            project: apps
           - name: mirakurun-iptv-rewriter
             namespace: mirakurun-iptv-rewriter
             path: k8s/apps/mirakurun-iptv-rewriter
@@ -144,17 +140,9 @@ spec:
             namespace: grafana
             path: k8s/apps/grafana
             project: apps
-          - name: stay-tuned
-            namespace: stay-tuned
-            path: k8s/apps/stay-tuned
-            project: apps
           - name: influxdb
             namespace: influxdb
             path: k8s/apps/influxdb
-            project: apps
-          - name: photoprism
-            namespace: photoprism
-            path: k8s/apps/photoprism
             project: apps
 
           # cron
@@ -215,10 +203,6 @@ spec:
           - name: actions-runner-controller
             namespace: actions-runner-system
             path: k8s/system/actions-runner-controller
-            project: system
-          - name: opentelemetry-operator
-            namespace: opentelemetry-operator
-            path: k8s/system/opentelemetry-operator
             project: system
           - name: tailscale-operator
             namespace: tailscale-operator
