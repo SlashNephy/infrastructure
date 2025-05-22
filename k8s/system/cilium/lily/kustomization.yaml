@@ -19,6 +19,8 @@ helmCharts:
       enableIPv4Masquerade: true
       enableIPv6BIGTCP: true
       enableIPv6Masquerade: true
+      envoy:
+        enabled: false
       hostPort:
         enabled: true
       hubble:
