@@ -6,7 +6,7 @@ helmCharts:
   - name: influxdb
     releaseName: influxdb
     namespace: influxdb
-    version: 7.0.3
+    version: 6.6.16
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       auth:
