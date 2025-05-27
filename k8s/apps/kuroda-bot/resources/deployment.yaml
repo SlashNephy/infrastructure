@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/kuroda-bot:master@sha256:10b9752363c3ba3f3c83ee4bc7182111c17e721430c776752dc7816d55b83908
+          image: ghcr.io/slashnephy/kuroda-bot:master@sha256:1f4e5308b9efbfc157873f496e27734af8592188ab83a7d93bb52742169fff5c
           envFrom:
             - secretRef:
                 name: app-secret
