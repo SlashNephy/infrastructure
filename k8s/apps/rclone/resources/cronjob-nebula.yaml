@@ -12,7 +12,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: public.ecr.aws/bitnami/rclone:1.69.3@sha256:b62d4503613c07cecb8dde83429dbb0770760f7ffd3af8cb970ecc75b0576686
+              image: public.ecr.aws/bitnami/rclone:1.69.3@sha256:70f2402a19d4691625c6fd8bdf91db1ce38f4ba9d70184cb92110606b18dfb5b
               args:
                 - sync
                 - /mnt/pool/nebula_media
