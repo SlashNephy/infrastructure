@@ -37,11 +37,18 @@ spec:
               mountPath: /etc/telegraf/telegraf.conf
               readOnly: true
               subPath: telegraf.conf
+            - name: plugins
+              mountPath: /plugins
+              readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
         - name: config
           configMap:
             name: app-config
+        - name: plugins
+          hostPath:
+            path: /opt/k8s-volumes/telegraf/plugins
+            type: Directory
       restartPolicy: Always
       serviceAccountName: telegraf
