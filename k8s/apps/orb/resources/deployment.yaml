@@ -27,3 +27,4 @@ spec:
             path: /opt/k8s-volumes/orb/data
             type: DirectoryOrCreate
       restartPolicy: Always
+      hostNetwork: true
