@@ -21,6 +21,9 @@ spec:
               mountPath: /root/.config/orb
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              add:
+                - NET_RAW
       volumes:
         - name: data
           hostPath:
