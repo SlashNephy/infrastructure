@@ -144,6 +144,10 @@ spec:
             namespace: influxdb
             path: k8s/apps/influxdb
             project: apps
+          - name: orb
+            namespace: orb
+            path: k8s/apps/orb
+            project: apps
 
           # cron
           - name: cron-backup-volumes
