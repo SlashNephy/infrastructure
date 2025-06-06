@@ -2,7 +2,7 @@ module update-image-digest
 
 go 1.23.0
 
-toolchain go1.24.3
+toolchain go1.24.4
 
 require github.com/jessevdk/go-flags v1.6.1
 
