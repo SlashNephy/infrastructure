@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: river-ui
-          image: ghcr.io/riverqueue/riverui:0.10.0@sha256:acd214b76923e5c5dad6a4d73fd363961d30779ffef12d51bac4d6000af9bb81
+          image: ghcr.io/riverqueue/riverui:0.11.0@sha256:a1a9c8f10421b475d9842218aaffc587719096c2fe58f342674681ab2fa5aaf1
           env:
             - name: DATABASE_URL
               valueFrom:
