@@ -16,23 +16,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: db
-
-spec:
-  selector:
-    app: infra
-  type: NodePort
-  ports:
-    - name: "5432"
-      port: 5432
-      targetPort: 5432
-      nodePort: 5432
-      protocol: TCP
-
----
-apiVersion: v1
-kind: Service
-metadata:
   name: redis
 
 spec:

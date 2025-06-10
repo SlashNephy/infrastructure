@@ -16,21 +16,6 @@ spec:
         app: infra
     spec:
       containers:
-        - name: db
-          image: public.ecr.aws/docker/library/postgres:16.9-bookworm@sha256:fa7ffa8e8903cfc6be2d60499ad6c6fa8c0117304afe2de5368c75ae7a11d157
-          envFrom:
-            - secretRef:
-                name: db-secrets
-          ports:
-            - containerPort: 5432
-          volumeMounts:
-            - name: db
-              mountPath: /var/lib/postgresql/data
-            - name: backup
-              mountPath: /backup
-              readonly: true
-          securityContext:
-            allowPrivilegeEscalation: false
         - name: redis
           image: public.ecr.aws/docker/library/redis:8.0.2-bookworm@sha256:dbf3e4b6ad3ece9c733282ff3f16942ed754fdc4ea12332154f30a9a9b88c3af
           ports:
@@ -53,16 +38,8 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
-        - name: db
-          hostPath:
-            path: /opt/k8s-volumes/nebula/db
-            type: DirectoryOrCreate
         - name: redis
           hostPath:
             path: /opt/k8s-volumes/nebula/redis
             type: DirectoryOrCreate
-        - name: backup
-          hostPath:
-            path: /opt/k8s-volumes/nebula/backup
-            type: Directory
       restartPolicy: Always
