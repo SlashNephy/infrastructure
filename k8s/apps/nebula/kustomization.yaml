@@ -22,10 +22,7 @@ helmCharts:
           # @hourly
           schedule: "0 * * * *"
           storage:
-            volumeClaimTemplates:
-              selector:
-                matchLabels:
-                  name: nebula-postgresql-backup
+            existingClaim: nebula-postgresql-backup
         enabled: true
       global:
         imageRegistry: public.ecr.aws
