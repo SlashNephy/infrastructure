@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nebula-postgresql-backup
+spec:
+  selector:
+    matchLabels:
+      name: nebula-postgresql-backup
+  storageClassName: local
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nebula-postgresql-backup
+  labels:
+    name: nebula-postgresql-backup
+
+spec:
+  storageClassName: local
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  local:
+    path: /opt/k8s-volumes/nebula/postgresql-backup
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - lily
+  persistentVolumeReclaimPolicy: Retain

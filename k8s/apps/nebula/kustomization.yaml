@@ -12,6 +12,21 @@ helmCharts:
         database: nebula
         existingSecret: postgresql-secret
         username: nebula
+      backup:
+        cronjob:
+          concurrencyPolicy: Forbid
+          containerSecurityContext:
+            runAsGroup: 1000
+            runAsUser: 1000
+          restartPolicy: Never
+          # @hourly
+          schedule: "0 * * * *"
+          storage:
+            volumeClaimTemplates:
+              selector:
+                matchLabels:
+                  name: nebula-postgresql-backup
+        enabled: true
       global:
         imageRegistry: public.ecr.aws
         security:
@@ -33,4 +48,5 @@ resources:
   - ./resources/service.yaml
   - ./resources/ingress.yaml
   - ./resources/volume.yaml
+  - ./resources/volume-backup.yaml
   - ./../../common/registry-ghcr-io/lily
