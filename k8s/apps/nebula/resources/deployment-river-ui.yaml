@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-river-ui
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: river-ui
+  template:
+    metadata:
+      labels:
+        app: river-ui
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/riverqueue/riverui:0.11.0@sha256:a1a9c8f10421b475d9842218aaffc587719096c2fe58f342674681ab2fa5aaf1
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: server-secrets
+                  key: JOBQUEUE_DSN
+          ports:
+            - containerPort: 8080
+          securityContext:
+            allowPrivilegeEscalation: false
+      restartPolicy: Always
