@@ -41,6 +41,7 @@ helmCharts:
     version: 21.2.3
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
+      architecture: standalone
       auth:
         existingSecret: redis-secret
       global:
