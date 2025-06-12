@@ -49,7 +49,7 @@ helmCharts:
         security:
           # imageRegistry を変更するために必要
           allowInsecureImages: true
-      primary:
+      master:
         extraEnvVars:
           - name: TZ
             value: Asia/Tokyo
