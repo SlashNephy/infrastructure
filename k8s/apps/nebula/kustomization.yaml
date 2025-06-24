@@ -5,7 +5,7 @@ namespace: nebula
 helmCharts:
   - name: postgresql
     releaseName: postgresql
-    version: 16.7.10
+    version: 16.7.13
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       auth:
@@ -38,7 +38,7 @@ helmCharts:
         resourcesPreset: nano
   - name: redis
     releaseName: redis
-    version: 21.2.3
+    version: 21.2.5
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       architecture: standalone
