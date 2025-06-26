@@ -19,7 +19,7 @@ spec:
                 - Neotopia:Backup/nebula_media
                 - --order-by=name
                 - --config=/config/rclone/rclone.conf
-                - --use-json-log
+                - --log-level=INFO
               volumeMounts:
                 - name: mnt
                   mountPath: /mnt
