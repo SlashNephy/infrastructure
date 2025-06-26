@@ -19,6 +19,7 @@ configMapGenerator:
       # Advanced configuration
       - ND_AUTHREQUESTLIMIT=3
       - ND_AUTHWINDOWLENGTH=60s
+      - ND_AUTOIMPORTPLAYLISTS=false
       - ND_DEFAULTPLAYLISTPUBLICVISIBILITY=true
       - ND_BACKUP_PATH=/backup
       - ND_BACKUP_SCHEDULE="0 0 * * *"
