@@ -12,7 +12,12 @@ helmCharts:
     valuesInline:
       global:
         addPrometheusAnnotations: true
+      controller:
+        metrics:
+          enabled: true
       dex:
+        metrics:
+          enabled: true
         initContainers:
           - name: wait-for-authentik
             args:
@@ -20,9 +25,13 @@ helmCharts:
               - https://id.starry.blue/application/o/argo-cd/
             image: ghcr.io/slashnephy/wait-for:master@sha256:433e3327c07afa6c803b170c0b86041c67b36e38ec5cb1696c9ea5afb4c3e6e1
       notifications:
+        metrics:
+          enabled: true
         logFormat: json
         logLevel: warn
       server:
+        metrics:
+          enabled: true
         extensions:
           enabled: true
         service:
