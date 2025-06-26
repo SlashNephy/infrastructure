@@ -70,11 +70,13 @@ helmCharts:
         metrics:
           enabled: true
         # Telegraf は Pod Annotation による検出しかサポートしていない
-        podAnnotations:
-          prometheus.io/scrape: "true"
-          prometheus.io/scheme: http
-          prometheus.io/path: /metrics
-          prometheus.io/port: "9300"
+        # TODO: メトリックが正しく収集できていない
+        # https://github.com/SlashNephy/infrastructure/issues/5601
+        # podAnnotations:
+        #   prometheus.io/scrape: "true"
+        #   prometheus.io/scheme: http
+        #   prometheus.io/path: /metrics
+        #   prometheus.io/port: "9300"
 
 resources:
   - ./resources/namespace.yaml
