@@ -29,6 +29,8 @@ helmCharts:
         accountId: dummy
         enabled: true
         licenseKey: dummy
+      global:
+        addPrometheusAnnotations: true
       postgresql:
         auth:
           password: dummy

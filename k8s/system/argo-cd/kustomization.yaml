@@ -10,6 +10,8 @@ helmCharts:
     version: 8.1.1
     repo: https://argoproj.github.io/argo-helm
     valuesInline:
+      global:
+        addPrometheusAnnotations: true
       dex:
         initContainers:
           - name: wait-for-authentik
