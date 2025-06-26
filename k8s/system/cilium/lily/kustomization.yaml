@@ -29,6 +29,8 @@ helmCharts:
           enabled: true
         ui:
           enabled: true
+        metrics:
+          enabled: true
       ipMasqAgent:
         enabled: true
       ipv4NativeRoutingCIDR: 10.0.0.0/16
@@ -46,9 +48,13 @@ helmCharts:
         mode: hybrid
       operator:
         replicas: 1
+        prometheus:
+          enabled: true
       routingMode: native
       socketLB:
         hostNamespaceOnly: true
+      prometheus:
+        enabled: true
 
 resources:
   - ./resources/ingress.yaml
