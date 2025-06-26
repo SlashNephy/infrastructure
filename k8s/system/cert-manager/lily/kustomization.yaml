@@ -18,7 +18,7 @@ helmCharts:
       livenessProbe:
         enabled: true
       prometheus:
-        enabled: false
+        enabled: true
 
 resources:
   - ./resources/namespace.yaml
