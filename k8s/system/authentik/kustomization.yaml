@@ -67,6 +67,8 @@ helmCharts:
       server:
         ingress:
           enabled: false
+        metrics:
+          enabled: true
 
 resources:
   - ./resources/namespace.yaml
