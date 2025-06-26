@@ -16,40 +16,9 @@ spec:
       containers:
         - name: app
           image: deluan/navidrome:0.56.1@sha256:d8dcacba4cf48b4caa81f231f20ebba719e642b0f86a46b1b5c24bb4f27edddc
-          env:
-            - name: ND_SCANSCHEDULE
-              value: "@every 1m"
-            - name: ND_LOGLEVEL
-              value: info
-            - name: ND_SESSIONTIMEOUT
-              value: 24h
-            - name: ND_DEFAULTLANGUAGE
-              value: ja
-            - name: ND_DEFAULTTHEME
-              value: Spotify-ish
-            - name: ND_ENABLEGRAVATAR
-              value: "true"
-            - name: ND_SEARCHFULLSTRING
-              value: "true"
-            - name: ND_COVERARTPRIORITY
-              value: "cover.*, folder.*, front.*, external, embedded"
-            - name: ND_ARTISTARTPRIORITY
-              value: "artist.*, album/artist.*, external"
-            - name: ND_COVERJPEGQUALITY
-              value: "100"
-            # - name: ND_ENABLETRANSCODINGCONFIG
-            #   value: "true"
-            - name: ND_AUTHREQUESTLIMIT
-              value: "3"
-            - name: ND_AUTHWINDOWLENGTH
-              value: 60s
-            - name: ND_IMAGECACHESIZE
-              value: 3000MB
-            - name: ND_TRANSCODINGCACHESIZE
-              value: 3000MB
-            - name: ND_SCANNER_EXTRACTOR
-              value: ffmpeg
           envFrom:
+            - configMapRef:
+                name: app-config
             - secretRef:
                 name: app-secrets
           ports:
@@ -60,6 +29,8 @@ spec:
             - name: music
               mountPath: /music
               readOnly: true
+            - name: backup
+              mountPath: /backup
           securityContext:
             allowPrivilegeEscalation: false
             runAsGroup: 1000
@@ -72,5 +43,9 @@ spec:
         - name: music
           hostPath:
             path: /mnt/pool/music
+            type: DirectoryOrCreate
+        - name: backup
+          hostPath:
+            path: /opt/k8s-volumes/navidrome/backup
             type: DirectoryOrCreate
       restartPolicy: Always

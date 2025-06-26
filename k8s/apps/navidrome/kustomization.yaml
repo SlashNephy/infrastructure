@@ -8,3 +8,33 @@ resources:
   - ./resources/service.yaml
   - ./resources/ingress.yaml
   - ./resources/secret.yaml
+
+configMapGenerator:
+  # https://www.navidrome.org/docs/usage/configuration-options/
+  - name: app-config
+    literals:
+      # Basic configuration
+      - ND_LOGLEVEL=debug
+      - ND_ENABLEINSIGHTSCOLLECTOR=false
+      # Advanced configuration
+      - ND_AUTHREQUESTLIMIT=3
+      - ND_AUTHWINDOWLENGTH=60s
+      - ND_DEFAULTPLAYLISTPUBLICVISIBILITY=true
+      - ND_BACKUP_PATH=/backup
+      - ND_BACKUP_SCHEDULE="0 0 * * *"
+      - ND_BACKUP_COUNT=7
+      - ND_COVERJPEGQUALITY=100
+      - ND_DEFAULTLANGUAGE=ja
+      - ND_DEFAULTTHEME=Spotify-ish
+      - ND_DEFAULTUIVOLUME=25
+      - ND_ENABLEGRAVATAR=true
+      - ND_ENABLETRANSCODINGCONFIG=true
+      - ND_GATRACKINGID=G-2D74NXGY4V
+      - ND_IMAGECACHESIZE=3000MB
+      - ND_PROMETHEUS_ENABLED=true
+      - ND_REVERSEPROXYUSERHEADER=X-Authentik-Username
+      - ND_SCANNER_SCHEDULE="@every 15m"
+      - ND_SCANNER_PURGEMISSING=full
+      - ND_SEARCHFULLSTRING=true
+      - ND_SESSIONTIMEOUT=24h
+      - ND_TRANSCODINGCACHESIZE=3000MB
