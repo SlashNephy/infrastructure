@@ -30,11 +30,23 @@ helmCharts:
               - --url
               - https://id.starry.blue/application/o/argo-cd/
             image: ghcr.io/slashnephy/wait-for:master@sha256:433e3327c07afa6c803b170c0b86041c67b36e38ec5cb1696c9ea5afb4c3e6e1
+        # Telegraf は Pod Annotation による検出しかサポートしていない
+        podAnnotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/scheme: http
+          prometheus.io/path: /metrics
+          prometheus.io/port: "5558"
       notifications:
         metrics:
           enabled: true
         logFormat: json
         logLevel: warn
+        # Telegraf は Pod Annotation による検出しかサポートしていない
+        podAnnotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/scheme: http
+          prometheus.io/path: /metrics
+          prometheus.io/port: "9001"
       server:
         metrics:
           enabled: true
@@ -44,6 +56,30 @@ helmCharts:
           nodePortHttp: 30000
           nodePortHttps: 30001
           type: NodePort
+        # Telegraf は Pod Annotation による検出しかサポートしていない
+        podAnnotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/scheme: http
+          prometheus.io/path: /metrics
+          prometheus.io/port: "8083"
+      repoServer:
+        metrics:
+          enabled: true
+        # Telegraf は Pod Annotation による検出しかサポートしていない
+        podAnnotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/scheme: http
+          prometheus.io/path: /metrics
+          prometheus.io/port: "8084"
+      applicationSet:
+        metrics:
+          enabled: true
+        # Telegraf は Pod Annotation による検出しかサポートしていない
+        podAnnotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/scheme: http
+          prometheus.io/path: /metrics
+          prometheus.io/port: "8080"
 
 resources:
   - ./resources/namespace.yaml
