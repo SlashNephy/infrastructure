@@ -148,6 +148,10 @@ spec:
             namespace: orb
             path: k8s/apps/orb
             project: apps
+          - name: grafana-loki
+            namespace: grafana-loki
+            path: k8s/apps/grafana-loki
+            project: apps
 
           # cron
           - name: cron-backup-volumes
