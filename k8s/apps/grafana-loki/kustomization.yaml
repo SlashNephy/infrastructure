@@ -10,5 +10,4 @@ helmCharts:
     repo: https://grafana.github.io/helm-charts
     includeCRDs: true
     valuesInline:
-      loki:
-        storage: filesystem
+      deploymentMode: SingleBinary
