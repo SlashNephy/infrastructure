@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: public.ecr.aws/bitnami/telegraf:1.34.4@sha256:7222f748996ffcc09d75fda035d92936a694ffbcd6adcbf7b401ed33cb799079
+          image: public.ecr.aws/bitnami/telegraf:1.35.2@sha256:a87a19cf3d0dee68d79967af9bff2f5f871cb8fa03ea1b67e992b193059a7565
           command:
             - telegraf
           env:
