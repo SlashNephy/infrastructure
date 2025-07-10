@@ -56,15 +56,19 @@ spec:
         - name: dev-px4video0
           hostPath:
             path: /dev/px4video0
+            type: CharDevice
         - name: dev-px4video1
           hostPath:
             path: /dev/px4video1
+            type: CharDevice
         - name: dev-px4video2
           hostPath:
             path: /dev/px4video2
+            type: CharDevice
         - name: dev-px4video3
           hostPath:
             path: /dev/px4video3
+            type: CharDevice
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
