@@ -23,7 +23,7 @@ spec:
             - containerPort: 8080
           volumeMounts:
             - name: config
-              mountPath: /.filebrowser.json
+              mountPath: /config/settings.json
               readOnly: true
               subPath: config.json
             - name: data
