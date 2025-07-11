@@ -20,6 +20,16 @@ helmCharts:
         slackwebhookurl: ""
       rbac:
         create: true
+      resourcesToWatch:
+        deployment: false
+        replicationcontroller: false
+        replicaset: false
+        daemonset: false
+        services: false
+        pod: false
+        job: false
+        persistentvolume: false
+        event: true
 
 resources:
   - ./resources/secret.yaml
