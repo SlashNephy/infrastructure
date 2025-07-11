@@ -17,7 +17,7 @@ helmCharts:
           # imageRegistry を変更するために必要
           allowInsecureImages: true
       influxdb:
-        resourcesPreset: small
+        resourcesPreset: medium
         service:
           nodePorts:
             http: 30086
