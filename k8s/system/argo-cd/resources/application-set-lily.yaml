@@ -216,6 +216,10 @@ spec:
             namespace: tailscale-operator
             path: k8s/system/tailscale-operator/lily
             project: system
+          - name: kubewatch
+            namespace: kubewatch
+            path: k8s/system/kubewatch
+            project: system
 
   template:
     metadata:

@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kubewatch
+
+helmCharts:
+  - name: kubewatch
+    releaseName: kubewatch
+    namespace: kubewatch
+    version: 3.5.0
+    repo: https://robusta-charts.storage.googleapis.com
+    includeCRDs: true
+    valuesInline:
+      extraEnvVarsSecret: secret
+      slack:
+        enabled: false
+      slackwebhook:
+        enabled: true
+
+resources:
+  - ./resources/secret.yaml
