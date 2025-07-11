@@ -20,6 +20,15 @@ helmCharts:
         slackwebhookurl: ""
       rbac:
         create: true
+        customRoles:
+          - apiGroups:
+              - events.k8s.io
+            resources:
+              - events
+            verbs:
+              - get
+              - list
+              - watch
       resourcesToWatch:
         deployment: false
         replicationcontroller: false
