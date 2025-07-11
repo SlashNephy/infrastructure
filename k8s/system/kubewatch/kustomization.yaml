@@ -15,6 +15,9 @@ helmCharts:
         enabled: false
       slackwebhook:
         enabled: true
+        # 環境変数で注入する
+        channel: ""
+        slackwebhookurl: ""
       rbac:
         create: true
 
