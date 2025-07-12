@@ -38,7 +38,7 @@ helmCharts:
         resourcesPreset: nano
   - name: redis
     releaseName: redis
-    version: 21.2.6
+    version: 21.2.10
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       architecture: standalone
