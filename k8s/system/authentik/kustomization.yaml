@@ -43,7 +43,8 @@ helmCharts:
               runAsUser: 1000
             restartPolicy: Never
             # @hourly
-            schedule: "0 * * * *"
+            schedule: "30 * * * *"
+            timeZone: Asia/Tokyo
             storage:
               volumeClaimTemplates:
                 selector:

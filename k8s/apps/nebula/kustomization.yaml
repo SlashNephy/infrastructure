@@ -20,7 +20,8 @@ helmCharts:
             runAsUser: 1000
           restartPolicy: Never
           # @hourly
-          schedule: "0 * * * *"
+          schedule: "20 * * * *"
+          timeZone: Asia/Tokyo
           storage:
             existingClaim: nebula-postgresql-backup
         enabled: true

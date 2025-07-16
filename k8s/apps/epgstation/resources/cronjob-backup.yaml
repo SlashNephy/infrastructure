@@ -4,7 +4,8 @@ metadata:
   name: backup
 
 spec:
-  schedule: "0 * * * *"
+  schedule: "10 * * * *"
+  timeZone: Asia/Tokyo
   jobTemplate:
     spec:
       backoffLimit: 0

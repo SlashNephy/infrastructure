@@ -5,6 +5,7 @@ metadata:
 
 spec:
   schedule: "*/2 * * * *"
+  timeZone: Asia/Tokyo
   jobTemplate:
     spec:
       backoffLimit: 3

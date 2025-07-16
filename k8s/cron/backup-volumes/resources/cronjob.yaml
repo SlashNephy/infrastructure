@@ -4,7 +4,8 @@ metadata:
   name: cronjob
 
 spec:
-  schedule: "0 4 * * *"
+  schedule: "30 4 * * *"
+  timeZone: Asia/Tokyo
   jobTemplate:
     spec:
       backoffLimit: 0
