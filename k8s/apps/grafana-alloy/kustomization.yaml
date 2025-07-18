@@ -15,8 +15,8 @@ helmCharts:
           create: false
           name: config
           key: config.alloy
-      mounts:
-        varlog: true
+        mounts:
+          varlog: true
 
 configMapGenerator:
   - name: config
