@@ -22,3 +22,6 @@ configMapGenerator:
       - ./config/config.alloy
     options:
       disableNameSuffixHash: true
+
+resources:
+  - ./resources/ingress.yaml
