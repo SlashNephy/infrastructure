@@ -152,6 +152,10 @@ spec:
             namespace: grafana-loki
             path: k8s/apps/grafana-loki
             project: apps
+          - name: grafana-alloy
+            namespace: grafana-alloy
+            path: k8s/apps/grafana-alloy
+            project: apps
 
           # cron
           - name: cron-backup-volumes
