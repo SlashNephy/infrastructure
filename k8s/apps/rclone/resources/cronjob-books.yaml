@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: public.ecr.aws/bitnami/rclone:1.70.3@sha256:64a8b3436e4a98ed6274953bd5bf496d1337a43b6e81714fd31622163363d91c
+              image: public.ecr.aws/bitnami/rclone:1.70.3@sha256:66e409013622ed9e21f3f656aca98fa562de7a6654c2ab008f59938e84986cb4
               args:
                 - sync
                 - /mnt/pool/books
