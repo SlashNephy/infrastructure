@@ -38,7 +38,7 @@ discovery.relabel "pod_logs" {
 
 loki.source.kubernetes "pod_logs" {
 	targets    = discovery.relabel.pod_logs.output
-	forward_to = [loki.process.pod_logs.receiver]
+	forward_to = [loki.write.default.receiver]
 }
 
 loki.source.kubernetes_events "events" {
