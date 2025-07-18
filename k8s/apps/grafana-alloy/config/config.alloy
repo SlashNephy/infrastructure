@@ -46,3 +46,19 @@ loki.source.kubernetes_events "events" {
 	log_format = "logfmt"
 	forward_to = [loki.write.default.receiver]
 }
+
+loki.relabel "node_systemd_journal" {
+	forward_to = []
+
+	rule {
+		source_labels = ["__journal__systemd_unit"]
+		action        = "replace"
+		target_label  = "unit"
+	}
+}
+
+loki.source.journal "node_systemd_journal" {
+	forward_to    = [loki.write.default.receiver]
+	relabel_rules = loki.relabel.node_systemd_journal.rules
+	labels        = {component = "loki.source.journal"}
+}
