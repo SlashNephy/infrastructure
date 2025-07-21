@@ -11,11 +11,7 @@ generatorOptions:
   disableNameSuffixHash: true
 
 secretGenerator:
-  - name: op-credentials
-    files:
-      - ./1password-credentials.json
-    namespace: 1password
-  - name: onepassword-token
+  - name: onepassword-service-account-token
     envs:
-      - ./1password.env
+      - ./onepassword-service-account-token.env
     namespace: 1password

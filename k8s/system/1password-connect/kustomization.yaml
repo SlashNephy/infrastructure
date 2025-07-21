@@ -10,11 +10,11 @@ helmCharts:
     repo: https://1password.github.io/connect-helm-charts
     includeCRDs: true
     valuesInline:
-      connect:
-        serviceType: ClusterIP
       operator:
+        authMethod: service-account
         autoRestart: true
         create: true
 
 resources:
   - ./resources/namespace.yaml
+  - ./resources/secret.yaml

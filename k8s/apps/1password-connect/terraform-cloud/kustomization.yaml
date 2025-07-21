@@ -10,8 +10,6 @@ helmCharts:
     repo: https://1password.github.io/connect-helm-charts
     includeCRDs: true
     valuesInline:
-      connect:
-        serviceType: ClusterIP
       operator:
         create: false
 
