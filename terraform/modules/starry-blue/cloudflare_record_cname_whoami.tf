@@ -1,7 +1,7 @@
 resource "cloudflare_record" "cname_whoami" {
   zone_id = cloudflare_zone.zone.id
   name    = "whoami"
-  content = cloudflare_record.aaaa_gateway_v6.hostname
+  content = data.cloudflare_record.aaaa_gateway_v6.hostname
   type    = "CNAME"
   proxied = true
 }

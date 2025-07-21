@@ -1,7 +1,7 @@
 resource "cloudflare_record" "cname_nebula_api" {
   zone_id = cloudflare_zone.zone.id
   name    = "nebula-api"
-  content = cloudflare_record.aaaa_gateway_v6.hostname
+  content = data.cloudflare_record.aaaa_gateway_v6.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -9,7 +9,7 @@ resource "cloudflare_record" "cname_nebula_api" {
 resource "cloudflare_record" "cname_nebula_river" {
   zone_id = cloudflare_zone.zone.id
   name    = "nebula-river"
-  content = cloudflare_record.aaaa_gateway_v6.hostname
+  content = data.cloudflare_record.aaaa_gateway_v6.hostname
   type    = "CNAME"
   proxied = true
 }
