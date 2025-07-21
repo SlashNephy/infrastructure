@@ -1,7 +1,5 @@
-resource "cloudflare_record" "aaaa_gateway_v6" {
-  zone_id         = cloudflare_zone.zone.id
-  name            = "gateway-v6"
-  type            = "AAAA"
-  proxied         = false
-  allow_overwrite = true
+data "cloudflare_record" "aaaa_gateway_v6" {
+  zone_id  = cloudflare_zone.zone.id
+  type     = "AAAA"
+  hostname = "gateway-v6.starry.blue"
 }

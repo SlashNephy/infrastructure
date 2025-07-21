@@ -1,7 +1,7 @@
 resource "cloudflare_record" "cname_files" {
   zone_id = cloudflare_zone.zone.id
   name    = "files"
-  content = cloudflare_record.aaaa_gateway_v6.hostname
+  content = data.cloudflare_record.aaaa_gateway_v6.hostname
   type    = "CNAME"
   proxied = true
 }
@@ -31,7 +31,7 @@ resource "mackerel_monitor" "files" {
 resource "cloudflare_record" "cname_files_gateway" {
   zone_id = cloudflare_zone.zone.id
   name    = "files.gateway"
-  content = cloudflare_record.aaaa_gateway_v6.hostname
+  content = data.cloudflare_record.aaaa_gateway_v6.hostname
   type    = "CNAME"
   proxied = false
 }
