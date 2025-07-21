@@ -7,10 +7,6 @@ variable "cloudflare_api_token" {
   type = string
 }
 
-variable "mackerel_api_key" {
-  type = string
-}
-
 variable "general_slack_webhook_url" {
   type = string
 }
