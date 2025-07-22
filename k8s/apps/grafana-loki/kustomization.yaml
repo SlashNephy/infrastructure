@@ -57,7 +57,7 @@ helmCharts:
       test:
         enabled: false
       gateway:
-        affinity: {}
+        enabled: false
 
 resources:
   - ./resources/volume.yaml
