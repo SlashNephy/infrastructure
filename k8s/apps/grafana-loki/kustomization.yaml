@@ -54,6 +54,8 @@ helmCharts:
           max_query_parallelism: 32
       lokiCanary:
         enabled: false
+      test:
+        enabled: false
 
 resources:
   - ./resources/volume.yaml
