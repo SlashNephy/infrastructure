@@ -85,6 +85,7 @@ logs:
         names:
           Authorization: redact
           Cookie: redact
+          X-Authentik-Jwt: redact
     format: json
   general:
     level: INFO
