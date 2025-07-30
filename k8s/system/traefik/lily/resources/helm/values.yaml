@@ -80,6 +80,10 @@ logs:
     fields:
       general:
         defaultmode: keep
+        names:
+          ClientAddr: drop # ClientHost:ClientPort の組み合わせなので不要
+          StartLocal: drop # time で十分
+          StartUTC: drop
       headers:
         defaultmode: keep
         names:
