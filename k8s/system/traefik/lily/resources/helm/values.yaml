@@ -80,29 +80,11 @@ logs:
     fields:
       general:
         defaultmode: keep
-        names:
-          ClientAddr: drop
-          DownstreamContentSize: drop
-          DownstreamStatus: drop
-          OriginDuration: drop
-          Overhead: drop
-          RequestCount: drop
-          RequestHost: drop
-          RequestPort: drop
-          RetryAttempts: drop
-          ServiceAddr: drop
-          ServiceName: drop
-          ServiceURL: drop
-          StartLocal: drop
-          StartUTC: drop
       headers:
-        defaultmode: drop
+        defaultmode: keep
         names:
-          Cf-Ipcountry: keep
-          Cf-Ray: keep
-          Cf-Visitor: keep
-          Location: keep
-          User-Agent: keep
+          Authorization: redact
+          Cookie: redact
     format: json
   general:
     level: INFO
