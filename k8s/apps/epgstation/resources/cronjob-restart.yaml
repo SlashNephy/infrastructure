@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: restart
-              image: ghcr.io/slashnephy/restart-epgstation-deployment:master@sha256:7e4f5a6ef86340c247eb2539d959183e7353e6b04a04d415e450a775186cb4ac
+              image: ghcr.io/slashnephy/restart-epgstation-deployment:master@sha256:c33ed4780b006586ffb3df5ce42f447106e72e0fef47f53c81c9dee63bfe9da7
               env:
                 - name: EPGSTATION_URL
                   value: http://app:8888
