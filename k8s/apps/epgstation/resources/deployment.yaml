@@ -33,28 +33,6 @@ spec:
           resources:
             limits:
               gpu.intel.com/i915: "1"
-        - name: db
-          image: public.ecr.aws/docker/library/mariadb:11.3.2-jammy@sha256:e101f9db31916a5d4d7d594dd0dd092fb23ab4f499f1d7a7425d1afd4162c4bc
-          args:
-            - --character-set-server=utf8mb4
-            - --collation-server=utf8mb4_unicode_520_ci
-            - --performance-schema=false
-            - --expire-logs-days=1
-          env:
-            - name: MYSQL_DATABASE
-              value: epgstation
-            - name: TZ
-              value: Asia/Tokyo
-          envFrom:
-            - secretRef:
-                name: app-secret
-          ports:
-            - containerPort: 3306
-          volumeMounts:
-            - name: db
-              mountPath: /var/lib/mysql
-          securityContext:
-            allowPrivilegeEscalation: false
       volumes:
         - name: data
           hostPath:
@@ -72,10 +50,6 @@ spec:
           hostPath:
             path: /mnt/pool/records_local
             type: Directory
-        - name: db
-          hostPath:
-            path: /opt/k8s-volumes/epgstation/db
-            type: DirectoryOrCreate
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
