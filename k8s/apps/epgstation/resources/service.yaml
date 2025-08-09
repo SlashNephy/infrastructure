@@ -17,22 +17,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: db
-
-spec:
-  selector:
-    app: default
-
-  ports:
-    - name: "3306"
-      port: 3306
-      targetPort: 3306
-      protocol: TCP
-
----
-apiVersion: v1
-kind: Service
-metadata:
   name: app-node
 
 spec:
