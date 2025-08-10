@@ -12,6 +12,7 @@ deployment:
         claimName: plugins-storage
   minReadySeconds: 30
   replicas: 2
+  terminationGracePeriodSeconds: 7200
 
 envFrom:
   - configMapRef:

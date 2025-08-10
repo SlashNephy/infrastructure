@@ -3,10 +3,6 @@
   "extends": ["github>SlashNephy/.github:renovate-config"],
   "packageRules": [
     {
-      "matchFileNames": ["k8s/system/traefik/**"],
-      "automergeSchedule": ["after 4am and before 5am"]
-    },
-    {
       "matchFileNames": ["k8s/apps/mahiron/**", "k8s/apps/epgstation/**"],
       "automerge": false
     }
