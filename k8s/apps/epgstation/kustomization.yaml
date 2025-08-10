@@ -21,7 +21,7 @@ helmCharts:
         extraEnvVars:
           - name: TZ
             value: Asia/Tokyo
-        extraFlags: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_520_ci --expire-logs-days=30 --slow-query-log --slow-query-log-file=/dev/stdout
+        extraFlags: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_520_ci --expire-logs-days=30 --slow-query-log --slow-query-log-file=/dev/stdout --log-output=FILE
         persistence:
           existingClaim: epgstation-mariadb-data
         resourcesPreset: small
