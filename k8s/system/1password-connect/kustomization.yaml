@@ -16,6 +16,11 @@ helmCharts:
         authMethod: service-account
         autoRestart: true
         create: true
+        # サービスアカウントによるレートリミットが厳しいので、当面の間は pull を無効にする
+        # https://developer.1password.com/docs/service-accounts/rate-limits
+        # XXX: 定期的な pull を無効化する術がないので期間を実質的に無限にする
+        # https://github.com/1Password/onepassword-operator/blob/f6b267726d0bfa9c746ec75ed19f0c916367e41c/cmd/main.go#L416-L428
+        pollingInterval: "9223372036854775807" # int64 max
 
 resources:
   - ./resources/namespace.yaml
