@@ -6,15 +6,16 @@ autoscaling:
   enabled: false
 
 deployment:
-  additionalContainers:
-    - name: check-cloudflarewarp-plugin
-      image: ghcr.io/slashnephy/curl-jq:master
-      imagePullPolicy: IfNotPresent
-      command:
-        - ash
-        - -c
-        - |
-          curl -s http://traefik:8080/api/http/middlewares | jq '.[] | select(.name == "traefik-trust-cloudflare-ips@kubernetescrd")' --exit-status > /dev/null
+  # middleware が読み込まれていることを確認する
+  # additionalContainers:
+  #   - name: check-cloudflarewarp-plugin
+  #     image: ghcr.io/slashnephy/curl-jq:master
+  #     imagePullPolicy: IfNotPresent
+  #     command:
+  #       - ash
+  #       - -c
+  #       - |
+  #         curl -s http://traefik:8080/api/http/middlewares | jq '.[] | select(.name == "traefik-trust-cloudflare-ips@kubernetescrd")' --exit-status > /dev/null
   additionalVolumes:
     - name: plugins
       persistentVolumeClaim:
