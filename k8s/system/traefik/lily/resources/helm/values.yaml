@@ -8,7 +8,7 @@ autoscaling:
 deployment:
   additionalContainers:
     - name: check-cloudflarewarp-plugin
-      image: ghcr.io/slashnephy/curl-jq:master
+      image: ghcr.io/slashnephy/curl-jq:master@sha256:94f8b2119c835f305555a44f4e9462d40ef92bd777b04467bfacb6ad96b4ce96
       imagePullPolicy: IfNotPresent
       command:
         - ash
