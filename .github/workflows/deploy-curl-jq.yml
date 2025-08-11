@@ -1,0 +1,23 @@
+name: Deploy curl-jq
+
+on:
+  push:
+    paths:
+      - cmd/curl-jq/**
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: SlashNephy/.github/.github/workflows/docker-build.yml@master
+    permissions:
+      contents: read
+      packages: write
+      actions: read
+      security-events: write
+    with:
+      context: cmd/curl-jq
+      image-name: ghcr.io/slashnephy/curl-jq
+      image-platforms: linux/amd64
+      dispatch-update-image-digest: true
+    secrets:
+      dispatch-github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
