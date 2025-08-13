@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: public.ecr.aws/docker/library/mysql:8.0.43-debian@sha256:89e84f0fee7af554484af6a5c7c2d03ca862c4b1a70904c5761c230f2d815034
+          image: public.ecr.aws/docker/library/mysql:8.0.43-debian@sha256:22b2f54e172195985d0400916d723628748c65c1d4fc951d7306a7bc2eb1f866
           env:
             - name: MYSQL_DATABASE
               value: net-radio-archive
