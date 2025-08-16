@@ -5,6 +5,14 @@ general:
   debug: true
   debug_encoder: true
 
+tv:
+  max_alive_time: 60
+
+video:
+  recorded_folders:
+    - /mnt/records
+    - /mnt/records_local
+
 capture:
   upload_folders:
     - /code/server/data/capture
