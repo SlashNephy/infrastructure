@@ -27,3 +27,11 @@ resource "mackerel_monitor" "konomitv" {
     follow_redirect                   = false
   }
 }
+
+resource "cloudflare_record" "cname_konomitv_gateway" {
+  zone_id = cloudflare_zone.zone.id
+  name    = "konomitv.gateway"
+  content = data.cloudflare_record.aaaa_gateway_v6.hostname
+  type    = "CNAME"
+  proxied = false
+}

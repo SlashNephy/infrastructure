@@ -20,4 +20,7 @@ resource "mackerel_notification_group" "dtv" {
   monitor {
     id = mackerel_monitor.connectivity.id
   }
+  monitor {
+    id = "5x6yDZXh1VN" # そろそろホストマシンのストレージが枯れる！
+  }
 }
