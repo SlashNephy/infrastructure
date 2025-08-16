@@ -53,3 +53,45 @@ spec:
   replacePathRegex:
     regex: ".*"
     replacement: /404.html
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route-gateway
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`konomitv.gateway.starry.blue`)
+      priority: 10
+      services:
+        - name: service
+          port: 7000
+          scheme: https
+          serversTransport: patch-hostname
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
+
+    - kind: Rule
+      match: Host(`konomitv.gateway.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: http
+
+    - kind: Rule
+      match: Host(`konomitv.gateway.starry.blue`) && PathPrefix(`/sw.js`)
+      priority: 20
+      services:
+        - name: noop@internal
+          kind: TraefikService
+      middlewares:
+        - name: redirect-to-404
+
+  tls:
+    options:
+      name: gateway
+      namespace: traefik
