@@ -152,6 +152,10 @@ spec:
             namespace: grafana-alloy
             path: k8s/apps/grafana-alloy
             project: apps
+          - name: immich
+            namespace: immich
+            path: k8s/apps/immich
+            project: apps
 
           # cron
           - name: cron-backup-volumes

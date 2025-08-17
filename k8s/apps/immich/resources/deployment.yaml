@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: server
+          image: ghcr.io/immich-app/immich-server:v1.138.0-quicksync
+          envFrom:
+            - configMapRef:
+                name: app-config
+          ports:
+            - containerPort: 2283
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          resources:
+            limits:
+              gpu.intel.com/i915: "1"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+        - name: machine-learning
+          image: ghcr.io/immich-app/immich-machine-learning:v1.138.0-openvino
+          envFrom:
+            - configMapRef:
+                name: app-config
+          volumeMounts:
+            - name: model-cache
+              mountPath: /cache
+            - name: dev-bus-usb
+              mountPath: /dev/bus/usb
+          resources:
+            limits:
+              gpu.intel.com/i915: "1"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+      volumes:
+        - name: data
+          hostPath:
+            path: /opt/k8s-volumes/immich/data
+            type: DirectoryOrCreate
+        - name: model-cache
+          hostPath:
+            path: /opt/k8s-volumes/immich/model-cache
+            type: DirectoryOrCreate
+        - name: dev-bus-usb
+          hostPath:
+            path: /dev/bus/usb
+            type: Directory
+      restartPolicy: Always

@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: immich
+
+# Immich は 公式の Helm チャートが用意されているが、実装が不十分なので手書きする
+# https://immich.app/docs/install/kubernetes/
+
+resources:
+  - ./resources/deployment.yaml
+  - ./resources/service.yaml
+  - ./resources/ingress.yaml
+
+configMapGenerator:
+  # https://immich.app/docs/install/environment-variables
+  - name: app-config
+    literals:
+      - TZ=Asia/Tokyo
