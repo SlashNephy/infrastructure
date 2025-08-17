@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/immich-app/immich-server:v1.138.0-quicksync
+          image: ghcr.io/immich-app/immich-server:v1.138.0
           envFrom:
             - configMapRef:
                 name: app-config
@@ -29,7 +29,6 @@ spec:
               gpu.intel.com/i915: "1"
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
         - name: machine-learning
           image: ghcr.io/immich-app/immich-machine-learning:v1.138.0-openvino
           envFrom:
@@ -45,7 +44,6 @@ spec:
               gpu.intel.com/i915: "1"
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
       volumes:
         - name: data
           hostPath:
