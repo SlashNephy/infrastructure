@@ -19,6 +19,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: app-config
+            - secretRef:
+                name: app-secret
           ports:
             - containerPort: 2283
           volumeMounts:
@@ -34,6 +36,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: app-config
+            - secretRef:
+                name: app-secret
           volumeMounts:
             - name: model-cache
               mountPath: /cache

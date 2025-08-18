@@ -2,16 +2,84 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: immich
 
-# Immich は 公式の Helm チャートが用意されているが、実装が不十分なので手書きする
-# https://immich.app/docs/install/kubernetes/
+
+
+helmCharts:
+  # Immich は 公式の Helm チャートが用意されているが、実装が不十分なので手書きする
+  # https://immich.app/docs/install/kubernetes/
+  - name: valkey
+    releaseName: valkey
+    version: 3.0.30
+    repo: oci://registry-1.docker.io/bitnamicharts
+    valuesInline:
+      architecture: standalone
+      auth:
+        existingSecret: redis-secret
+      global:
+        imageRegistry: public.ecr.aws
+        security:
+          # imageRegistry を変更するために必要
+          allowInsecureImages: true
+      master:
+        extraEnvVars:
+          - name: TZ
+            value: Asia/Tokyo
+        persistence:
+          existingClaim: immich-redis-data
+        resourcesPreset: nano
+  - name: postgresql
+    releaseName: postgresql
+    version: 16.7.24
+    repo: oci://registry-1.docker.io/bitnamicharts
+    valuesInline:
+      auth:
+        database: immich
+        existingSecret: postgresql-secret
+        username: immich
+      backup:
+        cronjob:
+          concurrencyPolicy: Forbid
+          containerSecurityContext:
+            runAsGroup: 1000
+            runAsUser: 1000
+          restartPolicy: Never
+          # @daily
+          schedule: "20 3 * * *"
+          timeZone: Asia/Tokyo
+          storage:
+            existingClaim: immich-postgresql-backup
+        enabled: true
+      image:
+        registry: ghcr.io
+        repository: immich-app/postgres
+        tag: 14-vectorchord0.4.3-pgvectors0.2.0
+      global:
+        security:
+          # image を変更するために必要
+          allowInsecureImages: true
+      primary:
+        extraEnvVars:
+          - name: TZ
+            value: Asia/Tokyo
+        persistence:
+          existingClaim: immich-postgresql-data
+        resourcesPreset: nano
+        initdb:
+          args: --data-checksums
 
 resources:
   - ./resources/deployment.yaml
   - ./resources/service.yaml
   - ./resources/ingress.yaml
+  - ./resources/secret.yaml
+  - ./resources/volume-redis.yaml
+  - ./resources/volume-postgresql.yaml
 
 configMapGenerator:
   # https://immich.app/docs/install/environment-variables
   - name: app-config
     literals:
       - TZ=Asia/Tokyo
+      - DB_HOSTNAME=postgresql
+      - DB_USERNAME=immich
+      - REDIS_HOSTNAME=valkey-master
