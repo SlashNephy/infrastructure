@@ -47,13 +47,10 @@ helmCharts:
           storage:
             existingClaim: immich-postgresql-backup
         enabled: true
-      image:
-        registry: ghcr.io
-        repository: immich-app/postgres
-        tag: 14-vectorchord0.4.3-pgvectors0.2.0
       global:
+        imageRegistry: public.ecr.aws
         security:
-          # image を変更するために必要
+          # imageRegistry を変更するために必要
           allowInsecureImages: true
       primary:
         extraEnvVars:
@@ -64,8 +61,6 @@ helmCharts:
         resourcesPreset: nano
         initdb:
           args: --data-checksums
-        containerSecurityContext:
-          readOnlyRootFilesystem: false
 
 resources:
   - ./resources/deployment.yaml
