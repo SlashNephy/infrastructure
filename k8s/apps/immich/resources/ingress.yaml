@@ -10,6 +10,3 @@ spec:
       services:
         - name: server
           port: http
-      middlewares:
-        - name: forward-auth-authentik
-          namespace: authentik
