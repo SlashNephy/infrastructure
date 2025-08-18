@@ -12,3 +12,19 @@ spec:
       port: 2283
       targetPort: 2283
       protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: machine-learning
+
+spec:
+  selector:
+    app: default
+
+  ports:
+    - name: http
+      port: 3003
+      targetPort: 3003
+      protocol: TCP

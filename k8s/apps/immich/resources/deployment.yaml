@@ -41,6 +41,8 @@ spec:
                 name: app-config
             - secretRef:
                 name: app-secret
+          ports:
+            - containerPort: 3003
           volumeMounts:
             - name: model-cache
               mountPath: /cache
