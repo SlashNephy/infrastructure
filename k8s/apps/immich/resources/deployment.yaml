@@ -26,6 +26,9 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+            - name: media-nebula
+              mountPath: /mnt/pool/nebula_media
+              readOnly: true
           resources:
             limits:
               gpu.intel.com/i915: "1"
@@ -60,5 +63,9 @@ spec:
         - name: dev-bus-usb
           hostPath:
             path: /dev/bus/usb
+            type: Directory
+        - name: media-nebula
+          hostPath:
+            path: /mnt/pool/nebula_media
             type: Directory
       restartPolicy: Always
