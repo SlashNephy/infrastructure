@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: orbforge/orb:latest@sha256:ee21d5a12a957ba8a1fc44b4ade2fc4ec5b4b43817d0bd1fb12c79882c66db2f
+          image: orbforge/orb:latest@sha256:46a7c1e3feff5cfb72a2816828c2b27b7c4a00eea142d7f5392769bd29b3badb
           volumeMounts:
             - name: data
               mountPath: /root/.config/orb
