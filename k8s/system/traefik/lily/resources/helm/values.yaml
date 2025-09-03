@@ -145,6 +145,9 @@ ports:
       enabled: true
       options: traefik-cloudflare@kubernetescrd
 
+ocsp:
+  enabled: true
+
 priorityClassName: load-balancer
 
 providers:
