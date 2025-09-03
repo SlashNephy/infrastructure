@@ -39,7 +39,7 @@ spec:
                 type: Directory
             - name: dest
               hostPath:
-                path: /var/backup
+                path: /mnt/pool/backup
                 type: DirectoryOrCreate
             - name: config
               hostPath:
