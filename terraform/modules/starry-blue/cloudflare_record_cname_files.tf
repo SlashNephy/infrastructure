@@ -20,7 +20,7 @@ resource "mackerel_monitor" "files" {
     service                           = mackerel_service.files.name
     response_time_warning             = 5000
     response_time_critical            = 10000
-    response_time_duration            = 3
+    response_time_duration            = 5
     max_check_attempts                = 1
     certification_expiration_warning  = 30
     certification_expiration_critical = 7

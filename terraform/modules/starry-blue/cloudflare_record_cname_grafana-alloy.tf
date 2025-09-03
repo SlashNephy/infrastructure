@@ -14,13 +14,13 @@ resource "mackerel_monitor" "grafana_alloy" {
   name = cloudflare_record.cname_grafana_alloy.hostname
 
   external {
-    method                            = "GET"
-    url                               = format("https://%s", cloudflare_record.cname_grafana_alloy.hostname)
+    method = "GET"
+    url    = format("https://%s", cloudflare_record.cname_grafana_alloy.hostname)
     # expected_status_code              = 200
     service                           = mackerel_service.grafana_alloy.name
     response_time_warning             = 5000
     response_time_critical            = 10000
-    response_time_duration            = 3
+    response_time_duration            = 5
     max_check_attempts                = 1
     certification_expiration_warning  = 30
     certification_expiration_critical = 7

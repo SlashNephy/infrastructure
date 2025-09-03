@@ -20,7 +20,7 @@ resource "mackerel_monitor" "wol" {
     service                           = mackerel_service.wol.name
     response_time_warning             = 5000
     response_time_critical            = 10000
-    response_time_duration            = 3
+    response_time_duration            = 5
     max_check_attempts                = 1
     certification_expiration_warning  = 30
     certification_expiration_critical = 7
