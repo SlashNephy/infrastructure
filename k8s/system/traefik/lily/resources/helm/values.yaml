@@ -121,9 +121,9 @@ ports:
         - 10.0.0.0/16
         - fdac:2d12:9f5::/64
 
-    # http3:
-    #   advertisedPort: 8443
-    #   enabled: true
+    http3:
+      advertisedPort: 8443
+      enabled: true
 
     # https://doc.traefik.io/traefik/middlewares/overview/
     # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
