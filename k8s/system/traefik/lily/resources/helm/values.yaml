@@ -122,7 +122,9 @@ ports:
         - fdac:2d12:9f5::/64
 
     http3:
-      # advertisedPort: 8443
+      # 同一のポートに対して TCP/UDP を同時に受け入れることができないので別にしておく
+      # https://github.com/kubernetes/kubernetes/issues/47249#issuecomment-587960741
+      advertisedPort: 8443
       enabled: true
 
     # https://doc.traefik.io/traefik/middlewares/overview/
@@ -160,6 +162,5 @@ providers:
     enabled: false
 
 service:
-  single: false
   ipFamilyPolicy: PreferDualStack
   type: NodePort
