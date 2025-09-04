@@ -4,6 +4,12 @@ metadata:
   name: cloudflare
 
 spec:
+  alpnProtocols:
+    # https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids
+    - h3
+    - h2
+    - h2c
+    - http/1.1
   cipherSuites:
     # TLS 1.3
     # https://www.iana.org/assignments/tls-parameters/tls-parameters.xml#tls-parameters-4

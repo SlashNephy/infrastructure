@@ -74,7 +74,9 @@ extraObjects:
       persistentVolumeReclaimPolicy: Retain
       storageClassName: local
 
-globalArguments: []
+globalArguments: 
+  - --api.disabledashboardad=true
+
 
 image:
   registry: public.ecr.aws/docker/library
