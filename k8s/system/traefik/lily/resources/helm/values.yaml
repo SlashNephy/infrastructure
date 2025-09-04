@@ -124,7 +124,7 @@ ports:
     http3:
       # 同一のポートに対して TCP/UDP を同時に受け入れることができないので別にしておく
       # https://github.com/kubernetes/kubernetes/issues/47249#issuecomment-587960741
-      advertisedPort: 8443
+      advertisedPort: 443
       enabled: true
 
     # https://doc.traefik.io/traefik/middlewares/overview/
