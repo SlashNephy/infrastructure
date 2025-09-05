@@ -13,10 +13,12 @@ spec:
       labels:
         app: whoami
     spec:
+      hostname: whoami
       containers:
-        - name: app
+        - name: whoami
           image: ghcr.io/traefik/whoami:v1.11.0
           ports:
-            - containerPort: 80
+            - name: http
+              containerPort: 80
           securityContext:
             allowPrivilegeEscalation: false
