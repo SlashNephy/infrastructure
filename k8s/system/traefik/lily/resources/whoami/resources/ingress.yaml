@@ -1,31 +1,30 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: route
+  name: route-whoami
 
 spec:
   routes:
     - kind: Rule
       match: Host(`whoami.starry.blue`)
       services:
-        - name: app
-          port: 80
+        - name: whoami
+          port: http
 
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: route-gateway
+  name: route-whoami-gateway
 
 spec:
   routes:
     - kind: Rule
       match: Host(`whoami.gateway.starry.blue`)
       services:
-        - name: app
-          port: 80
+        - name: whoami
+          port: http
 
   tls:
     options:
       name: gateway
-      namespace: traefik

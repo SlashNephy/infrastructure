@@ -21,6 +21,7 @@ resources:
   - ./resources/routes/ai.yaml
   - ./resources/custom-error-pages
   - ./resources/priority-class.yaml
+  - ./resources/whoami
 
 configMapGenerator:
   - name: traefik-env
