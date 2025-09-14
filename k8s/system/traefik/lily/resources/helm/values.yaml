@@ -9,7 +9,7 @@ deployment:
   # middleware が読み込まれていることを確認する
   # additionalContainers:
   #   - name: check-cloudflarewarp-plugin
-  #     image: ghcr.io/slashnephy/curl-jq:master
+  #     image: ghcr.io/slashnephy/curl-jq:master@sha256:2f03ec514c2619b8b1aa11b53a5e73ab9b02393e1b8bba7c9919a0a325f8945e
   #     imagePullPolicy: IfNotPresent
   #     command:
   #       - ash
