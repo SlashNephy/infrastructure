@@ -98,7 +98,7 @@ spec:
           image: ghcr.io/sdr-enthusiasts/docker-flightradar24
           env:
             - name: BEASTHOST
-              value: ultrafeeder
+              value: localhost
             - name: BEASTPORT
               value: "30005"
             - name: MLAT
