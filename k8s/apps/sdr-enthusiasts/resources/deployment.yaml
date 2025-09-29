@@ -91,7 +91,7 @@ spec:
             - name: var-log
               mountPath: /var/log
           securityContext:
-            allowPrivilegeEscalation: false
+            privileged: true
 
         # https://github.com/sdr-enthusiasts/docker-flightradar24
         - name: fr24feed
