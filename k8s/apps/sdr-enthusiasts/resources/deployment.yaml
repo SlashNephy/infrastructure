@@ -1,0 +1,146 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        # https://github.com/sdr-enthusiasts/docker-adsb-ultrafeeder
+        - name: ultrafeeder
+          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder
+          env:
+            - name: LOGLEVEL
+              value: error
+            - name: TZ
+              value: Asia/Tokyo
+            - name: READSB_DEVICE_TYPE
+              value: rtlsdr
+            - name: READSB_RTLSDR_DEVICE
+              value: "1090"
+            - name: READSB_RX_LOCATION_ACCURACY
+              value: "2"
+            - name: READSB_STATS_RANGE
+              value: "true"
+            # ultrafeeder では送信しない
+            # - name: ULTRAFEEDER_CONFIG
+            #   value: ""
+            - name: UPDATE_TAR1090
+              value: "true"
+            - name: TAR1090_DEFAULTCENTERLAT
+              value: "35.552250" # ICAO:RJTT IATA:HND
+            - name: TAR1090_DEFAULTCENTERLON
+              value: "139.779602" # ICAO:RJTT IATA:HND
+            - name: TAR1090_PLANECOUNTINTITLE
+              value: "true"
+            - name: TAR1090_MESSAGERATEINTITLE
+              value: "true"
+            - name: TAR1090_DISPLAYUNITS
+              value: metric
+            - name: TAR1090_ENABLE_AC_DB
+              value: "true"
+            - name: TAR1090_FLIGHTAWARELINKS
+              value: "true"
+            - name: TAR1090_SITESHOW
+              value: "true"
+            - name: TAR1090_RANGE_OUTLINE_COLORED_BY_ALTITUDE
+              value: "true"
+            - name: TAR1090_RANGE_OUTLINE_WIDTH
+              value: "2.0"
+            - name: TAR1090_RANGERINGSDISTANCES
+              value: "50,100,150,200"
+            - name: TAR1090_RANGERINGSCOLORS
+              value: "'#1A237E','#0D47A1','#42A5F5','#64B5F6'"
+            - name: TAR1090_USEROUTEAPI
+              value: "true"
+            - name: GRAPHS1090_DARKMODE
+              value: "true"
+          envFrom:
+            - secretRef:
+                name: ultrafeeder
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: beast-output
+              containerPort: 30005
+              protocol: TCP
+          volumeMounts:
+            - name: ultrafeeder-globe-history
+              mountPath: /var/globe_history
+            - name: ultrafeeder-graphs1090
+              mountPath: /var/lib/collectd
+            - name: dev-bus-usb
+              mountPath: /dev/bus/usb
+              readOnly: true
+            - name: proc-diskstats
+              mountPath: /proc/diskstats
+              readOnly: true
+            - name: run
+              mountPath: /run
+            - name: tmp
+              mountPath: /tmp
+            - name: var-log
+              mountPath: /var/log
+          securityContext:
+            allowPrivilegeEscalation: false
+
+        # https://github.com/sdr-enthusiasts/docker-flightradar24
+        - name: fr24feed
+          image: ghcr.io/sdr-enthusiasts/docker-flightradar24
+          env:
+            - name: BEASTHOST
+              value: ultrafeeder
+            - name: BEASTPORT
+              value: "30005"
+            - name: MLAT
+              value: yes
+          envFrom:
+            - secretRef:
+                name: fr24feed
+          ports:
+            - name: http
+              containerPort: 8754
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: ultrafeeder-globe-history
+          hostPath:
+            path: /opt/k8s-volumes/sdr-enthusiasts/ultrafeeder/globe_history
+            type: DirectoryOrCreate
+        - name: ultrafeeder-graphs1090
+          hostPath:
+            path: /opt/k8s-volumes/sdr-enthusiasts/ultrafeeder/graphs1090
+            type: DirectoryOrCreate
+        - name: dev-bus-usb
+          hostPath:
+            path: /dev/bus/usb
+            type: Directory
+        - name: proc-diskstats
+          hostPath:
+            path: /proc/diskstats
+            type: File
+        - name: run
+          emptyDir:
+            medium: Memory
+            sizeLimit: 256Mi
+        - name: tmp
+          emptyDir:
+            medium: Memory
+            sizeLimit: 128Mi
+        - name: var-log
+          emptyDir:
+            medium: Memory
+            sizeLimit: 32Mi
+      restartPolicy: Always
+      dnsConfig:
+        searches: []

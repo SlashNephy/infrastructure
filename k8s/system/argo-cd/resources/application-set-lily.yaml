@@ -152,6 +152,10 @@ spec:
             namespace: immich
             path: k8s/apps/immich
             project: apps
+          - name: sdr-enthusiasts
+            namespace: sdr-enthusiasts
+            path: k8s/apps/sdr-enthusiasts
+            project: apps
 
           # cron
           - name: cron-backup-volumes
