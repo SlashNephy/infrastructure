@@ -5,6 +5,8 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
@@ -16,7 +18,7 @@ spec:
       containers:
         # https://github.com/sdr-enthusiasts/docker-adsb-ultrafeeder
         - name: ultrafeeder
-          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder@sha256:5567375a5aa977a79e6620a209a6e019587f60463aa233145a25abf101c0b992
+          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:telegraf
           env:
             - name: LOGLEVEL
               value: error
@@ -63,6 +65,10 @@ spec:
               value: "true"
             - name: GRAPHS1090_DARKMODE
               value: "true"
+            - name: GRAPHS1090_REDUCE_IO
+              value: "true"
+            - name: PROMETHEUS_ENABLE
+              value: "true"
           envFrom:
             - secretRef:
                 name: ultrafeeder
@@ -83,6 +89,9 @@ spec:
               readOnly: true
             - name: proc-diskstats
               mountPath: /proc/diskstats
+              readOnly: true
+            - name: sys-class-thermal-thermal-zone2
+              mountPath: /sys/class/thermal/thermal_zone0
               readOnly: true
             - name: run
               mountPath: /run
@@ -129,6 +138,10 @@ spec:
           hostPath:
             path: /proc/diskstats
             type: File
+        - name: sys-class-thermal-thermal-zone2
+          hostPath:
+            path: /sys/class/thermal/thermal_zone2
+            type: Directory
         - name: run
           emptyDir:
             medium: Memory
