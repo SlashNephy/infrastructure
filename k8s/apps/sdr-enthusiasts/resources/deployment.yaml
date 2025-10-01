@@ -67,8 +67,12 @@ spec:
               value: "true"
             - name: GRAPHS1090_REDUCE_IO
               value: "true"
-            - name: PROMETHEUS_ENABLE
-              value: "true"
+            - name: INFLUXDBV2_URL
+              value: http://influxdb.influxdb:8086
+            - name: INFLUXDBV2_BUCKET
+              value: sdr-enthusiasts
+            - name: INFLUXDBV2_ORG
+              value: primary
           envFrom:
             - secretRef:
                 name: ultrafeeder
