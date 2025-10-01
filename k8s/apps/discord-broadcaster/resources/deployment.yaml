@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/slashnephy/discord-broadcaster:master@sha256:10cccddc75ec5856fab6d7d84f96162018d8a6edc98bea795803300d13652a48
+          image: ghcr.io/slashnephy/discord-broadcaster:master@sha256:e6450db5e6ab2e82b400ddbc8740596ef577f3e3eae4891de6db52599c783a69
           env:
             - name: TZ
               value: Asia/Tokyo
@@ -31,7 +31,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: redis
-          image: public.ecr.aws/docker/library/redis:8.2.1-bookworm@sha256:b0341dc2e0ce47beb7fcef80089b4d469b10ae94fbbea50072b878d7c88de487
+          image: public.ecr.aws/docker/library/redis:8.2.1-bookworm@sha256:d7d4d31df9dab3b23c2e2e0731cdf44d2ccdb51e08f8d932e7dfff8aa0b8fa54
           ports:
             - containerPort: 6379
           securityContext:
