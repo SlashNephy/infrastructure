@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: soundbot-reloaded
-          image: ghcr.io/slashnephy/soundbot-reloaded:master@sha256:5edba20fad5ffb1b763788967b5586d68682b24b0f322fd0808db0a7031ea31f
+          image: ghcr.io/slashnephy/soundbot-reloaded:master@sha256:64d055a0757e21bad11159b8326a6ca307d6ebeb39c7f2592265da4899e764a3
           env:
             - name: DISCORD_TOKEN
               valueFrom:
