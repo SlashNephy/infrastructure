@@ -2,7 +2,7 @@ module wait-for
 
 go 1.23.0
 
-toolchain go1.25.2
+toolchain go1.25.3
 
 require github.com/jessevdk/go-flags v1.6.1
 
