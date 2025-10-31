@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/immich-app/immich-server:v2.1.0@sha256:72a9b9de6c6abfa7a9c9cdc244ae4d2bd9fea2ae00997f194cbd10aca72ea210
+          image: ghcr.io/immich-app/immich-server:v2.2.0@sha256:90627507693076ec068415daba4d617e48a876ad8069c8cc7e1bc1fdd6f9392b
           envFrom:
             - configMapRef:
                 name: app-config
@@ -35,7 +35,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: machine-learning
-          image: ghcr.io/immich-app/immich-machine-learning:v2.1.0-openvino@sha256:7588fcae4bf1a67f4e5104fce4450c76a04f8694b04107298d566b7bcc39c011
+          image: ghcr.io/immich-app/immich-machine-learning:v2.2.0-openvino@sha256:0cbaebf8431295c69c784e61c3e5f2e8667662ec08df02427795aae9abe235f0
           envFrom:
             - configMapRef:
                 name: app-config
