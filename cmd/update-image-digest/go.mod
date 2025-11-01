@@ -1,6 +1,6 @@
 module update-image-digest
 
-go 1.23.0
+go 1.25.3
 
 toolchain go1.25.3
 
