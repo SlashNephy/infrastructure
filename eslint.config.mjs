@@ -3,7 +3,7 @@ import { globalIgnores } from 'eslint/config'
 
 export default config(
   {},
-  globalIgnores(['**/charts/**']),
+  globalIgnores(['**/charts/**', 'pnpm-lock.yaml']),
   {
     files: ['k8s/**/*.yml'],
     rules: {
