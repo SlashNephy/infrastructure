@@ -64,6 +64,11 @@ func main() {
 }
 
 func watchEvents(ctx context.Context, clientSet *kubernetes.Clientset, config *Config) error {
+	discordSession, err := discordgo.New("")
+	if err != nil {
+		return err
+	}
+
 	client := clientSet.CoreV1().Events(metaV1.NamespaceAll)
 	watcher, err := client.Watch(ctx, metaV1.ListOptions{})
 	if err != nil {
@@ -89,12 +94,12 @@ func watchEvents(ctx context.Context, clientSet *kubernetes.Clientset, config *C
 				continue
 			}
 
-			handleEvent(ctx, event, config)
+			handleEvent(ctx, event, config, discordSession)
 		}
 	}
 }
 
-func handleEvent(ctx context.Context, event watch.Event, config *Config) {
+func handleEvent(ctx context.Context, event watch.Event, config *Config, discordSession *discordgo.Session) {
 	if event.Object == nil {
 		return
 	}
@@ -120,8 +125,8 @@ func handleEvent(ctx context.Context, event watch.Event, config *Config) {
 		slog.String("namespace", k8sEvent.Namespace),
 	)
 
-	if err := sendDiscordNotification(config.DiscordWebhookID, config.DiscordWebhookToken, k8sEvent); err != nil {
-		slog.Error("failed to send Discord notification", "error", err)
+	if err := sendDiscordNotification(discordSession, config.DiscordWebhookID, config.DiscordWebhookToken, k8sEvent); err != nil {
+		slog.ErrorContext(ctx, "failed to send Discord notification", "error", err)
 	}
 }
 
@@ -139,12 +144,7 @@ func filterEvent(event *coreV1.Event) bool {
 	return true
 }
 
-func sendDiscordNotification(webhookID, webhookToken string, event *coreV1.Event) error {
-	session, err := discordgo.New("")
-	if err != nil {
-		return err
-	}
-
+func sendDiscordNotification(session *discordgo.Session, webhookID, webhookToken string, event *coreV1.Event) error {
 	var color int
 	switch event.Type {
 	case "Normal":
@@ -186,6 +186,6 @@ func sendDiscordNotification(webhookID, webhookToken string, event *coreV1.Event
 		Embeds: []*discordgo.MessageEmbed{embed},
 	}
 
-	_, err = session.WebhookExecute(webhookID, webhookToken, false, params)
+	_, err := session.WebhookExecute(webhookID, webhookToken, false, params)
 	return err
 }
