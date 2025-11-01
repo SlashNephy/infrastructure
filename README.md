@@ -32,6 +32,6 @@ $ kubectl get secret argocd-initial-admin-secret \
 - Format / Lint manifest files
 
 ```console
-$ yarn format
-$ yarn lint
+$ pnpm format
+$ pnpm lint
 ```
