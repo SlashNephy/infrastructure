@@ -29,9 +29,8 @@ $ kubectl get secret argocd-initial-admin-secret \
     -o jsonpath="{.data.password}" | base64 -d; echo
 ```
 
-- Format / Lint manifest files
+- Lint manifest files
 
 ```console
-$ pnpm format
-$ pnpm lint
+$ pnpm eslint
 ```
