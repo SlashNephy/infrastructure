@@ -1,0 +1,25 @@
+name: Deploy watch-k8s-events
+
+on:
+  push:
+    paths:
+      - cmd/watch-k8s-events/**
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  build:
+    uses: SlashNephy/.github/.github/workflows/docker-build.yml@master
+    permissions:
+      contents: read
+      packages: write
+      actions: read
+      security-events: write
+    with:
+      context: cmd/watch-k8s-events
+      image-name: ghcr.io/slashnephy/watch-k8s-events
+      image-platforms: linux/amd64
+      dispatch-update-image-digest: true
+    secrets:
+      dispatch-github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
