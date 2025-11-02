@@ -39,6 +39,8 @@ helmCharts:
           replication_factor: 1
         storage:
           type: filesystem
+          bucketNames:
+            chunks: []
         compactor:
           retention_enabled: true
           compaction_interval: 10m
