@@ -149,10 +149,20 @@ func filterEvent(event *coreV1.Event) bool {
 func sendDiscordNotification(session *discordgo.Session, webhookID, webhookToken string, event *coreV1.Event) error {
 	var color int
 	switch event.Type {
-	case "Normal":
+	case coreV1.EventTypeNormal:
 		color = 0x00FF00 // 緑
-	case "Warning":
+	case coreV1.EventTypeWarning:
 		color = 0xFF9900 // オレンジ
+	}
+
+	var timestamp time.Time
+	switch {
+	case !event.LastTimestamp.IsZero():
+		timestamp = event.LastTimestamp.Time
+	case !event.FirstTimestamp.IsZero():
+		timestamp = event.FirstTimestamp.Time
+	default:
+		timestamp = time.Now()
 	}
 
 	embed := &discordgo.MessageEmbed{
@@ -162,7 +172,7 @@ func sendDiscordNotification(session *discordgo.Session, webhookID, webhookToken
 		Fields: []*discordgo.MessageEmbedField{
 			{
 				Name:   "Object Kind",
-				Value:  event.InvolvedObject.Kind,
+				Value:  fmt.Sprintf("%s/%s", event.InvolvedObject.APIVersion, event.InvolvedObject.Kind),
 				Inline: true,
 			},
 			{
@@ -181,7 +191,7 @@ func sendDiscordNotification(session *discordgo.Session, webhookID, webhookToken
 				Inline: true,
 			},
 		},
-		Timestamp: event.LastTimestamp.Time.Format(time.RFC3339),
+		Timestamp: timestamp.Format(time.RFC3339),
 	}
 
 	params := &discordgo.WebhookParams{
