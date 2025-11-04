@@ -24,6 +24,7 @@ spec:
                 - --config=/config/rclone/rclone.conf
                 - --min-age=1m
                 - --max-transfer=1000G
+                - --log-level=INFO
               volumeMounts:
                 - name: mnt
                   mountPath: /mnt
