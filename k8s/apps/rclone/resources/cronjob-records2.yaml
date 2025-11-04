@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: records2
+
+spec:
+  schedule: "2,32 * * * *"
+  timeZone: Asia/Tokyo
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: app
+              image: ghcr.io/neneka/rclone:sha-c74f40a@sha256:736c06ae2d57387c038785864cbdbd35ca548fad469929401e4af5f9350ab91e
+              args:
+                - copy
+                - /mnt/pool/records_links
+                - "boxc:atmos"
+                - --copy-links
+                - --order-by=name
+                - --ignore-existing
+                - --config=/config/rclone/rclone.conf
+                - --min-age=1m
+                - --max-transfer=1000G
+              volumeMounts:
+                - name: mnt
+                  mountPath: /mnt
+                  readOnly: true
+                - name: config
+                  mountPath: /config/rclone
+              securityContext:
+                allowPrivilegeEscalation: false
+                runAsGroup: 1000
+                runAsUser: 1000
+          volumes:
+            - name: mnt
+              hostPath:
+                path: /mnt
+                type: Directory
+            - name: config
+              hostPath:
+                path: /opt/k8s-volumes/rclone-config
+                type: Directory
+          restartPolicy: Never
+  concurrencyPolicy: Forbid
