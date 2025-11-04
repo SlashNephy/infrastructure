@@ -22,6 +22,7 @@ spec:
                 - --copy-links
                 - --order-by=name
                 - --ignore-existing
+                - --min-age=1m
                 - --config=/config/rclone/rclone.conf
                 - --log-level=INFO
               volumeMounts:
