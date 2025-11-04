@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: ghcr.io/neneka/rclone:sha-c74f40a@sha256:736c06ae2d57387c038785864cbdbd35ca548fad469929401e4af5f9350ab91e
+              image: ghcr.io/neneka/rclone:sha-df4a33b@sha256:beab666b5ea36a2fe6ebb31f9eff31185bb56ded9b6ce7c8bf35ac0132bd3dab
               args:
                 - copy
                 - /mnt/pool/records_links
