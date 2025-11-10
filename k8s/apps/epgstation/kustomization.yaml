@@ -25,6 +25,9 @@ helmCharts:
         persistence:
           existingClaim: epgstation-mariadb-data
         resourcesPreset: small
+        livenessProbe:
+          periodSeconds: 60
+          timeoutSeconds: 10
 
 resources:
   - ./resources/namespace.yaml
