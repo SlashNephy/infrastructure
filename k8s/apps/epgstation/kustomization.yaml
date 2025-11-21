@@ -28,6 +28,7 @@ helmCharts:
         livenessProbe:
           periodSeconds: 60
           timeoutSeconds: 10
+          failureThreshold: 5
 
 resources:
   - ./resources/namespace.yaml
