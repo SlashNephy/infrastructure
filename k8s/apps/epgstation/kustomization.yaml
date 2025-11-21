@@ -24,7 +24,7 @@ helmCharts:
         extraFlags: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_520_ci --expire-logs-days=30 --slow-query-log --slow-query-log-file=/dev/stdout --log-output=FILE
         persistence:
           existingClaim: epgstation-mariadb-data
-        resourcesPreset: small
+        resourcesPreset: medium
         livenessProbe:
           periodSeconds: 60
           timeoutSeconds: 10
