@@ -136,13 +136,6 @@ func filterEvent(event *coreV1.Event) bool {
 		return false
 	}
 
-	// 特定 namespace の CronJob はよく失敗するので無視
-	if event.Reason == "BackoffLimitExceeded" && event.InvolvedObject.Kind == "Job" {
-		if event.Namespace == "rclone" || event.Namespace == "annict2anilist" {
-			return false
-		}
-	}
-
 	return true
 }
 
