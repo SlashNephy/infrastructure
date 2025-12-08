@@ -72,6 +72,10 @@ helmCharts:
           prometheus.io/scheme: http
           prometheus.io/path: /metrics
           prometheus.io/port: "8084"
+        livenessProbe:
+          failureThreshold: 5
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
       applicationSet:
         metrics:
           enabled: true
