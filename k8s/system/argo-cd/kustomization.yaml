@@ -63,6 +63,7 @@ helmCharts:
           prometheus.io/path: /metrics
           prometheus.io/port: "8083"
       repoServer:
+        replicas: 2
         metrics:
           enabled: true
         # Telegraf は Pod Annotation による検出しかサポートしていない

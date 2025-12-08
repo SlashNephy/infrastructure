@@ -43,3 +43,7 @@ data:
   statusbadge.enabled: "true"
 
   url: https://argocd.starry.blue
+
+  # Webhook のトリガーのみを使用する
+  # https://argo-cd.readthedocs.io/en/latest/faq/#how-often-does-argo-cd-check-for-changes-to-my-git-or-helm-repository
+  timeout.reconciliation: "0"
