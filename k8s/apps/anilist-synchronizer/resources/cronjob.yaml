@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: ghcr.io/slashnephy/anilist-synchronizer:master@sha256:bbdf8137c7c73baf19ba83d6fa21991a6313b6f02d33da4347d1d958d485b041
+              image: ghcr.io/slashnephy/anilist-synchronizer:master@sha256:57745399d9c5a00cfa253e78929a9bc1c3237412468f45b5cb35be4e70645634
               env:
                 - name: ANILIST_CLIENT_ID
                   valueFrom:
