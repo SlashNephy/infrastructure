@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -134,6 +135,13 @@ func filterEvent(event *coreV1.Event) bool {
 	// 一旦 Warning だけ
 	if event.Type != "Warning" {
 		return false
+	}
+
+	if event.Reason == "BackoffLimitExceeded" {
+		switch {
+		case event.InvolvedObject.Kind == "Job" && event.Namespace == "rclone" && strings.HasPrefix(event.InvolvedObject.Name, "music-"):
+			return false
+		}
 	}
 
 	return true
