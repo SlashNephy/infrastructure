@@ -190,6 +190,18 @@ func getObjectAnnotations(ctx context.Context, clientSet *kubernetes.Clientset, 
 		if err != nil {
 			return nil, err
 		}
+		
+		// For Jobs created by CronJobs, check the parent CronJob's annotations
+		for _, owner := range job.OwnerReferences {
+			if owner.Kind == "CronJob" {
+				cronJob, err := clientSet.BatchV1().CronJobs(namespace).Get(ctx, owner.Name, metaV1.GetOptions{})
+				if err == nil && cronJob.Annotations != nil {
+					return cronJob.Annotations, nil
+				}
+			}
+		}
+		
+		// Fall back to Job's own annotations if no CronJob owner found
 		return job.Annotations, nil
 	case "Pod":
 		pod, err := clientSet.CoreV1().Pods(namespace).Get(ctx, name, metaV1.GetOptions{})
