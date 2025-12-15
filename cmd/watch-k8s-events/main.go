@@ -147,11 +147,11 @@ func filterEvent(ctx context.Context, clientSet *kubernetes.Clientset, event *co
 
 func shouldIgnoreEvent(ctx context.Context, clientSet *kubernetes.Clientset, event *coreV1.Event) bool {
 	obj := event.InvolvedObject
-	
+
 	// Get the object's annotations based on its kind
 	annotations, err := getObjectAnnotations(ctx, clientSet, obj.Namespace, obj.Kind, obj.Name, obj.APIVersion)
 	if err != nil {
-		slog.DebugContext(ctx, "failed to get object annotations", 
+		slog.DebugContext(ctx, "failed to get object annotations",
 			slog.String("kind", obj.Kind),
 			slog.String("namespace", obj.Namespace),
 			slog.String("name", obj.Name),
@@ -190,17 +190,23 @@ func getObjectAnnotations(ctx context.Context, clientSet *kubernetes.Clientset, 
 		if err != nil {
 			return nil, err
 		}
-		
+
 		// For Jobs created by CronJobs, check the parent CronJob's annotations
 		for _, owner := range job.OwnerReferences {
 			if owner.Kind == "CronJob" {
 				cronJob, err := clientSet.BatchV1().CronJobs(namespace).Get(ctx, owner.Name, metaV1.GetOptions{})
-				if err == nil && cronJob.Annotations != nil {
+				if err != nil {
+					slog.DebugContext(ctx, "failed to get parent CronJob annotations",
+						slog.String("namespace", namespace),
+						slog.String("cronJobName", owner.Name),
+						slog.String("error", err.Error()),
+					)
+				} else if cronJob.Annotations != nil {
 					return cronJob.Annotations, nil
 				}
 			}
 		}
-		
+
 		// Fall back to Job's own annotations if no CronJob owner found
 		return job.Annotations, nil
 	case "Pod":
