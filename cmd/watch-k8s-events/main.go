@@ -95,12 +95,12 @@ func watchEvents(ctx context.Context, clientSet *kubernetes.Clientset, config *C
 				continue
 			}
 
-			handleEvent(ctx, event, config, discordSession)
+			handleEvent(ctx, clientSet, event, config, discordSession)
 		}
 	}
 }
 
-func handleEvent(ctx context.Context, event watch.Event, config *Config, discordSession *discordgo.Session) {
+func handleEvent(ctx context.Context, clientSet *kubernetes.Clientset, event watch.Event, config *Config, discordSession *discordgo.Session) {
 	if event.Object == nil {
 		return
 	}
@@ -114,7 +114,7 @@ func handleEvent(ctx context.Context, event watch.Event, config *Config, discord
 		return
 	}
 
-	if !filterEvent(k8sEvent) {
+	if !filterEvent(ctx, clientSet, k8sEvent) {
 		return
 	}
 
@@ -131,20 +131,93 @@ func handleEvent(ctx context.Context, event watch.Event, config *Config, discord
 	}
 }
 
-func filterEvent(event *coreV1.Event) bool {
+func filterEvent(ctx context.Context, clientSet *kubernetes.Clientset, event *coreV1.Event) bool {
 	// 一旦 Warning だけ
 	if event.Type != "Warning" {
 		return false
 	}
 
-	if event.Reason == "BackoffLimitExceeded" {
-		switch {
-		case event.InvolvedObject.Kind == "Job" && event.Namespace == "rclone" && strings.HasPrefix(event.InvolvedObject.Name, "music-"):
-			return false
-		}
+	// Check if the involved object has the notification-ignored-reasons annotation
+	if shouldIgnoreEvent(ctx, clientSet, event) {
+		return false
 	}
 
 	return true
+}
+
+func shouldIgnoreEvent(ctx context.Context, clientSet *kubernetes.Clientset, event *coreV1.Event) bool {
+	obj := event.InvolvedObject
+	
+	// Get the object's annotations based on its kind
+	annotations, err := getObjectAnnotations(ctx, clientSet, obj.Namespace, obj.Kind, obj.Name, obj.APIVersion)
+	if err != nil {
+		slog.DebugContext(ctx, "failed to get object annotations", 
+			slog.String("kind", obj.Kind),
+			slog.String("namespace", obj.Namespace),
+			slog.String("name", obj.Name),
+			slog.String("error", err.Error()),
+		)
+		return false
+	}
+
+	// Check for the starry.blue/notification-ignored-reasons annotation
+	ignoredReasons, ok := annotations["starry.blue/notification-ignored-reasons"]
+	if !ok {
+		return false
+	}
+
+	// Parse comma-separated reasons
+	reasons := strings.Split(ignoredReasons, ",")
+	for _, reason := range reasons {
+		if strings.TrimSpace(reason) == event.Reason {
+			return true
+		}
+	}
+
+	return false
+}
+
+func getObjectAnnotations(ctx context.Context, clientSet *kubernetes.Clientset, namespace, kind, name, apiVersion string) (map[string]string, error) {
+	switch kind {
+	case "CronJob":
+		cronJob, err := clientSet.BatchV1().CronJobs(namespace).Get(ctx, name, metaV1.GetOptions{})
+		if err != nil {
+			return nil, err
+		}
+		return cronJob.Annotations, nil
+	case "Job":
+		job, err := clientSet.BatchV1().Jobs(namespace).Get(ctx, name, metaV1.GetOptions{})
+		if err != nil {
+			return nil, err
+		}
+		return job.Annotations, nil
+	case "Pod":
+		pod, err := clientSet.CoreV1().Pods(namespace).Get(ctx, name, metaV1.GetOptions{})
+		if err != nil {
+			return nil, err
+		}
+		return pod.Annotations, nil
+	case "Deployment":
+		deployment, err := clientSet.AppsV1().Deployments(namespace).Get(ctx, name, metaV1.GetOptions{})
+		if err != nil {
+			return nil, err
+		}
+		return deployment.Annotations, nil
+	case "StatefulSet":
+		statefulSet, err := clientSet.AppsV1().StatefulSets(namespace).Get(ctx, name, metaV1.GetOptions{})
+		if err != nil {
+			return nil, err
+		}
+		return statefulSet.Annotations, nil
+	case "DaemonSet":
+		daemonSet, err := clientSet.AppsV1().DaemonSets(namespace).Get(ctx, name, metaV1.GetOptions{})
+		if err != nil {
+			return nil, err
+		}
+		return daemonSet.Annotations, nil
+	default:
+		return nil, fmt.Errorf("unsupported kind: %s", kind)
+	}
 }
 
 func sendDiscordNotification(session *discordgo.Session, webhookID, webhookToken string, event *coreV1.Event) error {

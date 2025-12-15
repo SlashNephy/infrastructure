@@ -2,6 +2,8 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: music
+  annotations:
+    starry.blue/notification-ignored-reasons: BackoffLimitExceeded
 
 spec:
   schedule: "*/15 * * * *"
