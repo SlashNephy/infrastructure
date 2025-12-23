@@ -140,6 +140,7 @@ func filterEvent(event *coreV1.Event) bool {
 	if event.Reason == "BackoffLimitExceeded" {
 		switch {
 		case event.InvolvedObject.Kind == "Job" && event.Namespace == "rclone" && strings.HasPrefix(event.InvolvedObject.Name, "music-"):
+			return false
 		case event.InvolvedObject.Kind == "Job" && event.Namespace == "annict2anilist" && strings.HasPrefix(event.InvolvedObject.Name, "cronjob-"):
 			return false
 		}
