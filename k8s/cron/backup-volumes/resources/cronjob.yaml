@@ -39,8 +39,8 @@ spec:
                 type: Directory
             - name: dest
               hostPath:
-                path: /mnt/pool/backup
-                type: DirectoryOrCreate
+                path: /var/tmp
+                type: Directory
             - name: config
               hostPath:
                 path: /mnt/local/rclone-config
