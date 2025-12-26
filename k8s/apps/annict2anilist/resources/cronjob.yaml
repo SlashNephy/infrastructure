@@ -30,7 +30,7 @@ spec:
           volumes:
             - name: token
               hostPath:
-                path: /opt/k8s-volumes/annict2anilist/token
+                path: /mnt/local/annict2anilist/token
                 type: DirectoryOrCreate
           restartPolicy: Never
   concurrencyPolicy: Forbid

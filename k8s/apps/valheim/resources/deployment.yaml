@@ -61,11 +61,11 @@ spec:
       volumes:
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/valheim/data
+            path: /mnt/local/valheim/data
             type: DirectoryOrCreate
         - name: game
           hostPath:
-            path: /opt/k8s-volumes/valheim/game
+            path: /mnt/local/valheim/game
             type: DirectoryOrCreate
       restartPolicy: Always
       terminationGracePeriodSeconds: 120

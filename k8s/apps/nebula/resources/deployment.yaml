@@ -63,7 +63,7 @@ spec:
             type: DirectoryOrCreate
         - name: avatars
           hostPath:
-            path: /opt/k8s-volumes/nebula/avatars
+            path: /mnt/local/nebula/avatars
             type: DirectoryOrCreate
         - name: content
           hostPath:

@@ -43,7 +43,7 @@ spec:
       volumes:
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/navidrome/data
+            path: /mnt/local/navidrome/data
             type: DirectoryOrCreate
         - name: music
           hostPath:
@@ -51,6 +51,6 @@ spec:
             type: DirectoryOrCreate
         - name: backup
           hostPath:
-            path: /opt/k8s-volumes/navidrome/backup
+            path: /mnt/local/navidrome/backup
             type: DirectoryOrCreate
       restartPolicy: Always

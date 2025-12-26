@@ -56,11 +56,11 @@ spec:
       volumes:
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/immich/data
+            path: /mnt/local/immich/data
             type: DirectoryOrCreate
         - name: model-cache
           hostPath:
-            path: /opt/k8s-volumes/immich/model-cache
+            path: /mnt/local/immich/model-cache
             type: DirectoryOrCreate
         - name: dev-bus-usb
           hostPath:

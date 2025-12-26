@@ -60,6 +60,6 @@ spec:
       volumes:
         - name: cache
           hostPath:
-            path: /opt/k8s-volumes/farewell-main-cache
+            path: /mnt/local/farewell-main-cache
             type: DirectoryOrCreate
       restartPolicy: Always

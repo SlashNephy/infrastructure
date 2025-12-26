@@ -28,7 +28,7 @@ spec:
   capacity:
     storage: 4Gi
   local:
-    path: /opt/k8s-volumes/stay-tuned/postgresql
+    path: /mnt/local/stay-tuned/postgresql
   nodeAffinity:
     required:
       nodeSelectorTerms:

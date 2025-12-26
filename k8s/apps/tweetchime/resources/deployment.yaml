@@ -61,6 +61,6 @@ spec:
       volumes:
         - name: cache
           hostPath:
-            path: /opt/k8s-volumes/tweetchime-cache
+            path: /mnt/local/tweetchime-cache
             type: DirectoryOrCreate
       restartPolicy: Always

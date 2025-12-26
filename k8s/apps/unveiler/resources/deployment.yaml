@@ -65,7 +65,7 @@ spec:
       volumes:
         - name: db
           hostPath:
-            path: /opt/k8s-volumes/unveiler/db
+            path: /mnt/local/unveiler/db
             type: DirectoryOrCreate
         - name: data
           hostPath:

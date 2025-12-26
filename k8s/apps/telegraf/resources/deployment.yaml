@@ -48,7 +48,7 @@ spec:
             name: app-config
         - name: plugins
           hostPath:
-            path: /opt/k8s-volumes/telegraf/plugins
+            path: /mnt/local/telegraf/plugins
             type: Directory
       restartPolicy: Always
       serviceAccountName: telegraf

@@ -28,7 +28,7 @@ spec:
   capacity:
     storage: 4Gi
   local:
-    path: /opt/k8s-volumes/nebula/postgresql
+    path: /mnt/local/nebula/postgresql
   nodeAffinity:
     required:
       nodeSelectorTerms:

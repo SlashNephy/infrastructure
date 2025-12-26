@@ -28,7 +28,7 @@ spec:
   capacity:
     storage: 4Gi
   local:
-    path: /opt/k8s-volumes/immich/postgresql
+    path: /mnt/local/immich/postgresql
   nodeAffinity:
     required:
       nodeSelectorTerms:

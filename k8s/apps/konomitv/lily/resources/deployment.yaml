@@ -40,7 +40,7 @@ spec:
             name: app-config
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/konomitv/data
+            path: /mnt/local/konomitv/data
             type: DirectoryOrCreate
         - name: records
           hostPath:
