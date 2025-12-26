@@ -33,7 +33,7 @@ spec:
       volumes:
         - name: config
           hostPath:
-            path: /opt/k8s-volumes/komga/config
+            path: /mnt/local/komga/config
             type: DirectoryOrCreate
         - name: data
           hostPath:

@@ -28,7 +28,7 @@ spec:
   capacity:
     storage: 10Gi
   local:
-    path: /opt/k8s-volumes/grafana-loki/data
+    path: /mnt/local/grafana-loki/data
   nodeAffinity:
     required:
       nodeSelectorTerms:

@@ -28,7 +28,7 @@ spec:
   capacity:
     storage: 4Gi
   local:
-    path: /opt/k8s-volumes/photoprism/mariadb
+    path: /mnt/local/photoprism/mariadb
   nodeAffinity:
     required:
       nodeSelectorTerms:

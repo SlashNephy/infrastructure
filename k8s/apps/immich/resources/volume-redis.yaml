@@ -28,7 +28,7 @@ spec:
   capacity:
     storage: 1Gi
   local:
-    path: /opt/k8s-volumes/immich/redis
+    path: /mnt/local/immich/redis
   nodeAffinity:
     required:
       nodeSelectorTerms:

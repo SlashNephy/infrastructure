@@ -47,10 +47,10 @@ spec:
             type: Directory
         - name: k8s-volumes
           hostPath:
-            path: /opt/k8s-volumes
+            path: /mnt/local
             type: Directory
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/code-server/data
+            path: /mnt/local/code-server/data
             type: DirectoryOrCreate
       restartPolicy: Always

@@ -34,6 +34,6 @@ spec:
             secretName: config
         - name: cache
           hostPath:
-            path: /opt/k8s-volumes/feedchime/cache
+            path: /mnt/local/feedchime/cache
             type: DirectoryOrCreate
       restartPolicy: Always

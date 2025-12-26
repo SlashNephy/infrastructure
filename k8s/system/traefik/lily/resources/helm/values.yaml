@@ -62,7 +62,7 @@ extraObjects:
       capacity:
         storage: 1Gi
       local:
-        path: /opt/k8s-volumes/traefik/plugins-storage
+        path: /mnt/local/traefik/plugins-storage
       nodeAffinity:
         required:
           nodeSelectorTerms:
@@ -74,7 +74,7 @@ extraObjects:
       persistentVolumeReclaimPolicy: Retain
       storageClassName: local
 
-globalArguments: 
+globalArguments:
   - --api.disabledashboardad=true
 
 

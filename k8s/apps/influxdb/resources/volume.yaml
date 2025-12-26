@@ -28,7 +28,7 @@ spec:
   capacity:
     storage: 8Gi
   local:
-    path: /opt/k8s-volumes/influxdb/data
+    path: /mnt/local/influxdb/data
   nodeAffinity:
     required:
       nodeSelectorTerms:

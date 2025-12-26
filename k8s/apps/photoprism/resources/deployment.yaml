@@ -117,7 +117,7 @@ spec:
             type: Directory
         - name: storage
           hostPath:
-            path: /opt/k8s-volumes/photoprism/storage
+            path: /mnt/local/photoprism/storage
             type: DirectoryOrCreate
       restartPolicy: Always
       terminationGracePeriodSeconds: 10

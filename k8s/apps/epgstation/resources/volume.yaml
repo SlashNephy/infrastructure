@@ -28,7 +28,7 @@ spec:
   capacity:
     storage: 4Gi
   local:
-    path: /opt/k8s-volumes/epgstation/mariadb
+    path: /mnt/local/epgstation/mariadb
   nodeAffinity:
     required:
       nodeSelectorTerms:

@@ -128,11 +128,11 @@ spec:
       volumes:
         - name: ultrafeeder-globe-history
           hostPath:
-            path: /opt/k8s-volumes/sdr-enthusiasts/ultrafeeder/globe_history
+            path: /mnt/local/sdr-enthusiasts/ultrafeeder/globe_history
             type: DirectoryOrCreate
         - name: ultrafeeder-graphs1090
           hostPath:
-            path: /opt/k8s-volumes/sdr-enthusiasts/ultrafeeder/graphs1090
+            path: /mnt/local/sdr-enthusiasts/ultrafeeder/graphs1090
             type: DirectoryOrCreate
         - name: dev-bus-usb
           hostPath:

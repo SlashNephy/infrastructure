@@ -28,7 +28,7 @@ spec:
   capacity:
     storage: 1Gi
   local:
-    path: /opt/k8s-volumes/nebula/postgresql-backup
+    path: /mnt/local/nebula/postgresql-backup
   nodeAffinity:
     required:
       nodeSelectorTerms:

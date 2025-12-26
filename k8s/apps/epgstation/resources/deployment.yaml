@@ -36,11 +36,11 @@ spec:
       volumes:
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/epgstation/data
+            path: /mnt/local/epgstation/data
             type: DirectoryOrCreate
         - name: config
           hostPath:
-            path: /opt/k8s-volumes/epgstation/config
+            path: /mnt/local/epgstation/config
             type: Directory
         - name: records
           hostPath:

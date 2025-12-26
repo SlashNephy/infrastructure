@@ -56,7 +56,7 @@ spec:
             name: app-config
         - name: data
           hostPath:
-            path: /opt/k8s-volumes/file-browser/data
+            path: /mnt/local/file-browser/data
             type: DirectoryOrCreate
         - name: public
           hostPath:
@@ -85,6 +85,6 @@ spec:
             type: Directory
         - name: dtv-konomitv-capture
           hostPath:
-            path: /opt/k8s-volumes/konomitv/data/capture
+            path: /mnt/local/konomitv/data/capture
             type: Directory
       restartPolicy: Always

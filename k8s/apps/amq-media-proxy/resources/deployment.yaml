@@ -50,7 +50,7 @@ spec:
             type: DirectoryOrCreate
         - name: questions-json
           hostPath:
-            path: /opt/k8s-volumes/amq-media-proxy/questions.json
+            path: /mnt/local/amq-media-proxy/questions.json
             type: File
       restartPolicy: Always
       terminationGracePeriodSeconds: 180
