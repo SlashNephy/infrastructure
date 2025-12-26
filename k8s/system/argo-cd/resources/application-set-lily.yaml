@@ -40,10 +40,10 @@ spec:
             namespace: epgstation
             path: k8s/apps/epgstation
             project: apps
-          - name: feedchime
-            namespace: feedchime
-            path: k8s/apps/feedchime
-            project: apps
+          # - name: feedchime
+          #   namespace: feedchime
+          #   path: k8s/apps/feedchime
+          #   project: apps
           - name: konomitv
             namespace: konomitv
             path: k8s/apps/konomitv/lily
@@ -68,18 +68,18 @@ spec:
             namespace: rclone
             path: k8s/apps/rclone
             project: apps
-          - name: releasechime-ai
-            namespace: releasechime-ai
-            path: k8s/apps/releasechime/ai
-            project: apps
-          - name: releasechime-dtv
-            namespace: releasechime-dtv
-            path: k8s/apps/releasechime/dtv
-            project: apps
-          - name: releasechime-ff14
-            namespace: releasechime-ff14
-            path: k8s/apps/releasechime/ff14
-            project: apps
+          # - name: releasechime-ai
+          #   namespace: releasechime-ai
+          #   path: k8s/apps/releasechime/ai
+          #   project: apps
+          # - name: releasechime-dtv
+          #   namespace: releasechime-dtv
+          #   path: k8s/apps/releasechime/dtv
+          #   project: apps
+          # - name: releasechime-ff14
+          #   namespace: releasechime-ff14
+          #   path: k8s/apps/releasechime/ff14
+          #   project: apps
           - name: soundbot-reloaded
             namespace: soundbot-reloaded
             path: k8s/apps/soundbot-reloaded
