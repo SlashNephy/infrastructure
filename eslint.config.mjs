@@ -1,9 +1,9 @@
 import { config } from '@slashnephy/eslint-config'
-import { globalIgnores } from 'eslint/config'
 
 export default config(
-  {},
-  globalIgnores(['**/charts/**', 'pnpm-lock.yaml']),
+  {
+    ignores: ['**/charts/**', 'pnpm-lock.yaml'],
+  },
   {
     files: ['k8s/**/*.yml'],
     rules: {
