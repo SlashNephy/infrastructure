@@ -1,8 +1,22 @@
 {
-  "eslint.validate": ["javascript", "yaml"],
-  "eslint.probe": ["javascript", "yaml"],
+  "eslint.validate": [
+    "javascript",
+    "yaml"
+  ],
+  "eslint.probe": [
+    "javascript",
+    "yaml"
+  ],
   "[yaml]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
-  "cSpell.words": ["immich", "mirakurun", "PHOTOPRISM", "valkey"]
+  "cSpell.words": [
+    "immich",
+    "mirakurun",
+    "PHOTOPRISM",
+    "valkey"
+  ],
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "~/.local/share/mise/shims/node"
+  }
 }
