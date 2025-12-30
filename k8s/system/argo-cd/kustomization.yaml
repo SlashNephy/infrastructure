@@ -92,9 +92,10 @@ resources:
   - ./resources/ingress.yaml
   - ./resources/projects.yaml
   - ./resources/application-set-lily.yaml
-  - ./resources/application-set-bbc.yaml
   - ./resources/application-private.yaml
-  - ./resources/service.yaml
+  # - ./resources/secret-bbc.yaml
+  # - ./resources/application-set-bbc.yaml
+  # - ./resources/service-bbc.yaml
 
 patches:
   - path: ./resources/patch-argocd-cm.yaml
