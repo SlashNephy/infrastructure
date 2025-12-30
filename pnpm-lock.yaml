@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@slashnephy/eslint-config':
-        specifier: 3.0.132
-        version: 3.0.132(@types/estree@1.0.8)(@types/node@25.0.3)(@typescript-eslint/eslint-plugin@8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(storybook@10.1.10(@testing-library/dom@10.4.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
+        specifier: 3.0.133
+        version: 3.0.133(@types/estree@1.0.8)(@types/node@25.0.3)(@typescript-eslint/eslint-plugin@8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(storybook@10.1.10(@testing-library/dom@10.4.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))
       eslint:
         specifier: 9.39.2
         version: 9.39.2(jiti@2.6.1)
@@ -562,8 +562,8 @@ packages:
   '@repeaterjs/repeater@3.0.6':
     resolution: {integrity: sha512-Javneu5lsuhwNCryN+pXH93VPQ8g0dBX7wItHFgYiwQmzE1sVdg5tWHiOgHywzL2W21XQopa7IwIEnNbmeUJYA==}
 
-  '@slashnephy/eslint-config@3.0.132':
-    resolution: {integrity: sha512-bpK3XlONrISytzDJKaQBY03A33iHCh2BICTEhWmWgnQx4Dvt5Z0i7qVPvRwZ1BYLAvnWgS7BTbopW85QA6xUNg==}
+  '@slashnephy/eslint-config@3.0.133':
+    resolution: {integrity: sha512-+eqodd3z9EQNxuaFZx8QxUDx4xur+LGMBzaDAg17248Vglp+C18XTlHedr2IE1+Kf1jdndO6dF8DD16IgS+4LA==}
     engines: {node: '>= 24'}
     peerDependencies:
       eslint: ^9
@@ -834,8 +834,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@vitest/eslint-plugin@1.5.4':
-    resolution: {integrity: sha512-usuVvl6zdqIkUgQlodxvvFBR7HIZIjWQqQemnc7ysqEP4jubLsDaaOhiJAwVz8PlrkBJRuHkC6PCux+OcEF6hg==}
+  '@vitest/eslint-plugin@1.6.4':
+    resolution: {integrity: sha512-+qw32ux8HMVNrJnQOYgdjrMYmCn9vsiKnJUv5MoOg40e18WOvhWurzHdbRB3vXLfUrP7+jYyQbd6TuRhL23AkQ==}
     engines: {node: '>=18'}
     peerDependencies:
       eslint: '>=8.57.0'
@@ -3262,7 +3262,7 @@ snapshots:
 
   '@repeaterjs/repeater@3.0.6': {}
 
-  '@slashnephy/eslint-config@3.0.132(@types/estree@1.0.8)(@types/node@25.0.3)(@typescript-eslint/eslint-plugin@8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(storybook@10.1.10(@testing-library/dom@10.4.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))':
+  '@slashnephy/eslint-config@3.0.133(@types/estree@1.0.8)(@types/node@25.0.3)(@typescript-eslint/eslint-plugin@8.50.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(storybook@10.1.10(@testing-library/dom@10.4.1)(react-dom@19.2.3(react@19.2.3))(react@19.2.3))':
     dependencies:
       '@eslint-community/eslint-plugin-eslint-comments': 4.5.0(eslint@9.39.2(jiti@2.6.1))
       '@eslint/js': 9.39.2
@@ -3272,7 +3272,7 @@ snapshots:
       '@stylistic/eslint-plugin': 5.6.1(eslint@9.39.2(jiti@2.6.1))
       '@susisu/eslint-plugin-safe-typescript': 0.10.1(@typescript-eslint/parser@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript-eslint@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(typescript@5.9.3)
       '@typescript-eslint/utils': 8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@vitest/eslint-plugin': 1.5.4(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@vitest/eslint-plugin': 1.6.4(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.2(jiti@2.6.1)
       eslint-config-flat-gitignore: 2.1.0(eslint@9.39.2(jiti@2.6.1))
       eslint-import-resolver-node: 0.3.9
@@ -3610,7 +3610,7 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
-  '@vitest/eslint-plugin@1.5.4(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+  '@vitest/eslint-plugin@1.6.4(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/scope-manager': 8.50.1
       '@typescript-eslint/utils': 8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
