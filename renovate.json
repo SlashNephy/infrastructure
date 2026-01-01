@@ -1,15 +1,31 @@
 {
-  "$schema":"https://docs.renovatebot.com/renovate-schema.json",
-  "extends":["github>SlashNephy/renovate-config"],
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>SlashNephy/renovate-config"
+  ],
   "packageRules": [
     {
-      "matchFileNames": ["k8s/apps/mahiron/**", "k8s/apps/epgstation/**"],
+      "matchPackageNames": [
+        "ghcr.io/slashnephy{/,}**"
+      ],
+      "minimumReleaseAge": null,
+      "versioning": "loose"
+    },
+    {
+      "matchFileNames": [
+        "k8s/apps/mahiron/**",
+        "k8s/apps/epgstation/**"
+      ],
       "automerge": false
     },
     {
       "groupName": "immich",
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["ghcr.io/immich-app/**"]
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "ghcr.io/immich-app/**"
+      ]
     }
   ],
   "rebaseWhen": "conflicted"
