@@ -1,0 +1,29 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'local>SlashNephy/renovate-config'
+  ],
+  packageRules: [
+    {
+      matchDatasources: [
+        'docker'
+      ],
+      matchPackageNames: [
+        'ghcr.io/slashnephy/**',
+        'ghcr.io/starrybluesky/**'
+      ],
+      minimumReleaseAge: null,
+      versioning: 'loose'
+    },
+    {
+      groupName: 'immich',
+      matchDatasources: [
+        'docker'
+      ],
+      matchPackageNames: [
+        'ghcr.io/immich-app/**'
+      ]
+    }
+  ],
+  rebaseWhen: 'conflicted'
+}
