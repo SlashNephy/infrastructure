@@ -26,17 +26,15 @@ spec:
   type: ExternalName
   externalName: placeholder # generated
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: pink
-  annotations:
-    tailscale.com/hostname: pink
+# 共有デバイスは OAuth 資格情報からアクセスできない
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: pink
+#   annotations:
+#     tailscale.com/tailnet-fqdn: pink.tail3fe75.ts.net
 
-spec:
-  type: ClusterIP
-  ports:
-    - protocol: TCP
-      port: 40772
-      targetPort: 40772
+# spec:
+#   type: ExternalName
+#   externalName: placeholder # generated
