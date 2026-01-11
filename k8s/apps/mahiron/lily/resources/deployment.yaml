@@ -147,5 +147,6 @@ spec:
             path: /dev/pxmlt8video7
             type: CharDevice
       restartPolicy: Always
+      hostNetwork: true
       imagePullSecrets:
         - name: ghcr-io-credentials
