@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: couchdb
-          image: public.ecr.aws/docker/library/couchdb:3.5.1@sha256:3d5bc0a2ccb6556a6361cf8b4c7f215568fb0c0c2e5e8b44a747e1c138d99f7c
+          image: public.ecr.aws/docker/library/couchdb:3.5.1@sha256:807777b6959fc62a2c9aacb106801958aeb5cd1ad6702ea088b097fc9254c812
           ports:
             - containerPort: 5984
           volumeMounts:
