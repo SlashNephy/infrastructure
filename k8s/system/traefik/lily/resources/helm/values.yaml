@@ -160,6 +160,8 @@ providers:
     enabled: true
   kubernetesIngress:
     enabled: false
+  kubernetesGateway:
+    enabled: true
 
 service:
   ipFamilyPolicy: PreferDualStack
