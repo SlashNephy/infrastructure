@@ -36,11 +36,6 @@ spec:
             apiTokenSecretRef:
               name: cert-manager-secret
               key: cloudflare-api-token
-        dnsZones:
-          - starry.blue
       - http01:
-          gatewayHTTPRoute:
-            parentRefs:
-              - name: traefik-gateway
-                namespace: traefik
-                kind: Gateway
+          ingress:
+            ingressClassName: traefik
