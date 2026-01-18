@@ -1,17 +1,35 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: certificate
+  name: dns-starry-blue-certificate
 
 spec:
-  commonName: dns.starry.blue
   dnsNames:
     - dns.starry.blue
   issuerRef:
-    name: letsencrypt-issuer
+    name: dns-starry-blue-issuer
     kind: ClusterIssuer
-  secretName: certificate-secret
+  secretName: dns-starry-blue-certificate-secret
   privateKey:
     rotationPolicy: Always
     algorithm: ECDSA
     size: 384
+
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer # TODO: Issuer に変更
+metadata:
+  name: dns-starry-blue-issuer
+
+spec:
+  acme:
+    email: webmaster@starry.blue
+    privateKeySecretRef:
+      name: dns-starry-blue-private-key-secret
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cert-manager-secret
+              key: cloudflare-api-token
