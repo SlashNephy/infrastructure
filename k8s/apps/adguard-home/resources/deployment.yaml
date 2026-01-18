@@ -25,6 +25,8 @@ spec:
               mountPath: /opt/adguardhome/work
             - name: conf
               mountPath: /opt/adguardhome/conf
+            - name: certificates
+              mountPath: /certs
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -36,4 +38,7 @@ spec:
           hostPath:
             path: /mnt/local/adguard-home/conf
             type: DirectoryOrCreate
+        - name: certificates
+          secret:
+            secretName: dns-starry-blue-certificate-secret
       restartPolicy: Always
