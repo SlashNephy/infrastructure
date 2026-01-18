@@ -6,6 +6,8 @@ metadata:
 spec:
   dnsNames:
     - dns.starry.blue
+  ipAddresses:
+    - 240b:10:3f60:4800:1efd:8ff:fe79:714f
   issuerRef:
     name: dns-starry-blue-issuer
     kind: ClusterIssuer
@@ -26,6 +28,7 @@ spec:
     email: webmaster@starry.blue
     privateKeySecretRef:
       name: dns-starry-blue-private-key-secret
+    profile: shortlived
     server: https://acme-v02.api.letsencrypt.org/directory
     solvers:
       - dns01:
