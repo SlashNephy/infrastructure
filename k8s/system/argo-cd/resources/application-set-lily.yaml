@@ -160,6 +160,10 @@ spec:
             namespace: watch-k8s-events
             path: k8s/apps/watch-k8s-events
             project: apps
+          - name: adguard-home
+            namespace: adguard-home
+            path: k8s/apps/adguard-home
+            project: apps
 
           # cron
           - name: cron-backup-volumes

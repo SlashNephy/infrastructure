@@ -27,15 +27,6 @@ spec:
               mountPath: /opt/adguardhome/conf
           securityContext:
             allowPrivilegeEscalation: false
-        - name: nginx
-          image: public.ecr.aws/nginx/nginx:1.29-bookworm@sha256:011e6807337c14c51bd2154407462e5788e27c615cabea168b265b27c2d370a1
-          ports:
-            - containerPort: 80
-          volumeMounts:
-            - name: public
-              mountPath: /usr/share/nginx/html
-          securityContext:
-            allowPrivilegeEscalation: false
       volumes:
         - name: work
           hostPath:
@@ -45,10 +36,4 @@ spec:
           hostPath:
             path: /mnt/local/adguard-home/conf
             type: DirectoryOrCreate
-        - name: public
-          configMap:
-            name: nginx-public
-            items:
-              - key: pki-validation.txt
-                path: .well-known/pki-validation/01BAE488EBE3E5BEFC26E3AE26BAABF8.txt
       restartPolicy: Always
