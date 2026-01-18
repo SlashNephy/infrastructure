@@ -19,7 +19,7 @@ spec:
 
 ---
 apiVersion: cert-manager.io/v1
-kind: ClusterIssuer # TODO: Issuer に変更
+kind: ClusterIssuer
 metadata:
   name: dns-starry-blue-issuer
 
@@ -36,3 +36,11 @@ spec:
             apiTokenSecretRef:
               name: cert-manager-secret
               key: cloudflare-api-token
+        dnsZones:
+          - starry.blue
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - name: traefik-gateway
+                namespace: traefik
+                kind: Gateway
