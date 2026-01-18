@@ -1,3 +1,4 @@
+# TODO: cert-manager ns に移動する
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -16,7 +17,5 @@ spec:
               name: cert-manager-secret
               key: cloudflare-api-token
         selector:
-          dnsNames:
+          dnsZones:
             - starry.blue
-            - "*.starry.blue"
-            - "*.gateway.starry.blue"
