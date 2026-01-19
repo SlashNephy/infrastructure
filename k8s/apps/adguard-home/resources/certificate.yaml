@@ -36,6 +36,9 @@ spec:
             apiTokenSecretRef:
               name: cert-manager-secret
               key: cloudflare-api-token
+        selector:
+          dnsZones:
+            - starry.blue
       - http01:
           ingress:
             ingressClassName: traefik
