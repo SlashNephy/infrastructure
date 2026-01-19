@@ -159,7 +159,8 @@ providers:
     allowExternalNameServices: true
     enabled: true
   kubernetesIngress:
-    enabled: false
+    enabled: true
+    allowExternalNameServices: true
   kubernetesGateway:
     enabled: true
 
