@@ -42,7 +42,7 @@ spec:
       - http01:
           ingress:
             ingressClassName: traefik
-            podTemplate:
+            ingressTemplate:
               metadata:
                 annotations:
                   traefik.ingress.kubernetes.io/router.entrypoints: web
