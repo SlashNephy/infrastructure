@@ -41,6 +41,7 @@ spec:
             - starry.blue
       - http01:
           ingress:
+            serviceType: ClusterIP
             ingressClassName: traefik
             ingressTemplate:
               metadata:
