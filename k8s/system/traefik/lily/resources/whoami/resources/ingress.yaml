@@ -28,3 +28,19 @@ spec:
   tls:
     options:
       name: gateway
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route-whoami-web
+
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: PathPrefix(`/whoami`)
+      services:
+        - name: whoami
+          port: http
