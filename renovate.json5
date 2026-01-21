@@ -24,8 +24,6 @@
         'ghcr.io/immich-app/**',
       ],
     },
-    // OCI イメージで参照されるチャートで pinDigest を無効化する
-    // https://github.com/renovatebot/renovate/discussions/38038
     {
       matchManagers: [
         'kustomize',
@@ -37,7 +35,9 @@
         'redis',
         'valkey',
       ],
-      pinDigest: false,
+      pinDigest: {
+        enabled: false,
+      },
     },
   ],
   rebaseWhen: 'conflicted',
