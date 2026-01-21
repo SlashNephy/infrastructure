@@ -6,7 +6,7 @@ on:
       - master
     paths:
       - k8s/**/*.yaml
-      - "!k8s/init/**/*.yaml"
+      - '!k8s/init/**/*.yaml'
 
   pull_request:
     types:
@@ -14,7 +14,7 @@ on:
       - synchronize
     paths:
       - k8s/**/*.yaml
-      - "!k8s/init/**/*.yaml"
+      - '!k8s/init/**/*.yaml'
 
   workflow_dispatch:
 
