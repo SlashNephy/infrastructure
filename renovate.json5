@@ -37,7 +37,9 @@
         'redis',
         'valkey',
       ],
-      pinDigest: false,
+      pinDigest: {
+        enabled: false,
+      },
     },
   ],
   rebaseWhen: 'conflicted',
