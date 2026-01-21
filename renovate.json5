@@ -1,29 +1,44 @@
 {
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
   extends: [
-    'local>SlashNephy/renovate-config'
+    'local>SlashNephy/renovate-config',
   ],
   packageRules: [
     {
       matchDatasources: [
-        'docker'
+        'docker',
       ],
       matchPackageNames: [
         'ghcr.io/slashnephy/**',
-        'ghcr.io/starrybluesky/**'
+        'ghcr.io/starrybluesky/**',
       ],
       minimumReleaseAge: null,
-      versioning: 'loose'
+      versioning: 'loose',
     },
     {
       groupName: 'immich',
       matchDatasources: [
-        'docker'
+        'docker',
       ],
       matchPackageNames: [
-        'ghcr.io/immich-app/**'
-      ]
-    }
+        'ghcr.io/immich-app/**',
+      ],
+    },
+    // OCI イメージで参照されるチャートで pinDigest を無効化する
+    // https://github.com/renovatebot/renovate/discussions/38038
+    {
+      matchManagers: [
+        'kustomize',
+      ],
+      matchDepNames: [
+        'influxdb',
+        'mariadb',
+        'postgresql',
+        'redis',
+        'valkey',
+      ],
+      pinDigest: false,
+    },
   ],
-  rebaseWhen: 'conflicted'
+  rebaseWhen: 'conflicted',
 }
