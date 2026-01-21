@@ -5,16 +5,16 @@ on:
     branches:
       - master
     paths:
-      - 'k8s/**/*.yaml'
-      - '!k8s/init/**/*.yaml'
+      - k8s/**/*.yaml
+      - "!k8s/init/**/*.yaml"
 
   pull_request:
     types:
       - opened
       - synchronize
     paths:
-      - 'k8s/**/*.yaml'
-      - '!k8s/init/**/*.yaml'
+      - k8s/**/*.yaml
+      - "!k8s/init/**/*.yaml"
 
   workflow_dispatch:
 
@@ -32,14 +32,14 @@ jobs:
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
           registry: ghcr.io
-          username: '${{ github.repository_owner }}'
-          password: '${{ secrets.GITHUB_TOKEN }}'
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: kubeconform
-        uses: docker://ghcr.io/yannh/kubeconform
+        uses: docker://ghcr.io/yannh/kubeconform@v0.7.0
         with:
           entrypoint: /kubeconform
           args: -schema-location default -schema-location $CRDS_CATALOG_URL -ignore-missing-schemas -ignore-filename-pattern=$IGNORE_PATTERN ./k8s
         env:
-          CRDS_CATALOG_URL: 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json'
-          IGNORE_PATTERN: '(charts|init|values.yaml|.json|.yml)'
+          CRDS_CATALOG_URL: https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json
+          IGNORE_PATTERN: (charts|init|values.yaml|.json|.yml)
