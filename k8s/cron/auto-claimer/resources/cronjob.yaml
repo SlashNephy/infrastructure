@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: ghcr.io/slashnephy/auto-claimer:latest@sha256:4d099540b9da8acc28a9e368094399f0910149f4bde8a042e5cf31797b59babd
+              image: ghcr.io/slashnephy/auto-claimer:latest@sha256:4303a85aca83775ac75fc86138190eec35c0cbcec700bbdbb7483cc1fd03a2d5
               env:
                 - name: DATABASE_DSN
                   value: /data/auto-claimer.db
