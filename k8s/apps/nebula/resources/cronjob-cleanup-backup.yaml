@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-cleanup-backup
+
+spec:
+  schedule: "0 * * * *"
+  timeZone: Asia/Tokyo
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: app
+              image: public.ecr.aws/debian/debian:stable-slim@sha256:674ed6130d1e8463761b74a522adff03d5c679a87c6fc0c1909cfb77a7d0bcc8
+              command:
+                - bash
+                - -c
+                - ls -1r pg_dumpall-*.pgdump | tail -n +$((KEEP_COUNT + 1)) | xargs -r rm -v
+              env:
+                - name: KEEP_COUNT
+                  value: "3"
+              workingDir: /backup
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+              securityContext:
+                allowPrivilegeEscalation: false
+          volumes:
+            - name: backup
+              hostPath:
+                path: /mnt/local/nebula/postgresql-backup
+                type: Directory
+          restartPolicy: Never
+  concurrencyPolicy: Forbid

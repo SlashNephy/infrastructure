@@ -86,6 +86,7 @@ resources:
   - ./resources/pv-postgres.yaml
   - ./resources/pv-postgres-backup.yaml
   - ./resources/middleware.yaml
+  - ./resources/cronjob-cleanup-backup.yaml
 
 patches:
   # authentik / authentik-postgresql / authentik-redis Secret は 1Password で管理されるので自動で作成されるシークレットを空にする
