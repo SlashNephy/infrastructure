@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: glanceapp/glance:v0.8.4@sha256:6df86a7e8868d1eda21f35205134b1962c422957e42a0c44d4717c8e8f741b1a
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+            - name: assets
+              mountPath: /app/assets
+      volumes:
+        - name: config
+          hostPath:
+            path: /mnt/local/glance/config
+            type: Directory
+        - name: assets
+          hostPath:
+            path: /mnt/local/glance/assets
+            type: Directory
+      restartPolicy: Always

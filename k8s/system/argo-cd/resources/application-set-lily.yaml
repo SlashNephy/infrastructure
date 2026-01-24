@@ -164,6 +164,10 @@ spec:
             namespace: adguard-home
             path: k8s/apps/adguard-home
             project: apps
+          - name: glance
+            namespace: glance
+            path: k8s/apps/glance
+            project: apps
 
           # cron
           - name: cron-backup-volumes
