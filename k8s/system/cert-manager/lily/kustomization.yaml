@@ -7,30 +7,16 @@ helmCharts:
   - name: cert-manager
     releaseName: cert-manager
     namespace: cert-manager
-    version: v1.19.2
-    repo: https://charts.jetstack.io
+    version: v1.20.0-alpha.1
+    repo: oci://quay.io/jetstack/charts
     includeCRDs: true
     valuesInline:
-      # TODO: v1.20.0 がリリースされたら取る
-      image:
-        tag: v1.20.0-alpha.1
-      webhook:
-        image:
-          tag: v1.20.0-alpha.1
-      cainjector:
-        image:
-          tag: v1.20.0-alpha.1
-      acmesolver:
-        image:
-          tag: v1.20.0-alpha.1
-      startupapicheck:
-        image:
-          tag: v1.20.0-alpha.1
-
       global:
         leaderElection:
           namespace: cert-manager
       installCRDs: true
+      crds:
+        enabled: true
       livenessProbe:
         enabled: true
       prometheus:
