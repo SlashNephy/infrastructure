@@ -11,17 +11,6 @@ spec:
       services:
         - name: service
           port: app
-      middlewares:
-        - name: forward-auth-authentik
-          namespace: authentik
-
-    - kind: Rule
-      match: Host(`dns.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
-      priority: 15
-      services:
-        - name: authentik-server
-          namespace: authentik
-          port: http
 
     - kind: Rule
       match: Host(`dns.starry.blue`) && PathPrefix(`/dns-query`)
@@ -35,3 +24,4 @@ spec:
     options:
       name: gateway
       namespace: traefik
+    secretName: dns-starry-blue-certificate-secret
