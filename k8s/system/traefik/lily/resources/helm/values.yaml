@@ -147,6 +147,9 @@ ports:
       enabled: true
       options: traefik-cloudflare@kubernetescrd
 
+  dnsOverTLS:
+    port: 853
+
 ocsp:
   enabled: true
 
