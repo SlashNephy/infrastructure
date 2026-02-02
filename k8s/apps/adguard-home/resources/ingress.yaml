@@ -30,8 +30,6 @@ spec:
       services:
         - name: service
           port: dns # backend へは復号したものを転送する
-          proxyProtocol:
-            version: 2
   tls:
     options:
       name: gateway
