@@ -1,25 +1,15 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: route
+  name: route-dns-over-https
 
 spec:
   routes:
     - kind: Rule
       match: Host(`dns.starry.blue`)
-      priority: 10
       services:
         - name: service
-          port: app
-
-    - kind: Rule
-      match: Host(`dns.starry.blue`) && PathPrefix(`/dns-query`)
-      priority: 20
-      services:
-        - name: service
-          port: dns-over-https
-          scheme: https
-
+          port: http
   tls:
     options:
       name: gateway
