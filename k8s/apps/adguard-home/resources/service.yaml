@@ -24,6 +24,10 @@ spec:
   selector:
     app: default
   type: NodePort
+  ipFamilyPolicy: PreferDualStack
+  ipFamilies:
+    - IPv4
+    - IPv6
   ports:
     - name: dns-over-tls
       port: 853
