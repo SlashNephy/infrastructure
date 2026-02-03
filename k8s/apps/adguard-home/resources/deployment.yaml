@@ -20,8 +20,12 @@ spec:
             - name: TZ
               value: Asia/Tokyo
           ports:
-            - name: dns
+            - name: dns-over-tcp
               containerPort: 53
+              protocol: TCP
+            - name: dns-over-udp
+              containerPort: 53
+              protocol: UDP
             - name: http
               containerPort: 80
             - name: dns-over-tls

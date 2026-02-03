@@ -7,9 +7,6 @@ spec:
   selector:
     app: default
   ports:
-    - name: dns
-      port: 53
-      targetPort: dns
     - name: http
       port: 80
       targetPort: http
@@ -29,6 +26,16 @@ spec:
     - IPv4
     - IPv6
   ports:
+    - name: dns-over-tcp
+      port: 53
+      targetPort: dns-over-tcp
+      nodePort: 53
+      protocol: TCP
+    - name: dns-over-udp
+      port: 53
+      targetPort: dns-over-udp
+      nodePort: 53
+      protocol: UDP
     - name: dns-over-tls
       port: 853
       targetPort: dns-over-tls
