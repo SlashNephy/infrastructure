@@ -150,9 +150,9 @@ ports:
   dnsOverTLS:
     port: 8530
     exposedPort: 853
-    nodePort: 853
-    expose:
-      default: true
+    # nodePort: 853
+    # expose:
+    #   default: true
 
 ocsp:
   enabled: true

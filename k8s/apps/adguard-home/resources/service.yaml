@@ -9,7 +9,29 @@ spec:
   ports:
     - name: dns
       port: 53
-      targetPort: 53
+      targetPort: dns
     - name: http
       port: 80
-      targetPort: 80
+      targetPort: http
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-node
+
+spec:
+  selector:
+    app: default
+  type: NodePort
+  ports:
+    - name: dns-over-tls
+      port: 853
+      targetPort: dns-over-tls
+      nodePort: 853
+      protocol: TCP
+    - name: dns-over-quic
+      port: 853
+      targetPort: dns-over-quic
+      nodePort: 853
+      protocol: UDP

@@ -17,8 +17,16 @@ spec:
         - name: app
           image: adguard/adguardhome:v0.107.71@sha256:92929135ced2554aaf94706f766a98ad348f211df61b0704e2db7e8498cc00b7
           ports:
-            - containerPort: 53
-            - containerPort: 80
+            - name: dns
+              containerPort: 53
+            - name: http
+              containerPort: 80
+            - name: dns-over-tls
+              containerPort: 853
+              protocol: TCP
+            - name: dns-over-quic
+              containerPort: 853
+              protocol: UDP
           volumeMounts:
             - name: work
               mountPath: /opt/adguardhome/work
