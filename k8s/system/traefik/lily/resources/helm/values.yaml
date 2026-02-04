@@ -74,9 +74,10 @@ extraObjects:
       persistentVolumeReclaimPolicy: Retain
       storageClassName: local
 
-globalArguments:
+global:
+  checkNewVersion: false
+additionalArguments:
   - --api.disabledashboardad=true
-
 
 image:
   registry: public.ecr.aws/docker/library
@@ -117,6 +118,7 @@ ports:
     asDefault: true
     expose:
       default: true
+    nodePort: 443
 
     forwardedHeaders:
       trustedIPs:
@@ -127,25 +129,23 @@ ports:
       advertisedPort: 443
       enabled: true
 
-    # https://doc.traefik.io/traefik/middlewares/overview/
-    # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
-    middlewares:
-      - traefik-security-headers@kubernetescrd
-      # - traefik-custom-error-pages@kubernetescrd
-      - traefik-ban-robots@kubernetescrd
-      - traefik-trust-cloudflare-ips@kubernetescrd
-
-    nodePort: 443
-
-    # https://doc.traefik.io/traefik/routing/entrypoints/#tls
-    tls:
-      domains:
-        - main: starry.blue
-          sans:
-            - "*.starry.blue"
-            - "*.gateway.starry.blue"
-      enabled: true
-      options: traefik-cloudflare@kubernetescrd
+    http:
+      # https://doc.traefik.io/traefik/middlewares/overview/
+      # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
+      middlewares:
+        - traefik-security-headers@kubernetescrd
+        # - traefik-custom-error-pages@kubernetescrd
+        - traefik-ban-robots@kubernetescrd
+        - traefik-trust-cloudflare-ips@kubernetescrd
+      # https://doc.traefik.io/traefik/routing/entrypoints/#tls
+      tls:
+        domains:
+          - main: starry.blue
+            sans:
+              - "*.starry.blue"
+              - "*.gateway.starry.blue"
+        enabled: true
+        options: traefik-cloudflare@kubernetescrd
 
 ocsp:
   enabled: true
