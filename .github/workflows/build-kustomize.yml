@@ -1,0 +1,78 @@
+name: Build Kustomize
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    paths:
+      - k8s/**/*.yaml
+
+permissions: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - id: manifest-dirs
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo, number } = context.issue;
+            const changedFiles = await github.paginate(
+              github.rest.pulls.listFiles,
+              {
+                owner,
+                repo,
+                pull_number: number,
+              },
+              (response) => response.data.map((file) => file.filename),
+            );
+
+            const { existsSync } = require('fs');
+            const { dirname, join } = require('path');
+
+            const directories = [...new Set(
+              changedFiles
+                .map((file) => {
+                  const directory = dirname(file);
+                  if (existsSync(join(directory, 'kustomization.yaml'))) {
+                    return directory;
+                  }
+
+                  return null;
+                })
+                .filter(Boolean)
+            )];
+            core.setOutput('directories', JSON.stringify(directories));
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            const { execSync } = require('child_process');
+
+            const directories = ${{ steps.manifest-dirs.outputs.directories }};
+            if (directories.length === 0) {
+              core.info('No kustomization directories to build.');
+              return;
+            }
+
+            const failedDirectories = [];
+            for (const directory of directories) {
+              core.startGroup(directory);
+              try {
+                execSync(`kustomize build --enable-helm "${directory}"`, { stdio: 'pipe' });
+                core.info(`✅ Success: ${directory}`);
+              } catch (error) {
+                core.error(`❌ Failed: ${directory}`);
+                core.error(error.stderr?.toString() || error.message);
+                failedDirectories.push(directory);
+              }
+              core.endGroup();
+            }
+
+            if (failedDirectories.length > 0) {
+              core.setFailed(`${failedDirectories.length} kustomization(s) failed to build: ${failedDirectories.join(', ')}`);
+            }
