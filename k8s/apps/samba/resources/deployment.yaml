@@ -18,11 +18,16 @@ spec:
       containers:
         - name: app
           image: quay.io/samba.org/samba-server:v0.8@sha256:c01bd014570e5a2b49876debc69dae3cfb14ed562a02bbbed0493adf7521e0b9
+          args:
+            - run
+            - smbd
+            - --setup
+            - init-all
           env:
             - name: TZ
               value: Asia/Tokyo
             - name: SAMBACC_CONFIG
-              value: /etc/samba-container/config.json
+              value: /etc/samba-container/config.yaml
             - name: SAMBA_CONTAINER_ID
               value: default
           ports:
@@ -31,12 +36,14 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: config
-              mountPath: /etc/samba-container/config.json
-              subPath: config.json
+              mountPath: /etc/samba-container/config.yaml
+              subPath: sambacc.yaml
               readOnly: true
-            - name: samba-user-spica-password
-              mountPath: /run/secrets/samba-user-spica-password
-              subPath: spica-password
+            - name: etc-passwd
+              mountPath: /etc/passwd
+              readOnly: true
+            - name: etc-group
+              mountPath: /etc/group
               readOnly: true
             - name: pool
               mountPath: /mnt/pool
@@ -46,11 +53,16 @@ spec:
         - name: config
           configMap:
             name: app-config
+        - name: etc-passwd
+          hostPath:
+            path: /etc/passwd
+            type: File
+        - name: etc-group
+          hostPath:
+            path: /etc/group
+            type: File
         - name: pool
           hostPath:
             path: /mnt/pool
             type: Directory
-        - name: samba-user-spica-password
-          secret:
-            secretName: app-secret
       restartPolicy: Always
