@@ -224,6 +224,10 @@ spec:
             namespace: tailscale-operator
             path: k8s/system/tailscale-operator/lily
             project: system
+          - name: reloader
+            namespace: reloader
+            path: k8s/system/reloader
+            project: system
 
   template:
     metadata:
