@@ -18,16 +18,11 @@ spec:
       containers:
         - name: app
           image: quay.io/samba.org/samba-server:v0.8@sha256:c01bd014570e5a2b49876debc69dae3cfb14ed562a02bbbed0493adf7521e0b9
-          args:
-            - run
-            - smbd
-            - --setup
-            - init-all
           env:
             - name: TZ
               value: Asia/Tokyo
             - name: SAMBACC_CONFIG
-              value: /etc/samba-container/config.yaml
+              value: /etc/samba-container/config.yaml:/etc/samba-container/users.yaml
             - name: SAMBA_CONTAINER_ID
               value: default
           ports:
@@ -39,11 +34,9 @@ spec:
               mountPath: /etc/samba-container/config.yaml
               subPath: sambacc.yaml
               readOnly: true
-            - name: etc-passwd
-              mountPath: /etc/passwd
-              readOnly: true
-            - name: etc-group
-              mountPath: /etc/group
+            - name: users
+              mountPath: /etc/samba-container/users.yaml
+              subPath: users.yaml
               readOnly: true
             - name: pool
               mountPath: /mnt/pool
@@ -53,14 +46,9 @@ spec:
         - name: config
           configMap:
             name: app-config
-        - name: etc-passwd
-          hostPath:
-            path: /etc/passwd
-            type: File
-        - name: etc-group
-          hostPath:
-            path: /etc/group
-            type: File
+        - name: users
+          secret:
+            secretName: app-secret
         - name: pool
           hostPath:
             path: /mnt/pool

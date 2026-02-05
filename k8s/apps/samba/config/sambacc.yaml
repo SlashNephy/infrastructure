@@ -1,3 +1,6 @@
+# eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
+# eslint-disable yml/plain-scalar
+
 # https://github.com/samba-in-kubernetes/sambacc/blob/master/docs/configuration.md
 samba-container-config: v0
 
@@ -18,17 +21,19 @@ shares:
     options:
       path: /mnt/pool
       valid users: spica
-      browseable: yes
-      public: no
-      guest ok: no
-      writable: yes
-      printable: no
+      browseable: "yes"
+      public: "no"
+      guest ok: "no"
+      writable: "yes"
+      printable: "no"
       create mask: "0664"
       directory mask: "0775"
 
 globals:
   general:
     options:
+      workgroup: MYGROUP
+      server string: Samba Server
       server role: standalone server
       vfs objects: catia fruit streams_xattr full_audit
   logging:
@@ -41,27 +46,27 @@ globals:
       full_audit:failure: connect
   performance:
     options:
-      server multi channel support: yes
+      server multi channel support: "yes"
       deadtime: "15"
       socket options: IPTOS_THROUGHPUT SO_KEEPALIVE
-      use sendfile: yes
-      strict locking: no
+      use sendfile: "yes"
+      strict locking: "no"
       aio read size: "16384"
       aio write size: "16384"
       min receivefile size: "16384"
   security:
     options:
       min protocol: SMB3
-      nt pipe support: no
+      nt pipe support: "no"
       restrict anonymous: "1"
   follow_symlinks:
     options:
-      follow symlinks: yes
-      wide links: yes
-      unix extensions: no
+      follow symlinks: "yes"
+      wide links: "yes"
+      unix extensions: "no"
   no_printing:
     options:
-      load printers: no
+      load printers: "no"
       printing: bsd
       printcap name: /dev/null
-      disable spoolss: yes
+      disable spoolss: "yes"
