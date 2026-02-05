@@ -1,20 +1,19 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: samba
+  name: app
 
 spec:
   selector:
-    app: app
+    app: default
   type: NodePort
+  ipFamilyPolicy: PreferDualStack
+  ipFamilies:
+    - IPv4
+    - IPv6
   ports:
-    - name: "139"
-      port: 139
-      targetPort: 139
-      nodePort: 139
-      protocol: TCP
-    - name: "445"
+    - name: smb
       port: 445
-      targetPort: 445
+      targetPort: smb
       nodePort: 445
       protocol: TCP

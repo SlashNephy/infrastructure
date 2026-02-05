@@ -7,54 +7,50 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app
+      app: default
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
-        app: app
+        app: default
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/samba:master@sha256:e74e0abc4598d189af0f0aeb4bfda9bd0f851d25106f51033eaa5e619e9e0022
+          image: quay.io/samba.org/samba-server:v0.8@sha256:c01bd014570e5a2b49876debc69dae3cfb14ed562a02bbbed0493adf7521e0b9
           env:
             - name: TZ
               value: Asia/Tokyo
-            - name: USER1
-              valueFrom:
-                secretKeyRef:
-                  name: samba-secret
-                  key: user1
-            - name: USER2
-              valueFrom:
-                secretKeyRef:
-                  name: samba-secret
-                  key: user2
-            - name: USER3
-              valueFrom:
-                secretKeyRef:
-                  name: samba-secret
-                  key: user3
+            - name: SAMBACC_CONFIG
+              value: /etc/samba-container/config.json
+            - name: SAMBA_CONTAINER_ID
+              value: default
           ports:
-            - containerPort: 139
-              protocol: TCP
-            - containerPort: 445
+            - name: smb
+              containerPort: 445
               protocol: TCP
           volumeMounts:
             - name: config
-              mountPath: /etc/samba/smb.conf
+              mountPath: /etc/samba-container/config.json
+              subPath: config.json
               readOnly: true
-              subPath: smb.conf
-            - name: records
-              mountPath: /mnt
+            - name: samba-user-spica-password
+              mountPath: /run/secrets/samba-user-spica-password
+              subPath: spica-password
               readOnly: true
+            - name: pool
+              mountPath: /mnt/pool
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
         - name: config
           configMap:
             name: app-config
-        - name: records
+        - name: pool
           hostPath:
             path: /mnt/pool
             type: Directory
+        - name: samba-user-spica-password
+          secret:
+            secretName: app-secret
       restartPolicy: Always

@@ -1,0 +1,95 @@
+{
+  "samba-container-config": "v0",
+  "configs": {
+    "default": {
+      "shares": [
+        "pool"
+      ],
+      "globals": [
+        "general",
+        "logging",
+        "performance",
+        "security",
+        "follow_symlinks",
+        "no_printing"
+      ]
+    }
+  },
+  "shares": {
+    "pool": {
+      "options": {
+        "path": "/mnt/pool",
+        "browseable": "yes",
+        "public": "no",
+        "guest ok": "no",
+        "writable": "yes",
+        "printable": "no",
+        "create mask": "0664",
+        "directory mask": "0775"
+      }
+    }
+  },
+  "globals": {
+    "general": {
+      "options": {
+        "server role": "standalone server",
+        "vfs objects": "catia fruit streams_xattr full_audit"
+      }
+    },
+    "logging": {
+      "options": {
+        "log level": "2",
+        "log file": "/dev/stdout",
+        "full_audit:prefix": "%U|%m|%I",
+        "full_audit:facility": "local1",
+        "full_audit:success": "connect disconnect read pread",
+        "full_audit:failure": "connect"
+      }
+    },
+    "performance": {
+      "options": {
+        "server multi channel support": "yes",
+        "deadtime": "15",
+        "socket options": "IPTOS_THROUGHPUT SO_KEEPALIVE",
+        "use sendfile": "yes",
+        "strict locking": "no",
+        "aio read size": "16384",
+        "aio write size": "16384",
+        "min receivefile size": "16384"
+      }
+    },
+    "security": {
+      "options": {
+        "min protocol": "SMB3",
+        "nt pipe support": "no",
+        "restrict anonymous": "1"
+      }
+    },
+    "follow_symlinks": {
+      "options": {
+        "follow symlinks": "yes",
+        "wide links": "yes",
+        "unix extensions": "no"
+      }
+    },
+    "no_printing": {
+      "options": {
+        "load printers": "no",
+        "printing": "bsd",
+        "printcap name": "/dev/null",
+        "disable spoolss": "yes"
+      }
+    }
+  },
+  "users": {
+    "all_entries": [
+      {
+        "name": "spica",
+        "password": {
+          "source": "file",
+          "path": "/run/secrets/samba-user-spica-password"
+        }
+      }
+    ]
+  }
+}

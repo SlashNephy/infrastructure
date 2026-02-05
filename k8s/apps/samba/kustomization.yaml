@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: samba
 
 resources:
-  - ./resources/namespace.yaml
   - ./resources/secret.yaml
   - ./resources/deployment.yaml
   - ./resources/service.yaml
@@ -11,4 +10,4 @@ resources:
 configMapGenerator:
   - name: app-config
     files:
-      - ./config/smb.conf
+      - ./config/config.json

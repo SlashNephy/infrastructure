@@ -168,6 +168,10 @@ spec:
             namespace: glance
             path: k8s/apps/glance
             project: apps
+          - name: samba
+            namespace: samba
+            path: k8s/apps/samba
+            project: apps
 
           # cron
           - name: cron-backup-volumes
