@@ -8,7 +8,7 @@ helmCharts:
     releaseName: kubernetes-dashboard
     namespace: kubernetes-dashboard
     version: 7.14.0
-    repo: https://kubernetes.github.io/dashboard/
+    repo: https://kubernetes-retired.github.io/dashboard/
 
 resources:
   - ./resources/namespace.yaml
