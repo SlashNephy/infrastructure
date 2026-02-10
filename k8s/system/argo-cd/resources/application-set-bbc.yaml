@@ -63,6 +63,7 @@ spec:
           - CreateNamespace=true
           - RespectIgnoreDifferences=true
           - FailOnSharedResource=true
+      revisionHistoryLimit: 1
   goTemplate: true
   goTemplateOptions:
     - missingkey=error
