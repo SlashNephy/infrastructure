@@ -1,0 +1,15 @@
+# TODO: valuesInline に戻す
+# https://github.com/actions/actions-runner-controller/issues/3819
+
+githubConfigUrl: https://github.com/SlashNephy/nebula
+githubConfigSecret: runner-secret
+
+minRunners: 0
+maxRunners: 4
+
+containerMode:
+  type: kubernetes-novolume
+
+controllerServiceAccount:
+  namespace: arc-systems
+  name: arc-gha-rs-controller

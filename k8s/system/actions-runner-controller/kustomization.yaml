@@ -1,14 +1,20 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: arc-systems
 
 helmCharts:
-  - name: arc
-    releaseName: gha-runner-scale-set-controller
+  - name: gha-runner-scale-set-controller
+    releaseName: arc
     namespace: arc-systems
     version: 0.13.1
     repo: oci://ghcr.io/actions/actions-runner-controller-charts
     includeCRDs: true
+  - name: gha-runner-scale-set
+    releaseName: arc-nebula-runners
+    namespace: arc-runners
+    version: 0.13.1
+    repo: oci://ghcr.io/actions/actions-runner-controller-charts
+    includeCRDs: true
+    valuesFile: nebula-values.yaml
 
 resources:
-  - ./runners
+  - ./resources/runner-secret.yaml
