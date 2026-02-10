@@ -17,4 +17,5 @@ helmCharts:
     valuesFile: nebula-values.yaml
 
 resources:
+  - ./resources/runner-namespace.yaml
   - ./resources/runner-secret.yaml
