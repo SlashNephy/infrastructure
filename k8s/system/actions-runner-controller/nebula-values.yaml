@@ -7,9 +7,6 @@ githubConfigSecret: runner-secret
 minRunners: 0
 maxRunners: 4
 
-containerMode:
-  type: kubernetes-novolume
-
 controllerServiceAccount:
   namespace: arc-systems
   name: arc-gha-rs-controller
