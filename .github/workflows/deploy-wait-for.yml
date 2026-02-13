@@ -6,9 +6,11 @@ on:
       - cmd/wait-for/**
   workflow_dispatch:
 
+permissions: {}
+
 jobs:
   build:
-    uses: SlashNephy/.github/.github/workflows/docker-build.yml@master
+    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@098bad3f838dcb7f95c293d2c4b91e530157644f # v0.0.2
     permissions:
       contents: read
       packages: write
