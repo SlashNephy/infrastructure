@@ -7,6 +7,14 @@ githubConfigSecret: runner-secret
 minRunners: 0
 maxRunners: 4
 
+template:
+  spec:
+    containers:
+      - name: runner
+        image: ghcr.io/slashnephy/actions-runner:latest@sha256:4827868faa4f053170de933594b5a39ba675b950606fb05beb33efc91cc08fd2
+        command:
+          - /home/runner/run.sh
+
 controllerServiceAccount:
   namespace: arc-systems
   name: arc-gha-rs-controller
