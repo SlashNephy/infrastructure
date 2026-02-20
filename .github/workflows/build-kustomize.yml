@@ -64,7 +64,10 @@ jobs:
             for (const directory of directories) {
               core.startGroup(directory);
               try {
-                execSync(`kustomize build --enable-helm "${directory}"`, { stdio: 'pipe' });
+                execSync(`kustomize build --enable-helm "${directory}"`, {
+                  stdio: 'pipe',
+                  maxBuffer: 8 * 1024 * 1024, // 8 MB
+                });
                 core.info(`✅ Success: ${directory}`);
               } catch (error) {
                 core.error(`❌ Failed: ${directory}`);
