@@ -10,6 +10,8 @@ helmCharts:
     version: 0.144.0
     repo: https://open-telemetry.github.io/opentelemetry-helm-charts
     valuesInline:
+      image:
+        repository: otel/opentelemetry-collector-k8s
       mode: deployment
       presets:
         clusterMetrics:

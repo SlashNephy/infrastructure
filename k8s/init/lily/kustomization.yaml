@@ -4,8 +4,8 @@ kind: Kustomization
 resources:
   - ./../../system/1password-connect
   - ./../../system/argo-cd
-  - ./../../system/cilium
-  - ./../../system/traefik
+  - ./../../system/cilium/lily
+  - ./../../system/traefik/lily
 
 generatorOptions:
   disableNameSuffixHash: true
