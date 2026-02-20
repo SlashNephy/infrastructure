@@ -27,7 +27,7 @@ helmCharts:
         resourcesPreset: nano
   - name: postgresql
     releaseName: postgresql
-    version: 16.7.27
+    version: 18.4.0
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       auth:
