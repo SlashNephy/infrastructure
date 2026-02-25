@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@slashnephy/eslint-config':
-        specifier: 3.0.219
-        version: 3.0.219(@types/estree@1.0.8)(@types/node@25.3.0)(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(storybook@10.2.10(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
+        specifier: 3.0.222
+        version: 3.0.222(@types/estree@1.0.8)(@types/node@25.3.0)(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(storybook@10.2.10(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
       eslint:
         specifier: 9.39.3
         version: 9.39.3(jiti@2.6.1)
@@ -576,8 +576,8 @@ packages:
   '@repeaterjs/repeater@3.0.6':
     resolution: {integrity: sha512-Javneu5lsuhwNCryN+pXH93VPQ8g0dBX7wItHFgYiwQmzE1sVdg5tWHiOgHywzL2W21XQopa7IwIEnNbmeUJYA==}
 
-  '@slashnephy/eslint-config@3.0.219':
-    resolution: {integrity: sha512-D/Hd5Q63EpgHihc9K8aisYg3I9gzk2ZOGyoH19Zhk+1dpQKx+D5+mzAeF7vc2fNvNTnaPP0moUt4QDvt8lRVNQ==}
+  '@slashnephy/eslint-config@3.0.222':
+    resolution: {integrity: sha512-pCmyv65fcZpSgviALeDx2W1MCkpTaQPW6pSUJnRhwO+jlz56WyNZp3HF49jqky3BdOBgVpP98LPrWyozs7+Bnw==}
     engines: {node: '>= 24'}
     peerDependencies:
       eslint: ^9
@@ -1415,11 +1415,11 @@ packages:
   eslint-plugin-relay@2.0.0:
     resolution: {integrity: sha512-H52u+YM72VhBwhKrGSSdsjbeAWbLIgmph3z4Hgfyqm8Jt5pP5g9PbFmBp8kk10D4vZldrbNwa0esHxDRoczprg==}
 
-  eslint-plugin-storybook@10.2.9:
-    resolution: {integrity: sha512-nmPxjPw2KfmosqAUb/W0jmEfAZzK97kyJ8W5KMuweCblwjIL0hI/GMsWSP8CCBPnhQ9LnuxtT8JtQUOsslcbwA==}
+  eslint-plugin-storybook@10.2.10:
+    resolution: {integrity: sha512-aWkoh2rhTaEsMA4yB1iVIcISM5wb0uffp09ZqhwpoD4GAngCs131uq6un+QdnOMc7vXyAnBBfsuhtOj8WwCUgw==}
     peerDependencies:
       eslint: '>=8'
-      storybook: ^10.2.9
+      storybook: ^10.2.10
 
   eslint-plugin-tsdoc@0.5.0:
     resolution: {integrity: sha512-ush8ehCwub2rgE16OIgQPFyj/o0k3T8kL++9IrAI4knsmupNo8gvfO2ERgDHWWgTC5MglbwLVRswU93HyXqNpw==}
@@ -1443,8 +1443,8 @@ packages:
     resolution: {integrity: sha512-L5oYaD//ZE7fKNtWUfVgYTRW19jrZlvaHe2swyFLxXQ5pwVQLivi5m92rtXd/ww8yqg4Drasqyi0hlBmhf9YQg==}
     engines: {node: '>=0.10.0'}
 
-  eslint-plugin-yml@3.2.0:
-    resolution: {integrity: sha512-69gbDR+2IqaGJHyTXJ/FKJsv5QL3wKCfI2Z/rGjXwM88RxAqSOtM/AmF/YPhSWdHwezE8xyZbvDVnzgUPbO4ag==}
+  eslint-plugin-yml@3.2.1:
+    resolution: {integrity: sha512-/oFj7MWk56AKLelLSUb7zN1OKDI9kR+uKEzbf/sGu7Bov0tJs3qwtMcu+VCcEtFAFD7KZe0LSYhyy0Uq8hKF9g==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24.0.0}
     peerDependencies:
       eslint: '>=9.38.0'
@@ -3309,7 +3309,7 @@ snapshots:
 
   '@repeaterjs/repeater@3.0.6': {}
 
-  '@slashnephy/eslint-config@3.0.219(@types/estree@1.0.8)(@types/node@25.3.0)(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(storybook@10.2.10(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
+  '@slashnephy/eslint-config@3.0.222(@types/estree@1.0.8)(@types/node@25.3.0)(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(storybook@10.2.10(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
     dependencies:
       '@eslint-community/eslint-plugin-eslint-comments': 4.6.0(eslint@9.39.3(jiti@2.6.1))
       '@eslint/js': 9.39.2
@@ -3334,12 +3334,12 @@ snapshots:
       eslint-plugin-react-hooks: 7.0.1(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-react-refresh: 0.5.0(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-relay: 2.0.0
-      eslint-plugin-storybook: 10.2.9(eslint@9.39.3(jiti@2.6.1))(storybook@10.2.10(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
+      eslint-plugin-storybook: 10.2.10(eslint@9.39.3(jiti@2.6.1))(storybook@10.2.10(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
       eslint-plugin-tsdoc: 0.5.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-unused-imports: 4.4.1(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-userscripts: 0.5.6(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-xss: 0.1.12
-      eslint-plugin-yml: 3.2.0(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-yml: 3.2.1(eslint@9.39.3(jiti@2.6.1))
       globals: 17.3.0
       graphql: 16.12.0
       jsonc-eslint-parser: 2.4.2
@@ -4360,7 +4360,7 @@ snapshots:
     dependencies:
       graphql: 16.12.0
 
-  eslint-plugin-storybook@10.2.9(eslint@9.39.3(jiti@2.6.1))(storybook@10.2.10(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3):
+  eslint-plugin-storybook@10.2.10(eslint@9.39.3(jiti@2.6.1))(storybook@10.2.10(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3):
     dependencies:
       '@typescript-eslint/utils': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.3(jiti@2.6.1)
@@ -4394,7 +4394,7 @@ snapshots:
     dependencies:
       requireindex: 1.1.0
 
-  eslint-plugin-yml@3.2.0(eslint@9.39.3(jiti@2.6.1)):
+  eslint-plugin-yml@3.2.1(eslint@9.39.3(jiti@2.6.1)):
     dependencies:
       '@eslint/core': 1.1.0
       '@eslint/plugin-kit': 0.6.0
