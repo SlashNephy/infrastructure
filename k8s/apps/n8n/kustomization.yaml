@@ -11,8 +11,6 @@ helmCharts:
     repo: oci://8gears.container-registry.com/library
     includeCRDs: true
     valuesInline:
-      image:
-        tag: 2.10.3
       main:
         config:
           n8n:
@@ -91,6 +89,11 @@ helmCharts:
         persistence:
           existingClaim: n8n-postgresql-data
         resourcesPreset: nano
+
+images:
+  # チャートの更新が遅いのでセルフアップデート
+  - name: n8nio/n8n
+    newTag: 2.10.3
 
 resources:
   - ./resources/secret.yaml
