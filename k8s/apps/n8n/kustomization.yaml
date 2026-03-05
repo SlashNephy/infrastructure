@@ -66,6 +66,11 @@ helmCharts:
           storage:
             existingClaim: n8n-postgresql-backup
         enabled: true
+      global:
+        imageRegistry: public.ecr.aws
+        security:
+          # imageRegistry を変更するために必要
+          allowInsecureImages: true
       primary:
         extraEnvVars:
           - name: TZ
