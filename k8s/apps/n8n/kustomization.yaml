@@ -1,0 +1,83 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: n8n
+
+helmCharts:
+  # https://github.com/8gears/n8n-helm-chart
+  - name: n8n
+    releaseName: n8n
+    namespace: n8n
+    version: 2.0.1
+    repo: oci://8gears.container-registry.com/library
+    includeCRDs: true
+    valuesInline:
+      worker:
+        enabled: true
+        replicaCount: 1
+      valkey:
+        enabled: true
+        auth:
+          enabled: false
+      main:
+        config:
+          n8n:
+            host: n8n.starry.blue
+            protocol: https
+          db:
+            type: postgresdb
+            postgresdb:
+              host: postgresql
+              database: n8n
+              user: n8n
+        extraEnv:
+          N8N_ENCRYPTION_KEY:
+            valueFrom:
+              secretKeyRef:
+                name: n8n-secret
+                key: encryption_key
+          DB_POSTGRESDB_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: postgresql-secret
+                key: password
+        persistence:
+          enabled: true
+          type: existing
+          existingClaim: n8n-data
+  - name: postgresql
+    releaseName: postgresql
+    version: 16.7.27
+    repo: oci://registry-1.docker.io/bitnamicharts
+    valuesInline:
+      auth:
+        database: n8n
+        existingSecret: postgresql-secret
+        username: n8n
+      backup:
+        cronjob:
+          concurrencyPolicy: Forbid
+          containerSecurityContext:
+            runAsGroup: 1000
+            runAsUser: 1000
+          restartPolicy: Never
+          # @hourly
+          schedule: "20 * * * *"
+          timeZone: Asia/Tokyo
+          storage:
+            existingClaim: n8n-postgresql-backup
+        enabled: true
+      primary:
+        extraEnvVars:
+          - name: TZ
+            value: Asia/Tokyo
+        persistence:
+          existingClaim: n8n-postgresql-data
+        resourcesPreset: nano
+
+resources:
+  - ./resources/secret.yaml
+  - ./resources/volume-data.yaml
+  - ./resources/volume-postgresql.yaml
+  - ./resources/volume-backup.yaml
+  - ./resources/cronjob-cleanup-backup.yaml
+  - ./resources/ingress.yaml
