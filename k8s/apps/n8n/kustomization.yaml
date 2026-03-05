@@ -11,23 +11,35 @@ helmCharts:
     repo: oci://8gears.container-registry.com/library
     includeCRDs: true
     valuesInline:
+      image:
+        tag: 2.10.3
       main:
         config:
           n8n:
             host: n8n.starry.blue
             protocol: https
+            version_notifications_enabled: "false"
+            diagnostics_enabled: "false"
+            proxy_hops: "1"
           db:
             type: postgresdb
             postgresdb:
               host: postgresql
               database: n8n
               user: n8n
+          generic:
+            timezone: Asia/Tokyo
         extraEnv:
           N8N_ENCRYPTION_KEY:
             valueFrom:
               secretKeyRef:
                 name: n8n-secret
                 key: encryption_key
+          N8N_LICENSE_ACTIVATION_KEY:
+            valueFrom:
+              secretKeyRef:
+                name: n8n-secret
+                key: license_activation_key
           DB_POSTGRESDB_PASSWORD:
             valueFrom:
               secretKeyRef:
