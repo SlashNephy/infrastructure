@@ -93,7 +93,7 @@ helmCharts:
 images:
   # チャートの更新が遅いのでセルフアップデート
   - name: n8nio/n8n
-    newTag: 2.10.3
+    newTag: 2.10.3@sha256:7d90cdb066ae31f08776b0f8287d33102c4b55d7d0173faf5edb5767c94d2b83
 
 resources:
   - ./resources/secret.yaml
