@@ -11,13 +11,6 @@ helmCharts:
     repo: oci://8gears.container-registry.com/library
     includeCRDs: true
     valuesInline:
-      worker:
-        enabled: true
-        replicaCount: 1
-      valkey:
-        enabled: true
-        auth:
-          enabled: false
       main:
         config:
           n8n:
@@ -44,6 +37,14 @@ helmCharts:
           enabled: true
           type: existing
           existingClaim: n8n-data
+      # TODO: worker を分離
+      # worker:
+      #   enabled: true
+      #   replicaCount: 1
+      # valkey:
+      #   enabled: true
+      #   auth:
+      #     enabled: false
   - name: postgresql
     releaseName: postgresql
     version: 16.7.27
