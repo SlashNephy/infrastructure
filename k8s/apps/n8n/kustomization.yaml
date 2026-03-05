@@ -11,9 +11,6 @@ helmCharts:
     repo: oci://8gears.container-registry.com/library
     includeCRDs: true
     valuesInline:
-      webhook:
-        enabled: true
-        replicaCount: 1
       worker:
         enabled: true
         replicaCount: 1
