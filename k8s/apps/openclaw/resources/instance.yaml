@@ -1,0 +1,44 @@
+apiVersion: openclaw.rocks/v1alpha1
+kind: OpenClawInstance
+metadata:
+  name: agent
+
+spec:
+  envFrom:
+    - secretRef:
+        name: agent-secret
+  storage:
+    persistence:
+      existingClaim: agent-data
+  extraVolumes:
+    - name: shared
+      hostPath:
+        path: /mnt/local/openclaw/shared
+        type: DirectoryOrCreate
+  extraVolumeMounts:
+    - name: shared
+      mountPath: /shared
+  gateway:
+    existingSecret: agent-gateway-token
+    controlUiOrigins:
+      - https://openclaw.starry.blue
+  runtimeDeps:
+    pnpm: true
+    python: true
+  chromium:
+    enabled: true
+    image:
+      repository: ghcr.io/browserless/chromium
+      tag: v2.42.0
+  selfConfigure:
+    enabled: true
+    allowedActions:
+      - skills
+      - config
+      - workspaceFiles
+      - envVars
+  autoUpdate:
+    enabled: true
+    checkInterval: 24h
+    rollbackOnFailure: true
+    healthCheckTimeout: 10m

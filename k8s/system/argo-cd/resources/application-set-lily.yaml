@@ -176,6 +176,10 @@ spec:
             namespace: samba
             path: k8s/apps/samba
             project: apps
+          - name: openclaw
+            namespace: openclaw
+            path: k8s/apps/openclaw
+            project: apps
 
           # cron
           - name: cron-backup-volumes
