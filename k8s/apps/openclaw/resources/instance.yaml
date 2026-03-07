@@ -8,6 +8,8 @@ spec:
     repository: ghcr.io/openclaw/openclaw
     tag: 2026.3.2
     digest: sha256:6ce0b122e8675b0c14b2d352dff928273bd17c7b2148e69e13453b9ddffbf7cf
+  config:
+    mergeMode: merge
   envFrom:
     - secretRef:
         name: agent-secret
