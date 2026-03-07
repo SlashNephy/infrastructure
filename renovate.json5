@@ -47,5 +47,17 @@
       },
     },
   ],
+  customManagers: [
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        'k8s/apps/openclaw/resources/instance.yaml',
+      ],
+      matchStrings: [
+        'repository:\\s*(?<depName>[^\\s]+)\\s*\\n\\s*tag:\\s*(?<currentValue>[^\\s]+)\\s*\\n\\s*digest:\\s*(?<currentDigest>sha256:[a-f0-9]+)',
+      ],
+      datasourceTemplate: 'docker',
+    },
+  ],
   rebaseWhen: 'conflicted',
 }
