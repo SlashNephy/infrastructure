@@ -8,6 +8,18 @@ spec:
     repository: ghcr.io/openclaw/openclaw
     tag: 2026.3.2
     digest: sha256:6ce0b122e8675b0c14b2d352dff928273bd17c7b2148e69e13453b9ddffbf7cf
+  config:
+    raw:
+      gateway:
+        trustedProxies:
+          - 10.0.0.0/16
+        auth:
+          mode: trusted-proxy
+          trustedProxy:
+            userHeader: X-Authentik-Email
+            requiredHeaders:
+              - X-Authentik-Username
+              - X-Authentik-Uid
   envFrom:
     - secretRef:
         name: agent-secret
