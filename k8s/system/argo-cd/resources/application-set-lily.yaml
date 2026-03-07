@@ -236,6 +236,10 @@ spec:
             namespace: reloader
             path: k8s/system/reloader
             project: system
+          - name: openclaw-operator
+            namespace: openclaw-operator-system
+            path: k8s/system/openclaw-operator
+            project: system
 
   template:
     metadata:
