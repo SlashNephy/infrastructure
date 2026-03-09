@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@slashnephy/eslint-config':
-        specifier: 3.0.248
-        version: 3.0.248(@types/estree@1.0.8)(@types/node@25.3.0)(@typescript-eslint/eslint-plugin@8.56.1(@typescript-eslint/parser@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(storybook@10.2.10(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
+        specifier: 3.0.249
+        version: 3.0.249(@types/estree@1.0.8)(@types/node@25.3.0)(@typescript-eslint/eslint-plugin@8.56.1(@typescript-eslint/parser@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(storybook@10.2.10(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
       eslint:
         specifier: 9.39.3
         version: 9.39.3(jiti@2.6.1)
@@ -281,8 +281,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@eslint-community/eslint-plugin-eslint-comments@4.7.0':
-    resolution: {integrity: sha512-wxyEBQOUAXp4HjnYWucQy7iq58RR1WXJhm6bjw+sGlMDEKJmzJVe2MLnd6iazmQFYGOxoUrw27EsJfpoqiI7tQ==}
+  '@eslint-community/eslint-plugin-eslint-comments@4.7.1':
+    resolution: {integrity: sha512-Ql2nJFwA8wUGpILYGOQaT1glPsmvEwE0d+a+l7AALLzQvInqdbXJdx7aSu0DpUX9dB1wMVBMhm99/++S3MdEtQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -572,8 +572,8 @@ packages:
   '@repeaterjs/repeater@3.0.6':
     resolution: {integrity: sha512-Javneu5lsuhwNCryN+pXH93VPQ8g0dBX7wItHFgYiwQmzE1sVdg5tWHiOgHywzL2W21XQopa7IwIEnNbmeUJYA==}
 
-  '@slashnephy/eslint-config@3.0.248':
-    resolution: {integrity: sha512-CabGur10nQ+ellgwLi1bJBEg/ZVUuaZesnAOp+M47LRa2WAxQK9Xb4ZNjiwmaSNgBntl60mT0tJUlez1+WFTBA==}
+  '@slashnephy/eslint-config@3.0.249':
+    resolution: {integrity: sha512-lWkNIxYJpGOLDhNaQfKycH0Mo8a9cJJrpHYAlPMcqTUJ8EWK6jUlyMSo+u37wMcyNibIwqwaI/PKo1RV/oxL2w==}
     engines: {node: '>= 24'}
     peerDependencies:
       eslint: ^9
@@ -2859,7 +2859,7 @@ snapshots:
   '@esbuild/win32-x64@0.27.3':
     optional: true
 
-  '@eslint-community/eslint-plugin-eslint-comments@4.7.0(eslint@9.39.3(jiti@2.6.1))':
+  '@eslint-community/eslint-plugin-eslint-comments@4.7.1(eslint@9.39.3(jiti@2.6.1))':
     dependencies:
       escape-string-regexp: 4.0.0
       eslint: 9.39.3(jiti@2.6.1)
@@ -3269,9 +3269,9 @@ snapshots:
 
   '@repeaterjs/repeater@3.0.6': {}
 
-  '@slashnephy/eslint-config@3.0.248(@types/estree@1.0.8)(@types/node@25.3.0)(@typescript-eslint/eslint-plugin@8.56.1(@typescript-eslint/parser@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(storybook@10.2.10(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
+  '@slashnephy/eslint-config@3.0.249(@types/estree@1.0.8)(@types/node@25.3.0)(@typescript-eslint/eslint-plugin@8.56.1(@typescript-eslint/parser@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.56.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.3(jiti@2.6.1))(storybook@10.2.10(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
     dependencies:
-      '@eslint-community/eslint-plugin-eslint-comments': 4.7.0(eslint@9.39.3(jiti@2.6.1))
+      '@eslint-community/eslint-plugin-eslint-comments': 4.7.1(eslint@9.39.3(jiti@2.6.1))
       '@eslint/js': 9.39.3
       '@graphql-eslint/eslint-plugin': 4.4.0(@types/node@25.3.0)(eslint@9.39.3(jiti@2.6.1))(graphql@16.13.0)(typescript@5.9.3)
       '@microsoft/eslint-formatter-sarif': 3.1.0
