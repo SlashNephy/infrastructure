@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: timothyjmiller/cloudflare-ddns:latest@sha256:2187e122660d6a2d451ef7c53fd4805c133133f4f47552256352c1e2a7f49ee2
+          image: timothyjmiller/cloudflare-ddns:latest@sha256:1e2346dd943b639cb0ce77e8b12603484e45ee20449f5974430de64054a2985b
           env:
             - name: PUID
               value: "1000"
