@@ -43,7 +43,7 @@ helmCharts:
       kubeProxyReplacement: true
       loadBalancer:
         acceleration: best-effort
-        mode: hybrid
+        mode: snat
       operator:
         replicas: 1
         prometheus:
