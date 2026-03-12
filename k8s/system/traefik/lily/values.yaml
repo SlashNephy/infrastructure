@@ -6,16 +6,6 @@ additionalVolumeMounts:
     mountPath: /plugins-storage
 
 deployment:
-  # middleware が読み込まれていることを確認する
-  # additionalContainers:
-  #   - name: check-cloudflarewarp-plugin
-  #     image: ghcr.io/slashnephy/curl-jq:master@sha256:e4ba655f936ebff6abdf7547adac1bdb784b75c35d7e6ec1d5cc5fb94a4e6e60
-  #     imagePullPolicy: IfNotPresent
-  #     command:
-  #       - ash
-  #       - -c
-  #       - |
-  #         curl -s http://traefik:8080/api/http/middlewares | jq '.[] | select(.name == "traefik-trust-cloudflare-ips@kubernetescrd")' --exit-status > /dev/null
   additionalVolumes:
     - name: plugins
       persistentVolumeClaim:
