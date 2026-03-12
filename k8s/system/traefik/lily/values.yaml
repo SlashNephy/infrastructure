@@ -1,7 +1,25 @@
 autoscaling:
   enabled: false
 
+additionalVolumeMounts:
+  - name: plugins
+    mountPath: /plugins-storage
+
 deployment:
+  # middleware が読み込まれていることを確認する
+  # additionalContainers:
+  #   - name: check-cloudflarewarp-plugin
+  #     image: ghcr.io/slashnephy/curl-jq:master@sha256:e4ba655f936ebff6abdf7547adac1bdb784b75c35d7e6ec1d5cc5fb94a4e6e60
+  #     imagePullPolicy: IfNotPresent
+  #     command:
+  #       - ash
+  #       - -c
+  #       - |
+  #         curl -s http://traefik:8080/api/http/middlewares | jq '.[] | select(.name == "traefik-trust-cloudflare-ips@kubernetescrd")' --exit-status > /dev/null
+  additionalVolumes:
+    - name: plugins
+      persistentVolumeClaim:
+        claimName: plugins-storage
   minReadySeconds: 30
   replicas: 2
   terminationGracePeriodSeconds: 7200
@@ -9,6 +27,52 @@ deployment:
 env:
   - name: TZ
     value: Asia/Tokyo
+
+experimental:
+  plugins:
+    cloudflarewarp:
+      moduleName: github.com/BetterCorp/cloudflarewarp
+      # renovate: datasource=github-tags depName=BetterCorp/cloudflarewarp
+      version: v1.3.3
+
+extraObjects:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: plugins-storage
+    spec:
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 1Gi
+      selector:
+        matchLabels:
+          name: plugins-storage
+      storageClassName: local
+  - apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: plugins-storage
+      labels:
+        name: plugins-storage
+    spec:
+      accessModes:
+        - ReadWriteMany
+      capacity:
+        storage: 1Gi
+      local:
+        path: /mnt/local/traefik/plugins-storage
+      nodeAffinity:
+        required:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - lily
+      persistentVolumeReclaimPolicy: Retain
+      storageClassName: local
 
 global:
   checkNewVersion: false
@@ -65,6 +129,7 @@ ports:
         - traefik-security-headers@kubernetescrd
         # - traefik-custom-error-pages@kubernetescrd
         - traefik-ban-robots@kubernetescrd
+        - traefik-trust-cloudflare-ips@kubernetescrd
       # https://doc.traefik.io/traefik/routing/entrypoints/#tls
       tls:
         domains:

@@ -1,0 +1,19 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: trust-cloudflare-ips
+
+spec:
+  plugin:
+    cloudflarewarp:
+      disableDefault: false
+      trustip:
+        # Cilium SNAT 後の内部 IP (externalTrafficPolicy: Cluster)
+        # Cilium の kubeProxyReplacement + loadBalancer.mode: hybrid 環境では
+        # externalTrafficPolicy: Local を設定すると RevNAT=0 により
+        # SYN-ACK が Pod IP のまま送出され Cloudflare 522 タイムアウトが発生する。
+        # そのため SNAT 後の内部 IP を信頼し Cf-Connecting-Ip から X-Real-Ip を設定させる。
+        - 10.0.0.0/8
+        - fd00::/104
+        - 192.168.0.0/16
+        - fdac:2d12:9f5::/64
