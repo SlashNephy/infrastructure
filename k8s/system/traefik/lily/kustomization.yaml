@@ -2,31 +2,30 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: traefik
 
+helmCharts:
+  # https://doc.traefik.io/traefik/getting-started/install-traefik/#use-the-helm-chart
+  - name: traefik
+    releaseName: traefik
+    namespace: traefik
+    version: 39.0.4
+    repo: https://helm.traefik.io/traefik
+    includeCRDs: true
+    valuesFile: ./values.yaml
+    additionalValuesFiles:
+      - ./values-cloudflare.yaml
+
 resources:
   - ./resources/namespace.yaml
   - ./resources/tls/certificate.yaml
   - ./resources/tls/issuer.yaml
-  - ./resources/helm
   - ./resources/tls/default-tls-store.yaml
   - ./resources/tls/cloudflare-tls-option.yaml
   - ./resources/tls/gateway-tls-option.yaml
   - ./resources/tls/default-tls-option.yaml
   - ./resources/middlewares/ban-robots.yaml
-  - ./resources/middlewares/circuit-breaker.yaml
-  - ./resources/middlewares/compress.yaml
   - ./resources/middlewares/security-headers.yaml
-  - ./resources/middlewares/trust-cloudflare-ips.yaml
   - ./resources/routes/dashboard.yaml
   - ./resources/routes/router.yaml
-  - ./resources/routes/ai.yaml
   - ./resources/custom-error-pages
   - ./resources/priority-class.yaml
   - ./resources/whoami
-
-configMapGenerator:
-  - name: traefik-env
-    literals:
-      - TZ=Asia/Tokyo
-
-generatorOptions:
-  disableNameSuffixHash: false

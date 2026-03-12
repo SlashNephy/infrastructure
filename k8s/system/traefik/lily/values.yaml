@@ -1,0 +1,97 @@
+autoscaling:
+  enabled: false
+
+deployment:
+  minReadySeconds: 30
+  replicas: 2
+  terminationGracePeriodSeconds: 7200
+
+env:
+  - name: TZ
+    value: Asia/Tokyo
+
+global:
+  checkNewVersion: false
+
+additionalArguments:
+  - --api.disabledashboardad=true
+
+ingressRoute:
+  dashboard:
+    enabled: false
+
+# https://docs.traefik.io/observability/logs/
+logs:
+  access:
+    enabled: true
+    # https://docs.traefik.io/observability/access-logs/#limiting-the-fieldsincluding-headers
+    fields:
+      general:
+        defaultmode: keep
+        names:
+          ClientAddr: drop # ClientHost:ClientPort の組み合わせなので不要
+          StartLocal: drop # time で十分
+          StartUTC: drop
+      headers:
+        defaultmode: keep
+        names:
+          Authorization: redact
+          Cookie: redact
+          X-Authentik-Jwt: redact
+    format: json
+  general:
+    level: INFO
+
+ports:
+  web:
+    expose:
+      default: true
+    nodePort: 80
+
+  websecure:
+    asDefault: true
+    expose:
+      default: true
+    nodePort: 443
+
+    http3:
+      advertisedPort: 443
+      enabled: true
+
+    http:
+      # https://doc.traefik.io/traefik/middlewares/overview/
+      # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
+      middlewares:
+        - traefik-security-headers@kubernetescrd
+        # - traefik-custom-error-pages@kubernetescrd
+        - traefik-ban-robots@kubernetescrd
+      # https://doc.traefik.io/traefik/routing/entrypoints/#tls
+      tls:
+        domains:
+          - main: starry.blue
+            sans:
+              - "*.starry.blue"
+              - "*.gateway.starry.blue"
+        enabled: true
+        options: traefik-cloudflare@kubernetescrd
+
+ocsp:
+  enabled: true
+
+priorityClassName: load-balancer
+
+providers:
+  kubernetesCRD:
+    allowCrossNamespace: true
+    allowEmptyServices: true
+    allowExternalNameServices: true
+    enabled: true
+  kubernetesIngress:
+    enabled: true
+    allowExternalNameServices: true
+  kubernetesGateway:
+    enabled: true
+
+service:
+  ipFamilyPolicy: PreferDualStack
+  type: NodePort
