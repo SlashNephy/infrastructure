@@ -95,6 +95,7 @@ providers:
 service:
   ipFamilyPolicy: PreferDualStack
   type: NodePort
-  # NodePort 経由でも Cloudflare の実 IP を保持する (SNAT を無効化)
-  # これにより forwardedHeaders.trustedIPs が正しく機能する
-  externalTrafficPolicy: Local
+  spec:
+    # NodePort 経由でも Cloudflare の実 IP を保持する (SNAT を無効化)
+    # これにより forwardedHeaders.trustedIPs が正しく機能する
+    externalTrafficPolicy: Local
