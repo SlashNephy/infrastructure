@@ -5,7 +5,7 @@ namespace: headlessx
 helmCharts:
   - name: postgresql
     releaseName: postgresql
-    version: 16.7.27
+    version: 18.5.6
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       auth:
