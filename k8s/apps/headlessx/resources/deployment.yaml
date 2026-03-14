@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: ghcr.io/slashnephy/headlessx-api:v2.0.4
+          image: ghcr.io/slashnephy/headlessx-api:2.0.4
           ports:
             - name: api
               containerPort: 8000
@@ -41,7 +41,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: web
-          image: ghcr.io/slashnephy/headlessx-web:v2.0.4
+          image: ghcr.io/slashnephy/headlessx-web:2.0.4
           ports:
             - name: web
               containerPort: 3000
