@@ -248,6 +248,10 @@ spec:
             namespace: openclaw-operator-system
             path: k8s/system/openclaw-operator
             project: system
+          - name: external-dns
+            namespace: external-dns
+            path: k8s/system/external-dns
+            project: system
 
   template:
     metadata:
