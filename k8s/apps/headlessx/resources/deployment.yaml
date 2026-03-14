@@ -22,7 +22,6 @@ spec:
             - prisma
             - db
             - push
-            - --skip-generate
           envFrom:
             - secretRef:
                 name: headlessx-secret
