@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: headlessx
+
+helmCharts:
+  - name: postgresql
+    releaseName: postgresql
+    version: 16.7.27
+    repo: oci://registry-1.docker.io/bitnamicharts
+    valuesInline:
+      auth:
+        database: headlessx
+        existingSecret: postgresql-secret
+        username: headlessx
+      global:
+        imageRegistry: public.ecr.aws
+        security:
+          allowInsecureImages: true
+      primary:
+        extraEnvVars:
+          - name: TZ
+            value: Asia/Tokyo
+        persistence:
+          existingClaim: headlessx-postgresql-data
+        resourcesPreset: nano
+
+resources:
+  - ./resources/secret.yaml
+  - ./resources/deployment.yaml
+  - ./resources/service.yaml
+  - ./resources/ingress.yaml
+  - ./resources/volume-postgresql.yaml
+  - ./../../../common/registry-ghcr-io/lily

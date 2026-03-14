@@ -1,0 +1,38 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route-web
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`headlessx.starry.blue`)
+      priority: 10
+      services:
+        - name: service
+          port: web
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
+
+    - kind: Rule
+      match: Host(`headlessx.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: http
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route-api
+
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`headlessx-api.starry.blue`)
+      services:
+        - name: service
+          port: api

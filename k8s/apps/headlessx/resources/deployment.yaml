@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: api
+          image: ghcr.io/slashnephy/headlessx-api:v2.0.4
+          ports:
+            - name: api
+              containerPort: 8000
+          env:
+            - name: PORT
+              value: "8000"
+            - name: HOST
+              value: 0.0.0.0
+            - name: NODE_ENV
+              value: production
+            - name: FRONTEND_URL
+              value: https://headlessx.starry.blue
+            - name: TZ
+              value: Asia/Tokyo
+          envFrom:
+            - secretRef:
+                name: headlessx-secret
+          volumeMounts:
+            - name: models
+              mountPath: /app/apps/api/models
+            - name: data
+              mountPath: /app/apps/api/data
+          securityContext:
+            allowPrivilegeEscalation: false
+        - name: web
+          image: ghcr.io/slashnephy/headlessx-web:v2.0.4
+          ports:
+            - name: web
+              containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: https://headlessx-api.starry.blue
+            - name: NODE_ENV
+              value: production
+            - name: WEB_PORT
+              value: "3000"
+            - name: TZ
+              value: Asia/Tokyo
+          envFrom:
+            - secretRef:
+                name: headlessx-secret
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: models
+          hostPath:
+            path: /mnt/local/headlessx/models
+            type: DirectoryOrCreate
+        - name: data
+          hostPath:
+            path: /mnt/local/headlessx/data
+            type: DirectoryOrCreate
+      imagePullSecrets:
+        - name: ghcr-io-credentials
+      restartPolicy: Always
