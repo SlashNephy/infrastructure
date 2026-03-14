@@ -69,7 +69,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: web
-          image: ghcr.io/slashnephy/headlessx-web:2.0.4@sha256:8c6e03d43eb69313277a549c90233db586776f973c29f3427ade8fbb7c7172fa
+          image: ghcr.io/slashnephy/headlessx-web:2.0.4@sha256:ae2c295fef73c24f65a613a33a0e4ab72f2b427f70ce0337149f9d389301736f
           ports:
             - name: web
               containerPort: 3000
