@@ -61,7 +61,7 @@ spec:
               containerPort: 3000
           env:
             - name: NEXT_PUBLIC_API_URL
-              value: https://headlessx-api.starry.blue
+              value: http://localhost:8000
             - name: NODE_ENV
               value: production
             - name: WEB_PORT
