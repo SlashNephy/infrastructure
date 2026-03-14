@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
         - name: db-push
-          image: ghcr.io/slashnephy/headlessx-api:2.0.4
+          image: ghcr.io/slashnephy/headlessx-api:2.0@sha256:1d29e9cb2237ec7f10167280b852983709fb0dfe5cfe3d370a1edb14d10df940.4
           command:
             - pnpm
             - exec
@@ -29,7 +29,7 @@ spec:
             allowPrivilegeEscalation: false
       containers:
         - name: api
-          image: ghcr.io/slashnephy/headlessx-api:2.0.4
+          image: ghcr.io/slashnephy/headlessx-api:2.0@sha256:1d29e9cb2237ec7f10167280b852983709fb0dfe5cfe3d370a1edb14d10df940.4
           # 依存関係が不足している問題に対する一時的なワークアラウンド
           # https://github.com/saifyxpro/HeadlessX/issues/39#issuecomment-4058155138
           command:
