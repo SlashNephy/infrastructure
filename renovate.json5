@@ -58,6 +58,16 @@
       ],
       datasourceTemplate: 'docker',
     },
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        '.github/workflows/deploy-headlessx.yml',
+      ],
+      matchStrings: [
+        '# renovate: datasource=github-tags depName=(?<depName>[^\\s]+)\\n\\s*ref:\\s*(?<currentValue>[^\\s]+)',
+      ],
+      datasourceTemplate: 'github-tags',
+    },
   ],
   rebaseWhen: 'conflicted',
 }

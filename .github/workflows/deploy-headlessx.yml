@@ -1,0 +1,46 @@
+name: Deploy headlessx
+
+on:
+  push:
+    paths:
+      - .github/workflows/deploy-headlessx.yml
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  build-api:
+    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@3ee81e73ef206050b49635e17607c4bfe395c2b5 # v0.0.4
+    permissions:
+      contents: read
+      packages: write
+      actions: read
+      security-events: write
+    with:
+      repository: SaifyXPRO/HeadlessX
+      # renovate: datasource=github-tags depName=SaifyXPRO/HeadlessX
+      ref: v2.0.4
+      image-name: ghcr.io/slashnephy/headlessx-api
+      dockerfile: infra/docker/api.Dockerfile
+      image-platforms: linux/amd64
+      dispatch-update-image-digest: true
+    secrets:
+      dispatch-github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
+
+  build-web:
+    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@3ee81e73ef206050b49635e17607c4bfe395c2b5 # v0.0.4
+    permissions:
+      contents: read
+      packages: write
+      actions: read
+      security-events: write
+    with:
+      repository: SaifyXPRO/HeadlessX
+      # renovate: datasource=github-tags depName=SaifyXPRO/HeadlessX
+      ref: v2.0.4
+      image-name: ghcr.io/slashnephy/headlessx-web
+      dockerfile: infra/docker/web.Dockerfile
+      image-platforms: linux/amd64
+      dispatch-update-image-digest: true
+    secrets:
+      dispatch-github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
