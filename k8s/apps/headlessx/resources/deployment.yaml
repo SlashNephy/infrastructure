@@ -13,6 +13,21 @@ spec:
       labels:
         app: default
     spec:
+      initContainers:
+        - name: db-push
+          image: ghcr.io/slashnephy/headlessx-api:2.0.4
+          command:
+            - pnpm
+            - exec
+            - prisma
+            - db
+            - push
+            - --skip-generate
+          envFrom:
+            - secretRef:
+                name: headlessx-secret
+          securityContext:
+            allowPrivilegeEscalation: false
       containers:
         - name: api
           image: ghcr.io/slashnephy/headlessx-api:2.0.4
