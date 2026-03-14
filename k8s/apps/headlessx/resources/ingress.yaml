@@ -9,7 +9,7 @@ spec:
       match: Host(`headlessx.starry.blue`)
       priority: 10
       services:
-        - name: service
+        - name: web
           port: web
       middlewares:
         - name: forward-auth-authentik
