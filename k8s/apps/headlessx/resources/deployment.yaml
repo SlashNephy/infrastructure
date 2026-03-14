@@ -30,6 +30,15 @@ spec:
       containers:
         - name: api
           image: ghcr.io/slashnephy/headlessx-api:2.0.4
+          # 依存関係が不足している問題に対する一時的なワークアラウンド
+          # https://github.com/saifyxpro/HeadlessX/issues/39#issuecomment-4058155138
+          command:
+            - bash
+            - -euxc
+            - |
+              apt-get update
+              apt-get install -y --no-install-recommends libgtk-3-0 libx11-xcb1
+              exec pnpm start
           ports:
             - name: api
               containerPort: 8000
