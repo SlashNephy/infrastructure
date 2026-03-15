@@ -5,11 +5,11 @@ metadata:
 
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: default
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -32,12 +32,12 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/samba-container/config.yaml
-              subPath: sambacc.yaml
               readOnly: true
+              subPath: sambacc.yaml
             - name: users
               mountPath: /etc/samba-container/users.yaml
-              subPath: users.yaml
               readOnly: true
+              subPath: users.yaml
             - name: pool
               mountPath: /mnt/pool
           securityContext:

@@ -257,6 +257,7 @@ spec:
         namespace: "{{.namespace}}"
         server: https://kubernetes.default.svc
       project: "{{.project}}"
+      revisionHistoryLimit: 1
       source:
         path: "{{.path}}"
         repoURL: https://github.com/SlashNephy/infrastructure
@@ -269,7 +270,6 @@ spec:
           - CreateNamespace=true
           - RespectIgnoreDifferences=true
           - FailOnSharedResource=true
-      revisionHistoryLimit: 1
   goTemplate: true
   goTemplateOptions:
     - missingkey=error

@@ -39,9 +39,6 @@ spec:
               apt-get update
               apt-get install -y --no-install-recommends libgtk-3-0 libx11-xcb1
               exec pnpm start
-          ports:
-            - name: api
-              containerPort: 8000
           env:
             - name: PORT
               value: "8000"
@@ -61,6 +58,9 @@ spec:
           envFrom:
             - secretRef:
                 name: headlessx-secret
+          ports:
+            - name: api
+              containerPort: 8000
           volumeMounts:
             - name: models
               mountPath: /app/apps/api/models
@@ -70,9 +70,6 @@ spec:
             allowPrivilegeEscalation: false
         - name: web
           image: ghcr.io/slashnephy/headlessx-web:2.0.4@sha256:d7a72e91a6e55cf394413481202d79baded8f9b7b642e8fc541f9ba015e2fb33
-          ports:
-            - name: web
-              containerPort: 3000
           env:
             - name: NEXT_PUBLIC_API_URL
               value: http://localhost:8000
@@ -85,6 +82,9 @@ spec:
           envFrom:
             - secretRef:
                 name: headlessx-secret
+          ports:
+            - name: web
+              containerPort: 3000
           securityContext:
             allowPrivilegeEscalation: false
       volumes:
@@ -96,6 +96,6 @@ spec:
           hostPath:
             path: /mnt/local/headlessx/data
             type: DirectoryOrCreate
+      restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
-      restartPolicy: Always

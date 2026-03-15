@@ -8,6 +8,7 @@ spec:
     namespace: argo-cd
     server: https://kubernetes.default.svc
   project: system
+  revisionHistoryLimit: 1
   source:
     path: k8s/argo-cd
     repoURL: https://github.com/SlashNephy/private-infrastructure
@@ -19,4 +20,3 @@ spec:
     syncOptions:
       - RespectIgnoreDifferences=true
       - FailOnSharedResource=true
-  revisionHistoryLimit: 1

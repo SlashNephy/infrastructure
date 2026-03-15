@@ -12,8 +12,8 @@ spec:
   issuerRef:
     name: letsencrypt-issuer
     kind: ClusterIssuer
-  secretName: starry-blue-certificate-secret
   privateKey:
-    rotationPolicy: Always
     algorithm: ECDSA
+    rotationPolicy: Always
     size: 384
+  secretName: starry-blue-certificate-secret

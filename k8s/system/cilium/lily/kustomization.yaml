@@ -45,15 +45,15 @@ helmCharts:
         acceleration: best-effort
         mode: hybrid
       operator:
-        replicas: 1
         prometheus:
           enabled: true
-      routingMode: native
-      socketLB:
-        hostNamespaceOnly: true
+        replicas: 1
       prometheus:
         enabled: true
 
+      routingMode: native
+      socketLB:
+        hostNamespaceOnly: true
 resources:
   - ./resources/ingress.yaml
   - ./resources/dns.yaml

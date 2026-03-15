@@ -11,12 +11,12 @@ spec:
   issuerRef:
     name: dns-starry-blue-issuer
     kind: ClusterIssuer
-  secretName: dns-starry-blue-certificate-secret
   privateKey:
-    rotationPolicy: Always
     algorithm: ECDSA
+    rotationPolicy: Always
     size: 384
 
+  secretName: dns-starry-blue-certificate-secret
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -41,9 +41,9 @@ spec:
             - starry.blue
       - http01:
           ingress:
-            serviceType: ClusterIP
             ingressClassName: traefik
             ingressTemplate:
               metadata:
                 annotations:
                   traefik.ingress.kubernetes.io/router.entrypoints: web
+            serviceType: ClusterIP

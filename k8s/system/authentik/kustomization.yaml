@@ -44,12 +44,12 @@ helmCharts:
             restartPolicy: Never
             # @hourly
             schedule: "30 * * * *"
-            timeZone: Asia/Tokyo
             storage:
               volumeClaimTemplates:
                 selector:
                   matchLabels:
                     name: authentik-postgres-backup
+            timeZone: Asia/Tokyo
           enabled: true
         enabled: true
         primary:

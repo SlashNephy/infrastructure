@@ -10,82 +10,82 @@ helmCharts:
     version: 9.4.10
     repo: https://argoproj.github.io/argo-helm
     valuesInline:
-      global:
-        addPrometheusAnnotations: true
+      applicationSet:
+        metrics:
+          enabled: true
+        # Telegraf は Pod Annotation による検出しかサポートしていない
+        podAnnotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "8080"
+
+          prometheus.io/scheme: http
+          prometheus.io/scrape: "true"
       controller:
         metrics:
           enabled: true
         # Telegraf は Pod Annotation による検出しかサポートしていない
         podAnnotations:
-          prometheus.io/scrape: "true"
-          prometheus.io/scheme: http
           prometheus.io/path: /metrics
           prometheus.io/port: "8082"
+          prometheus.io/scheme: http
+          prometheus.io/scrape: "true"
       dex:
-        metrics:
-          enabled: true
         initContainers:
           - name: wait-for-authentik
             args:
               - --url
               - https://id.starry.blue/application/o/argo-cd/
             image: ghcr.io/slashnephy/wait-for:master@sha256:219bc1ed186060c22b9b0bcd26f1171d3bde26b8fefc82884ea4220640b5cbb5
+        metrics:
+          enabled: true
         # Telegraf は Pod Annotation による検出しかサポートしていない
         podAnnotations:
-          prometheus.io/scrape: "true"
-          prometheus.io/scheme: http
           prometheus.io/path: /metrics
           prometheus.io/port: "5558"
+          prometheus.io/scheme: http
+          prometheus.io/scrape: "true"
+      global:
+        addPrometheusAnnotations: true
       notifications:
-        metrics:
-          enabled: true
         logFormat: json
         logLevel: warn
+        metrics:
+          enabled: true
         # Telegraf は Pod Annotation による検出しかサポートしていない
         podAnnotations:
-          prometheus.io/scrape: "true"
-          prometheus.io/scheme: http
           prometheus.io/path: /metrics
           prometheus.io/port: "9001"
-      server:
-        metrics:
-          enabled: true
-        extensions:
-          enabled: true
-        service:
-          nodePortHttp: 30000
-          nodePortHttps: 30001
-          type: NodePort
-        # Telegraf は Pod Annotation による検出しかサポートしていない
-        podAnnotations:
-          prometheus.io/scrape: "true"
           prometheus.io/scheme: http
-          prometheus.io/path: /metrics
-          prometheus.io/port: "8083"
+          prometheus.io/scrape: "true"
       repoServer:
-        replicas: 2
-        metrics:
-          enabled: true
-        # Telegraf は Pod Annotation による検出しかサポートしていない
-        podAnnotations:
-          prometheus.io/scrape: "true"
-          prometheus.io/scheme: http
-          prometheus.io/path: /metrics
-          prometheus.io/port: "8084"
         livenessProbe:
           failureThreshold: 5
           initialDelaySeconds: 30
           timeoutSeconds: 5
-      applicationSet:
         metrics:
           enabled: true
         # Telegraf は Pod Annotation による検出しかサポートしていない
         podAnnotations:
-          prometheus.io/scrape: "true"
-          prometheus.io/scheme: http
           prometheus.io/path: /metrics
-          prometheus.io/port: "8080"
-
+          prometheus.io/port: "8084"
+          prometheus.io/scheme: http
+          prometheus.io/scrape: "true"
+        replicas: 2
+      server:
+        extensions:
+          enabled: true
+        metrics:
+          enabled: true
+        # Telegraf は Pod Annotation による検出しかサポートしていない
+        podAnnotations:
+          prometheus.io/path: /metrics
+          prometheus.io/port: "8083"
+          prometheus.io/scheme: http
+          prometheus.io/scrape: "true"
+        service:
+          nodePortHttp: 30000
+          nodePortHttps: 30001
+          type: NodePort
 resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml

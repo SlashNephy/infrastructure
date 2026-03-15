@@ -11,13 +11,6 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       extraEnvVarsSecret: secret
-      slack:
-        enabled: false
-      slackwebhook:
-        enabled: true
-        # 環境変数で注入する
-        channel: ""
-        slackwebhookurl: ""
       rbac:
         create: true
         customRoles:
@@ -30,15 +23,22 @@ helmCharts:
               - list
               - watch
       resourcesToWatch:
-        deployment: false
-        replicationcontroller: false
-        replicaset: false
         daemonset: false
-        services: false
-        pod: false
-        job: false
-        persistentvolume: false
+        deployment: false
         event: true
 
+        job: false
+        persistentvolume: false
+        pod: false
+        replicaset: false
+        replicationcontroller: false
+        services: false
+      slack:
+        enabled: false
+      slackwebhook:
+        # 環境変数で注入する
+        channel: ""
+        enabled: true
+        slackwebhookurl: ""
 resources:
   - ./resources/secret.yaml

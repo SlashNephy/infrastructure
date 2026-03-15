@@ -1,9 +1,15 @@
+
+capture:
+  upload_folders:
+    - /code/server/data/capture
+
 general:
   backend: Mirakurun
-  mirakurun_url: "http://app.mahiron:40772/"
-  encoder: QSVEncC
   debug: true
   debug_encoder: true
+
+  encoder: QSVEncC
+  mirakurun_url: "http://app.mahiron:40772/"
 
 tv:
   max_alive_time: 60
@@ -12,7 +18,3 @@ video:
   recorded_folders:
     - /mnt/records
     - /mnt/records_local
-
-capture:
-  upload_folders:
-    - /code/server/data/capture

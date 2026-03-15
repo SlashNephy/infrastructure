@@ -22,14 +22,13 @@ helmCharts:
           - name: TZ
             value: Asia/Tokyo
         extraFlags: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_520_ci --expire-logs-days=30 --slow-query-log --slow-query-log-file=/dev/stdout --log-output=FILE
+        livenessProbe:
+          failureThreshold: 5
+          periodSeconds: 60
+          timeoutSeconds: 10
         persistence:
           existingClaim: epgstation-mariadb-data
         resourcesPreset: large
-        livenessProbe:
-          periodSeconds: 60
-          timeoutSeconds: 10
-          failureThreshold: 5
-
 resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml

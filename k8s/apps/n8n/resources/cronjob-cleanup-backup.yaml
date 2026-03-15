@@ -14,6 +14,7 @@ spec:
           containers:
             - name: app
               image: public.ecr.aws/debian/debian:stable-slim@sha256:abe87d63ecc05c7de8beb2bfcff0d7f93e11f3d914a39bc1c504ce4fd867f728
+              workingDir: /backup
               command:
                 - bash
                 - -c
@@ -21,7 +22,6 @@ spec:
               env:
                 - name: KEEP_COUNT
                   value: "3"
-              workingDir: /backup
               volumeMounts:
                 - name: backup
                   mountPath: /backup

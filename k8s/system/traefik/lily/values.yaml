@@ -1,9 +1,13 @@
-autoscaling:
-  enabled: false
+
+additionalArguments:
+  - --api.disabledashboardad=true
 
 additionalVolumeMounts:
   - name: plugins
     mountPath: /plugins-storage
+
+autoscaling:
+  enabled: false
 
 deployment:
   additionalVolumes:
@@ -67,9 +71,6 @@ extraObjects:
 global:
   checkNewVersion: false
 
-additionalArguments:
-  - --api.disabledashboardad=true
-
 ingressRoute:
   dashboard:
     enabled: false
@@ -96,6 +97,9 @@ logs:
   general:
     level: INFO
 
+ocsp:
+  enabled: true
+
 ports:
   web:
     expose:
@@ -106,12 +110,6 @@ ports:
     asDefault: true
     expose:
       default: true
-    nodePort: 443
-
-    http3:
-      advertisedPort: 443
-      enabled: true
-
     http:
       # https://doc.traefik.io/traefik/middlewares/overview/
       # https://doc.traefik.io/traefik/routing/entrypoints/#middlewares
@@ -130,8 +128,11 @@ ports:
         enabled: true
         options: traefik-cloudflare@kubernetescrd
 
-ocsp:
-  enabled: true
+    http3:
+      advertisedPort: 443
+      enabled: true
+
+    nodePort: 443
 
 priorityClassName: load-balancer
 
@@ -141,12 +142,12 @@ providers:
     allowEmptyServices: true
     allowExternalNameServices: true
     enabled: true
-  kubernetesIngress:
-    enabled: true
-    allowExternalNameServices: true
   kubernetesGateway:
     enabled: true
 
+  kubernetesIngress:
+    allowExternalNameServices: true
+    enabled: true
 service:
   ipFamilyPolicy: PreferDualStack
   type: NodePort

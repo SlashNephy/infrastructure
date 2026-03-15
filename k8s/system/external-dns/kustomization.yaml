@@ -11,11 +11,6 @@ helmCharts:
     repo: https://kubernetes-sigs.github.io/external-dns
     includeCRDs: true
     valuesInline:
-      provider:
-        name: cloudflare
-      sources:
-        - crd
-      policy: sync
       env:
         - name: CF_API_TOKEN
           valueFrom:
@@ -23,5 +18,10 @@ helmCharts:
               name: external-dns-secret
               key: cloudflare-api-token
 
+      policy: sync
+      provider:
+        name: cloudflare
+      sources:
+        - crd
 resources:
   - ./resources/secret.yaml

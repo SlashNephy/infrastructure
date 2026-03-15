@@ -13,12 +13,12 @@ helmCharts:
       reloader:
         deployment:
           env:
-            open:
-              ALERT_ON_RELOAD: "true"
-              ALERT_SINK: slack
             existing:
               app-secret:
                 ALERT_WEBHOOK_URL: ALERT_WEBHOOK_URL
 
+            open:
+              ALERT_ON_RELOAD: "true"
+              ALERT_SINK: slack
 resources:
   - ./resources/secret.yaml

@@ -34,29 +34,29 @@ helmCharts:
         database: immich
         existingSecret: postgresql-secret
         username: immich
-      image:
-        registry: ghcr.io
-        repository: immich-app/postgres
-        tag: 17-vectorchord0.4.3-pgvectors0.3.0
       global:
         security:
           # image を変更するために必要
           allowInsecureImages: true
+      image:
+        registry: ghcr.io
+        repository: immich-app/postgres
+        tag: 17-vectorchord0.4.3-pgvectors0.3.0
       primary:
+        containerSecurityContext:
+          readOnlyRootFilesystem: false
+
         extraEnvVars:
           - name: TZ
             value: Asia/Tokyo
+        initdb:
+          args: --data-checksums
         persistence:
           existingClaim: immich-postgresql-data
         resources:
           limits:
             cpu: 500m
             memory: 1Gi
-        initdb:
-          args: --data-checksums
-        containerSecurityContext:
-          readOnlyRootFilesystem: false
-
 resources:
   - ./resources/deployment.yaml
   - ./resources/service.yaml

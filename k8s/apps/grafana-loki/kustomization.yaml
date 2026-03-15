@@ -10,56 +10,56 @@ helmCharts:
     repo: https://grafana.github.io/helm-charts
     includeCRDs: true
     valuesInline:
-      deploymentMode: SingleBinary
-      write:
-        replicas: 0
-      read:
-        replicas: 0
       backend:
         replicas: 0
-      singleBinary:
-        replicas: 1
-        persistence:
-          storageClass: local
-          selector:
-            matchLabels:
-              name: grafana-loki-data
-      loki:
-        schemaConfig:
-          configs:
-            - from: 2024-04-01
-              store: tsdb
-              object_store: filesystem
-              schema: v13
-              index:
-                prefix: loki_index_
-                period: 24h
-        auth_enabled: false
-        commonConfig:
-          replication_factor: 1
-        storage:
-          type: filesystem
-          bucketNames:
-            chunks: []
-        compactor:
-          retention_enabled: true
-          compaction_interval: 10m
-          delete_request_store: filesystem
-        query_scheduler:
-          max_outstanding_requests_per_tenant: 4096
-        frontend:
-          max_outstanding_per_tenant: 4096
-        limits_config:
-          retention_period: 720h  # 30 days
-          split_queries_by_interval: 15m
-          max_query_series: 100000
-          max_query_parallelism: 32
-      lokiCanary:
-        enabled: false
-      test:
-        enabled: false
+      deploymentMode: SingleBinary
       gateway:
         enabled: false
 
+      loki:
+        auth_enabled: false
+        commonConfig:
+          replication_factor: 1
+        compactor:
+          compaction_interval: 10m
+          delete_request_store: filesystem
+          retention_enabled: true
+        frontend:
+          max_outstanding_per_tenant: 4096
+        limits_config:
+          max_query_parallelism: 32
+          max_query_series: 100000
+          retention_period: 720h  # 30 days
+          split_queries_by_interval: 15m
+        query_scheduler:
+          max_outstanding_requests_per_tenant: 4096
+        schemaConfig:
+          configs:
+            - from: 2024-04-01
+              index:
+                period: 24h
+                prefix: loki_index_
+              object_store: filesystem
+              schema: v13
+              store: tsdb
+        storage:
+          bucketNames:
+            chunks: []
+          type: filesystem
+      lokiCanary:
+        enabled: false
+      read:
+        replicas: 0
+      singleBinary:
+        persistence:
+          selector:
+            matchLabels:
+              name: grafana-loki-data
+          storageClass: local
+        replicas: 1
+      test:
+        enabled: false
+      write:
+        replicas: 0
 resources:
   - ./resources/volume.yaml

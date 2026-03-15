@@ -21,9 +21,9 @@ helmCharts:
           restartPolicy: Never
           # @hourly
           schedule: "20 * * * *"
-          timeZone: Asia/Tokyo
           storage:
             existingClaim: nebula-postgresql-backup
+          timeZone: Asia/Tokyo
         enabled: true
       global:
         imageRegistry: public.ecr.aws

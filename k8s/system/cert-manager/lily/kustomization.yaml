@@ -11,12 +11,12 @@ helmCharts:
     repo: oci://quay.io/jetstack/charts
     includeCRDs: true
     valuesInline:
+      crds:
+        enabled: true
       global:
         leaderElection:
           namespace: cert-manager
       installCRDs: true
-      crds:
-        enabled: true
       livenessProbe:
         enabled: true
       prometheus:

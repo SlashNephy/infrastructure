@@ -21,10 +21,6 @@ spec:
   selector:
     app: default
   type: NodePort
-  ipFamilyPolicy: PreferDualStack
-  ipFamilies:
-    - IPv4
-    - IPv6
   ports:
     - name: dns-over-tcp
       port: 53
@@ -46,3 +42,7 @@ spec:
       targetPort: dns-over-quic
       nodePort: 853
       protocol: UDP
+  ipFamilies:
+    - IPv4
+    - IPv6
+  ipFamilyPolicy: PreferDualStack

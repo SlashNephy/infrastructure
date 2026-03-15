@@ -6,18 +6,18 @@ metadata:
 spec:
   endpoints:
     - dnsName: stay-tuned-api.starry.blue
+      providerSpecific:
+        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
+          value: "true"
       recordTTL: 1 # Auto
       recordType: CNAME
       targets:
         - gateway.starry.blue
-      providerSpecific:
-        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
-          value: "true"
     - dnsName: stay-tuned-river.starry.blue
+      providerSpecific:
+        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
+          value: "true"
       recordTTL: 1 # Auto
       recordType: CNAME
       targets:
         - gateway.starry.blue
-      providerSpecific:
-        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
-          value: "true"

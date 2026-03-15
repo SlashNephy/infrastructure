@@ -1,13 +1,8 @@
-# eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
-# eslint-disable yml/plain-scalar
-
-# https://github.com/samba-in-kubernetes/sambacc/blob/master/docs/configuration.md
-samba-container-config: v0
+ 
+ 
 
 configs:
   default:
-    shares:
-      - pool
     globals:
       - general
       - logging
@@ -16,57 +11,62 @@ configs:
       - follow_symlinks
       - no_printing
 
-shares:
-  pool:
-    options:
-      path: /mnt/pool
-      valid users: spica
-      browseable: "yes"
-      public: "no"
-      guest ok: "no"
-      writable: "yes"
-      printable: "no"
-      create mask: "0664"
-      directory mask: "0775"
-
+    shares:
+      - pool
 globals:
+  follow_symlinks:
+    options:
+      follow symlinks: "yes"
+      unix extensions: "no"
+      wide links: "yes"
   general:
     options:
-      workgroup: MYGROUP
-      server string: Samba Server
       server role: standalone server
+      server string: Samba Server
       vfs objects: catia fruit streams_xattr full_audit
+      workgroup: MYGROUP
   logging:
     options:
-      log level: "2"
-      log file: /dev/stdout
-      full_audit:prefix: "%U|%m|%I"
       full_audit:facility: local1
-      full_audit:success: connect disconnect read pread
       full_audit:failure: connect
+      full_audit:prefix: "%U|%m|%I"
+      full_audit:success: connect disconnect read pread
+      log file: /dev/stdout
+      log level: "2"
+  no_printing:
+    options:
+      disable spoolss: "yes"
+      load printers: "no"
+      printcap name: /dev/null
+      printing: bsd
   performance:
     options:
-      server multi channel support: "yes"
-      deadtime: "15"
-      socket options: IPTOS_THROUGHPUT SO_KEEPALIVE
-      use sendfile: "yes"
-      strict locking: "no"
       aio read size: "16384"
       aio write size: "16384"
+      deadtime: "15"
       min receivefile size: "16384"
+      server multi channel support: "yes"
+      socket options: IPTOS_THROUGHPUT SO_KEEPALIVE
+      strict locking: "no"
+      use sendfile: "yes"
   security:
     options:
       min protocol: SMB3
       nt pipe support: "no"
       restrict anonymous: "1"
-  follow_symlinks:
+# https://github.com/samba-in-kubernetes/sambacc/blob/master/docs/configuration.md
+samba-container-config: v0
+shares:
+  pool:
     options:
-      follow symlinks: "yes"
-      wide links: "yes"
-      unix extensions: "no"
-  no_printing:
-    options:
-      load printers: "no"
-      printing: bsd
-      printcap name: /dev/null
-      disable spoolss: "yes"
+      browseable: "yes"
+      create mask: "0664"
+      directory mask: "0775"
+
+      guest ok: "no"
+      path: /mnt/pool
+      printable: "no"
+      public: "no"
+      valid users: spica
+      writable: "yes"
+

@@ -7,13 +7,13 @@ spec:
   selector:
     app: default
   type: NodePort
-  ipFamilyPolicy: PreferDualStack
-  ipFamilies:
-    - IPv4
-    - IPv6
   ports:
     - name: smb
       port: 445
       targetPort: smb
       nodePort: 445
       protocol: TCP
+  ipFamilies:
+    - IPv4
+    - IPv6
+  ipFamilyPolicy: PreferDualStack

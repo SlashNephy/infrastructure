@@ -12,12 +12,15 @@ helmCharts:
     valuesInline:
       alloy:
         configMap:
-          create: false
           name: config
+          create: false
           key: config.alloy
         mounts:
           varlog: true
 
+resources:
+  - ./resources/ingress.yaml
+  - ./resources/dns.yaml
 configMapGenerator:
   - name: config
     files:
@@ -25,6 +28,3 @@ configMapGenerator:
     options:
       disableNameSuffixHash: true
 
-resources:
-  - ./resources/ingress.yaml
-  - ./resources/dns.yaml

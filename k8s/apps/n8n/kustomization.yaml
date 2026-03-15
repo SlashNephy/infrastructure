@@ -2,6 +2,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: n8n
 
+images:
+  # チャートの更新が遅いのでセルフアップデート
+  - name: n8nio/n8n
+    newTag: 2.11.1@sha256:39c634d65cf8830fec21ae7b242419e57737c2b1a1498b8b8c7578a585cf7ada
+
 helmCharts:
   # https://github.com/8gears/n8n-helm-chart
   - name: n8n
@@ -13,21 +18,26 @@ helmCharts:
     valuesInline:
       main:
         config:
-          n8n:
-            host: n8n.starry.blue
-            protocol: https
-            version_notifications_enabled: "false"
-            diagnostics_enabled: "false"
-            proxy_hops: "1"
           db:
-            type: postgresdb
             postgresdb:
-              host: postgresql
               database: n8n
+              host: postgresql
               user: n8n
+            type: postgresdb
           generic:
             timezone: Asia/Tokyo
+          n8n:
+            diagnostics_enabled: "false"
+            host: n8n.starry.blue
+            protocol: https
+            proxy_hops: "1"
+            version_notifications_enabled: "false"
         extraEnv:
+          DB_POSTGRESDB_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: postgresql-secret
+                key: password
           N8N_ENCRYPTION_KEY:
             valueFrom:
               secretKeyRef:
@@ -38,15 +48,10 @@ helmCharts:
               secretKeyRef:
                 name: n8n-secret
                 key: license_activation_key
-          DB_POSTGRESDB_PASSWORD:
-            valueFrom:
-              secretKeyRef:
-                name: postgresql-secret
-                key: password
         persistence:
           enabled: true
-          type: existing
           existingClaim: n8n-data
+          type: existing
       # TODO: worker を分離
       # worker:
       #   enabled: true
@@ -73,9 +78,9 @@ helmCharts:
           restartPolicy: Never
           # @hourly
           schedule: "20 * * * *"
-          timeZone: Asia/Tokyo
           storage:
             existingClaim: n8n-postgresql-backup
+          timeZone: Asia/Tokyo
         enabled: true
       global:
         imageRegistry: public.ecr.aws
@@ -89,11 +94,6 @@ helmCharts:
         persistence:
           existingClaim: n8n-postgresql-data
         resourcesPreset: nano
-
-images:
-  # チャートの更新が遅いのでセルフアップデート
-  - name: n8nio/n8n
-    newTag: 2.11.1@sha256:39c634d65cf8830fec21ae7b242419e57737c2b1a1498b8b8c7578a585cf7ada
 
 resources:
   - ./resources/secret.yaml

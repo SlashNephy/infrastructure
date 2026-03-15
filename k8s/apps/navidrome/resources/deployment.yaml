@@ -10,13 +10,13 @@ spec:
       app: default
   template:
     metadata:
-      labels:
-        app: default
       annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/scheme: http
         prometheus.io/path: /metrics
         prometheus.io/port: "4533"
+        prometheus.io/scheme: http
+        prometheus.io/scrape: "true"
+      labels:
+        app: default
     spec:
       containers:
         - name: app

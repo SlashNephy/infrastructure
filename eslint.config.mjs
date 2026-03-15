@@ -5,7 +5,7 @@ export default config(
     ignores: ['**/charts/**', 'pnpm-lock.yaml'],
   },
   {
-    files: ['k8s/**/*.yml'],
+    files: ['k8s/**/*.{yml,yaml}'],
     rules: {
       'yml/sort-keys': [
         'error',
@@ -157,6 +157,7 @@ export default config(
         {
           pathPattern: '^(spec|spec\\.jobTemplate\\.spec)\\.template\\.spec$',
           order: [
+            'initContainers',
             'containers',
             'volumes',
             'restartPolicy',
@@ -168,7 +169,7 @@ export default config(
           ],
         },
         {
-          pathPattern: '^(spec|spec\\.jobTemplate\\.spec)\\.template\\.spec\\.containers\\[\\d+\\]$',
+          pathPattern: '^(spec|spec\\.jobTemplate\\.spec)\\.template\\.spec\\.(initContainers|containers)\\[\\d+\\]$',
           order: [
             'name',
             'image',
@@ -274,7 +275,7 @@ export default config(
     },
   },
   {
-    files: ['k8s/**/config/**/*.yml'],
+    files: ['k8s/**/config/**/*.{yml,yaml}'],
     rules: {
       'yml/file-extension': 'off',
     },
