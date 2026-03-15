@@ -52,3 +52,18 @@ resources:
   - ./resources/volume.yaml
   - ./resources/ingress.yaml
   - ./resources/dns.yaml
+
+patches:
+  # デフォルトの configEnv に含まれるダミーシークレット値を削除し、Secret から読ませる
+  - target:
+      kind: ConfigMap
+      name: librechat-librechat-configenv
+    patch: |-
+      - op: remove
+        path: /data/CREDS_KEY
+      - op: remove
+        path: /data/CREDS_IV
+      - op: remove
+        path: /data/JWT_SECRET
+      - op: remove
+        path: /data/JWT_REFRESH_SECRET
