@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: app
+
+spec:
+  selector:
+    app: default
+  ports:
+    - name: http
+      port: 3210
+      targetPort: http
+      protocol: TCP
