@@ -1,15 +1,11 @@
-resource "mackerel_service" "navidrome" {
-  name = "Lily_Navidrome"
-}
-
-resource "mackerel_monitor" "navidrome" {
-  name = "navidrome.starry.blue"
+resource "mackerel_monitor" "konomitv" {
+  name = "konomitv.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = "https://navidrome.starry.blue/ping"
+    url                               = "https://konomitv.starry.blue/api/version"
     expected_status_code              = 200
-    service                           = mackerel_service.navidrome.name
+    service                           = mackerel_service.production.name
     response_time_warning             = 5000
     response_time_critical            = 10000
     response_time_duration            = 5

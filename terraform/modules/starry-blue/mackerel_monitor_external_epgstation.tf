@@ -1,19 +1,15 @@
-resource "mackerel_service" "komga" {
-  name = "Lily_Komga"
-}
-
-resource "mackerel_monitor" "komga" {
-  name = "komga.starry.blue"
+resource "mackerel_monitor" "epgstation" {
+  name = "epgstation.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = "https://komga.starry.blue"
+    url                               = "https://epgstation.starry.blue/api/version"
     expected_status_code              = 200
-    service                           = mackerel_service.komga.name
+    service                           = mackerel_service.production.name
     response_time_warning             = 5000
     response_time_critical            = 10000
     response_time_duration            = 5
-    max_check_attempts                = 1
+    max_check_attempts                = 3
     certification_expiration_warning  = 30
     certification_expiration_critical = 7
     follow_redirect                   = false

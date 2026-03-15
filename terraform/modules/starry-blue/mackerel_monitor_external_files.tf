@@ -1,7 +1,3 @@
-resource "mackerel_service" "files" {
-  name = "Lily_file-browser"
-}
-
 resource "mackerel_monitor" "files" {
   name = "files.starry.blue"
 
@@ -9,7 +5,7 @@ resource "mackerel_monitor" "files" {
     method                            = "GET"
     url                               = "https://files.starry.blue/health"
     expected_status_code              = 200
-    service                           = mackerel_service.files.name
+    service                           = mackerel_service.production.name
     response_time_warning             = 5000
     response_time_critical            = 10000
     response_time_duration            = 5

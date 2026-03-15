@@ -1,19 +1,15 @@
-resource "mackerel_service" "mahiron" {
-  name = "Lily_Mahiron"
-}
-
-resource "mackerel_monitor" "mahiron" {
-  name = "mahiron.starry.blue"
+resource "mackerel_monitor" "navidrome" {
+  name = "navidrome.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = "https://mahiron.starry.blue/api/version"
+    url                               = "https://navidrome.starry.blue/ping"
     expected_status_code              = 200
-    service                           = mackerel_service.mahiron.name
+    service                           = mackerel_service.production.name
     response_time_warning             = 5000
     response_time_critical            = 10000
     response_time_duration            = 5
-    max_check_attempts                = 3
+    max_check_attempts                = 1
     certification_expiration_warning  = 30
     certification_expiration_critical = 7
     follow_redirect                   = false

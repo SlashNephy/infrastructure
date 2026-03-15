@@ -1,15 +1,11 @@
-resource "mackerel_service" "n8n" {
-  name = "Lily_n8n"
-}
-
-resource "mackerel_monitor" "n8n" {
-  name = "n8n.starry.blue"
+resource "mackerel_monitor" "asf" {
+  name = "asf.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = "https://n8n.starry.blue/healthz"
+    url                               = "https://asf.starry.blue/healthcheck"
     expected_status_code              = 200
-    service                           = mackerel_service.n8n.name
+    service                           = mackerel_service.production.name
     response_time_warning             = 5000
     response_time_critical            = 10000
     response_time_duration            = 5

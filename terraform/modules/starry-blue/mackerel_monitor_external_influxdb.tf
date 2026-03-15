@@ -1,15 +1,11 @@
-resource "mackerel_service" "k8s" {
-  name = "Lily_Kubernetes-Dashboard"
-}
-
-resource "mackerel_monitor" "k8s" {
-  name = "k8s.starry.blue"
+resource "mackerel_monitor" "influxdb" {
+  name = "influxdb.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = "https://k8s.starry.blue"
+    url                               = "https://influxdb.starry.blue"
     expected_status_code              = 302 # TODO: アプリケーションに到達できるようにし 200 を確認する
-    service                           = mackerel_service.code.name
+    service                           = mackerel_service.production.name
     response_time_warning             = 5000
     response_time_critical            = 10000
     response_time_duration            = 5

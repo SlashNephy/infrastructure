@@ -1,15 +1,11 @@
-resource "mackerel_service" "cilium" {
-  name = "Lily_Cilium"
-}
-
-resource "mackerel_monitor" "cilium" {
-  name = "cilium.starry.blue"
+resource "mackerel_monitor" "komga" {
+  name = "komga.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = "https://cilium.starry.blue/healthz"
+    url                               = "https://komga.starry.blue"
     expected_status_code              = 200
-    service                           = mackerel_service.cilium.name
+    service                           = mackerel_service.production.name
     response_time_warning             = 5000
     response_time_critical            = 10000
     response_time_duration            = 5

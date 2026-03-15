@@ -1,15 +1,11 @@
-resource "mackerel_service" "openclaw" {
-  name = "Lily_openclaw"
-}
-
-resource "mackerel_monitor" "openclaw" {
-  name = "openclaw.starry.blue"
+resource "mackerel_monitor" "argocd" {
+  name = "argocd.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = "https://openclaw.starry.blue"
-    expected_status_code              = 302
-    service                           = mackerel_service.openclaw.name
+    url                               = "https://argocd.starry.blue/healthz"
+    expected_status_code              = 200
+    service                           = mackerel_service.production.name
     response_time_warning             = 5000
     response_time_critical            = 10000
     response_time_duration            = 5

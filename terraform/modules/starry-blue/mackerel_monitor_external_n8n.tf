@@ -1,15 +1,11 @@
-resource "mackerel_service" "konomitv" {
-  name = "Lily_KonomiTV"
-}
-
-resource "mackerel_monitor" "konomitv" {
-  name = "konomitv.starry.blue"
+resource "mackerel_monitor" "n8n" {
+  name = "n8n.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = "https://konomitv.starry.blue/api/version"
+    url                               = "https://n8n.starry.blue/healthz"
     expected_status_code              = 200
-    service                           = mackerel_service.konomitv.name
+    service                           = mackerel_service.production.name
     response_time_warning             = 5000
     response_time_critical            = 10000
     response_time_duration            = 5

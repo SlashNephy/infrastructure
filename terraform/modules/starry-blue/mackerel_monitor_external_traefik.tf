@@ -1,15 +1,11 @@
-resource "mackerel_service" "asf" {
-  name = "Lily_ArchSteamFarm"
-}
-
-resource "mackerel_monitor" "asf" {
-  name = "asf.starry.blue"
+resource "mackerel_monitor" "traefik" {
+  name = "traefik.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = "https://asf.starry.blue/healthcheck"
-    expected_status_code              = 200
-    service                           = mackerel_service.asf.name
+    url                               = "https://traefik.starry.blue/health"
+    expected_status_code              = 302 # TODO: アプリケーションに到達できるようにし 200 を確認する
+    service                           = mackerel_service.production.name
     response_time_warning             = 5000
     response_time_critical            = 10000
     response_time_duration            = 5
