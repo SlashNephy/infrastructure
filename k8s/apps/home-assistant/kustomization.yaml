@@ -11,17 +11,12 @@ helmCharts:
     repo: http://pajikos.github.io/home-assistant-helm-chart/
     includeCRDs: true
     valuesInline:
-      configuration:
-        enabled: false
       controller:
         strategy: Recreate
         type: Deployment
       env:
         - name: TZ
           value: Asia/Tokyo
-      hostNetwork: false
-      ingress:
-        enabled: false
       persistence:
         enabled: true
         existingClaim: home-assistant-config
