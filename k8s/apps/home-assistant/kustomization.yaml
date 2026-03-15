@@ -12,8 +12,8 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       controller:
-        strategy: Recreate
         type: Deployment
+      deploymentStrategy: Recreate
       env:
         - name: TZ
           value: Asia/Tokyo
