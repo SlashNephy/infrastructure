@@ -34,6 +34,8 @@ helmCharts:
       mongodb:
         enabled: true
         image:
+          # Bitnami の古いタグが削除されているので、legacy イメージを使用する
+          # https://github.com/danny-avila/LibreChat/issues/11568
           registry: docker.io
           repository: bitnamilegacy/mongodb
       redis:
