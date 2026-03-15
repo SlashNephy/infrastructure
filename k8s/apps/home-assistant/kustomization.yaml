@@ -12,12 +12,9 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       configuration:
-        enabled: true
-        forceInit: false
-        trusted_proxies:
-          - 10.0.0.0/8
-          - fd00::/104
+        enabled: false
       controller:
+        strategy: Recreate
         type: Deployment
       env:
         - name: TZ
