@@ -32,12 +32,18 @@ helmCharts:
           existingMasterKeySecret: librechat-secret
         enabled: true
       mongodb:
+        containerSecurityContext:
+          enabled: true
+          runAsUser: 1001
         enabled: true
         image:
           # Bitnami の古いタグが削除されているので、legacy イメージを使用する
           # https://github.com/danny-avila/LibreChat/issues/11568
           registry: docker.io
           repository: bitnamilegacy/mongodb
+        podSecurityContext:
+          enabled: true
+          fsGroup: 1001
       redis:
         enabled: true
 
