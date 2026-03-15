@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: home-assistant
+
+helmCharts:
+  # https://github.com/pajikos/home-assistant-helm-chart
+  - name: home-assistant
+    releaseName: home-assistant
+    namespace: home-assistant
+    version: 0.3.47
+    repo: http://pajikos.github.io/home-assistant-helm-chart/
+    includeCRDs: true
+    valuesInline:
+      configuration:
+        enabled: true
+        forceInit: false
+        trusted_proxies:
+          - 10.0.0.0/8
+          - fd00::/104
+      controller:
+        type: Deployment
+      env:
+        - name: TZ
+          value: Asia/Tokyo
+      hostNetwork: false
+      ingress:
+        enabled: false
+      persistence:
+        enabled: true
+        existingClaim: home-assistant-config
+
+resources:
+  - ./resources/ingress.yaml
+  - ./resources/volume.yaml
+  - ./resources/dns.yaml
