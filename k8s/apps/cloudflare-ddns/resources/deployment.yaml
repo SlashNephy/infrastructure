@@ -13,6 +13,8 @@ spec:
       labels:
         app: default
     spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: app
           image: timothyjmiller/cloudflare-ddns:latest@sha256:3a0b7a10c4f402cfd308dffaa2b59170ab0190c473b71084e29e7ae68cd641f7
