@@ -1,5 +1,6 @@
 resource "cloudflare_account" "account" {
-  name              = "StarryBlueSky"
-  type              = "standard"
-  enforce_twofactor = true
+  name = "StarryBlueSky"
+  settings = {
+    enforce_twofactor = true
+  }
 }
