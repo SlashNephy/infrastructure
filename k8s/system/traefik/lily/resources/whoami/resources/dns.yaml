@@ -6,7 +6,7 @@ metadata:
 spec:
   endpoints:
     - dnsName: whoami.starry.blue
-      recordTTL: 1
+      recordTTL: 1 # Auto
       recordType: CNAME
       targets:
         - gateway.starry.blue
@@ -14,7 +14,7 @@ spec:
         - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
           value: "true"
     - dnsName: whoami.gateway.starry.blue
-      recordTTL: 1
+      recordTTL: 1 # Auto
       recordType: CNAME
       targets:
         - gateway.starry.blue

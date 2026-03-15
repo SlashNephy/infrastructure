@@ -6,7 +6,7 @@ metadata:
 spec:
   endpoints:
     - dnsName: dns.starry.blue
-      recordTTL: 300
+      recordTTL: 1 # Auto
       recordType: CNAME
       targets:
         - gateway.starry.blue
