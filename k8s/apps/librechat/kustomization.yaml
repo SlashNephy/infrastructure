@@ -33,6 +33,9 @@ helmCharts:
         enabled: true
       mongodb:
         enabled: true
+        image:
+          registry: docker.io
+          repository: bitnamilegacy/mongodb
       redis:
         enabled: true
 
