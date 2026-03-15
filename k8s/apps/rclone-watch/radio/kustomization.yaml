@@ -5,6 +5,7 @@ namespace: rclone-watch-radio
 resources:
   - ./resources/namespace.yaml
   - ./../base
+  - ./resources/dns.yaml
 
 configMapGenerator:
   - name: rclone-watch-config

@@ -8,6 +8,7 @@ resources:
   - ./resources/secret.yaml
   - ./resources/service.yaml
   - ./resources/ingress.yaml
+  - ./resources/dns.yaml
 
 configMapGenerator:
   - name: app-config

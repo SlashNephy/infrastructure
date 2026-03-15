@@ -26,6 +26,7 @@ resources:
   - ./resources/ingress.yaml
   - ./resources/redis/deployment.yaml
   - ./resources/redis/service.yaml
+  - ./resources/dns.yaml
 
 patches:
   # juicefs-r2-secret は 1Password で管理されるので自動で作成されるシークレットをリネームする
