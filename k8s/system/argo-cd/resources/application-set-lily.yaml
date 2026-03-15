@@ -188,6 +188,10 @@ spec:
             namespace: anythingllm
             path: k8s/apps/anythingllm
             project: apps
+          - name: librechat
+            namespace: librechat
+            path: k8s/apps/librechat
+            project: apps
 
           # cron
           - name: cron-backup-volumes

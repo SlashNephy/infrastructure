@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/danny-avila/librechat:v0.8.3@sha256:028dd86ddb436a22a2cf3d4a7fd54fc793065576675af146bf005826ab650692
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+            - name: HOST
+              value: "0.0.0.0"
+            - name: ALLOW_REGISTRATION
+              value: "true"
+          ports:
+            - name: http
+              containerPort: 3080
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: data
+          hostPath:
+            path: /mnt/local/librechat/data
+            type: DirectoryOrCreate
+      restartPolicy: Always
