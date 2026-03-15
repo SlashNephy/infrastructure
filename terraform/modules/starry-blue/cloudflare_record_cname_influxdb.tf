@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_influxdb" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "influxdb"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "influxdb" {
   name = "Lily_InfluxDB"
 }
 
 resource "mackerel_monitor" "influxdb" {
-  name = cloudflare_record.cname_influxdb.hostname
+  name = "influxdb.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s", cloudflare_record.cname_influxdb.hostname)
+    url                               = "https://influxdb.starry.blue"
     expected_status_code              = 302 # TODO: アプリケーションに到達できるようにし 200 を確認する
     service                           = mackerel_service.influxdb.name
     response_time_warning             = 5000

@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_asf" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "asf"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "asf" {
   name = "Lily_ArchSteamFarm"
 }
 
 resource "mackerel_monitor" "asf" {
-  name = cloudflare_record.cname_asf.hostname
+  name = "asf.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s/healthcheck", cloudflare_record.cname_asf.hostname)
+    url                               = "https://asf.starry.blue/healthcheck"
     expected_status_code              = 200
     service                           = mackerel_service.asf.name
     response_time_warning             = 5000

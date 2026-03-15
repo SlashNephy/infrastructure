@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_cilium" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "cilium"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "cilium" {
   name = "Lily_Cilium"
 }
 
 resource "mackerel_monitor" "cilium" {
-  name = cloudflare_record.cname_cilium.hostname
+  name = "cilium.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s/healthz", cloudflare_record.cname_cilium.hostname)
+    url                               = "https://cilium.starry.blue/healthz"
     expected_status_code              = 200
     service                           = mackerel_service.cilium.name
     response_time_warning             = 5000

@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_komga" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "komga"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "komga" {
   name = "Lily_Komga"
 }
 
 resource "mackerel_monitor" "komga" {
-  name = cloudflare_record.cname_komga.hostname
+  name = "komga.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s", cloudflare_record.cname_komga.hostname)
+    url                               = "https://komga.starry.blue"
     expected_status_code              = 200
     service                           = mackerel_service.komga.name
     response_time_warning             = 5000

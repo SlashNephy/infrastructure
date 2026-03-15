@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_konomitv" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "konomitv"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "konomitv" {
   name = "Lily_KonomiTV"
 }
 
 resource "mackerel_monitor" "konomitv" {
-  name = cloudflare_record.cname_konomitv.hostname
+  name = "konomitv.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s/api/version", cloudflare_record.cname_konomitv.hostname)
+    url                               = "https://konomitv.starry.blue/api/version"
     expected_status_code              = 200
     service                           = mackerel_service.konomitv.name
     response_time_warning             = 5000
@@ -26,12 +18,4 @@ resource "mackerel_monitor" "konomitv" {
     certification_expiration_critical = 7
     follow_redirect                   = false
   }
-}
-
-resource "cloudflare_record" "cname_konomitv_gateway" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "konomitv.gateway"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = false
 }

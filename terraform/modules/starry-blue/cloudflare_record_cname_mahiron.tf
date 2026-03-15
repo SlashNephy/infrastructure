@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_mahiron" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "mahiron"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "mahiron" {
   name = "Lily_Mahiron"
 }
 
 resource "mackerel_monitor" "mahiron" {
-  name = cloudflare_record.cname_mahiron.hostname
+  name = "mahiron.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s/api/version", cloudflare_record.cname_mahiron.hostname)
+    url                               = "https://mahiron.starry.blue/api/version"
     expected_status_code              = 200
     service                           = mackerel_service.mahiron.name
     response_time_warning             = 5000

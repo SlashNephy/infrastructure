@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_argocd" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "argocd"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "argocd" {
   name = "Lily_ArgoCD"
 }
 
 resource "mackerel_monitor" "argocd" {
-  name = cloudflare_record.cname_argocd.hostname
+  name = "argocd.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s/healthz", cloudflare_record.cname_argocd.hostname)
+    url                               = "https://argocd.starry.blue/healthz"
     expected_status_code              = 200
     service                           = mackerel_service.argocd.name
     response_time_warning             = 5000

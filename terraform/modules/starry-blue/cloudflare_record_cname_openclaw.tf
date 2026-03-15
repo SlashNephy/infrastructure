@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_openclaw" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "openclaw"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "openclaw" {
   name = "Lily_openclaw"
 }
 
 resource "mackerel_monitor" "openclaw" {
-  name = cloudflare_record.cname_openclaw.hostname
+  name = "openclaw.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s", cloudflare_record.cname_openclaw.hostname)
+    url                               = "https://openclaw.starry.blue"
     expected_status_code              = 302
     service                           = mackerel_service.openclaw.name
     response_time_warning             = 5000

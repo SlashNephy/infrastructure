@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_grafana" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "grafana"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "grafana" {
   name = "Lily_Grafana"
 }
 
 resource "mackerel_monitor" "grafana" {
-  name = cloudflare_record.cname_grafana.hostname
+  name = "grafana.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s/api/health", cloudflare_record.cname_grafana.hostname)
+    url                               = "https://grafana.starry.blue/api/health"
     expected_status_code              = 200
     service                           = mackerel_service.grafana.name
     response_time_warning             = 5000

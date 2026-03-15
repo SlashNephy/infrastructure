@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_navidrome" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "navidrome"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "navidrome" {
   name = "Lily_Navidrome"
 }
 
 resource "mackerel_monitor" "navidrome" {
-  name = cloudflare_record.cname_navidrome.hostname
+  name = "navidrome.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s/ping", cloudflare_record.cname_navidrome.hostname)
+    url                               = "https://navidrome.starry.blue/ping"
     expected_status_code              = 200
     service                           = mackerel_service.navidrome.name
     response_time_warning             = 5000
@@ -26,12 +18,4 @@ resource "mackerel_monitor" "navidrome" {
     certification_expiration_critical = 7
     follow_redirect                   = false
   }
-}
-
-resource "cloudflare_record" "cname_navidrome_gateway" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "navidrome.gateway"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = false
 }

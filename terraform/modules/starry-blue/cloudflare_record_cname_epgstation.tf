@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_epgstation" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "epgstation"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "epgstation" {
   name = "Lily_EPGStation"
 }
 
 resource "mackerel_monitor" "epgstation" {
-  name = cloudflare_record.cname_epgstation.hostname
+  name = "epgstation.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s/api/version", cloudflare_record.cname_epgstation.hostname)
+    url                               = "https://epgstation.starry.blue/api/version"
     expected_status_code              = 200
     service                           = mackerel_service.epgstation.name
     response_time_warning             = 5000

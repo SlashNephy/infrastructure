@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_id" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "id"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "authentik" {
   name = "Lily_Authentik"
 }
 
 resource "mackerel_monitor" "authentik" {
-  name = cloudflare_record.cname_id.hostname
+  name = "id.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s/-/health/live/", cloudflare_record.cname_id.hostname)
+    url                               = "https://id.starry.blue/-/health/live/"
     expected_status_code              = 200
     service                           = mackerel_service.authentik.name
     response_time_warning             = 5000

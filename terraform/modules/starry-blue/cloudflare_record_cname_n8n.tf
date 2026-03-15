@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_n8n" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "n8n"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "n8n" {
   name = "Lily_n8n"
 }
 
 resource "mackerel_monitor" "n8n" {
-  name = cloudflare_record.cname_n8n.hostname
+  name = "n8n.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s/healthz", cloudflare_record.cname_n8n.hostname)
+    url                               = "https://n8n.starry.blue/healthz"
     expected_status_code              = 200
     service                           = mackerel_service.n8n.name
     response_time_warning             = 5000

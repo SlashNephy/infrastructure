@@ -1,21 +1,13 @@
-resource "cloudflare_record" "cname_files" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "files"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = true
-}
-
 resource "mackerel_service" "files" {
   name = "Lily_file-browser"
 }
 
 resource "mackerel_monitor" "files" {
-  name = cloudflare_record.cname_files.hostname
+  name = "files.starry.blue"
 
   external {
     method                            = "GET"
-    url                               = format("https://%s/health", cloudflare_record.cname_files.hostname)
+    url                               = "https://files.starry.blue/health"
     expected_status_code              = 200
     service                           = mackerel_service.files.name
     response_time_warning             = 5000
@@ -26,12 +18,4 @@ resource "mackerel_monitor" "files" {
     certification_expiration_critical = 7
     follow_redirect                   = false
   }
-}
-
-resource "cloudflare_record" "cname_files_gateway" {
-  zone_id = cloudflare_zone.zone.id
-  name    = "files.gateway"
-  content = data.cloudflare_record.aaaa_gateway_v6.hostname
-  type    = "CNAME"
-  proxied = false
 }
