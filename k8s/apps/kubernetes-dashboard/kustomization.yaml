@@ -16,6 +16,7 @@ resources:
   - ./resources/role-binding.yaml
   - ./resources/ingress.yaml
   - ./resources/secret.yaml
+  - ./resources/dns.yaml
 
 patches:
   - path: ./resources/patch-service.yaml

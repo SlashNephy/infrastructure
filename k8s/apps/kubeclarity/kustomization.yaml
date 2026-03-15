@@ -12,6 +12,7 @@ helmCharts:
 resources:
   - ./resources/namespace.yaml
   - ./resources/ingress.yaml
+  - ./resources/dns.yaml
 
 patches:
   - target:
