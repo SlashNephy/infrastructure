@@ -3,7 +3,7 @@ resource "mackerel_service" "traefik" {
 }
 
 resource "mackerel_monitor" "traefik" {
-  name = cloudflare_record.cname_traefik.hostname
+  name = "traefik.starry.blue"
 
   external {
     method                            = "GET"
