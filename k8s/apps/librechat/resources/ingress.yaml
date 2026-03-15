@@ -9,8 +9,8 @@ spec:
       match: Host(`librechat.starry.blue`)
       priority: 10
       services:
-        - name: app
-          port: http
+        - name: librechat
+          port: 3080
       middlewares:
         - name: forward-auth-authentik
           namespace: authentik

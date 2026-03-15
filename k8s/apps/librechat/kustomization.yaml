@@ -2,8 +2,41 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: librechat
 
+helmCharts:
+  # https://www.librechat.ai/docs/local/helm_chart
+  - name: librechat
+    releaseName: librechat
+    namespace: librechat
+    version: 2.0.0
+    repo: oci://ghcr.io/danny-avila/librechat-chart
+    valuesInline:
+      global:
+        librechat:
+          existingSecretName: librechat-secret
+      ingress:
+        enabled: false
+      librechat:
+        configEnv:
+          ALLOW_EMAIL_LOGIN: "false"
+          ALLOW_REGISTRATION: "false"
+          ALLOW_SOCIAL_LOGIN: "true"
+          OPENID_ADMIN_ROLE: Admin
+          OPENID_BUTTON_LABEL: Login with id.starry.blue
+          OPENID_CALLBACK_URL: /oauth/openid/callback
+          OPENID_GENERATE_NONCE: "true"
+          OPENID_ISSUER: https://id.starry.blue/application/o/libre-chat/.well-known/openid-configuration
+          OPENID_SCOPE: openid profile email
+          OPENID_USE_END_SESSION_ENDPOINT: "true"
+          OPENID_USE_PKCE: "true"
+          TRUST_PROXY: "1"
+      meilisearch:
+        enabled: true
+      mongodb:
+        enabled: true
+      redis:
+        enabled: true
+
 resources:
-  - ./resources/deployment.yaml
-  - ./resources/service.yaml
+  - ./resources/secret.yaml
   - ./resources/ingress.yaml
   - ./resources/dns.yaml
