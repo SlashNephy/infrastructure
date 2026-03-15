@@ -10,9 +10,6 @@ helmCharts:
     version: 2.0.0
     repo: oci://ghcr.io/danny-avila/librechat-chart
     valuesInline:
-      global:
-        librechat:
-          existingSecretName: librechat-secret
       ingress:
         enabled: false
       librechat:
@@ -29,7 +26,10 @@ helmCharts:
           OPENID_USE_END_SESSION_ENDPOINT: "true"
           OPENID_USE_PKCE: "true"
           TRUST_PROXY: "1"
+        existingSecretName: librechat-secret
       meilisearch:
+        auth:
+          existingMasterKeySecret: librechat-secret
         enabled: true
       mongodb:
         enabled: true
