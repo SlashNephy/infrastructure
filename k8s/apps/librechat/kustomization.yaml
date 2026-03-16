@@ -56,7 +56,6 @@ helmCharts:
         - name: config-yaml
           mountPath: /app/librechat.yaml
           readOnly: true
-          subPath: librechat.yaml
       volumes:
         - name: config-yaml
           hostPath:
