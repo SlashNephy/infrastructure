@@ -13,6 +13,8 @@ helmCharts:
       extraEnvVars:
         - name: TZ
           value: Asia/Tokyo
+        - name: ENABLE_SIGNUP
+          value: "false"
       ollama:
         enabled: false
       persistence:
