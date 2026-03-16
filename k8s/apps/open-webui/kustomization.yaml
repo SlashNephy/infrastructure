@@ -15,6 +15,8 @@ helmCharts:
           value: Asia/Tokyo
         - name: ENABLE_SIGNUP
           value: "false"
+        - name: ENABLE_LOGIN_FORM
+          value: "false"
       ollama:
         enabled: false
       persistence:
