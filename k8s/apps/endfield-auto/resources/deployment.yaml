@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      labels:
+        app: default
+    spec:
+      containers:
+        - name: endfield-auto
+          image: ghcr.io/torikushiii/endfield-auto:latest@sha256:fa665125ed1feb5fae8bd5ebd32cd07eb93ad837076e9c91057d908564bbc361
+          env:
+            - name: TZ
+              value: Asia/Tokyo
+          volumeMounts:
+            - name: config
+              mountPath: /app/config.json
+          securityContext:
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: config
+          hostPath:
+            path: /mnt/local/endfield-auto/config.json
+            type: File
+      restartPolicy: Always
