@@ -52,6 +52,16 @@ helmCharts:
           fsGroup: 1001
       redis:
         enabled: true
+      volumeMounts:
+        - name: config-yaml
+          mountPath: /app/librechat.yaml
+          readOnly: true
+          subPath: librechat.yaml
+      volumes:
+        - name: config-yaml
+          hostPath:
+            path: /mnt/local/librechat/librechat.yaml
+            type: File
 
 resources:
   - ./resources/secret.yaml
