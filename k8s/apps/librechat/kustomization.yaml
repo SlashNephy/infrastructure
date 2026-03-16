@@ -20,6 +20,8 @@ helmCharts:
           ALLOW_EMAIL_LOGIN: "false"
           ALLOW_REGISTRATION: "false"
           ALLOW_SOCIAL_LOGIN: "true"
+          DOMAIN_CLIENT: https://librechat.starry.blue
+          DOMAIN_SERVER: https://librechat.starry.blue
           OPENID_ADMIN_ROLE: Admin
           OPENID_BUTTON_LABEL: Login with id.starry.blue
           OPENID_CALLBACK_URL: /oauth/openid/callback
