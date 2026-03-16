@@ -10,6 +10,9 @@ helmCharts:
     version: 2.0.0
     repo: oci://ghcr.io/danny-avila/librechat-chart
     valuesInline:
+      global:
+        librechat:
+          existingSecretName: librechat-secret
       ingress:
         enabled: false
       librechat:
