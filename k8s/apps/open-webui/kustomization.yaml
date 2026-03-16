@@ -20,6 +20,19 @@ helmCharts:
         existingClaim: open-webui-data
       pipelines:
         enabled: false
+      sso:
+        enableSignup: true
+        enabled: true
+        groupManagement:
+          groupsClaim: groups
+        oidc:
+          clientExistingSecret: open-webui-secret
+          clientExistingSecretKey: OAUTH_CLIENT_SECRET
+          clientId: nw61bxl1f9J6HvojXaja3MwxmtfXL15BvwwUw5Bp
+          enabled: true
+          providerName: id.starry.blue
+          providerUrl: https://id.starry.blue/application/o/open-web-ui/.well-known/openid-configuration
+          scopes: openid email profile
 
 resources:
   - ./resources/volume.yaml
