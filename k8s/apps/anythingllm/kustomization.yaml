@@ -21,6 +21,8 @@ helmCharts:
         enabled: false
       persistentVolume:
         existingClaim: anythingllm-data
+      strategy:
+        type: Recreate
 
 resources:
   - ./resources/volume.yaml
