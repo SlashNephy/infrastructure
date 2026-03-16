@@ -1,0 +1,140 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: dify
+
+helmCharts:
+  # https://langgenius.github.io/dify-helm/
+  - name: dify
+    releaseName: dify
+    namespace: dify
+    version: 3.8.0
+    repo: https://langgenius.github.io/dify-helm
+    includeCRDs: true
+    valuesInline:
+      api:
+        enabled: true
+        extraEnv:
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: dify-secret
+                key: app_secret_key
+          - name: INNER_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: dify-secret
+                key: inner_api_key
+
+      # Enterprise 関連は無効化
+      enterprise:
+        enabled: false
+      enterpriseAudit:
+        enabled: false
+      enterpriseCollector:
+        enabled: false
+      enterpriseFrontend:
+        enabled: false
+
+      externalRedis:
+        enabled: false
+
+      global:
+        appApiDomain: dify.starry.blue
+        appSecretKey: dummy # 1Password で管理するのでダミー値を設定
+        appWebDomain: dify.starry.blue
+        consoleApiDomain: dify.starry.blue
+        consoleWebDomain: dify.starry.blue
+        innerApiKey: dummy # 1Password で管理するのでダミー値を設定
+        otel:
+          enabled: false
+        serviceApiDomain: dify.starry.blue
+        useTLS: true
+
+      persistence:
+        local:
+          annotations:
+            helm.sh/resource-policy: keep
+          mountPath: /app/api/storage
+          persistentVolumeClaim:
+            existingClaim: dify-storage
+        type: local
+
+      plugin_daemon:
+        enabled: true
+        serviceType: ClusterIP
+
+      postgresql:
+        enabled: true
+        global:
+          postgresql:
+            auth:
+              database: dify
+              postgresPassword: dummy
+          storageClass: local
+        primary:
+          extraEnvVars:
+            - name: TZ
+              value: Asia/Tokyo
+          persistence:
+            existingClaim: postgresql-data
+          resourcesPreset: nano
+
+      qdrant:
+        apiKey: dummy
+        enabled: true
+        persistence:
+          accessModes: [ReadWriteOnce]
+          size: 10Gi
+        replicaCount: 1
+
+      redis:
+        enabled: true
+        global:
+          redis:
+            password: dummy
+        master:
+          persistence:
+            enabled: false
+
+      sandbox:
+        enabled: true
+      ssrfProxy:
+        enabled: true
+      triggerWorker:
+        enabled: true
+      unstructured:
+        enabled: true
+      vectorDB:
+        useExternal: false
+      weaviate:
+        enabled: false
+      web:
+        enabled: true
+      worker:
+        enabled: true
+      workerBeat:
+        enabled: true
+
+resources:
+  - ./resources/secret.yaml
+  - ./resources/ingress.yaml
+  - ./resources/volume-postgresql.yaml
+  - ./resources/volume-storage.yaml
+  - ./resources/dns.yaml
+
+patches:
+  # dify-postgresql / dify-redis Secret は 1Password で管理されるので自動で作成されるシークレットを空にする
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-postgresql
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-redis
+    patch: |-
+      - path: /data
+        op: remove

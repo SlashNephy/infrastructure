@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dify-storage
+spec:
+  selector:
+    matchLabels:
+      name: dify-storage
+  storageClassName: local
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dify-storage
+  labels:
+    name: dify-storage
+
+spec:
+  storageClassName: local
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 20Gi
+  local:
+    path: /mnt/local/dify/storage
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - lily
+  persistentVolumeReclaimPolicy: Retain
