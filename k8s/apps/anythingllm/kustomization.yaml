@@ -21,10 +21,19 @@ helmCharts:
         enabled: false
       persistentVolume:
         existingClaim: anythingllm-data
-      strategy:
-        type: Recreate
 
 resources:
   - ./resources/volume.yaml
   - ./resources/ingress.yaml
   - ./resources/dns.yaml
+
+patches:
+  # /spec/template/spec/strategy は存在しないので削除する (out-of-sync 状態が継続してしまうため)
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: anythingllm
+    patch: |-
+      - op: remove
+        path: /spec/template/spec/strategy
