@@ -32,10 +32,10 @@ helmCharts:
         enabled: false
 
       global:
-        appApiDomain: dify.starry.blue
+        appApiDomain: dify-api.starry.blue
         appSecretKey: dummy # 1Password で管理するのでダミー値を設定
         appWebDomain: dify.starry.blue
-        consoleApiDomain: dify.starry.blue
+        consoleApiDomain: dify-api.starry.blue
         consoleWebDomain: dify.starry.blue
         customCA:
           enabled: false
@@ -53,7 +53,7 @@ helmCharts:
         rag:
           etlType: dify
           keywordDataSourceType: object_storage
-        serviceApiDomain: dify.starry.blue
+        serviceApiDomain: dify-api.starry.blue
         triggerDomain: ""
         useTLS: true
 
