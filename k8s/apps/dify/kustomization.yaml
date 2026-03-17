@@ -114,16 +114,5 @@ helmCharts:
 resources:
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
-  - ./resources/secret.yaml
   - ./resources/volume-postgresql.yaml
   - ./resources/volume-storage.yaml
-
-patches:
-  # dify-postgresql Secret は 1Password で管理されるので自動で作成されるシークレットを空にする
-  - target:
-      version: v1
-      kind: Secret
-      name: dify-postgresql
-    patch: |-
-      - op: remove
-        path: /data
