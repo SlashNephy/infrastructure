@@ -13,9 +13,6 @@ helmCharts:
     valuesInline:
       api:
         enabled: true
-        replicas: 1
-
-      # Enterprise 関連は無効化 (セルフホスト版)
       enterprise:
         enabled: false
       enterpriseAudit:
@@ -24,13 +21,12 @@ helmCharts:
         enabled: false
       enterpriseFrontend:
         enabled: false
-
       externalDatabase:
         enabled: false
-
       externalRedis:
         enabled: false
-
+      gateway:
+        replicas: 0
       global:
         appApiDomain: dify-api.starry.blue
         appSecretKey: dummy # 1Password で管理するのでダミー値を設定
@@ -44,28 +40,16 @@ helmCharts:
         enterpriseDomain: dify-enterprise-dummy.internal
         filesDomain: dify.starry.blue
         innerApiKey: dummy # 1Password で管理するのでダミー値を設定
-        marketplace:
-          apiUrl: "https://marketplace.dify.ai"
-          enabled: true
-          url: "https://marketplace.dify.ai"
         otel:
           enabled: false
-        rag:
-          etlType: dify
-          keywordDataSourceType: object_storage
         serviceApiDomain: dify-api.starry.blue
-        triggerDomain: ""
         useTLS: true
-
       ingress:
         enabled: false
-
       mail:
         type: ""
-
       minio:
         enabled: false
-
       persistence:
         local:
           annotations:
@@ -74,14 +58,10 @@ helmCharts:
           persistentVolumeClaim:
             existingClaim: dify-storage
         type: local
-
-      # plugin_daemon を無効化 (plugin-connector, crd-controller も連動して無効化される)
       plugin_daemon:
         enabled: false
-
       plugin_manager:
         enabled: false
-
       postgresql:
         enabled: true
         global:
@@ -97,15 +77,12 @@ helmCharts:
           persistence:
             existingClaim: dify-postgresql-data
           resourcesPreset: nano
-
       qdrant:
         enabled: false
-
       redis:
+        auth:
+          enabled: false
         enabled: true
-        global:
-          redis:
-            password: dummy
         master:
           persistence:
             enabled: false
@@ -113,38 +90,24 @@ helmCharts:
           persistence:
             enabled: false
           replicaCount: 0
-
       sandbox:
         enabled: true
-        replicas: 1
-
       ssrfProxy:
         enabled: true
-        replicas: 1
-
-      # triggerWorker は Enterprise 機能のため無効化
       triggerWorker:
         enabled: false
-
-      # unstructured はイメージプルできないため無効化
       unstructured:
         enabled: false
-
       vectorDB:
-        externalType: qdrant
         useExternal: false
-
       weaviate:
         enabled: false
-
       web:
         enabled: true
         replicas: 1
-
       worker:
         enabled: true
         replicas: 1
-
       workerBeat:
         enabled: true
 
@@ -156,7 +119,7 @@ resources:
   - ./resources/volume-storage.yaml
 
 patches:
-  # dify-postgresql / dify-redis Secret は 1Password で管理されるので自動で作成されるシークレットを空にする
+  # dify-postgresql Secret は 1Password で管理されるので自動で作成されるシークレットを空にする
   - target:
       version: v1
       kind: Secret
@@ -164,20 +127,3 @@ patches:
     patch: |-
       - op: remove
         path: /data
-  - target:
-      version: v1
-      kind: Secret
-      name: dify-redis
-    patch: |-
-      - op: remove
-        path: /data
-  # Enterprise gateway は不要なので replicas を 0 にする
-  - target:
-      group: apps
-      version: v1
-      kind: Deployment
-      name: dify-gateway
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 0
