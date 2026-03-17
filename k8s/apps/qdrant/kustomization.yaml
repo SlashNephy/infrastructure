@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: qdrant
+
+helmCharts:
+  # https://github.com/qdrant/qdrant-helm
+  - name: qdrant
+    releaseName: qdrant
+    namespace: qdrant
+    version: 1.17.0
+    repo: https://qdrant.github.io/qdrant-helm
+    valuesInline:
+      apiKey:
+        valueFrom:
+          secretKeyRef:
+            name: qdrant-secret
+            key: api-key
+      persistence:
+        storageClassName: local
+        storageVolumeName: qdrant-data
+
+resources:
+  - ./resources/secret.yaml
+  - ./resources/volume.yaml
+  - ./resources/ingress.yaml
+  - ./resources/dns.yaml

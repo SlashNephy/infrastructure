@@ -6,17 +6,17 @@ metadata:
 spec:
   routes:
     - kind: Rule
-      match: Host(`dify.starry.blue`)
+      match: Host(`qdrant.starry.blue`)
       priority: 10
       services:
-        - name: dify-web-svc
-          port: web
+        - name: qdrant
+          port: http
       middlewares:
         - name: forward-auth-authentik
           namespace: authentik
 
     - kind: Rule
-      match: Host(`dify.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      match: Host(`qdrant.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
       priority: 15
       services:
         - name: authentik-server

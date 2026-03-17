@@ -204,6 +204,10 @@ spec:
             namespace: librechat
             path: k8s/apps/librechat
             project: apps
+          - name: qdrant
+            namespace: qdrant
+            path: k8s/apps/qdrant
+            project: apps
 
           # cron
           - name: cron-backup-volumes
