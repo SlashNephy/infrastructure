@@ -7,18 +7,11 @@ spec:
   routes:
     - kind: Rule
       match: Host(`dify.starry.blue`)
-      priority: 10
       services:
         - name: dify-web-svc
           port: web
-      middlewares:
-        - name: forward-auth-authentik
-          namespace: authentik
-
     - kind: Rule
-      match: Host(`dify.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
-      priority: 15
+      match: Host(`dify-api.starry.blue`)
       services:
-        - name: authentik-server
-          namespace: authentik
-          port: http
+        - name: dify-api-svc
+          port: api

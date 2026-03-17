@@ -13,19 +13,9 @@ helmCharts:
     valuesInline:
       api:
         enabled: true
-        extraEnv:
-          - name: SECRET_KEY
-            valueFrom:
-              secretKeyRef:
-                name: dify-secret
-                key: app_secret_key
-          - name: INNER_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: dify-secret
-                key: inner_api_key
+        replicas: 1
 
-      # Enterprise 関連は無効化
+      # Enterprise 関連は無効化 (セルフホスト版)
       enterprise:
         enabled: false
       enterpriseAudit:
@@ -33,6 +23,9 @@ helmCharts:
       enterpriseCollector:
         enabled: false
       enterpriseFrontend:
+        enabled: false
+
+      externalDatabase:
         enabled: false
 
       externalRedis:
@@ -44,11 +37,34 @@ helmCharts:
         appWebDomain: dify.starry.blue
         consoleApiDomain: dify.starry.blue
         consoleWebDomain: dify.starry.blue
+        customCA:
+          enabled: false
+        dbMigrationEnabled: true
+        edition: SELF_HOSTED
+        enterpriseDomain: dify-enterprise-dummy.internal
+        filesDomain: dify.starry.blue
         innerApiKey: dummy # 1Password で管理するのでダミー値を設定
+        marketplace:
+          apiUrl: "https://marketplace.dify.ai"
+          enabled: true
+          url: "https://marketplace.dify.ai"
         otel:
           enabled: false
+        rag:
+          etlType: dify
+          keywordDataSourceType: object_storage
         serviceApiDomain: dify.starry.blue
+        triggerDomain: ""
         useTLS: true
+
+      ingress:
+        enabled: false
+
+      mail:
+        type: ""
+
+      minio:
+        enabled: false
 
       persistence:
         local:
@@ -59,9 +75,12 @@ helmCharts:
             existingClaim: dify-storage
         type: local
 
+      # plugin_daemon を無効化 (plugin-connector, crd-controller も連動して無効化される)
       plugin_daemon:
-        enabled: true
-        serviceType: ClusterIP
+        enabled: false
+
+      plugin_manager:
+        enabled: false
 
       postgresql:
         enabled: true
@@ -76,16 +95,11 @@ helmCharts:
             - name: TZ
               value: Asia/Tokyo
           persistence:
-            existingClaim: postgresql-data
+            existingClaim: dify-postgresql-data
           resourcesPreset: nano
 
       qdrant:
-        apiKey: dummy
-        enabled: true
-        persistence:
-          accessModes: [ReadWriteOnce]
-          size: 10Gi
-        replicaCount: 1
+        enabled: false
 
       redis:
         enabled: true
@@ -95,32 +109,51 @@ helmCharts:
         master:
           persistence:
             enabled: false
+        replica:
+          persistence:
+            enabled: false
+          replicaCount: 0
 
       sandbox:
         enabled: true
+        replicas: 1
+
       ssrfProxy:
         enabled: true
+        replicas: 1
+
+      # triggerWorker は Enterprise 機能のため無効化
       triggerWorker:
-        enabled: true
+        enabled: false
+
+      # unstructured はイメージプルできないため無効化
       unstructured:
-        enabled: true
+        enabled: false
+
       vectorDB:
+        externalType: qdrant
         useExternal: false
+
       weaviate:
         enabled: false
+
       web:
         enabled: true
+        replicas: 1
+
       worker:
         enabled: true
+        replicas: 1
+
       workerBeat:
         enabled: true
 
 resources:
-  - ./resources/secret.yaml
+  - ./resources/dns.yaml
   - ./resources/ingress.yaml
+  - ./resources/secret.yaml
   - ./resources/volume-postgresql.yaml
   - ./resources/volume-storage.yaml
-  - ./resources/dns.yaml
 
 patches:
   # dify-postgresql / dify-redis Secret は 1Password で管理されるので自動で作成されるシークレットを空にする
@@ -129,12 +162,22 @@ patches:
       kind: Secret
       name: dify-postgresql
     patch: |-
-      - path: /data
-        op: remove
+      - op: remove
+        path: /data
   - target:
       version: v1
       kind: Secret
       name: dify-redis
     patch: |-
-      - path: /data
-        op: remove
+      - op: remove
+        path: /data
+  # Enterprise gateway は不要なので replicas を 0 にする
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: dify-gateway
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 0
