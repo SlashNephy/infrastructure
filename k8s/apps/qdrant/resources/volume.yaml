@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: qdrant-data
+  name: qdrant-storage
   labels:
-    name: qdrant-data
+    name: qdrant-storage
 
 spec:
   storageClassName: local
@@ -11,6 +11,9 @@ spec:
     - ReadWriteOnce
   capacity:
     storage: 10Gi
+  claimRef:
+    namespace: qdrant
+    name: qdrant-data-qdrant-0
   local:
     path: /mnt/local/qdrant/data
   nodeAffinity:
