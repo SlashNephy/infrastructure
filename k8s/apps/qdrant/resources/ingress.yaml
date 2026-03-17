@@ -5,9 +5,18 @@ metadata:
 
 spec:
   routes:
+    # REST API (API キー)
     - kind: Rule
       match: Host(`qdrant.starry.blue`)
       priority: 10
+      services:
+        - name: qdrant
+          port: http
+
+    # Web UI (Authentik)
+    - kind: Rule
+      match: Host(`qdrant.starry.blue`) && PathPrefix(`/dashboard`)
+      priority: 20
       services:
         - name: qdrant
           port: http
@@ -17,7 +26,7 @@ spec:
 
     - kind: Rule
       match: Host(`qdrant.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
-      priority: 15
+      priority: 25
       services:
         - name: authentik-server
           namespace: authentik

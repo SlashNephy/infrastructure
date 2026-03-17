@@ -12,8 +12,8 @@ spec:
   capacity:
     storage: 10Gi
   claimRef:
-    namespace: qdrant
     name: qdrant-data-qdrant-0
+    namespace: qdrant
   local:
     path: /mnt/local/qdrant/data
   nodeAffinity:
