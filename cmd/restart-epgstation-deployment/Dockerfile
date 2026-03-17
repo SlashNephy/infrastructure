@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/golang:1.26.1-bookworm@sha256:b46171cb3e0b1255cb72487533b1f855c59039255e4b74bc2453924178f490f3 AS base
+FROM public.ecr.aws/docker/library/golang:1.26.1-bookworm@sha256:4465644228bc2857a954b092167e12aa59c006a3492282a6c820bf4755fd64a4 AS base
 WORKDIR /work
 
 COPY ./go.mod ./go.sum ./
