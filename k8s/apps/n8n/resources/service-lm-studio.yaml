@@ -9,13 +9,17 @@ spec:
       protocol: TCP
 
 ---
-apiVersion: v1
-kind: Endpoints
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
 metadata:
   name: lm-studio
-subsets:
+  labels:
+    kubernetes.io/service-name: lm-studio
+
+addressType: IPv4
+endpoints:
   - addresses:
-      - ip: 192.168.1.5
-    ports:
-      - port: 1234
-        protocol: TCP
+      - 192.168.1.5
+ports:
+  - port: 1234
+    protocol: TCP
