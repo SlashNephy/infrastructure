@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dify-qdrant-storage
+  labels:
+    name: dify-qdrant-storage
+
+spec:
+  storageClassName: local
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 10Gi
+  claimRef:
+    name: qdrant-storage-dify-qdrant-0
+    namespace: dify
+  local:
+    path: /mnt/local/dify/qdrant
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - lily
+  persistentVolumeReclaimPolicy: Retain

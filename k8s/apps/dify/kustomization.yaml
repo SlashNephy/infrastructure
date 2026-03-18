@@ -82,6 +82,9 @@ helmCharts:
           resourcesPreset: nano
       qdrant:
         enabled: true
+        persistence:
+          storageClassName: local
+        replicaCount: 1
       redis:
         auth:
           enabled: true
@@ -120,6 +123,7 @@ resources:
   - ./resources/ingress.yaml
   - ./resources/secret.yaml
   - ./resources/volume-postgresql.yaml
+  - ./resources/volume-qdrant.yaml
   - ./resources/volume-storage.yaml
 
 patches:
