@@ -6,12 +6,12 @@ metadata:
 spec:
   routes:
     - kind: Rule
+      match: Host(`dify.starry.blue`) && (PathPrefix(`/console/api`) || PathPrefix(`/api`) || PathPrefix(`/v1`) || PathPrefix(`/files`))
+      services:
+        - name: dify-api-svc
+          port: api
+    - kind: Rule
       match: Host(`dify.starry.blue`)
       services:
         - name: dify-web-svc
           port: web
-    - kind: Rule
-      match: Host(`dify-api.starry.blue`)
-      services:
-        - name: dify-api-svc
-          port: api

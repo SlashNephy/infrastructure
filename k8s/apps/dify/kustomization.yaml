@@ -28,10 +28,10 @@ helmCharts:
       gateway:
         replicas: 0
       global:
-        appApiDomain: dify-api.starry.blue
+        appApiDomain: dify.starry.blue
         appSecretKey: dummy # Helm テンプレートのレンダリングに必要なダミー値 (実際の値は 1Password で管理)
         appWebDomain: dify.starry.blue
-        consoleApiDomain: dify-api.starry.blue
+        consoleApiDomain: dify.starry.blue
         consoleWebDomain: dify.starry.blue
         customCA:
           enabled: false
@@ -41,7 +41,7 @@ helmCharts:
         innerApiKey: dummy # Helm テンプレートのレンダリングに必要なダミー値 (実際の値は 1Password で管理)
         otel:
           enabled: false
-        serviceApiDomain: dify-api.starry.blue
+        serviceApiDomain: dify.starry.blue
         useTLS: true
       ingress:
         enabled: false
