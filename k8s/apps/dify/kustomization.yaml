@@ -57,8 +57,12 @@ helmCharts:
           persistentVolumeClaim:
             existingClaim: dify-storage
         type: local
+      plugin_connector:
+        replicas: 0 # Enterprise 版のため無効化
+      plugin_controller:
+        replicas: 0 # Enterprise 版のため無効化
       plugin_daemon:
-        enabled: false
+        enabled: true
       plugin_manager:
         enabled: false
       postgresql:
@@ -130,7 +134,28 @@ patches:
   - target:
       version: v1
       kind: Secret
+      name: dify-plugin-connector-secret
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-plugin-daemon-secret
+    patch: |-
+      - path: /stringData
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
       name: dify-postgresql
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-redis
     patch: |-
       - path: /data
         op: remove
@@ -194,13 +219,6 @@ patches:
       version: v1
       kind: Secret
       name: dify-worker-secret
-    patch: |-
-      - path: /data
-        op: remove
-  - target:
-      version: v1
-      kind: Secret
-      name: dify-redis
     patch: |-
       - path: /data
         op: remove
