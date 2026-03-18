@@ -81,7 +81,7 @@ helmCharts:
             existingClaim: dify-postgresql-data
           resourcesPreset: nano
       qdrant:
-        enabled: false
+        enabled: true
       redis:
         auth:
           enabled: true
@@ -149,6 +149,13 @@ patches:
       version: v1
       kind: Secret
       name: dify-postgresql
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-qdrant-apikey
     patch: |-
       - path: /data
         op: remove
