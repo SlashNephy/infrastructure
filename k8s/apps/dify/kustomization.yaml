@@ -222,3 +222,12 @@ patches:
     patch: |-
       - path: /data
         op: remove
+  # Plugin daemon の PLATFORM を local に変更 (serverless connector は Enterprise 版のため使用不可)
+  - target:
+      version: v1
+      kind: ConfigMap
+      name: dify-plugin-daemon-config
+    patch: |-
+      - path: /data/PLATFORM
+        op: replace
+        value: local
