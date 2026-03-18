@@ -29,7 +29,7 @@ helmCharts:
         replicas: 0
       global:
         appApiDomain: dify-api.starry.blue
-        appSecretKey: dummy # 1Password で管理するのでダミー値を設定
+        appSecretKey: dummy # Helm テンプレートのレンダリングに必要なダミー値 (実際の値は 1Password で管理)
         appWebDomain: dify.starry.blue
         consoleApiDomain: dify-api.starry.blue
         consoleWebDomain: dify.starry.blue
@@ -37,9 +37,8 @@ helmCharts:
           enabled: false
         dbMigrationEnabled: true
         edition: SELF_HOSTED
-        enterpriseDomain: dify-enterprise-dummy.internal
         filesDomain: dify.starry.blue
-        innerApiKey: dummy # 1Password で管理するのでダミー値を設定
+        innerApiKey: dummy # Helm テンプレートのレンダリングに必要なダミー値 (実際の値は 1Password で管理)
         otel:
           enabled: false
         serviceApiDomain: dify-api.starry.blue
@@ -68,7 +67,7 @@ helmCharts:
           postgresql:
             auth:
               database: dify
-              postgresPassword: dummy
+              postgresPassword: dummy # Helm テンプレートのレンダリングに必要なダミー値 (実際の値は 1Password で管理)
           storageClass: local
         primary:
           extraEnvVars:
@@ -81,7 +80,8 @@ helmCharts:
         enabled: false
       redis:
         auth:
-          enabled: false
+          enabled: true
+          password: dummy # Helm テンプレートのレンダリングに必要なダミー値 (実際の値は 1Password で管理)
         enabled: true
         master:
           persistence:
@@ -114,5 +114,93 @@ helmCharts:
 resources:
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
+  - ./resources/secret.yaml
   - ./resources/volume-postgresql.yaml
   - ./resources/volume-storage.yaml
+
+patches:
+  # Helm チャートが自動生成する Secret は 1Password で管理されるので /data を空にする
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-api-secret
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-postgresql
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-sandbox-secret
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-shared-celery-secret
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-shared-db-secret
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-shared-mail-secret
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-shared-redis-secret
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-shared-storage-secret
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-shared-vectordb-secret
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-worker-beat-secret
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-worker-secret
+    patch: |-
+      - path: /data
+        op: remove
+  - target:
+      version: v1
+      kind: Secret
+      name: dify-redis
+    patch: |-
+      - path: /data
+        op: remove
