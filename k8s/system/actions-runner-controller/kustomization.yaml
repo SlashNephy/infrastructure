@@ -5,7 +5,7 @@ helmCharts:
   - name: gha-runner-scale-set-controller
     releaseName: arc
     namespace: arc-systems
-    version: 0.13.1
+    version: 0.14.0
     repo: oci://ghcr.io/actions/actions-runner-controller-charts
     includeCRDs: true
   - name: gha-runner-scale-set
