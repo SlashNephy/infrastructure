@@ -69,7 +69,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
         - name: web
-          image: ghcr.io/slashnephy/headlessx-web:2.1.0@sha256:adc5f464a0689b260628bd9824b62b3ea261ebee17c102b5a8257a7a369ae12b
+          image: ghcr.io/slashnephy/headlessx-web:2.1.0@sha256:df052d30c312511492753d9d30f92cf4b263f5b88c2510ddb6c8f1db7ff1ff9e
           env:
             - name: NEXT_PUBLIC_API_URL
               value: http://localhost:8000
