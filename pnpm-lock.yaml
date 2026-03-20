@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@slashnephy/eslint-config':
-        specifier: 3.0.272
-        version: 3.0.272(@types/estree@1.0.8)(@types/node@25.5.0)(@typescript-eslint/eslint-plugin@8.57.0(@typescript-eslint/parser@8.57.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.57.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(storybook@10.2.19(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
+        specifier: 3.0.273
+        version: 3.0.273(@types/estree@1.0.8)(@types/node@25.5.0)(@typescript-eslint/eslint-plugin@8.57.0(@typescript-eslint/parser@8.57.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.57.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(storybook@10.2.19(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
       eslint:
         specifier: 9.39.4
         version: 9.39.4(jiti@2.6.1)
@@ -566,8 +566,8 @@ packages:
   '@repeaterjs/repeater@3.0.6':
     resolution: {integrity: sha512-Javneu5lsuhwNCryN+pXH93VPQ8g0dBX7wItHFgYiwQmzE1sVdg5tWHiOgHywzL2W21XQopa7IwIEnNbmeUJYA==}
 
-  '@slashnephy/eslint-config@3.0.272':
-    resolution: {integrity: sha512-UphWOE5UhX/wTBE0XMwJxZufY/Gcs8ZrdndzeqoltP4k59i3ys0npVfyhytfGUmJiJT99Kx39pP+MisPt4Wibg==}
+  '@slashnephy/eslint-config@3.0.273':
+    resolution: {integrity: sha512-aXWfv5GDnl+7bV/sIfBXFucSUeHVGuzPnQPjnT1+STkQRShlijmQgtbkeH2/Jc9YqVX8vJDsAoNK76e/NM9XYw==}
     engines: {node: '>= 24'}
     peerDependencies:
       eslint: ^9
@@ -1392,11 +1392,11 @@ packages:
   eslint-plugin-relay@2.0.0:
     resolution: {integrity: sha512-H52u+YM72VhBwhKrGSSdsjbeAWbLIgmph3z4Hgfyqm8Jt5pP5g9PbFmBp8kk10D4vZldrbNwa0esHxDRoczprg==}
 
-  eslint-plugin-storybook@10.2.17:
-    resolution: {integrity: sha512-LtzVBHcq+RbrhTnF1rFNpc5bmg/kmdDsw/6bIKOnyDY4r0g5ldZSNN3R/fxLrhFOL2DhmmDywN9lcFNqHCP3vQ==}
+  eslint-plugin-storybook@10.2.19:
+    resolution: {integrity: sha512-JwwNgG24mkwwiJp/VIwUuJ9QIXoeCZteSZ7PEpb8DUhKpzCrNxJOeg7i5ep6yLexWAVjfFLG4OnFeV8cVS2PAg==}
     peerDependencies:
       eslint: '>=8'
-      storybook: ^10.2.17
+      storybook: ^10.2.19
 
   eslint-plugin-tsdoc@0.5.2:
     resolution: {integrity: sha512-BlvqjWZdBJDIPO/YU3zcPCF23CvjYT3gyu63yo6b609NNV3D1b6zceAREy2xnweuBoDpZcLNuPyAUq9cvx6bbQ==}
@@ -3264,7 +3264,7 @@ snapshots:
 
   '@repeaterjs/repeater@3.0.6': {}
 
-  '@slashnephy/eslint-config@3.0.272(@types/estree@1.0.8)(@types/node@25.5.0)(@typescript-eslint/eslint-plugin@8.57.0(@typescript-eslint/parser@8.57.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.57.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(storybook@10.2.19(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
+  '@slashnephy/eslint-config@3.0.273(@types/estree@1.0.8)(@types/node@25.5.0)(@typescript-eslint/eslint-plugin@8.57.0(@typescript-eslint/parser@8.57.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/parser@8.57.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(storybook@10.2.19(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
     dependencies:
       '@eslint-community/eslint-plugin-eslint-comments': 4.7.1(eslint@9.39.4(jiti@2.6.1))
       '@eslint/js': 9.39.4
@@ -3289,7 +3289,7 @@ snapshots:
       eslint-plugin-react-hooks: 7.0.1(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-react-refresh: 0.5.2(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-relay: 2.0.0
-      eslint-plugin-storybook: 10.2.17(eslint@9.39.4(jiti@2.6.1))(storybook@10.2.19(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
+      eslint-plugin-storybook: 10.2.19(eslint@9.39.4(jiti@2.6.1))(storybook@10.2.19(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
       eslint-plugin-tsdoc: 0.5.2(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-unused-imports: 4.4.1(@typescript-eslint/eslint-plugin@8.57.0(@typescript-eslint/parser@8.57.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-userscripts: 0.5.6(eslint@9.39.4(jiti@2.6.1))
@@ -4297,7 +4297,7 @@ snapshots:
     dependencies:
       graphql: 16.13.1
 
-  eslint-plugin-storybook@10.2.17(eslint@9.39.4(jiti@2.6.1))(storybook@10.2.19(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3):
+  eslint-plugin-storybook@10.2.19(eslint@9.39.4(jiti@2.6.1))(storybook@10.2.19(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3):
     dependencies:
       '@typescript-eslint/utils': 8.57.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.4(jiti@2.6.1)
