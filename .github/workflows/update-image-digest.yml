@@ -39,7 +39,7 @@ jobs:
 
       - name: Automerge
         if: steps.create-pull-request.outputs.pull-request-number
-        uses: peter-evans/enable-pull-request-automerge@a660677d5469627102a1c1e11409dd063606628d # v3
+        uses: peter-evans/enable-pull-request-automerge@a660677d5469627102a1c1e11409dd063606628d # v3.0.0
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           pull-request-number: ${{  steps.create-pull-request.outputs.pull-request-number }}
