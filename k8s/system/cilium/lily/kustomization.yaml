@@ -30,6 +30,10 @@ helmCharts:
         ui:
           enabled: true
       ipMasqAgent:
+        config:
+          nonMasqueradeCIDRs:
+            - 10.0.0.0/16
+            - fdac:2d12:9f5::/64
         enabled: true
       ipv4NativeRoutingCIDR: 10.0.0.0/16
       ipv6:
