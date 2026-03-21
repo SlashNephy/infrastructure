@@ -3,8 +3,8 @@ kind: Kustomization
 namespace: openclaw
 
 resources:
-  - ./resources/instance.yaml
-  - ./resources/ingress.yaml
-  - ./resources/volume.yaml
-  - ./resources/secret.yaml
   - ./resources/dns.yaml
+  - ./resources/ingress.yaml
+  - ./resources/instance.yaml
+  - ./resources/secret.yaml
+  - ./resources/volume.yaml

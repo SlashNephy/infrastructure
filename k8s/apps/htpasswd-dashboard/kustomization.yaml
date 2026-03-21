@@ -3,14 +3,14 @@ kind: Kustomization
 namespace: htpasswd-dashboard
 
 resources:
-  - ./resources/namespace.yaml
-  - ./resources/service-account.yaml
-  - ./resources/role.yaml
   - ./resources/deployment.yaml
-  - ./resources/service.yaml
-  - ./resources/ingress.yaml
-  - ./resources/secret.yaml
   - ./resources/dns.yaml
+  - ./resources/ingress.yaml
+  - ./resources/namespace.yaml
+  - ./resources/role.yaml
+  - ./resources/secret.yaml
+  - ./resources/service-account.yaml
+  - ./resources/service.yaml
 
 configMapGenerator:
   - name: app-config

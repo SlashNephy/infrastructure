@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: miniserve
 
 resources:
-  - ./resources/namespace.yaml
   - ./resources/deployment.yaml
-  - ./resources/service.yaml
   - ./resources/ingress.yaml
+  - ./resources/namespace.yaml
+  - ./resources/service.yaml

@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: mahiron
 
 resources:
-  - ./resources/namespace.yaml
   - ./../../../common/registry-ghcr-io/bbc
   - ./resources/deployment.yaml
+  - ./resources/namespace.yaml
   - ./resources/service.yaml

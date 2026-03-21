@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: cron-create-tvtest-release
 
 resources:
-  - ./resources/namespace.yaml
   - ./resources/cronjob.yaml
+  - ./resources/namespace.yaml
   - ./resources/secret.yaml

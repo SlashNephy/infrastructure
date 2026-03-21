@@ -21,12 +21,12 @@ helmCharts:
           reclaimPolicy: Retain
 
 resources:
-  - ./resources/namespace.yaml
-  - ./resources/secret.yaml
+  - ./resources/dns.yaml
   - ./resources/ingress.yaml
+  - ./resources/namespace.yaml
   - ./resources/redis/deployment.yaml
   - ./resources/redis/service.yaml
-  - ./resources/dns.yaml
+  - ./resources/secret.yaml
 
 patches:
   # juicefs-r2-secret は 1Password で管理されるので自動で作成されるシークレットをリネームする

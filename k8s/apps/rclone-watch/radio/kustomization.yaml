@@ -3,9 +3,9 @@ kind: Kustomization
 namespace: rclone-watch-radio
 
 resources:
-  - ./resources/namespace.yaml
   - ./../base
   - ./resources/dns.yaml
+  - ./resources/namespace.yaml
 
 configMapGenerator:
   - name: rclone-watch-config

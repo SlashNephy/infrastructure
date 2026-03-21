@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: rummager
 
 resources:
+  - ./resources/deployment.yaml
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
-  - ./resources/deployment.yaml

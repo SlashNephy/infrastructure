@@ -3,9 +3,9 @@ kind: Kustomization
 namespace: mirakurun
 
 resources:
-  - ./resources/namespace.yaml
   - ./../../../common/registry-ghcr-io/bbc
-  - ./resources/secret.yaml
   - ./resources/deployment.yaml
-  - ./resources/service.yaml
   - ./resources/ingress.yaml
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
+  - ./resources/service.yaml

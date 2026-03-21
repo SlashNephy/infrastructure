@@ -30,13 +30,13 @@ helmCharts:
           existingClaim: epgstation-mariadb-data
         resourcesPreset: large
 resources:
-  - ./resources/namespace.yaml
-  - ./resources/secret.yaml
-  - ./resources/deployment.yaml
-  - ./resources/service.yaml
-  - ./resources/ingress.yaml
-  - ./resources/volume.yaml
+  - ./../../common/registry-ghcr-io/lily
   - ./resources/cronjob-backup.yaml
   - ./resources/cronjob-restart.yaml
+  - ./resources/deployment.yaml
   - ./resources/dns.yaml
-  - ./../../common/registry-ghcr-io/lily
+  - ./resources/ingress.yaml
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
+  - ./resources/service.yaml
+  - ./resources/volume.yaml

@@ -10,9 +10,9 @@ helmCharts:
     repo: https://openclarity.github.io/kubeclarity
 
 resources:
-  - ./resources/namespace.yaml
-  - ./resources/ingress.yaml
   - ./resources/dns.yaml
+  - ./resources/ingress.yaml
+  - ./resources/namespace.yaml
 
 patches:
   - target:

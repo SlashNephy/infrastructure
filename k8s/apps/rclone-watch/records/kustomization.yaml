@@ -3,8 +3,8 @@ kind: Kustomization
 namespace: rclone-watch-records
 
 resources:
-  - ./resources/namespace.yaml
   - ./../base
+  - ./resources/namespace.yaml
 
 configMapGenerator:
   - name: rclone-watch-config

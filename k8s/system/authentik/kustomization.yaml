@@ -80,14 +80,14 @@ helmCharts:
         #   prometheus.io/port: "9300"
 
 resources:
-  - ./resources/namespace.yaml
-  - ./resources/secret.yaml
-  - ./resources/ingress.yaml
-  - ./resources/pv-postgres.yaml
-  - ./resources/pv-postgres-backup.yaml
-  - ./resources/middleware.yaml
   - ./resources/cronjob-cleanup-backup.yaml
   - ./resources/dns.yaml
+  - ./resources/ingress.yaml
+  - ./resources/middleware.yaml
+  - ./resources/namespace.yaml
+  - ./resources/pv-postgres-backup.yaml
+  - ./resources/pv-postgres.yaml
+  - ./resources/secret.yaml
 
 patches:
   # authentik / authentik-postgresql / authentik-redis Secret は 1Password で管理されるので自動で作成されるシークレットを空にする

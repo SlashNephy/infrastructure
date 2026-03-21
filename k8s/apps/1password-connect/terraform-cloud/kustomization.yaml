@@ -14,7 +14,7 @@ helmCharts:
         create: false
 
 resources:
+  - ./resources/dns.yaml
+  - ./resources/ingress.yaml
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
-  - ./resources/ingress.yaml
-  - ./resources/dns.yaml

@@ -59,15 +59,15 @@ helmCharts:
         resourcesPreset: nano
 
 resources:
+  - ./../../common/registry-ghcr-io/lily
+  - ./resources/cronjob-cleanup-backup.yaml
+  - ./resources/deployment-river-ui.yaml
+  - ./resources/deployment.yaml
+  - ./resources/dns.yaml
+  - ./resources/ingress.yaml
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
-  - ./resources/deployment.yaml
-  - ./resources/deployment-river-ui.yaml
   - ./resources/service.yaml
-  - ./resources/ingress.yaml
-  - ./resources/volume.yaml
   - ./resources/volume-backup.yaml
   - ./resources/volume-redis.yaml
-  - ./resources/cronjob-cleanup-backup.yaml
-  - ./resources/dns.yaml
-  - ./../../common/registry-ghcr-io/lily
+  - ./resources/volume.yaml

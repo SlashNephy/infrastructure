@@ -3,9 +3,9 @@ kind: Kustomization
 namespace: comskip-tvtplay
 
 resources:
+  - ./resources/cronjob.yaml
   - ./resources/namespace.yaml
   - ./resources/network-policy.yaml
-  - ./resources/cronjob.yaml
 
 configMapGenerator:
   - name: app-config

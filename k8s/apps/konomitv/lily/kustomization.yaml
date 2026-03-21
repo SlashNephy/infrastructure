@@ -3,11 +3,11 @@ kind: Kustomization
 namespace: konomitv
 
 resources:
-  - ./resources/namespace.yaml
   - ./resources/deployment.yaml
-  - ./resources/service.yaml
-  - ./resources/ingress.yaml
   - ./resources/dns.yaml
+  - ./resources/ingress.yaml
+  - ./resources/namespace.yaml
+  - ./resources/service.yaml
 
 configMapGenerator:
   - name: app-config

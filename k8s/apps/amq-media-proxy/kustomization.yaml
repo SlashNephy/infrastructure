@@ -3,9 +3,9 @@ kind: Kustomization
 namespace: amq-media-proxy
 
 resources:
-  - ./resources/namespace.yaml
   - ./resources/deployment.yaml
-  - ./resources/ingress.yaml
-  - ./resources/service.yaml
-  - ./resources/secret.yaml
   - ./resources/dns.yaml
+  - ./resources/ingress.yaml
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
+  - ./resources/service.yaml

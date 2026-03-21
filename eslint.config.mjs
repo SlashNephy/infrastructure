@@ -265,6 +265,15 @@ export default config(
           ],
         },
       ],
+      'yml/sort-sequence-values': [
+        'error',
+        {
+          pathPattern: '^resources$',
+          order: {
+            type: 'asc',
+          },
+        },
+      ],
       'yml/file-extension': [
         'error',
         {

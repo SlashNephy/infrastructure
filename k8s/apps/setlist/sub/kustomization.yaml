@@ -3,9 +3,9 @@ kind: Kustomization
 namespace: setlist-sub
 
 resources:
+  - ./../base
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
-  - ./../base
 
 configMapGenerator:
   - name: setlist-config

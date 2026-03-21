@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: cron-backup-node
 
 resources:
-  - ./resources/namespace.yaml
   - ./resources/cronjob.yaml
-  - ./resources/service-account.yaml
+  - ./resources/namespace.yaml
   - ./resources/role.yaml
+  - ./resources/service-account.yaml

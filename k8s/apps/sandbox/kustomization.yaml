@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: sandbox
 
 resources:
-  - ./resources/namespace.yaml
   - ./resources/deployment.yaml
+  - ./resources/namespace.yaml
   - ./resources/volume.yaml

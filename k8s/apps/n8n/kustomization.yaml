@@ -96,11 +96,11 @@ helmCharts:
         resourcesPreset: nano
 
 resources:
+  - ./resources/cronjob-cleanup-backup.yaml
+  - ./resources/dns.yaml
+  - ./resources/ingress.yaml
   - ./resources/secret.yaml
+  - ./resources/service-lm-studio.yaml
+  - ./resources/volume-backup.yaml
   - ./resources/volume-data.yaml
   - ./resources/volume-postgresql.yaml
-  - ./resources/volume-backup.yaml
-  - ./resources/cronjob-cleanup-backup.yaml
-  - ./resources/ingress.yaml
-  - ./resources/dns.yaml
-  - ./resources/service-lm-studio.yaml

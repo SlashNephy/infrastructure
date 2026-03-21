@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: watch-k8s-events
 
 resources:
+  - ./resources/cluster-role.yaml
   - ./resources/deployment.yaml
   - ./resources/secret.yaml
   - ./resources/service-account.yaml
-  - ./resources/cluster-role.yaml

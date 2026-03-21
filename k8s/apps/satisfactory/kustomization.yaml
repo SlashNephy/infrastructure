@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: satisfactory
 
 resources:
-  - ./resources/namespace.yaml
   - ./resources/deployment.yaml
+  - ./resources/namespace.yaml
   - ./resources/service.yaml

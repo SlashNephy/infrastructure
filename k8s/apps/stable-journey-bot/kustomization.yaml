@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: stable-journey-bot
 
 resources:
-  - ./resources/namespace.yaml
   - ./resources/deployment.yaml
+  - ./resources/namespace.yaml
   - ./resources/secret.yaml

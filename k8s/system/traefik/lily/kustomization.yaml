@@ -13,18 +13,18 @@ helmCharts:
     valuesFile: ./values.yaml
 
 resources:
-  - ./resources/namespace.yaml
-  - ./resources/tls/certificate.yaml
-  - ./resources/tls/issuer.yaml
-  - ./resources/tls/default-tls-store.yaml
-  - ./resources/tls/cloudflare-tls-option.yaml
-  - ./resources/tls/gateway-tls-option.yaml
-  - ./resources/tls/default-tls-option.yaml
+  - ./resources/custom-error-pages
   - ./resources/middlewares/ban-robots.yaml
   - ./resources/middlewares/security-headers.yaml
   - ./resources/middlewares/trust-cloudflare-ips.yaml
+  - ./resources/namespace.yaml
+  - ./resources/priority-class.yaml
   - ./resources/routes/dashboard.yaml
   - ./resources/routes/router.yaml
-  - ./resources/custom-error-pages
-  - ./resources/priority-class.yaml
+  - ./resources/tls/certificate.yaml
+  - ./resources/tls/cloudflare-tls-option.yaml
+  - ./resources/tls/default-tls-option.yaml
+  - ./resources/tls/default-tls-store.yaml
+  - ./resources/tls/gateway-tls-option.yaml
+  - ./resources/tls/issuer.yaml
   - ./resources/whoami

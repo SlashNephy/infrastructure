@@ -29,8 +29,8 @@ helmCharts:
           name: grafana-data
 
 resources:
-  - ./resources/namespace.yaml
-  - ./resources/secret.yaml
-  - ./resources/pv-data.yaml
-  - ./resources/ingress.yaml
   - ./resources/dns.yaml
+  - ./resources/ingress.yaml
+  - ./resources/namespace.yaml
+  - ./resources/pv-data.yaml
+  - ./resources/secret.yaml

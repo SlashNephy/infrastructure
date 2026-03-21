@@ -19,8 +19,8 @@ helmCharts:
           varlog: true
 
 resources:
-  - ./resources/ingress.yaml
   - ./resources/dns.yaml
+  - ./resources/ingress.yaml
 configMapGenerator:
   - name: config
     files:

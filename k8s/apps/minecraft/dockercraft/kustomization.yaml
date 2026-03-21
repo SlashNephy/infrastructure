@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: minecraft-dockercraft
 
 resources:
-  - ./resources/namespace.yaml
   - ./resources/deployment.yaml
+  - ./resources/namespace.yaml
   - ./resources/service.yaml

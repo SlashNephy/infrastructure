@@ -3,12 +3,12 @@ kind: Kustomization
 namespace: navidrome
 
 resources:
-  - ./resources/namespace.yaml
   - ./resources/deployment.yaml
-  - ./resources/service.yaml
-  - ./resources/ingress.yaml
-  - ./resources/secret.yaml
   - ./resources/dns.yaml
+  - ./resources/ingress.yaml
+  - ./resources/namespace.yaml
+  - ./resources/secret.yaml
+  - ./resources/service.yaml
 
 configMapGenerator:
   # https://www.navidrome.org/docs/usage/configuration-options/

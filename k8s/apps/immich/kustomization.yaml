@@ -59,12 +59,12 @@ helmCharts:
             memory: 1Gi
 resources:
   - ./resources/deployment.yaml
-  - ./resources/service.yaml
+  - ./resources/dns.yaml
   - ./resources/ingress.yaml
   - ./resources/secret.yaml
-  - ./resources/volume-redis.yaml
+  - ./resources/service.yaml
   - ./resources/volume-postgresql.yaml
-  - ./resources/dns.yaml
+  - ./resources/volume-redis.yaml
 
 configMapGenerator:
   # https://immich.app/docs/install/environment-variables

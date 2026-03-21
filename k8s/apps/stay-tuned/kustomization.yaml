@@ -26,12 +26,12 @@ helmCharts:
         resourcesPreset: nano
 
 resources:
-  - ./resources/secret.yaml
-  - ./resources/deployment.yaml
-  - ./resources/deployment-worker.yaml
-  - ./resources/deployment-infra.yaml
-  - ./resources/service.yaml
-  - ./resources/ingress.yaml
-  - ./resources/volume.yaml
-  - ./resources/dns.yaml
   - ./../../common/registry-ghcr-io/lily
+  - ./resources/deployment-infra.yaml
+  - ./resources/deployment-worker.yaml
+  - ./resources/deployment.yaml
+  - ./resources/dns.yaml
+  - ./resources/ingress.yaml
+  - ./resources/secret.yaml
+  - ./resources/service.yaml
+  - ./resources/volume.yaml

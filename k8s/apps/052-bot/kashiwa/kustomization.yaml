@@ -11,9 +11,9 @@ commonLabels:
   env: kashiwa052
 
 resources:
+  - ../base
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
-  - ../base
 
 configMapGenerator:
   - name: bot-config

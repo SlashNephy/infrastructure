@@ -23,9 +23,9 @@ helmCharts:
         existingClaim: anythingllm-data
 
 resources:
-  - ./resources/volume.yaml
-  - ./resources/ingress.yaml
   - ./resources/dns.yaml
+  - ./resources/ingress.yaml
+  - ./resources/volume.yaml
 
 patches:
   # /spec/template/spec/strategy は存在しないので削除する (out-of-sync 状態が継続してしまうため)

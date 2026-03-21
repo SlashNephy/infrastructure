@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: teamspeak
 
 resources:
+  - ./resources/deployment.yaml
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
-  - ./resources/deployment.yaml
   - ./resources/service.yaml

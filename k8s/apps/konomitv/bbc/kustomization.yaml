@@ -3,9 +3,9 @@ kind: Kustomization
 namespace: konomitv
 
 resources:
+  - ./../../../common/registry-ghcr-io/bbc
   - ./resources/deployment.yaml
   - ./resources/service.yaml
-  - ./../../../common/registry-ghcr-io/bbc
 
 configMapGenerator:
   - name: app-config

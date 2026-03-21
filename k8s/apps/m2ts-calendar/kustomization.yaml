@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: m2ts-calendar
 
 resources:
+  - ./resources/cronjob-records-local.yaml
+  - ./resources/cronjob-records.yaml
   - ./resources/namespace.yaml
   - ./resources/network-policy.yaml
-  - ./resources/cronjob-records.yaml
-  - ./resources/cronjob-records-local.yaml

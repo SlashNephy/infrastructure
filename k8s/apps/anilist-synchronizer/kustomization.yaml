@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: anilist-synchronizer
 
 resources:
+  - ./resources/cronjob.yaml
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
-  - ./resources/cronjob.yaml

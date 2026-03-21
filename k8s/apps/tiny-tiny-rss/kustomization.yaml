@@ -3,12 +3,12 @@ kind: Kustomization
 namespace: tiny-tiny-rss
 
 resources:
-  - ./resources/namespace.yaml
   - ./resources/deployment.yaml
+  - ./resources/dns.yaml
+  - ./resources/ingress.yaml
+  - ./resources/namespace.yaml
   - ./resources/secret.yaml
   - ./resources/service.yaml
-  - ./resources/ingress.yaml
-  - ./resources/dns.yaml
 
 configMapGenerator:
   - name: app-config

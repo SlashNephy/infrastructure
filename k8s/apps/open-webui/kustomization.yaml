@@ -39,7 +39,7 @@ helmCharts:
           scopes: openid email profile
 
 resources:
-  - ./resources/volume.yaml
-  - ./resources/ingress.yaml
   - ./resources/dns.yaml
+  - ./resources/ingress.yaml
   - ./resources/secret.yaml
+  - ./resources/volume.yaml

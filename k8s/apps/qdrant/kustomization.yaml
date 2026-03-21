@@ -20,7 +20,7 @@ helmCharts:
         storageVolumeName: qdrant-data
 
 resources:
+  - ./resources/dns.yaml
+  - ./resources/ingress.yaml
   - ./resources/secret.yaml
   - ./resources/volume.yaml
-  - ./resources/ingress.yaml
-  - ./resources/dns.yaml
