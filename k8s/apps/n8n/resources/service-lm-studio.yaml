@@ -4,9 +4,26 @@ metadata:
   name: lm-studio
 
 spec:
-  type: ExternalName
   ports:
     - port: 1234
       targetPort: 1234
       protocol: TCP
-  externalName: 192.168.1.5
+
+---
+# リソースは Argo CD Helm Chart の除外リストに入っているため、手動で適用する必要がある
+# kubectl apply -n n8n -f ./k8s/apps/n8n/resources/service-lm-studio.yaml
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: lm-studio
+  labels:
+    kubernetes.io/service-name: lm-studio
+
+addressType: IPv4
+endpoints:
+  - addresses:
+      - 192.168.1.5
+    conditions:
+      ready: true
+ports:
+  - port: 1234

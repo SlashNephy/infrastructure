@@ -9,8 +9,8 @@ spec:
       match: Host(`router.starry.blue`)
       priority: 10
       services:
-        - name: external-router
-          port: 80
+        - name: router
+          port: http
       middlewares:
         - name: forward-auth-authentik
           namespace: authentik
@@ -27,11 +27,34 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: external-router
+  name: router
 
 spec:
-  type: ExternalName
-  externalName: 192.168.1.1
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
+
+---
+# EndpointSlice リソースは Argo CD Helm Chart の除外リストに入っているため、手動で適用する必要がある
+# kubectl apply -n n8n -f ./k8s/system/traefik/lily/resources/routes/router.yaml
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: router
+  labels:
+    kubernetes.io/service-name: router
+
+addressType: IPv4
+endpoints:
+  - addresses:
+      - 192.168.1.1
+    conditions:
+      ready: true
+ports:
+  - name: http
+    port: 80
 
 ---
 apiVersion: externaldns.k8s.io/v1alpha1
