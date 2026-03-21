@@ -38,7 +38,7 @@ spec:
 
 ---
 # EndpointSlice リソースは Argo CD Helm Chart の除外リストに入っているため、手動で適用する必要がある
-# kubectl apply -n n8n -f ./k8s/system/traefik/lily/resources/routes/router.yaml
+# kubectl apply -n traefik -f ./k8s/system/traefik/lily/resources/routes/router.yaml
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
