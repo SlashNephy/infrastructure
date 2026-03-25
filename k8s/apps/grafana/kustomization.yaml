@@ -7,7 +7,7 @@ helmCharts:
     releaseName: grafana
     namespace: grafana
     version: 10.5.15
-    repo: https://grafana.github.io/helm-charts
+    repo: oci://ghcr.io/grafana-community/helm-charts
     includeCRDs: true
     valuesInline:
       admin:
