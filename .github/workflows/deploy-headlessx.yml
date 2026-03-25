@@ -19,7 +19,7 @@ jobs:
     with:
       repository: SaifyXPRO/HeadlessX
       # renovate: datasource=github-tags depName=SaifyXPRO/HeadlessX
-      ref: v2.1.1
+      ref: v2.1.2
       image-name: ghcr.io/slashnephy/headlessx-api
       dockerfile: infra/docker/api.Dockerfile
       image-platforms: linux/amd64
@@ -37,7 +37,7 @@ jobs:
     with:
       repository: SaifyXPRO/HeadlessX
       # renovate: datasource=github-tags depName=SaifyXPRO/HeadlessX
-      ref: v2.1.1
+      ref: v2.1.2
       image-name: ghcr.io/slashnephy/headlessx-web
       dockerfile: infra/docker/web.Dockerfile
       image-platforms: linux/amd64
