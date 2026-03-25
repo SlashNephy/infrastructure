@@ -7,7 +7,7 @@ helmCharts:
     releaseName: alloy
     namespace: grafana-alloy
     version: 1.6.2
-    repo: oci://ghcr.io/grafana-community/helm-charts
+    repo: https://grafana.github.io/helm-charts
     includeCRDs: true
     valuesInline:
       alloy:
