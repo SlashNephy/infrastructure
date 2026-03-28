@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/slashnephy/nebula-frontend:2026.3.28
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: https://nebula-api.starry.blue
+          ports:
+            - name: http
+              containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          securityContext:
+            allowPrivilegeEscalation: false
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-io-credentials

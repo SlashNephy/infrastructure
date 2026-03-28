@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment-river-ui
+  name: river-ui
 
 spec:
   replicas: 1
@@ -25,7 +25,8 @@ spec:
                   name: server-secrets
                   key: JOBQUEUE_DSN
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080
           securityContext:
             allowPrivilegeEscalation: false
       restartPolicy: Always

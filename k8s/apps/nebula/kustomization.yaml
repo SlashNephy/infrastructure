@@ -61,8 +61,9 @@ helmCharts:
 resources:
   - ./../../common/registry-ghcr-io/lily
   - ./resources/cronjob-cleanup-backup.yaml
+  - ./resources/deployment-backend.yaml
+  - ./resources/deployment-frontend.yaml
   - ./resources/deployment-river-ui.yaml
-  - ./resources/deployment.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
   - ./resources/namespace.yaml

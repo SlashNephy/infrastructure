@@ -6,16 +6,36 @@ metadata:
 spec:
   routes:
     - kind: Rule
+      match: Host(`nebula.starry.blue`)
+      priority: 10
+      services:
+        - name: frontend
+          port: http
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
+
+    - kind: Rule
+      match: Host(`nebula.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: http
+
+
+    - kind: Rule
       match: Host(`nebula-api.starry.blue`)
       services:
-        - name: server
-          port: 8080
+        - name: backend
+          port: http
 
     - kind: Rule
       match: Host(`nebula-river.starry.blue`)
+      priority: 10
       services:
         - name: river-ui
-          port: 8080
+          port: http
       middlewares:
         - name: forward-auth-authentik
           namespace: authentik

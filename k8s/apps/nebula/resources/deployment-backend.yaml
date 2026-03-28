@@ -1,29 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment
+  name: backend
 
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: default
+      app: backend
   template:
     metadata:
       labels:
-        app: default
+        app: backend
     spec:
       containers:
         - name: server
-          image: ghcr.io/slashnephy/nebula-server:master@sha256:2a5f6838b6d16848393aa41e6b689723dc29bdb9d64c64b9c020030b79ac91d9
+          image: ghcr.io/slashnephy/nebula-backend:2026.3.28
           env:
             - name: SERVER_ORIGIN
               value: https://nebula-api.starry.blue
           envFrom:
             - secretRef:
-                name: server-secrets
+                name: backend-secrets
           ports:
-            - containerPort: 8080
+            - name: http
+              containerPort: 8080
           volumeMounts:
             - name: media
               mountPath: /backend/media
@@ -34,11 +35,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /health
-              port: 8080
+              port: http
           securityContext:
             allowPrivilegeEscalation: false
         - name: worker
-          image: ghcr.io/slashnephy/nebula-server:master@sha256:2a5f6838b6d16848393aa41e6b689723dc29bdb9d64c64b9c020030b79ac91d9
+          image: ghcr.io/slashnephy/nebula-backend:2026.3.28
           command:
             - /backend/worker
           env:
@@ -46,7 +47,7 @@ spec:
               value: https://nebula-api.starry.blue
           envFrom:
             - secretRef:
-                name: server-secrets
+                name: backend-secrets
           volumeMounts:
             - name: media
               mountPath: /backend/media
