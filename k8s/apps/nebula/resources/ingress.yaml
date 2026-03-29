@@ -47,3 +47,8 @@ spec:
         - name: authentik-server
           namespace: authentik
           port: http
+
+  tls:
+    options:
+      name: gateway
+      namespace: traefik
