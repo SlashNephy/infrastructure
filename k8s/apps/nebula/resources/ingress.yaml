@@ -23,9 +23,9 @@ spec:
           namespace: authentik
           port: http
 
-
     - kind: Rule
-      match: Host(`nebula-api.starry.blue`)
+      match: Host(`nebula.starry.blue`) && PathPrefix(`/api`)
+      priority: 10
       services:
         - name: backend
           port: http

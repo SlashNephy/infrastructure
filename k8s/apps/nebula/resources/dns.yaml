@@ -8,15 +8,7 @@ spec:
     - dnsName: nebula.starry.blue
       providerSpecific:
         - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
-          value: "true"
-      recordTTL: 1 # Auto
-      recordType: CNAME
-      targets:
-        - gateway.starry.blue
-    - dnsName: nebula-api.starry.blue
-      providerSpecific:
-        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
-          value: "true"
+          value: "false"
       recordTTL: 1 # Auto
       recordType: CNAME
       targets:
@@ -24,7 +16,7 @@ spec:
     - dnsName: nebula-river.starry.blue
       providerSpecific:
         - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
-          value: "true"
+          value: "false"
       recordTTL: 1 # Auto
       recordType: CNAME
       targets:

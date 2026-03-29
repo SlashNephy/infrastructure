@@ -18,7 +18,7 @@ spec:
           image: ghcr.io/slashnephy/nebula-backend:2026.3.29@sha256:a260fc63d5b38cf72fc1e65a6932556439e27d87ba4ff60367c88f09aebd4941
           env:
             - name: SERVER_ORIGIN
-              value: https://nebula-api.starry.blue
+              value: https://nebula.starry.blue
           envFrom:
             - secretRef:
                 name: backend-secrets
@@ -44,7 +44,7 @@ spec:
             - /backend/worker
           env:
             - name: SERVER_ORIGIN
-              value: https://nebula-api.starry.blue
+              value: https://nebula.starry.blue
           envFrom:
             - secretRef:
                 name: backend-secrets
