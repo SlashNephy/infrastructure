@@ -25,7 +25,7 @@ spec:
 
     - kind: Rule
       match: Host(`nebula.starry.blue`) && PathPrefix(`/api`)
-      priority: 10
+      priority: 20
       services:
         - name: backend
           port: http
