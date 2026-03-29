@@ -71,7 +71,7 @@ func updateManifests(images []string, digest string) error {
 
 			hasChanged = true
 			manifest = newManifest
-			log.Printf("updated %s with %s", path, newImageSpec)
+			log.Printf("updated %s with %s@sha256:%s", path, image, digest)
 		}
 		if !hasChanged {
 			return nil
