@@ -42,7 +42,9 @@ func updateManifests(images []string, digest string) error {
 
 	patterns := map[string]*regexp.Regexp{}
 	for _, image := range images {
-		patterns[image] = regexp.MustCompile(fmt.Sprintf("%s(@sha256:[0-9a-f]{64})?(?![a-zA-Z0-9._-])", regexp.QuoteMeta(image)))
+		// 否定先読み (?!...) は Go の RE2 エンジンで使えないため、
+		// 後続の非タグ文字 (または文字列末尾) をキャプチャして置換時に戻す
+		patterns[image] = regexp.MustCompile(fmt.Sprintf(`%s(@sha256:[0-9a-f]{64})?([^a-zA-Z0-9._-]|$)`, regexp.QuoteMeta(image)))
 	}
 
 	return filepath.Walk(basePath, func(path string, info os.FileInfo, err error) error {
@@ -61,7 +63,7 @@ func updateManifests(images []string, digest string) error {
 
 		hasChanged := false
 		for image, pattern := range patterns {
-			newImageSpec := fmt.Sprintf("%s@sha256:%s", image, digest)
+			newImageSpec := fmt.Sprintf("%s@sha256:%s${2}", image, digest)
 			newManifest := pattern.ReplaceAll(manifest, []byte(newImageSpec))
 			if reflect.DeepEqual(manifest, newManifest) {
 				continue
@@ -69,7 +71,7 @@ func updateManifests(images []string, digest string) error {
 
 			hasChanged = true
 			manifest = newManifest
-			log.Printf("updated %s with %s", path, newImageSpec)
+			log.Printf("updated %s with %s@sha256:%s", path, image, digest)
 		}
 		if !hasChanged {
 			return nil
