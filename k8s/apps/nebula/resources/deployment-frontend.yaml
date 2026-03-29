@@ -17,7 +17,7 @@ spec:
         - name: frontend
           image: ghcr.io/slashnephy/nebula-frontend:2026.3.28@sha256:b08247111447284929ca0ce77ab68a94af312937c42551d1ab9d527b8e3168f9
           env:
-            - name: NEXT_PUBLIC_API_URL
+            - name: NEXT_PUBLIC_API_ORIGIN
               value: https://nebula.starry.blue
           ports:
             - name: http
