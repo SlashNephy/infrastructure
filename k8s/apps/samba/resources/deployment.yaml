@@ -40,18 +40,13 @@ spec:
               subPath: users.yaml
             - name: pool
               mountPath: /mnt/pool
-            - name: run
-              mountPath: /run/samba
-            - name: tmp
-              mountPath: /tmp
-            - name: var
-              mountPath: /var/lib/samba
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
                 - ALL
-            readOnlyRootFilesystem: true
+            # /etc/passwd を動的に編集する必要がある
+            readOnlyRootFilesystem: false
       volumes:
         - name: config
           configMap:
@@ -63,12 +58,6 @@ spec:
           hostPath:
             path: /mnt/pool
             type: Directory
-        - name: run
-          emptyDir: {}
-        - name: tmp
-          emptyDir: {}
-        - name: var
-          emptyDir: {}
       restartPolicy: Always
       securityContext:
         seccompProfile:

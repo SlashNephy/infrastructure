@@ -71,6 +71,7 @@ spec:
             capabilities:
               drop:
                 - ALL
+            # apt get でパッケージをインストールするために必要
             readOnlyRootFilesystem: false
         - name: web
           image: ghcr.io/slashnephy/headlessx-web:2.1.2@sha256:740c8317e6f92b5076afed0cc178a0f88a7e28f4120bd141d2e3fe8119e640a7
