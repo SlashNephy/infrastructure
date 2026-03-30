@@ -74,7 +74,7 @@ spec:
             # apt get でパッケージをインストールするために必要
             readOnlyRootFilesystem: false
         - name: web
-          image: ghcr.io/slashnephy/headlessx-web:2.1.2@sha256:740c8317e6f92b5076afed0cc178a0f88a7e28f4120bd141d2e3fe8119e640a7
+          image: ghcr.io/slashnephy/headlessx-web:2.1.2@sha256:4cde23cc273a0ded8d81596c44afc0f3f2cd5cbe637852c6e51d5c332e7917cf
           env:
             - name: NEXT_PUBLIC_API_URL
               value: http://localhost:8000
