@@ -40,6 +40,8 @@ spec:
               subPath: users.yaml
             - name: pool
               mountPath: /mnt/pool
+            - name: run
+              mountPath: /run/samba
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -57,6 +59,8 @@ spec:
           hostPath:
             path: /mnt/pool
             type: Directory
+        - name: run
+          emptyDir: {}
       restartPolicy: Always
       securityContext:
         seccompProfile:
