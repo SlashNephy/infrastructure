@@ -47,6 +47,10 @@ spec:
                   mountPath: /mnt/pool/records_links
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
           volumes:
             - name: records
               hostPath:
@@ -55,4 +59,7 @@ spec:
               hostPath:
                 path: /mnt/pool/records_links
           restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
   concurrencyPolicy: Forbid

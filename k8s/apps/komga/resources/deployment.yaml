@@ -28,6 +28,10 @@ spec:
               mountPath: /data
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
             runAsGroup: 1000
             runAsUser: 1000
       volumes:
@@ -40,3 +44,6 @@ spec:
             path: /mnt/pool/books
             type: Directory
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

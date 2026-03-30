@@ -30,6 +30,10 @@ spec:
               readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: mnt
           hostPath:
@@ -40,3 +44,6 @@ spec:
             path: /mnt/local/rclone-config
             type: Directory
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

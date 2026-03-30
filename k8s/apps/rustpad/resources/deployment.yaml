@@ -20,4 +20,11 @@ spec:
             - containerPort: 3030
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

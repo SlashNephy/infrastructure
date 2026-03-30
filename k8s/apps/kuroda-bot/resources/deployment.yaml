@@ -21,4 +21,11 @@ spec:
                 name: app-secret
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

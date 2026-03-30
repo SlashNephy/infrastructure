@@ -34,9 +34,16 @@ spec:
               mountPath: /app
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: data
           hostPath:
             path: /mnt/local/minecraft/forge_1.12.2
             type: Directory
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

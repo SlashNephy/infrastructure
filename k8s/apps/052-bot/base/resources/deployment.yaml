@@ -32,6 +32,10 @@ spec:
             timeoutSeconds: 5
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
         - name: bot
           image: ghcr.io/slashnephy/samekan052_bot:main@sha256:53bcada21ea14cb625d8935cfc28668ad229133f0a1d65cf8194db0e0eb0b476
           env:
@@ -47,6 +51,13 @@ spec:
                 name: bot-config
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

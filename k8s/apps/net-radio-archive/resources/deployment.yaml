@@ -35,6 +35,10 @@ spec:
               mountPath: /var/lib/mysql
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
         - name: app
           image: ghcr.io/slashnephy/net-radio-archive:master@sha256:5531fc03c0e028e02a2d1553c929ec31533e2c3cb73294a018403b45a39a1773
           env:
@@ -51,6 +55,10 @@ spec:
               mountPath: /mnt/pool/radio
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: db
           hostPath:
@@ -69,3 +77,6 @@ spec:
             path: /mnt/pool/radio
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

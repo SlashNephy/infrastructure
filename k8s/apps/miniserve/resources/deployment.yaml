@@ -35,6 +35,10 @@ spec:
               readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: files
           hostPath:
@@ -49,3 +53,6 @@ spec:
             path: /mnt/local/konomitv/data/capture
             type: Directory
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

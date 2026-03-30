@@ -30,8 +30,15 @@ spec:
               readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: sounds
           hostPath:
             path: /mnt/local/soundbot/sounds
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

@@ -27,10 +27,17 @@ spec:
                   mountPath: /app/token
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
           volumes:
             - name: token
               hostPath:
                 path: /mnt/local/annict2anilist/token
                 type: DirectoryOrCreate
           restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
   concurrencyPolicy: Forbid
