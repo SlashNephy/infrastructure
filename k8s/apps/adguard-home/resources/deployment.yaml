@@ -45,9 +45,6 @@ spec:
               mountPath: /certs
           securityContext:
             allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
             readOnlyRootFilesystem: true
       volumes:
         - name: work
