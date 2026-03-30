@@ -123,6 +123,9 @@ spec:
             - name: http
               containerPort: 8754
               protocol: TCP
+          volumeMounts:
+            - name: run
+              mountPath: /run
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
