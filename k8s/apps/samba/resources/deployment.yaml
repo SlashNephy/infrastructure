@@ -44,6 +44,8 @@ spec:
               mountPath: /run/samba
             - name: tmp
               mountPath: /tmp
+            - name: var
+              mountPath: /var/lib/samba
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -64,6 +66,8 @@ spec:
         - name: run
           emptyDir: {}
         - name: tmp
+          emptyDir: {}
+        - name: var
           emptyDir: {}
       restartPolicy: Always
       securityContext:
