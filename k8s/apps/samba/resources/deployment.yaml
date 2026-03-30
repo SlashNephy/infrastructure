@@ -42,6 +42,8 @@ spec:
               mountPath: /mnt/pool
             - name: run
               mountPath: /run/samba
+            - name: tmp
+              mountPath: /tmp
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -60,6 +62,8 @@ spec:
             path: /mnt/pool
             type: Directory
         - name: run
+          emptyDir: {}
+        - name: tmp
           emptyDir: {}
       restartPolicy: Always
       securityContext:
