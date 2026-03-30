@@ -140,3 +140,6 @@ spec:
             path: /dev/pxmlt8video7
             type: CharDevice
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

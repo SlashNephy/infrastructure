@@ -31,6 +31,10 @@ spec:
               readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
         - name: backups
           image: cthulhoo/ttrss-fpm-pgsql-static:latest@sha256:ef867182f55c1218ce2889df7da31a801b0f7ff170974d1536c95c1d89d3e86c
           args:
@@ -48,6 +52,10 @@ spec:
               mountPath: /backups
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
         - name: db
           image: public.ecr.aws/docker/library/postgres:17.5-bullseye@sha256:724a6dfcc90fb6b2eb7caa062c7c852fe60fc30727896a044f4d478f423f183f
           env:
@@ -73,6 +81,10 @@ spec:
               mountPath: /var/lib/postgresql/data
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
         - name: updater
           image: cthulhoo/ttrss-fpm-pgsql-static:latest@sha256:ef867182f55c1218ce2889df7da31a801b0f7ff170974d1536c95c1d89d3e86c
           args:
@@ -90,6 +102,10 @@ spec:
               readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
         - name: web-nginx
           image: cthulhoo/ttrss-web-nginx:latest@sha256:c064fc0e5865f81d2c4e244768488eabaa1340a9f2b6119aaf239df300095bf0
           volumeMounts:
@@ -98,6 +114,10 @@ spec:
               readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: app
           hostPath:
@@ -116,3 +136,6 @@ spec:
             path: /mnt/local/tiny-tiny-rss/db
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

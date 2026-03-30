@@ -25,11 +25,18 @@ spec:
                   mountPath: /backup
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
           volumes:
             - name: backup
               hostPath:
                 path: /mnt/local/backup-node
                 type: DirectoryOrCreate
           restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
           serviceAccountName: service-account
   concurrencyPolicy: Forbid

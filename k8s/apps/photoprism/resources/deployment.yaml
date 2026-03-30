@@ -107,6 +107,10 @@ spec:
               gpu.intel.com/i915: "1"
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
             runAsGroup: 1000
             runAsNonRoot: true
             runAsUser: 1000
@@ -120,4 +124,7 @@ spec:
             path: /mnt/local/photoprism/storage
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       terminationGracePeriodSeconds: 10

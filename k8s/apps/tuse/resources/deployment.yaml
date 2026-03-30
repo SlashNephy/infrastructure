@@ -29,8 +29,15 @@ spec:
               readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: config
           secret:
             secretName: config
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

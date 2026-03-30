@@ -58,6 +58,9 @@ spec:
             capabilities:
               add:
                 - SYS_NICE
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: data
           hostPath:
@@ -68,4 +71,7 @@ spec:
             path: /mnt/local/valheim/game
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       terminationGracePeriodSeconds: 120

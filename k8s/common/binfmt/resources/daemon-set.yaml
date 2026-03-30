@@ -20,3 +20,6 @@ spec:
             - all
           securityContext:
             privileged: true
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

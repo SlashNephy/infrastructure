@@ -53,6 +53,10 @@ spec:
               mountPath: /home/sdtdserver/lgsm/config-lgsm/sdtdserver
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: server
           hostPath:
@@ -74,3 +78,6 @@ spec:
           configMap:
             name: app-config
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

@@ -54,6 +54,10 @@ spec:
             periodSeconds: 10
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
         - name: kube-rbac-proxy
           image: gcr.io/kubebuilder/kube-rbac-proxy:v0.16.0@sha256:771a9a173e033a3ad8b46f5c00a7036eaa88c8d8d1fbd89217325168998113ea
           args:
@@ -65,6 +69,11 @@ spec:
             - name: https
               containerPort: 8443
               protocol: TCP
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: cert
           secret:
@@ -72,5 +81,7 @@ spec:
             secretName: webhook-server-cert
       securityContext:
         runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       serviceAccountName: mackerel-sidecar-injector-controller-manager
       terminationGracePeriodSeconds: 10

@@ -29,6 +29,10 @@ spec:
               mountPath: /app/.cache
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       #        - name: batch
       #          image: ghcr.io/slashnephy/amq-media-proxy:master@sha256:7ed52d914a8b0dd4fde10c359bd00fb6ec815857c6e3530d7c4585bc61eff8be
       #          args:
@@ -53,4 +57,7 @@ spec:
             path: /mnt/local/amq-media-proxy/questions.json
             type: File
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       terminationGracePeriodSeconds: 180
