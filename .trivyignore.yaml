@@ -17,7 +17,10 @@ misconfigurations:
       - k8s/apps/mirakurun/bbc/resources/deployment.yaml
       - k8s/apps/mirakurun/lily/resources/deployment.yaml
 
-  # ホストネットワークを許可
+  # hostPath を許可
+  - id: KSV-0023
+
+  # hostNetwork を許可
   - id: KSV-0009
     paths:
       - k8s/apps/cloudflare-ddns/resources/deployment.yaml
