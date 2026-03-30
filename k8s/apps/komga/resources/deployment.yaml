@@ -26,6 +26,8 @@ spec:
               mountPath: /config
             - name: data
               mountPath: /data
+            - name: tmp
+              mountPath: /tmp
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -43,6 +45,8 @@ spec:
           hostPath:
             path: /mnt/pool/books
             type: Directory
+        - name: tmp
+          emptyDir: {}
       restartPolicy: Always
       securityContext:
         seccompProfile:
