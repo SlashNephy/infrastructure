@@ -24,9 +24,16 @@ spec:
               mountPath: /app/config.json
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: config
           hostPath:
             path: /mnt/local/endfield-auto/config.json
             type: File
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

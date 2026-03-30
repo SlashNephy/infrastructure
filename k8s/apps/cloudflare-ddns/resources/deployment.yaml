@@ -28,6 +28,10 @@ spec:
               subPath: config.json
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: config
           secret:
@@ -35,3 +39,6 @@ spec:
       restartPolicy: Always
       dnsPolicy: ClusterFirstWithHostNet
       hostNetwork: true
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

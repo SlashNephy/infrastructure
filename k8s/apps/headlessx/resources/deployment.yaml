@@ -68,6 +68,10 @@ spec:
               mountPath: /app/apps/api/data
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
         - name: web
           image: ghcr.io/slashnephy/headlessx-web:2.1.2@sha256:740c8317e6f92b5076afed0cc178a0f88a7e28f4120bd141d2e3fe8119e640a7
           env:
@@ -87,6 +91,10 @@ spec:
               containerPort: 3000
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: models
           hostPath:
@@ -99,3 +107,6 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

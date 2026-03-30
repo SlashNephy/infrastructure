@@ -42,6 +42,10 @@ spec:
               mountPath: /mnt/pool
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: config
           configMap:
@@ -54,3 +58,6 @@ spec:
             path: /mnt/pool
             type: Directory
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

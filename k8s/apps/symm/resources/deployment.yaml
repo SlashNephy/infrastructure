@@ -31,8 +31,15 @@ spec:
               subPath: service-account.json
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: service-account
           secret:
             secretName: service-account
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

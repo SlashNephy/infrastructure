@@ -28,8 +28,15 @@ spec:
               mountPropagation: HostToContainer
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: data
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

@@ -48,6 +48,10 @@ spec:
               mountPath: /srv/dtv/konomitv-capture
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
             runAsGroup: 1000
             runAsUser: 1000
       volumes:
@@ -88,3 +92,6 @@ spec:
             path: /mnt/local/konomitv/data/capture
             type: Directory
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

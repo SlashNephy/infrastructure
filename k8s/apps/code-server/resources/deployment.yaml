@@ -36,6 +36,10 @@ spec:
               mountPath: /home/coder/.local/share/code-server
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: pool
           hostPath:
@@ -54,3 +58,6 @@ spec:
             path: /mnt/local/code-server/data
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
