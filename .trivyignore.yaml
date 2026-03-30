@@ -48,3 +48,7 @@ misconfigurations:
   - id: KSV-0015
   - id: KSV-0016
   - id: KSV-0018
+
+  # イメージのレジストリを制限しない
+  # TODO: Kyverno で対応予定 (https://github.com/SlashNephy/infrastructure/issues/7910)
+  - id: KSV-0125
