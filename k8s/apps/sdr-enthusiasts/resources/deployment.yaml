@@ -97,7 +97,7 @@ spec:
             - name: sys-class-thermal-thermal-zone2
               mountPath: /sys/class/thermal/thermal_zone0
               readOnly: true
-            - name: run
+            - name: run-ultrafeeder
               mountPath: /run
             - name: tmp
               mountPath: /tmp
@@ -124,7 +124,7 @@ spec:
               containerPort: 8754
               protocol: TCP
           volumeMounts:
-            - name: run
+            - name: run-fr24feed
               mountPath: /run
           securityContext:
             allowPrivilegeEscalation: false
@@ -153,18 +153,14 @@ spec:
           hostPath:
             path: /sys/class/thermal/thermal_zone2
             type: Directory
-        - name: run
-          emptyDir:
-            medium: Memory
-            sizeLimit: 256Mi
+        - name: run-ultrafeeder
+          emptyDir: {}
+        - name: run-fr24feed
+          emptyDir: {}
         - name: tmp
-          emptyDir:
-            medium: Memory
-            sizeLimit: 128Mi
+          emptyDir: {}
         - name: var-log
-          emptyDir:
-            medium: Memory
-            sizeLimit: 32Mi
+          emptyDir: {}
       restartPolicy: Always
       dnsConfig:
         searches: []
