@@ -30,15 +30,6 @@ spec:
       containers:
         - name: api
           image: ghcr.io/slashnephy/headlessx-api:2.1.2@sha256:2ae4c1007cd6a79e3b094fa7a2620402bccaee56ec266045848b436ebf7bc4e3
-          # 依存関係が不足している問題に対する一時的なワークアラウンド
-          # https://github.com/saifyxpro/HeadlessX/issues/39#issuecomment-4058155138
-          command:
-            - bash
-            - -euxc
-            - |
-              apt-get update
-              apt-get install -y --no-install-recommends libgtk-3-0 libx11-xcb1
-              exec pnpm start
           env:
             - name: PORT
               value: "8000"
@@ -71,8 +62,7 @@ spec:
             capabilities:
               drop:
                 - ALL
-            # apt get でパッケージをインストールするために必要
-            readOnlyRootFilesystem: false
+            readOnlyRootFilesystem: true
         - name: web
           image: ghcr.io/slashnephy/headlessx-web:2.1.2@sha256:4cde23cc273a0ded8d81596c44afc0f3f2cd5cbe637852c6e51d5c332e7917cf
           env:
