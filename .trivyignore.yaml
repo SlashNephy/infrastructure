@@ -1,0 +1,47 @@
+misconfigurations:
+  # privileged を許可
+  - id: KSV-0017
+    paths:
+      - k8s/common/binfmt/resources/daemon-set.yaml
+      - k8s/apps/mahiron/bbc/resources/deployment.yaml
+      - k8s/apps/mahiron/lily/resources/deployment.yaml
+      - k8s/apps/mirakurun/bbc/resources/deployment.yaml
+      - k8s/apps/mirakurun/lily/resources/deployment.yaml
+      - k8s/apps/sdr-enthusiasts/resources/deployment.yaml
+
+  # SYS_ADMIN を許可 (チューナーデバイスへのアクセスに必要)
+  - id: KSV-0005
+    paths:
+      - k8s/apps/mahiron/bbc/resources/deployment.yaml
+      - k8s/apps/mahiron/lily/resources/deployment.yaml
+      - k8s/apps/mirakurun/bbc/resources/deployment.yaml
+      - k8s/apps/mirakurun/lily/resources/deployment.yaml
+
+  # ホストネットワークを許可
+  - id: KSV-0009
+    paths:
+      - k8s/apps/cloudflare-ddns/resources/deployment.yaml
+      - k8s/apps/wolweb/resources/deployment.yaml
+      - k8s/apps/orb/resources/deployment.yaml
+      - k8s/apps/mahiron/lily/resources/deployment.yaml
+
+  # NET_RAW を許可 (ネットワーク監視に必要)
+  - id: KSV-0119
+    paths:
+      - k8s/apps/orb/resources/deployment.yaml
+    statement: "ネットワーク監視 (ping 等) に NET_RAW が必要"
+
+  # docker.sock のマウントを許可
+  - id: KSV-0006
+    paths:
+      - k8s/apps/minecraft/dockercraft/resources/deployment.yaml
+
+  # UID/GID を制限しない
+  - id: KSV-0020
+  - id: KSV-0021
+
+  # requests/limits を設定しない
+  - id: KSV-0011
+  - id: KSV-0015
+  - id: KSV-0016
+  - id: KSV-0018
