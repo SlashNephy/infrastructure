@@ -26,9 +26,9 @@ spec:
               drop:
                 - ALL
             readOnlyRootFilesystem: true
+      volumes:
+        - name: cache
+          emptyDir: {}
       securityContext:
         seccompProfile:
           type: RuntimeDefault
-      volimes:
-        - name: cache
-          emptyDir: {}
