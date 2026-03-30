@@ -38,6 +38,10 @@ spec:
               mountPath: /backup
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
             runAsGroup: 1000
             runAsUser: 1000
       volumes:
@@ -54,3 +58,6 @@ spec:
             path: /mnt/local/navidrome/backup
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

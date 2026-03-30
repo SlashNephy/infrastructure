@@ -34,6 +34,10 @@ spec:
               gpu.intel.com/i915: "1"
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: config
           configMap:
@@ -51,3 +55,6 @@ spec:
             path: /mnt/pool/records_local
             type: Directory
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

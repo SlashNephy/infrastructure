@@ -125,6 +125,10 @@ spec:
               protocol: TCP
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: ultrafeeder-globe-history
           hostPath:
@@ -161,3 +165,6 @@ spec:
       restartPolicy: Always
       dnsConfig:
         searches: []
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

@@ -24,6 +24,9 @@ spec:
             capabilities:
               add:
                 - NET_RAW
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: data
           hostPath:
@@ -31,3 +34,6 @@ spec:
             type: DirectoryOrCreate
       restartPolicy: Always
       hostNetwork: true
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
