@@ -31,6 +31,9 @@ spec:
                   drop:
                     - ALL
                 readOnlyRootFilesystem: true
+                runAsGroup: 1001
+                runAsNonRoot: true
+                runAsUser: 1001
           volumes:
             - name: backup
               hostPath:
