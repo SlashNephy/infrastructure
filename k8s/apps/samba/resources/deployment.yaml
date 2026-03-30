@@ -42,9 +42,6 @@ spec:
               mountPath: /mnt/pool
           securityContext:
             allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
             # /etc/passwd を動的に編集する必要がある
             readOnlyRootFilesystem: false
       volumes:
