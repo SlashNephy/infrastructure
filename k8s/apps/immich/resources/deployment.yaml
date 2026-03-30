@@ -52,6 +52,8 @@ spec:
               mountPath: /cache
             - name: dev-bus-usb
               mountPath: /dev/bus/usb
+            - name: tmp
+              mountPath: /tmp
           resources:
             limits:
               gpu.intel.com/i915: "1"
@@ -78,6 +80,8 @@ spec:
           hostPath:
             path: /mnt/pool/nebula_media
             type: Directory
+        - name: tmp
+          emptyDir: {}
       restartPolicy: Always
       securityContext:
         seccompProfile:
