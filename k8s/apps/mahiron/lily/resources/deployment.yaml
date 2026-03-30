@@ -152,3 +152,6 @@ spec:
       hostNetwork: true
       imagePullSecrets:
         - name: ghcr-io-credentials
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
