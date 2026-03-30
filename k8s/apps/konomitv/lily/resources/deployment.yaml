@@ -29,6 +29,8 @@ spec:
             - name: records-local
               mountPath: /mnt/records_local
               readOnly: true
+            - name: logs
+              mountPath: /code/server/logs
           resources:
             limits:
               gpu.intel.com/i915: "1"
@@ -54,6 +56,8 @@ spec:
           hostPath:
             path: /mnt/pool/records_local
             type: Directory
+        - name: logs
+          emptyDir: {}
       restartPolicy: Always
       securityContext:
         seccompProfile:
