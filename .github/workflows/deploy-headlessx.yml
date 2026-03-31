@@ -10,7 +10,7 @@ permissions: {}
 
 jobs:
   build-api:
-    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@3ee81e73ef206050b49635e17607c4bfe395c2b5 # v0.0.4
+    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@f63926caa7aad32744d96b2129d04ea0d549e9fb # v0.0.5
     permissions:
       contents: read
       packages: write
@@ -28,7 +28,7 @@ jobs:
       dispatch-github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
 
   build-web:
-    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@3ee81e73ef206050b49635e17607c4bfe395c2b5 # v0.0.4
+    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@f63926caa7aad32744d96b2129d04ea0d549e9fb # v0.0.5
     permissions:
       contents: read
       packages: write
