@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/slashnephy/nebula-backend:main@sha256:88c75eda50c0f02e532bff5070f97792db66fff2888d4d78a19582932948f2d2
+          image: ghcr.io/slashnephy/nebula-backend:main@sha256:7053802957f94dc94f6df3f1b3b1c9cb2b5f7b1486718f80d865f28720b3469b
           env:
             - name: SERVER_ORIGIN
               value: https://nebula.starry.blue
@@ -43,7 +43,7 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
         - name: worker
-          image: ghcr.io/slashnephy/nebula-backend:main@sha256:88c75eda50c0f02e532bff5070f97792db66fff2888d4d78a19582932948f2d2
+          image: ghcr.io/slashnephy/nebula-backend:main@sha256:7053802957f94dc94f6df3f1b3b1c9cb2b5f7b1486718f80d865f28720b3469b
           command:
             - /backend/worker
           env:
