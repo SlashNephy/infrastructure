@@ -33,6 +33,8 @@ spec:
               mountPath: /dev/bus/usb
             - name: tmp
               mountPath: /tmp
+            - name: cache
+              mountPath: /root/.cache
           resources:
             limits:
               gpu.intel.com/i915: "1"
@@ -56,6 +58,8 @@ spec:
             path: /dev/bus/usb
             type: Directory
         - name: tmp
+          emptyDir: {}
+        - name: cache
           emptyDir: {}
       restartPolicy: Always
       imagePullSecrets:
