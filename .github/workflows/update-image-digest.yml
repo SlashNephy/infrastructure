@@ -34,12 +34,11 @@ jobs:
           author: StarryBlueSky-bot <97773209+StarryBlueSky-bot@users.noreply.github.com>
           branch: ci/update-image-digest
           branch-suffix: random
-          delete-branch: true
           title: update ${{ github.event.client_payload.images[0] }} 🔜 ${{ github.event.client_payload.digest }}
           body: https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
-          labels: automerge
 
       - run: gh pr merge --squash $PR_NUMBER
+        if: steps.create-pull-request.outputs.pull-request-number
         env:
           GH_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
           PR_NUMBER: ${{ steps.create-pull-request.outputs.pull-request-number }}
