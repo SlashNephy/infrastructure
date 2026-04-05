@@ -31,6 +31,8 @@ spec:
               mountPath: /cache
             - name: dev-bus-usb
               mountPath: /dev/bus/usb
+            - name: tmp
+              mountPath: /tmp
           resources:
             limits:
               gpu.intel.com/i915: "1"
@@ -43,6 +45,7 @@ spec:
             capabilities:
               drop:
                 - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: model-cache
           hostPath:
@@ -52,6 +55,8 @@ spec:
           hostPath:
             path: /dev/bus/usb
             type: Directory
+        - name: tmp
+          emptyDir: {}
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
