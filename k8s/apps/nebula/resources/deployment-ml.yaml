@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ml
+  template:
+    metadata:
+      labels:
+        app: ml
+    spec:
+      containers:
+        - name: ml
+          image: ghcr.io/slashnephy/nebula-ml:main
+          env:
+            - name: DEVICE
+              value: openvino
+            - name: MODEL_CACHE_DIR
+              value: /cache
+            - name: MAX_MEMORY_MB
+              value: "2048"
+          ports:
+            - name: http
+              containerPort: 8083
+          volumeMounts:
+            - name: model-cache
+              mountPath: /cache
+            - name: dev-bus-usb
+              mountPath: /dev/bus/usb
+          resources:
+            limits:
+              gpu.intel.com/i915: "1"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+      volumes:
+        - name: model-cache
+          hostPath:
+            path: /mnt/local/nebula/ml-model-cache
+            type: DirectoryOrCreate
+        - name: dev-bus-usb
+          hostPath:
+            path: /dev/bus/usb
+            type: Directory
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-io-credentials
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

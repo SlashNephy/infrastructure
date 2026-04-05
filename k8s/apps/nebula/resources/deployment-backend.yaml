@@ -16,10 +16,9 @@ spec:
       containers:
         - name: server
           image: ghcr.io/slashnephy/nebula-backend:main@sha256:003622948b1f4f296de58ec3193ecfe8bdb15932d96faa4707e5e25407f3f6cc
-          env:
-            - name: SERVER_ORIGIN
-              value: https://nebula.starry.blue
           envFrom:
+            - configMapRef:
+                name: backend-config
             - secretRef:
                 name: backend-secrets
           ports:
@@ -46,10 +45,9 @@ spec:
           image: ghcr.io/slashnephy/nebula-backend:main@sha256:003622948b1f4f296de58ec3193ecfe8bdb15932d96faa4707e5e25407f3f6cc
           command:
             - /backend/worker
-          env:
-            - name: SERVER_ORIGIN
-              value: https://nebula.starry.blue
           envFrom:
+            - configMapRef:
+                name: backend-config
             - secretRef:
                 name: backend-secrets
           volumeMounts:

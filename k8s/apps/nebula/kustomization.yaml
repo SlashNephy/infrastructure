@@ -79,3 +79,9 @@ resources:
   - ./resources/volume-backup.yaml
   - ./resources/volume-redis.yaml
   - ./resources/volume.yaml
+
+configMapGenerator:
+  - name: backend-config
+    literals:
+      - SERVER_ORIGIN=https://nebula.starry.blue
+      - ML_BASE_URL=http://ml:8083
