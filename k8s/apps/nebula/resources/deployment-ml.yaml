@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: ml
-          image: ghcr.io/slashnephy/nebula-ml:main@sha256:0ff94ba1f6e703b4d00a9596046a7ded5f872efb659826e5c08c47e570177cf0
+          image: ghcr.io/slashnephy/nebula-ml:main@sha256:9cd06bb8d2bc74f0eeb94ff5bc5a5df7e4456bc7a06f05c31869b212910507e4
           env:
             - name: DEVICE
               value: openvino
