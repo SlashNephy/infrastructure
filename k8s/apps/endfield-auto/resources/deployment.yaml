@@ -22,11 +22,22 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /app/config.json
+            - name: skport
+              mountPath: /app/.skport
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: config
           hostPath:
             path: /mnt/local/endfield-auto/config.json
             type: File
+        - name: skport
+          emptyDir: {}
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

@@ -23,10 +23,17 @@ spec:
                   mountPath: /target
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
           volumes:
             - name: target
               hostPath:
                 path: /mnt/pool/records
                 type: Directory
           restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
   concurrencyPolicy: Forbid

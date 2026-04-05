@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: ghcr.io/slashnephy/post-switchbot-metrics:master@sha256:2fe5b5df18282e4b33dc61012b13341ae19b4e5e2202617353910689051465fe
+              image: ghcr.io/slashnephy/post-switchbot-metrics:master@sha256:b9856e2e01e9348ffcb15cfabf236e58f305f46208082add266b533dfca76902
               env:
                 - name: MACKEREL_SERVICE_NAME
                   value: SwitchBot
@@ -22,5 +22,12 @@ spec:
                     name: app-secret
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
           restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
   concurrencyPolicy: Forbid

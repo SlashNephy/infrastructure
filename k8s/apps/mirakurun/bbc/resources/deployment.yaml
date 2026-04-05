@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/starrybluesky/mirakurun-custom:master@sha256:03ae5804c87c434e6c07d10ec3086376277d2895534530d1027dfac9348798f1
+          image: ghcr.io/starrybluesky/mirakurun-custom:master@sha256:1703e98d7340aeace21d57be75927f7e3dca9085303b68b562c0fc1bbc88fd35
           env:
             - name: TZ
               value: Asia/Tokyo
@@ -72,3 +72,6 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

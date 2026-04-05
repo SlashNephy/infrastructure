@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: ghcr.io/slashnephy/auto-claimer:latest@sha256:e49466c627d937e292ec4fa96af31eb3cb57f93d4f6ab32cb0f53d16423186aa
+              image: ghcr.io/slashnephy/auto-claimer:latest@sha256:f6ef8fceefd1c1955ef488472977068588fa72fe78315343e223069e11c4bfd5
               env:
                 - name: DATABASE_DSN
                   value: /data/auto-claimer.db
@@ -25,10 +25,17 @@ spec:
                   mountPath: /data
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
           volumes:
             - name: data
               hostPath:
                 path: /mnt/local/auto-claimer
                 type: Directory
           restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
   concurrencyPolicy: Forbid

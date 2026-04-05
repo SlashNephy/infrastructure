@@ -45,6 +45,7 @@ spec:
               mountPath: /certs
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
       volumes:
         - name: work
           hostPath:
@@ -58,3 +59,6 @@ spec:
           secret:
             secretName: dns-starry-blue-certificate-secret
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

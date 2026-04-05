@@ -28,24 +28,24 @@ spec:
           volumeMounts:
             - name: pool
               mountPath: /mnt/pool
-            - name: juicefs
-              mountPath: /mnt/juicefs
-            - name: k8s-volumes
-              mountPath: /mnt/k8s-volumes
+            - name: local
+              mountPath: /mnt/local
             - name: data
               mountPath: /home/coder/.local/share/code-server
+            - name: config
+              mountPath: /home/coder/.config
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: pool
           hostPath:
             path: /mnt/pool
             type: Directory
-        - name: juicefs
-          hostPath:
-            path: /var/lib/juicefs/volume
-            type: Directory
-        - name: k8s-volumes
+        - name: local
           hostPath:
             path: /mnt/local
             type: Directory
@@ -53,4 +53,9 @@ spec:
           hostPath:
             path: /mnt/local/code-server/data
             type: DirectoryOrCreate
+        - name: config
+          emptyDir: {}
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

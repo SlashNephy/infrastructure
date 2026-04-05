@@ -28,6 +28,10 @@ spec:
               memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: config
           secret:
@@ -37,3 +41,6 @@ spec:
             path: /mnt/local/feedchime/cache
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

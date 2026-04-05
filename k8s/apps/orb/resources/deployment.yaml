@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: orbforge/orb:latest@sha256:81413e01a7ea693c1d16a1b0891fba1f8278526397cd9b39b1e82f13b8c14413
+          image: orbforge/orb:latest@sha256:fe4fd5a80f9dc1a932aecb09ffc34bc8a77d1f9d87e98ad5123ca4709b610c87
           volumeMounts:
             - name: data
               mountPath: /root/.config/orb
@@ -24,6 +24,9 @@ spec:
             capabilities:
               add:
                 - NET_RAW
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: data
           hostPath:
@@ -31,3 +34,6 @@ spec:
             type: DirectoryOrCreate
       restartPolicy: Always
       hostNetwork: true
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

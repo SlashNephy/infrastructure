@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: ghcr.io/slashnephy/annict2anilist:master@sha256:8b4b1fd8a380e22feb5f6ba26c0391a146fe2c1e2b2efcce3004f36efe50d2fe
+              image: ghcr.io/slashnephy/annict2anilist:master@sha256:97f6712bc2c233575477b3428b1ae5b44e2d646c96a64f09e4565db7dea73892
               env:
                 - name: TOKEN_DIRECTORY
                   value: /app/token
@@ -27,10 +27,17 @@ spec:
                   mountPath: /app/token
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
           volumes:
             - name: token
               hostPath:
                 path: /mnt/local/annict2anilist/token
                 type: DirectoryOrCreate
           restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
   concurrencyPolicy: Forbid

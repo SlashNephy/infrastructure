@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: alpine/kubectl:1.35.3@sha256:3d188424ebfa78b521fffc2ceb785c99a098b53155bafb127c8302ea3f493cf7
+              image: alpine/kubectl:1.35.3@sha256:802b5375c087bdccf41707ae1736db1eba8382a04183543a28df5db5c3c98ece
               command:
                 - /bin/ash
                 - -c
@@ -25,11 +25,18 @@ spec:
                   mountPath: /backup
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
           volumes:
             - name: backup
               hostPath:
                 path: /mnt/local/backup-node
                 type: DirectoryOrCreate
           restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
           serviceAccountName: service-account
   concurrencyPolicy: Forbid

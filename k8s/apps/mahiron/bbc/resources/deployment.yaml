@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/starrybluesky/mahiron-custom:master@sha256:4bdf7577c3e2b878f247f9186d0137da150aa4d43b4ebb94b17e8e8729d0c093
+          image: ghcr.io/starrybluesky/mahiron-custom:master@sha256:d29cc9b22bf4cebdaee7d5d8ce962fd3279717a21ef7d07fac139599af520d9c
           env:
             - name: TZ
               value: Asia/Tokyo
@@ -72,3 +72,6 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

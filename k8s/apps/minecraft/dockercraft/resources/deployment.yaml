@@ -29,6 +29,10 @@ spec:
               readOnly: true
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
           tty: true
       volumes:
         - name: socket
@@ -36,3 +40,6 @@ spec:
             path: /var/run/docker.sock
             type: Socket
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

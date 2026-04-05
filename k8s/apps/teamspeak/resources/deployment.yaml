@@ -41,6 +41,10 @@ spec:
               mountPath: /var/lib/mysql
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
         - name: app
           image: public.ecr.aws/docker/library/teamspeak:3.13.7@sha256:093b6754e2f5417bd5766658394e4ebe9da5d96a7740e66015e158dcd02893ed
           env:
@@ -76,6 +80,10 @@ spec:
               mountPath: /var/ts3server
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: data
           hostPath:
@@ -86,3 +94,6 @@ spec:
             path: /mnt/local/teamspeak/mysql
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

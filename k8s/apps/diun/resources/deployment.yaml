@@ -73,10 +73,17 @@ spec:
               mountPath: /data
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: data
           hostPath:
             path: /mnt/local/diun/data
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       serviceAccountName: diun

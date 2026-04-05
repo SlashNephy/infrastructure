@@ -24,9 +24,16 @@ spec:
               mountPath: /app/data
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: data
           hostPath:
             path: /mnt/local/owncast/data
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

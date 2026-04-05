@@ -32,6 +32,11 @@ spec:
             - name: assets
               mountPath: /app/assets
               readOnly: true
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: config
           hostPath:
@@ -42,3 +47,6 @@ spec:
             path: /mnt/local/glance/assets
             type: Directory
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

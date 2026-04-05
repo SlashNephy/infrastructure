@@ -23,12 +23,23 @@ spec:
             - containerPort: 7080
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
         - name: envoy
           image: ghcr.io/slashnephy/muni-envoy:master@sha256:5ca32c8b7a56f307b5b1fc602a59f84c55f2657bc2fd82aee88dc0ce97e1eeae
           ports:
             - containerPort: 7090
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

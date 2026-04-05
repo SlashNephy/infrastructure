@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: pic-table
-              image: public.ecr.aws/docker/library/mongo:7.0.31-jammy@sha256:074c773cda61f791523e2a6a8536a4d1191595641dbcd723008a6d039719812e
+              image: public.ecr.aws/docker/library/mongo:7.0.31-jammy@sha256:1e6e7e9b3d9b4acc72e8e9337b24829d99965dbfc01b06713d9fd321ace242f8
               command:
                 - bash
                 - -c
@@ -40,8 +40,12 @@ spec:
                   mountPath: /backup
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
             - name: pic-tag-replace-table
-              image: public.ecr.aws/docker/library/mongo:7.0.31-jammy@sha256:074c773cda61f791523e2a6a8536a4d1191595641dbcd723008a6d039719812e
+              image: public.ecr.aws/docker/library/mongo:7.0.31-jammy@sha256:1e6e7e9b3d9b4acc72e8e9337b24829d99965dbfc01b06713d9fd321ace242f8
               command:
                 - bash
                 - -c
@@ -68,10 +72,17 @@ spec:
                   mountPath: /backup
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
           volumes:
             - name: backup
               hostPath:
                 path: /mnt/local/stella-backup
                 type: DirectoryOrCreate
           restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
   concurrencyPolicy: Forbid

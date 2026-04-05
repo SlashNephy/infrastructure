@@ -18,7 +18,7 @@ spec:
       containers:
         # https://github.com/sdr-enthusiasts/docker-adsb-ultrafeeder
         - name: ultrafeeder
-          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:telegraf@sha256:0e1101ce70fd1e47af3853d596dc0b8126e0d77444a024106ae36586bd56617e
+          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:telegraf@sha256:18f7a8a28a9225fe6ee8015341e90a968437cc86e926244b8a4459963036db44
           env:
             - name: LOGLEVEL
               value: error
@@ -125,6 +125,11 @@ spec:
               protocol: TCP
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            # /etc/fr24feed.ini に書き込みする
+            readOnlyRootFilesystem: false
       volumes:
         - name: ultrafeeder-globe-history
           hostPath:
@@ -147,17 +152,14 @@ spec:
             path: /sys/class/thermal/thermal_zone2
             type: Directory
         - name: run
-          emptyDir:
-            medium: Memory
-            sizeLimit: 256Mi
+          emptyDir: {}
         - name: tmp
-          emptyDir:
-            medium: Memory
-            sizeLimit: 128Mi
+          emptyDir: {}
         - name: var-log
-          emptyDir:
-            medium: Memory
-            sizeLimit: 32Mi
+          emptyDir: {}
       restartPolicy: Always
       dnsConfig:
         searches: []
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

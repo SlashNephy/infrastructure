@@ -30,8 +30,14 @@ spec:
             - name: plugins
               mountPath: /asf/plugins/external
               readOnly: true
+            - name: tmp
+              mountPath: /tmp
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
             runAsGroup: 1000
             runAsUser: 1000
       volumes:
@@ -43,5 +49,10 @@ spec:
           hostPath:
             path: /mnt/local/archi-steam-farm/plugins
             type: Directory
+        - name: tmp
+          emptyDir: {}
       restartPolicy: Always
       hostname: archi-steam-farm
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

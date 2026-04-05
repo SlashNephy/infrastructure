@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
         - name: db-push
-          image: ghcr.io/slashnephy/headlessx-api:2.1.2@sha256:3a3d787288d9a119952f22ed4d8bed82477ec8b0038d936ff9d8b6df8a607225
+          image: ghcr.io/slashnephy/headlessx-api:2.1.2@sha256:65abd912a686350d69a2adb5c4ea18a77a61a642e5dc9681b907ebc24325e2c6
           command:
             - pnpm
             - exec
@@ -29,16 +29,7 @@ spec:
             allowPrivilegeEscalation: false
       containers:
         - name: api
-          image: ghcr.io/slashnephy/headlessx-api:2.1.2@sha256:3a3d787288d9a119952f22ed4d8bed82477ec8b0038d936ff9d8b6df8a607225
-          # 依存関係が不足している問題に対する一時的なワークアラウンド
-          # https://github.com/saifyxpro/HeadlessX/issues/39#issuecomment-4058155138
-          command:
-            - bash
-            - -euxc
-            - |
-              apt-get update
-              apt-get install -y --no-install-recommends libgtk-3-0 libx11-xcb1
-              exec pnpm start
+          image: ghcr.io/slashnephy/headlessx-api:2.1.2@sha256:65abd912a686350d69a2adb5c4ea18a77a61a642e5dc9681b907ebc24325e2c6
           env:
             - name: PORT
               value: "8000"
@@ -68,8 +59,12 @@ spec:
               mountPath: /app/apps/api/data
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
         - name: web
-          image: ghcr.io/slashnephy/headlessx-web:2.1.2@sha256:740c8317e6f92b5076afed0cc178a0f88a7e28f4120bd141d2e3fe8119e640a7
+          image: ghcr.io/slashnephy/headlessx-web:2.1.2@sha256:64473e8ab9dae184509229de9a88af9dcd8ef42792fe8de0587fde7f16acab98
           env:
             - name: NEXT_PUBLIC_API_URL
               value: http://localhost:8000
@@ -87,6 +82,10 @@ spec:
               containerPort: 3000
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: models
           hostPath:
@@ -99,3 +98,6 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

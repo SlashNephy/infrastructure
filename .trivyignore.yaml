@@ -52,3 +52,6 @@ misconfigurations:
   # イメージのレジストリを制限しない
   # TODO: Kyverno で対応予定 (https://github.com/SlashNephy/infrastructure/issues/7910)
   - id: KSV-0125
+
+  # namespace を明示していないマニフェストを許可 (Argo CD で管理しているため)
+  - id: KSV-0110

@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: ghcr.io/slashnephy/m2ts-calendar:master@sha256:63c5063d36a03b2d3b9088a0da2b7bd13c10b0d810c25655f8d223797a83dfd3
+              image: ghcr.io/slashnephy/m2ts-calendar:master@sha256:1e61089dfe2d0b1bf40839936aae99da6f7ea96dc9227906b0a05d2d5c09bec3
               env:
                 - name: CHECK_INTERVAL_SECONDS
                   value: "0"
@@ -47,6 +47,12 @@ spec:
                   mountPath: /mnt/pool/records_links
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsGroup: 1000
+                runAsUser: 1000
           volumes:
             - name: records
               hostPath:
@@ -55,4 +61,7 @@ spec:
               hostPath:
                 path: /mnt/pool/records_links
           restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
   concurrencyPolicy: Forbid

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/slashnephy/nebula-frontend:master@sha256:034c73c7dbcfe2dbd20df17374920bf9d452ebb74d7a7bc07a1fe968785efa02
+          image: ghcr.io/slashnephy/nebula-frontend:main@sha256:877769f9a48b43cc0de01cdb499b112f869d4778e7dee55c2aed9ed95d26b6a6
           env:
             - name: API_ORIGIN
               value: http://backend:8080
@@ -28,6 +28,13 @@ spec:
               port: http
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

@@ -32,6 +32,10 @@ spec:
                   readOnly: true
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
           volumes:
             - name: backup
               hostPath:
@@ -46,4 +50,7 @@ spec:
                 path: /mnt/local/epgstation/config
                 type: Directory
           restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
   concurrencyPolicy: Forbid

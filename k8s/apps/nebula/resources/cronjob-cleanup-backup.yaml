@@ -27,10 +27,20 @@ spec:
                   mountPath: /backup
               securityContext:
                 allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsGroup: 1001
+                runAsNonRoot: true
+                runAsUser: 1001
           volumes:
             - name: backup
               hostPath:
                 path: /mnt/local/nebula/postgresql-backup
                 type: Directory
           restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
   concurrencyPolicy: Forbid

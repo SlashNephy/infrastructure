@@ -15,10 +15,17 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/kuroda-bot:master@sha256:82d48ea6162b717ab8b4e503d9c2b5c191bf024c0052f3b0b32c633a71eee003
+          image: ghcr.io/slashnephy/kuroda-bot:master@sha256:e9aa9f6226ddd16de4f8dd21056851cb30ea3d51320eff5079d2a965e3ec0532
           envFrom:
             - secretRef:
                 name: app-secret
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

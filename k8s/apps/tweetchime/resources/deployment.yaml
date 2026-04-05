@@ -58,9 +58,16 @@ spec:
               mountPath: /app/data
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: cache
           hostPath:
             path: /mnt/local/tweetchime-cache
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

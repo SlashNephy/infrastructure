@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: deluan/navidrome:0.60.3@sha256:a5dce8f33304714dd138e870cca0dcab3d937ca236be1a9f2b97da009d1a0048
+          image: deluan/navidrome:0.61.0@sha256:b14a6acb5cd5ee73f3a13d63d8d68ede82dedb796aa522fbada94769d990cf0b
           envFrom:
             - configMapRef:
                 name: app-config
@@ -38,6 +38,10 @@ spec:
               mountPath: /backup
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
             runAsGroup: 1000
             runAsUser: 1000
       volumes:
@@ -54,3 +58,6 @@ spec:
             path: /mnt/local/navidrome/backup
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

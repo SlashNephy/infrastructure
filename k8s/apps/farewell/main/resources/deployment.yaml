@@ -57,9 +57,16 @@ spec:
               memory: 512Mi
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         - name: cache
           hostPath:
             path: /mnt/local/farewell-main-cache
             type: DirectoryOrCreate
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
