@@ -1,0 +1,19 @@
+$schema: https://raw.githubusercontent.com/stackrox/kube-linter/refs/heads/main/schemas/kube-lint-config.json
+
+checks:
+  addAllBuiltIn: true
+  exclude:
+    - unset-cpu-requirements
+    - unset-memory-requirements
+    - no-node-affinity
+    - dnsconfig-options
+    - required-annotation-email
+    - required-label-owner
+    - read-secret-from-env-var
+    - minimum-three-replicas
+    - env-value-from
+    - no-rolling-update-strategy
+    - writable-host-mount
+    - exposed-services
+    # namespace を明示していないマニフェストを許可 (Argo CD で管理しているため)
+    - use-namespace
