@@ -29,8 +29,6 @@ spec:
           volumeMounts:
             - name: model-cache
               mountPath: /cache
-            - name: dev-bus-usb
-              mountPath: /dev/bus/usb
             - name: tmp
               mountPath: /tmp
           resources:
@@ -45,17 +43,12 @@ spec:
             capabilities:
               drop:
                 - ALL
-            # TODO: あとで対応
-            readOnlyRootFilesystem: false
+            readOnlyRootFilesystem: true
       volumes:
         - name: model-cache
           hostPath:
             path: /mnt/local/nebula/ml-model-cache
             type: DirectoryOrCreate
-        - name: dev-bus-usb
-          hostPath:
-            path: /dev/bus/usb
-            type: Directory
         - name: tmp
           emptyDir: {}
       restartPolicy: Always

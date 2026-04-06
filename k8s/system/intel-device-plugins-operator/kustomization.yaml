@@ -17,7 +17,7 @@ helmCharts:
     valuesInline:
       name: gpu-plugin
       nodeFeatureRule: true
-      sharedDevNum: 8
+      sharedDevNum: 10
 
 resources:
   - ./resources/namespace.yaml
