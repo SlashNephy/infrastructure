@@ -26,11 +26,11 @@ spec:
               containerPort: 8080
           volumeMounts:
             - name: media
-              mountPath: /backend/media
+              mountPath: /app/media
             - name: avatars
-              mountPath: /backend/avatars
+              mountPath: /app/avatars
             - name: content
-              mountPath: /backend/content
+              mountPath: /app/content
           livenessProbe:
             httpGet:
               path: /health
@@ -44,7 +44,7 @@ spec:
         - name: worker
           image: ghcr.io/slashnephy/nebula-backend:main@sha256:c9bb25b2a35dcc83e8dd8bdf264f0003932385b210f299e8eb3bb460acdcfcc7
           command:
-            - /backend/worker
+            - /app/worker
           envFrom:
             - configMapRef:
                 name: backend-config
@@ -52,11 +52,11 @@ spec:
                 name: backend-secrets
           volumeMounts:
             - name: media
-              mountPath: /backend/media
+              mountPath: /app/media
             - name: avatars
-              mountPath: /backend/avatars
+              mountPath: /app/avatars
             - name: content
-              mountPath: /backend/content
+              mountPath: /app/content
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
