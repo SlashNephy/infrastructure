@@ -56,6 +56,10 @@ helmCharts:
         - name: config-yaml
           mountPath: /app/librechat.yaml
           readOnly: true
+      volumePermissions:
+        image:
+          # Bitnami の古いタグが削除されているので、legacy イメージを使用する
+          repository: bitnamilegacy/os-shell
       volumes:
         - name: config-yaml
           hostPath:
