@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/immich-app/immich-server:v2.6.3@sha256:0cc1f82953d9598eb9e9dd11cbde1f50fe54f9c46c4506b089e8ad7bfc9d1f0c
+          image: ghcr.io/immich-app/immich-server:v2.7.0@sha256:ee60b98e7fcc836d61d7f5e7689514f3de7a9480f31ec6ca62d6221056b46ae1
           envFrom:
             - configMapRef:
                 name: app-config
@@ -39,7 +39,7 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
         - name: machine-learning
-          image: ghcr.io/immich-app/immich-machine-learning:v2.6.3-openvino@sha256:428b319762c5c0f39218162bd24cab38f48d369c580389e9897c8ab92807cf7a
+          image: ghcr.io/immich-app/immich-machine-learning:v2.7.0-openvino@sha256:6a1fcbe2215b9e382006ce861a2837f8305ae8421840525a4fda996f23287f7f
           envFrom:
             - configMapRef:
                 name: app-config
