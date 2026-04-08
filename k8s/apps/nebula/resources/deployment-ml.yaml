@@ -23,6 +23,9 @@ spec:
               value: /cache
             - name: MAX_MEMORY_MB
               value: "2048"
+          envFrom:
+            - secretRef:
+                name: ml-secrets
           ports:
             - name: http
               containerPort: 8083
