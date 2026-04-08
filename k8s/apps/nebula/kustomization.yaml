@@ -39,6 +39,12 @@ helmCharts:
         extraEnvVars:
           - name: TZ
             value: Asia/Tokyo
+        extraVolumeMounts:
+          - name: var-run
+            mountPath: /var/run/postgresql
+        extraVolumes:
+          - name: var-run
+            emptyDir: {}
         persistence:
           existingClaim: nebula-postgresql-data
         resourcesPreset: large
