@@ -41,7 +41,7 @@ helmCharts:
             value: Asia/Tokyo
         persistence:
           existingClaim: nebula-postgresql-data
-        resourcesPreset: small
+        resourcesPreset: large
         service:
           nodePorts:
             postgresql: 5432
