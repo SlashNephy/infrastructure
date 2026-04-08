@@ -10,6 +10,8 @@ permissions: {}
 
 jobs:
   build-api:
+    # 無限ループすることがある
+    if: github.actor != 'StarryBlueSky-bot'
     uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@f63926caa7aad32744d96b2129d04ea0d549e9fb # v0.0.5
     permissions:
       contents: read
@@ -28,6 +30,8 @@ jobs:
       dispatch-github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
 
   build-web:
+    # 無限ループすることがある
+    if: github.actor != 'StarryBlueSky-bot'
     uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@f63926caa7aad32744d96b2129d04ea0d549e9fb # v0.0.5
     permissions:
       contents: read
