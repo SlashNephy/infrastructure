@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/slashnephy/nebula-backend:main@sha256:86e941c78f883c550dfb76f196e1bca2294d71b2ee2ea848a218dd23b21d2cad
+          image: ghcr.io/slashnephy/nebula-backend:main@sha256:3f618f6afbc33303ca83c54ea896e0421962d7ca5bae62994f195c88bead51d1
           envFrom:
             - configMapRef:
                 name: backend-config
@@ -42,7 +42,7 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
         - name: worker
-          image: ghcr.io/slashnephy/nebula-backend:main@sha256:86e941c78f883c550dfb76f196e1bca2294d71b2ee2ea848a218dd23b21d2cad
+          image: ghcr.io/slashnephy/nebula-backend:main@sha256:3f618f6afbc33303ca83c54ea896e0421962d7ca5bae62994f195c88bead51d1
           command:
             - /app/worker
           envFrom:
