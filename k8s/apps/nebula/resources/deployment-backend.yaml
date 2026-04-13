@@ -42,7 +42,7 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
         - name: worker
-          image: ghcr.io/slashnephy/nebula-worker:main@sha256:3fa02f1ab62ef1bc61c93098f7ffc32f10aca45cb2b3386c75777833c45e740b
+          image: ghcr.io/slashnephy/nebula-worker:main@sha256:941d79dc54f57c9d992dafb7aa5984a516281ddfd2fdfae9bd7371c53b9d48c3
           envFrom:
             - configMapRef:
                 name: backend-config
