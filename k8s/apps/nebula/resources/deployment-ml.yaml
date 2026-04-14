@@ -41,6 +41,10 @@ spec:
             httpGet:
               path: /health
               port: http
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
+            periodSeconds: 30
+            failureThreshold: 5
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
