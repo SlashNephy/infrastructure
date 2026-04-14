@@ -4,7 +4,7 @@ metadata:
   name: ml
 
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: ml
@@ -22,7 +22,7 @@ spec:
             - name: MODEL_CACHE_DIR
               value: /cache
             - name: MAX_MEMORY_MB
-              value: "2048"
+              value: "4096"
           envFrom:
             - secretRef:
                 name: ml-secrets
