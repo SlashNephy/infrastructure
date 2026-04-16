@@ -38,13 +38,13 @@ spec:
             limits:
               gpu.intel.com/i915: "1"
           livenessProbe:
+            failureThreshold: 5
             httpGet:
               path: /health
               port: http
             initialDelaySeconds: 10
-            timeoutSeconds: 10
             periodSeconds: 30
-            failureThreshold: 5
+            timeoutSeconds: 10
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
