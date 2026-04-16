@@ -18,3 +18,7 @@ template:
           - /home/runner/run.sh
 
         image: ghcr.io/slashnephy/actions-runner:latest@sha256:3db51966b6536780c23706cfc0ce5d829984066d321ba2054ea9971b79eab3c9
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 4Gi
