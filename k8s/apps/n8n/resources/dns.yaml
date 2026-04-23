@@ -26,7 +26,7 @@ spec:
   containsString: ok
   expectedStatusCode: 200
   method: GET
-  responseTimeCritical: 10000
-  responseTimeWarning: 5000
+  # responseTimeCritical: 10000
+  # responseTimeWarning: 5000
   service: Production
   url: https://n8n.starry.blue/healthz
