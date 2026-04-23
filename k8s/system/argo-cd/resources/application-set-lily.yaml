@@ -248,6 +248,10 @@ spec:
             namespace: external-dns
             path: k8s/system/external-dns
             project: system
+          - name: mackerel-operator
+            namespace: mackerel-operator
+            path: k8s/system/mackerel-operator
+            project: system
 
   template:
     metadata:
