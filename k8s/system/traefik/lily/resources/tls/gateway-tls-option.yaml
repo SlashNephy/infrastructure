@@ -21,12 +21,6 @@ spec:
     # Go の crypto/tls でサポートされていない
     # - TLS_AES_128_CCM_SHA256
     # - TLS_AES_128_CCM_8_SHA256
-  curvePreferences:
-    # https://www.iana.org/assignments/tls-parameters/tls-parameters.xml#tls-parameters-8
-    # - x448
-    - x25519
-    - secp256r1
-    - secp384r1
   maxVersion: VersionTLS13
   minVersion: VersionTLS13
   sniStrict: true
