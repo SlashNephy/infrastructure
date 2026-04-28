@@ -64,7 +64,7 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
         - name: web
-          image: ghcr.io/slashnephy/headlessx-web:2.1.2@sha256:15290cbab38c76534e4a9b67b37d8773b5ce66d9e9a229ed1881c5f300cf5481
+          image: ghcr.io/slashnephy/headlessx-web:2.1.2@sha256:ba5deb31692a91dd6c11fc696498c6f8ec4772787cee5ff9cb1fc5cad11914e0
           env:
             - name: NEXT_PUBLIC_API_URL
               value: http://localhost:8000
