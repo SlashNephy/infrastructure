@@ -7,7 +7,7 @@ helmCharts:
   - name: argo-cd
     releaseName: argo-cd
     namespace: argo-cd
-    version: 9.5.4
+    version: 9.5.9
     repo: https://argoproj.github.io/argo-helm
     valuesInline:
       applicationSet:
