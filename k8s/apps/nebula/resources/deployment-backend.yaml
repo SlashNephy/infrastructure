@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/slashnephy/nebula-backend:main@sha256:ce78a68a31ac82ba39bea3cd5e8b79a821c9740c71b26fb6036700cbf9cc1231
+          image: ghcr.io/slashnephy/nebula-backend:main@sha256:56399f04a90be46ccb07ec7c8471fa63f04fdfb8f62956d5941b5b1c8271b744
           envFrom:
             - configMapRef:
                 name: backend-config
