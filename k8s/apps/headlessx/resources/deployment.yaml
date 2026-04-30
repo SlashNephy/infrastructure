@@ -15,7 +15,7 @@ spec:
     spec:
       initContainers:
         - name: db-push
-          image: ghcr.io/slashnephy/headlessx-api:2.1.2@sha256:48c90ac84e14626a2fb14e4e46e8c163a5b05ba7e931a6010f6a1f150122c8da
+          image: ghcr.io/slashnephy/headlessx-api:2.1.2@sha256:d2dadb98400c16d8039c98d1ea8fcfe151fd23769865b01bcf49c36d4ed37df7
           command:
             - pnpm
             - exec
@@ -29,7 +29,7 @@ spec:
             allowPrivilegeEscalation: false
       containers:
         - name: api
-          image: ghcr.io/slashnephy/headlessx-api:2.1.2@sha256:48c90ac84e14626a2fb14e4e46e8c163a5b05ba7e931a6010f6a1f150122c8da
+          image: ghcr.io/slashnephy/headlessx-api:2.1.2@sha256:d2dadb98400c16d8039c98d1ea8fcfe151fd23769865b01bcf49c36d4ed37df7
           env:
             - name: PORT
               value: "8000"
