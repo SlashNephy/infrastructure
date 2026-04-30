@@ -1,3 +1,3 @@
-FROM quay.io/curl/curl-base:8.18.0@sha256:651ece647267ca6d0bb7bc2423ac72335225119508651abe0d574c519465a379
+FROM quay.io/curl/curl-base:8.20.0@sha256:f6edda5143960cd902d068566abe3ec3dfaf5d0d99f179ee9f802404ef3a1f86
 
 RUN apk add --no-cache jq
