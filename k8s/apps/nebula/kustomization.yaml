@@ -83,6 +83,7 @@ resources:
   - ./resources/deployment-frontend.yaml
   - ./resources/deployment-ml.yaml
   - ./resources/deployment-river-ui.yaml
+  - ./resources/deployment-xctid.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
   - ./resources/namespace.yaml
@@ -97,3 +98,4 @@ configMapGenerator:
     literals:
       - SERVER_ORIGIN=https://nebula.starry.blue
       - ML_BASE_URL=http://ml:8083
+      - XCTID_BASE_URL=http://xctid:8084
