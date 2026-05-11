@@ -21,7 +21,7 @@ jobs:
       - uses: pnpm/action-setup@903f9c1a6ebcba6cf41d87230be49611ac97822e # v6.0.3
       - run: pnpm install --frozen-lockfile
       - run: pnpm eslint:ci
-      - uses: github/codeql-action/upload-sarif@e46ed2cbd01164d986452f91f178727624ae40d7 # v4.35.3
+      - uses: github/codeql-action/upload-sarif@68bde559dea0fdcac2102bfdf6230c5f70eb485e # v4.35.4
         if: always()
         with:
           sarif_file: eslint.sarif
