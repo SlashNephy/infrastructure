@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: ghcr.io/slashnephy/post-switchbot-metrics:master@sha256:969ed0aa255c108137f9f62667400581609f42e5b34e931665ee4a4159e1d7f3
+              image: ghcr.io/slashnephy/post-switchbot-metrics:master@sha256:c2014a9f851edc762acc6993ec74cf1319624f89e6d13ca7fb4b6704574e732e
               env:
                 - name: MACKEREL_SERVICE_NAME
                   value: SwitchBot
