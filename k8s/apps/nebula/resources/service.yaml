@@ -46,6 +46,21 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: instagram
+
+spec:
+  selector:
+    app: instagram
+  ports:
+    - name: http
+      port: 8085
+      targetPort: http
+      protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: frontend
 
 spec:

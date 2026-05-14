@@ -81,6 +81,7 @@ resources:
   - ./resources/cronjob-cleanup-backup.yaml
   - ./resources/deployment-backend.yaml
   - ./resources/deployment-frontend.yaml
+  - ./resources/deployment-instagram.yaml
   - ./resources/deployment-ml.yaml
   - ./resources/deployment-river-ui.yaml
   - ./resources/deployment-xctid.yaml
@@ -99,3 +100,4 @@ configMapGenerator:
       - SERVER_ORIGIN=https://nebula.starry.blue
       - ML_BASE_URL=http://ml:8083
       - XCTID_BASE_URL=http://xctid:8084
+      - INSTAGRAM_BASE_URL=http://instagram:8085
