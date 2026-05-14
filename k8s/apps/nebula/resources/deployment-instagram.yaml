@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: instagram
-          image: ghcr.io/slashnephy/nebula-instagram:main
+          image: ghcr.io/slashnephy/nebula-instagram:main@sha256:80d0ceee4e1b54e9f094fce8c27001834951cb95177036b61c6f813e135b20f6
           ports:
             - name: http
               containerPort: 8085
