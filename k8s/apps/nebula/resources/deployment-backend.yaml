@@ -29,7 +29,7 @@ spec:
               mountPath: /app/media
             - name: avatars
               mountPath: /app/avatars
-            - name: content
+            - name: media
               mountPath: /app/content
           livenessProbe:
             httpGet:
@@ -54,11 +54,8 @@ spec:
           hostPath:
             path: /mnt/local/nebula/avatars
             type: DirectoryOrCreate
-        - name: content
-          hostPath:
-            path: /mnt/pool/nebula_media
-            type: DirectoryOrCreate
       restartPolicy: Always
+      automountServiceAccountToken: false
       imagePullSecrets:
         - name: ghcr-io-credentials
       securityContext:
