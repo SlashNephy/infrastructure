@@ -1,29 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: worker
 
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: backend
+      app: worker
   template:
     metadata:
       labels:
-        app: backend
+        app: worker
     spec:
       containers:
-        - name: server
-          image: ghcr.io/slashnephy/nebula-backend:main@sha256:4391163b722261762391e5b0a75a884d07aa41bdc5009d617c7ff52988010ea5
+        - name: worker
+          image: ghcr.io/slashnephy/nebula-worker:main@sha256:dde2c720b8d5a293640feaf958ff4f5302ab010ee942b380771d379296366177
           envFrom:
             - configMapRef:
                 name: backend-config
             - secretRef:
                 name: backend-secrets
-          ports:
-            - name: http
-              containerPort: 8080
           volumeMounts:
             - name: media
               mountPath: /app/media
@@ -31,14 +28,6 @@ spec:
               mountPath: /app/avatars
             - name: content
               mountPath: /app/content
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: http
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -64,4 +53,4 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
-      terminationGracePeriodSeconds: 30
+      terminationGracePeriodSeconds: 90
