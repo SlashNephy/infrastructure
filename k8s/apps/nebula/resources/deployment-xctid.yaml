@@ -16,6 +16,9 @@ spec:
       containers:
         - name: xctid
           image: ghcr.io/slashnephy/nebula-xctid:main@sha256:33f1d8bd29a9b0636c1be6b620ca4a8d7835a3069322133e1618869fa8cf4acd
+          envFrom:
+            - secretRef:
+                name: xctid-secrets
           ports:
             - name: http
               containerPort: 8084
