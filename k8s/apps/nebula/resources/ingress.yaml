@@ -24,7 +24,7 @@ spec:
           port: http
 
     - kind: Rule
-      match: Host(`nebula.starry.blue`) && PathPrefix(`/api`)
+      match: Host(`nebula.starry.blue`) && (PathPrefix(`/api`) || PathPrefix(`/oauth`)) && !Path(`/oauth/authorize`)
       priority: 20
       services:
         - name: backend
