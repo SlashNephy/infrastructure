@@ -22,6 +22,9 @@ spec:
           ports:
             - name: http
               containerPort: 8086
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
           livenessProbe:
             failureThreshold: 5
             httpGet:
@@ -36,6 +39,9 @@ spec:
               drop:
                 - ALL
             readOnlyRootFilesystem: true
+      volumes:
+        - name: tmp
+          emptyDir: {}
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
