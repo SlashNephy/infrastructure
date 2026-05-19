@@ -86,6 +86,7 @@ resources:
   - ./resources/deployment-river-ui.yaml
   - ./resources/deployment-worker.yaml
   - ./resources/deployment-xctid.yaml
+  - ./resources/deployment-ytdlp.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
   - ./resources/namespace.yaml
@@ -102,3 +103,4 @@ configMapGenerator:
       - ML_BASE_URL=http://ml:8083
       - XCTID_BASE_URL=http://xctid:8084
       - INSTAGRAM_BASE_URL=http://instagram:8085
+      - YTDLP_BASE_URL=http://ytdlp:8086

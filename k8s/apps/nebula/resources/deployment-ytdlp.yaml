@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ytdlp
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ytdlp
+  template:
+    metadata:
+      labels:
+        app: ytdlp
+    spec:
+      containers:
+        - name: ytdlp
+          image: ghcr.io/slashnephy/nebula-ytdlp:main
+          envFrom:
+            - secretRef:
+                name: ytdlp-secrets
+          ports:
+            - name: http
+              containerPort: 8086
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 10
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-io-credentials
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
