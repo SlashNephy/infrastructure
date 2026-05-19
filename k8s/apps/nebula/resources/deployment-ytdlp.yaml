@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: ytdlp
-          image: ghcr.io/slashnephy/nebula-ytdlp:main
+          image: ghcr.io/slashnephy/nebula-ytdlp:main@sha256:2a6abc1ca3d688529044fea7613f9fc1c1b520243b19613019ac533e219e63cd
           envFrom:
             - secretRef:
                 name: ytdlp-secrets
