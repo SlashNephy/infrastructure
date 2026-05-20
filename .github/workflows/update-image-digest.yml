@@ -6,7 +6,8 @@ on:
       - update-image-digest
 
 concurrency:
-  group: deploy-${{ join(github.event.client_payload.images, ',') }}
+  group: update-image-digest
+  queue: max
 
 permissions: {}
 
