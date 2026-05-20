@@ -7,7 +7,7 @@ on:
 
 concurrency:
   group: update-image-digest
-  queue: max
+  cancel-in-progress: false
 
 permissions: {}
 
