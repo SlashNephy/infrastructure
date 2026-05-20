@@ -25,6 +25,7 @@ helmCharts:
           containerSecurityContext:
             runAsGroup: 1000
             runAsUser: 1000
+          resourcesPreset: small
           restartPolicy: Never
           # @hourly
           schedule: "20 * * * *"
