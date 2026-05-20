@@ -25,12 +25,12 @@ spec:
             - name: http
               containerPort: 8080
           volumeMounts:
-            - name: media
-              mountPath: /app/media
             - name: avatars
               mountPath: /app/avatars
             - name: media
               mountPath: /app/content
+            - name: tmp
+              mountPath: /tmp
           livenessProbe:
             httpGet:
               path: /health
@@ -54,6 +54,8 @@ spec:
           hostPath:
             path: /mnt/local/nebula/avatars
             type: DirectoryOrCreate
+        - name: tmp
+          emptyDir: {}
       restartPolicy: Always
       automountServiceAccountToken: false
       imagePullSecrets:

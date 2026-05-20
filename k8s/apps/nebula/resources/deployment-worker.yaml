@@ -22,12 +22,12 @@ spec:
             - secretRef:
                 name: backend-secrets
           volumeMounts:
-            - name: media
-              mountPath: /app/media
             - name: avatars
               mountPath: /app/avatars
             - name: media
               mountPath: /app/content
+            - name: tmp
+              mountPath: /tmp
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -43,6 +43,8 @@ spec:
           hostPath:
             path: /mnt/local/nebula/avatars
             type: DirectoryOrCreate
+        - name: tmp
+          emptyDir: {}
       restartPolicy: Always
       automountServiceAccountToken: false
       imagePullSecrets:
