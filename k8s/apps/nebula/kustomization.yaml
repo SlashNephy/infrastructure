@@ -80,6 +80,7 @@ resources:
   - ./../../common/registry-ghcr-io/lily
   - ./resources/cronjob-cleanup-backup.yaml
   - ./resources/deployment-backend.yaml
+  - ./resources/deployment-ffmpeg.yaml
   - ./resources/deployment-frontend.yaml
   - ./resources/deployment-instagram.yaml
   - ./resources/deployment-ml.yaml
@@ -104,3 +105,4 @@ configMapGenerator:
       - XCTID_BASE_URL=http://xctid:8084
       - INSTAGRAM_BASE_URL=http://instagram:8085
       - YTDLP_BASE_URL=http://ytdlp:8086
+      - FFMPEG_BASE_URL=http://ffmpeg:8087
