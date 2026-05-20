@@ -25,12 +25,14 @@ jobs:
         with:
           go-version-file: cmd/update-image-digest/go.mod
           cache-dependency-path: cmd/update-image-digest/go.sum
-          token: ${{ secrets.BOT_GITHUB_TOKEN }}
 
       - name: Update Image Digest
         run: |
           GOWORK=off GOTOOLCHAIN=local go build -C cmd/update-image-digest -o "$RUNNER_TEMP/update-image-digest" .
-          "$RUNNER_TEMP/update-image-digest" -i ${{ join(github.event.client_payload.images, ',') }} -d ${{ github.event.client_payload.digest }}
+          "$RUNNER_TEMP/update-image-digest" -i "$IMAGES" -d "$DIGEST"
+        env:
+          IMAGES: ${{ join(github.event.client_payload.images, ',') }}
+          DIGEST: ${{ github.event.client_payload.digest }}
 
       - name: Create Pull Request
         id: create-pull-request
