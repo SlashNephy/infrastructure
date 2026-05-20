@@ -47,7 +47,7 @@ helmCharts:
             emptyDir: {}
         persistence:
           existingClaim: nebula-postgresql-data
-        resourcesPreset: large
+        resourcesPreset: xlarge
         service:
           nodePorts:
             postgresql: 5432
