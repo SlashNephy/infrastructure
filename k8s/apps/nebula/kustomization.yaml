@@ -102,6 +102,12 @@ configMapGenerator:
   - name: backend-config
     literals:
       - SERVER_ORIGIN=https://nebula.starry.blue
+      - MEDIA_STORAGE_BACKEND=local
+      - MEDIA_STORAGE_LOCAL_DIRECTORY=/app/media
+      - AVATAR_STORAGE_BACKEND=local
+      - AVATAR_STORAGE_LOCAL_DIRECTORY=/app/avatars
+      - THUMBNAIL_STORAGE_BACKEND=local
+      - THUMBNAIL_STORAGE_LOCAL_DIRECTORY=/app/thumbnails
       - ML_BASE_URL=http://ml:8083
       - XCTID_BASE_URL=http://xctid:8084
       - INSTAGRAM_BASE_URL=http://instagram:8085

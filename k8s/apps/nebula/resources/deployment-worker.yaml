@@ -22,10 +22,12 @@ spec:
             - secretRef:
                 name: backend-secrets
           volumeMounts:
+            - name: media
+              mountPath: /app/media
+            - name: thumbnails
+              mountPath: /app/thumbnails
             - name: avatars
               mountPath: /app/avatars
-            - name: media
-              mountPath: /app/content
             - name: tmp
               mountPath: /tmp
           securityContext:
@@ -37,12 +39,16 @@ spec:
       volumes:
         - name: media
           hostPath:
-            path: /mnt/pool/nebula_media
-            type: DirectoryOrCreate
+            path: /mnt/local/nebula/media
+            type: Directory
+        - name: thumbnails
+          hostPath:
+            path: /mnt/local/nebula/thumbnails
+            type: Directory
         - name: avatars
           hostPath:
             path: /mnt/local/nebula/avatars
-            type: DirectoryOrCreate
+            type: Directory
         - name: tmp
           emptyDir: {}
       restartPolicy: Always
