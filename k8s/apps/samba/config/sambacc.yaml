@@ -1,6 +1,4 @@
- 
- 
-
+# https://github.com/samba-in-kubernetes/sambacc/blob/master/docs/configuration.md
 configs:
   default:
     globals:
@@ -10,7 +8,6 @@ configs:
       - security
       - follow_symlinks
       - no_printing
-
     shares:
       - pool
 globals:
@@ -54,19 +51,27 @@ globals:
       min protocol: SMB3
       nt pipe support: "no"
       restrict anonymous: "1"
-# https://github.com/samba-in-kubernetes/sambacc/blob/master/docs/configuration.md
 samba-container-config: v0
 shares:
+  local:
+    options:
+      browseable: "yes"
+      create mask: "0664"
+      directory mask: "0775"
+      guest ok: "no"
+      path: /mnt/local
+      printable: "no"
+      public: "no"
+      valid users: spica
+      writable: "yes"
   pool:
     options:
       browseable: "yes"
       create mask: "0664"
       directory mask: "0775"
-
       guest ok: "no"
       path: /mnt/pool
       printable: "no"
       public: "no"
       valid users: spica
       writable: "yes"
-
