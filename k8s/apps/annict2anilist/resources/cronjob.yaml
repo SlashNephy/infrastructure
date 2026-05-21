@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: ghcr.io/slashnephy/annict2anilist:master@sha256:533380e84cb967b5dc8c6bedef68990df3ebdc55417789d47fc37d9727e446a2
+              image: ghcr.io/slashnephy/annict2anilist:master@sha256:b3971d9b72175723d1e9c3d096c7363c758cadacfcf76a170729e33f26ab64d6
               env:
                 - name: TOKEN_DIRECTORY
                   value: /app/token
