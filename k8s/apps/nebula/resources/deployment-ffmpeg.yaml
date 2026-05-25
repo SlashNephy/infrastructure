@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: ffmpeg
-          image: ghcr.io/slashnephy/nebula-ffmpeg:main@sha256:758ca0a084713477202369e3a3c1b0eb2f42560dd5fa0822ada6effb2bf22294
+          image: ghcr.io/slashnephy/nebula-ffmpeg:main@sha256:c0858a65fcd9be93d205e30d690b4505db900d6e2ea706dd250b2d18f826c8c5
           ports:
             - name: http
               containerPort: 8087
