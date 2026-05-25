@@ -37,6 +37,7 @@ spec:
           resources:
             limits:
               gpu.intel.com/i915: "1"
+              memory: 4Gi
           livenessProbe:
             failureThreshold: 5
             httpGet:
