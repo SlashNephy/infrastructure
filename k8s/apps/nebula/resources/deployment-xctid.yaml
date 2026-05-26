@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: xctid
-          image: ghcr.io/slashnephy/nebula-xctid:main@sha256:b01b72eef2c6bb287a8ee06913b5ea9bc15feb1cee5449c6f56d2012bb30a022
+          image: ghcr.io/slashnephy/nebula-xctid:main@sha256:a17065c3bf19dca29cb221c1bde65fa57185efe9a699e2ccc04c60b849270763
           envFrom:
             - secretRef:
                 name: xctid-secrets
