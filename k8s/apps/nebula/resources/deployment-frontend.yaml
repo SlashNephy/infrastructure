@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/slashnephy/nebula-frontend:main@sha256:0e9b6fd9512d283a30f3aedb846038825efe6f2bb5f7cc2741edba8a76545c09
+          image: ghcr.io/slashnephy/nebula-frontend:main@sha256:427eaa0165cc789c721354422dd05428f66804e65b39c4c1a7bd0b1b2d7b48b7
           env:
             - name: API_ORIGIN
               value: http://backend:8080
