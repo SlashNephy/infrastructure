@@ -4,7 +4,7 @@ metadata:
   name: ml
 
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: ml
@@ -22,7 +22,7 @@ spec:
             - name: MODEL_CACHE_DIR
               value: /cache
             - name: MAX_MEMORY_MB
-              value: "4096"
+              value: "8192"
           envFrom:
             - secretRef:
                 name: ml-secrets
@@ -37,7 +37,6 @@ spec:
           resources:
             limits:
               gpu.intel.com/i915: "1"
-              memory: 8Gi
           livenessProbe:
             failureThreshold: 5
             httpGet:
