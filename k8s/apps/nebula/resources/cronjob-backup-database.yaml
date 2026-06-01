@@ -112,6 +112,9 @@ spec:
             - name: tmp
               emptyDir: {}
           restartPolicy: Never
+          automountServiceAccountToken: false
+          imagePullSecrets:
+            - name: ghcr-io-credentials
           securityContext:
             fsGroup: 1000
             seccompProfile:
