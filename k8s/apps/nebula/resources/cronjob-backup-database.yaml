@@ -32,18 +32,9 @@ spec:
               env:
                 - name: PGHOST
                   value: postgresql
-                - name: PGUSER
-                  value: nebula
-                - name: PGPASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: postgresql-secret
-                      key: password
-                - name: BACKUP_ENCRYPTION_KEY
-                  valueFrom:
-                    secretKeyRef:
-                      name: backend-secrets
-                      key: SECRET_ENCRYPTION_KEY
+              envFrom:
+                - secretRef:
+                    name: backup-database-secrets
               volumeMounts:
                 - name: backup
                   mountPath: /backup
