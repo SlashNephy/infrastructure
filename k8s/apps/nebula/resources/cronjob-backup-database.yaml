@@ -56,14 +56,14 @@ spec:
                 - /bin/sh
                 - -ec
                 - |
-                  rclone copy /backup/database "${REMOTE}" \
-                    --include='pg_dumpall-*.pgdump' \
+                  rclone copy /backup "${REMOTE}" \
+                    --include='pg_dumpall-*' \
                     --config=/mnt/local/nebula/rclone/rclone.conf \
                     --log-level=INFO
 
                   rclone lsf "${REMOTE}" \
                     --files-only \
-                    --include='pg_dumpall-*.pgdump' \
+                    --include='pg_dumpall-*' \
                     --config=/mnt/local/nebula/rclone/rclone.conf \
                     | sort -r \
                     | tail -n +"$((KEEP_COUNT + 1))" \
@@ -76,14 +76,13 @@ spec:
                 - name: REMOTE
                   value: google_drive:Backup/nebula/database
                 - name: KEEP_COUNT
-                  value: "7"
+                  value: "10"
               volumeMounts:
                 - name: backup
                   mountPath: /backup
                   readOnly: true
                 - name: rclone
                   mountPath: /mnt/local/nebula/rclone
-                  readOnly: true
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
