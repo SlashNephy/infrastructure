@@ -18,9 +18,7 @@ spec:
                 - sync
                 - /mnt/local/nebula/media
                 - google_drive:Backup/nebula/media
-                - --order-by=name
                 - --config=/mnt/local/nebula/rclone/rclone.conf
-                - --log-level=INFO
               volumeMounts:
                 - name: media
                   mountPath: /mnt/local/nebula/media
@@ -41,9 +39,7 @@ spec:
                 - sync
                 - /mnt/local/nebula/avatars
                 - google_drive:Backup/nebula/avatars
-                - --order-by=name
                 - --config=/mnt/local/nebula/rclone/rclone.conf
-                - --log-level=INFO
               volumeMounts:
                 - name: avatars
                   mountPath: /mnt/local/nebula/avatars
