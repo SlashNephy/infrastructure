@@ -28,7 +28,8 @@ spec:
                     --quote-all-identifiers \
                     | encrypt-backup \
                       -target /backup \
-                      -prefix pg_dumpall
+                      -prefix database/pg_dumpall \
+                      -extension .pgdump
               env:
                 - name: PGHOST
                   value: postgresql
@@ -56,22 +57,29 @@ spec:
                 - /bin/sh
                 - -ec
                 - |
-                  rclone copy /backup "${REMOTE}" \
+                  rclone copy /backup/database "${REMOTE}" \
                     --include='pg_dumpall-*' \
                     --config=/mnt/local/nebula/rclone/rclone.conf \
                     --log-level=INFO
 
                   rclone lsf "${REMOTE}" \
+                    --recursive \
                     --files-only \
-                    --include='pg_dumpall-*' \
                     --config=/mnt/local/nebula/rclone/rclone.conf \
+                    | awk -F/ '$NF ~ /^pg_dumpall-/ { print $NF "\t" $0 }' \
                     | sort -r \
                     | tail -n +"$((KEEP_COUNT + 1))" \
+                    | cut -f2- \
                     | while IFS= read -r old; do
                         rclone deletefile "${REMOTE}/${old}" \
                           --config=/mnt/local/nebula/rclone/rclone.conf \
                           --log-level=INFO
                       done
+
+                  rclone rmdirs "${REMOTE}" \
+                    --leave-root \
+                    --config=/mnt/local/nebula/rclone/rclone.conf \
+                    --log-level=INFO
               env:
                 - name: REMOTE
                   value: google_drive:Backup/nebula/database
