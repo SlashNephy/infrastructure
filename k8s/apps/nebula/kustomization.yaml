@@ -79,6 +79,7 @@ helmCharts:
 
 resources:
   - ./../../common/registry-ghcr-io/lily
+  - ./resources/cronjob-backup-contents.yaml
   - ./resources/cronjob-cleanup-backup.yaml
   - ./resources/deployment-backend.yaml
   - ./resources/deployment-ffmpeg.yaml
