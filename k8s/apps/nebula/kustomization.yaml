@@ -19,20 +19,6 @@ helmCharts:
         database: nebula
         existingSecret: postgresql-secret
         username: nebula
-      backup:
-        cronjob:
-          concurrencyPolicy: Forbid
-          containerSecurityContext:
-            runAsGroup: 1000
-            runAsUser: 1000
-          resourcesPreset: small
-          restartPolicy: Never
-          # @hourly
-          schedule: "20 * * * *"
-          storage:
-            existingClaim: nebula-postgresql-backup
-          timeZone: Asia/Tokyo
-        enabled: true
       global:
         imagePullSecrets:
           - ghcr-io-credentials
@@ -80,7 +66,7 @@ helmCharts:
 resources:
   - ./../../common/registry-ghcr-io/lily
   - ./resources/cronjob-backup-contents.yaml
-  - ./resources/cronjob-cleanup-backup.yaml
+  - ./resources/cronjob-backup-database.yaml
   - ./resources/deployment-backend.yaml
   - ./resources/deployment-ffmpeg.yaml
   - ./resources/deployment-frontend.yaml
@@ -95,7 +81,6 @@ resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
   - ./resources/service.yaml
-  - ./resources/volume-backup.yaml
   - ./resources/volume-postgresql.yaml
   - ./resources/volume-redis.yaml
 
