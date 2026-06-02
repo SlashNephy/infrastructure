@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: instagram
-          image: ghcr.io/slashnephy/nebula-instagram:main@sha256:01b1c21e1f6c3347b74450eebb70e3f1960826a1647546b2449c7003639f4b36
+          image: ghcr.io/slashnephy/nebula-instagram:main@sha256:df03b0027ec577a5d5fbc3eda2fbb87367f807fe37f6b4ffe59f374cb296724a
           envFrom:
             - secretRef:
                 name: instagram-secrets
