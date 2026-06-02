@@ -16,12 +16,18 @@ spec:
       containers:
         - name: worker
           image: ghcr.io/slashnephy/nebula-worker:main@sha256:94e2c8f0df83943b01bf60977aeb0d9d635d5dadff6c64704e2687635bb5ddb5
+          args:
+            - --config
+            - /app/config.yaml
           envFrom:
             - configMapRef:
                 name: backend-config
             - secretRef:
                 name: backend-secrets
           volumeMounts:
+            - name: config
+              mountPath: /app/config.yaml
+              readOnly: true
             - name: media
               mountPath: /app/media
             - name: thumbnails
@@ -37,6 +43,10 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
       volumes:
+        - name: config
+          hostPath:
+            path: /mnt/local/nebula/config.yaml
+            type: File
         - name: media
           hostPath:
             path: /mnt/local/nebula/media

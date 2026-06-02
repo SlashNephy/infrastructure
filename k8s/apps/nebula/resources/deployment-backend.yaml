@@ -16,6 +16,9 @@ spec:
       containers:
         - name: server
           image: ghcr.io/slashnephy/nebula-backend:main@sha256:05e5ab097a7d98bcffef02b925b6ee54f790a7c74f2ebc0c0e630a827d470b98
+          args:
+            - --config
+            - /app/config.yaml
           envFrom:
             - configMapRef:
                 name: backend-config
@@ -25,6 +28,9 @@ spec:
             - name: http
               containerPort: 8080
           volumeMounts:
+            - name: config
+              mountPath: /app/config.yaml
+              readOnly: true
             - name: media
               mountPath: /app/media
             - name: thumbnails
@@ -48,6 +54,10 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
       volumes:
+        - name: config
+          hostPath:
+            path: /mnt/local/nebula/config.yaml
+            type: File
         - name: media
           hostPath:
             path: /mnt/local/nebula/media
