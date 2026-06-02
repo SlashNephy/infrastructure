@@ -15,7 +15,10 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/slashnephy/nebula-backend:main@sha256:0061a0c2c24860913d903a08081d45e552222153201b08322a6154815e7768b9
+          image: ghcr.io/slashnephy/nebula-backend:main@sha256:05e5ab097a7d98bcffef02b925b6ee54f790a7c74f2ebc0c0e630a827d470b98
+          args:
+            - --config
+            - /app/config.yaml
           envFrom:
             - configMapRef:
                 name: backend-config
@@ -25,12 +28,17 @@ spec:
             - name: http
               containerPort: 8080
           volumeMounts:
+            - name: config
+              mountPath: /app/config.yaml
+              readOnly: true
             - name: media
               mountPath: /app/media
+            - name: thumbnails
+              mountPath: /app/thumbnails
             - name: avatars
               mountPath: /app/avatars
-            - name: media
-              mountPath: /app/content
+            - name: tmp
+              mountPath: /tmp
           livenessProbe:
             httpGet:
               path: /health
@@ -46,19 +54,32 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
       volumes:
+        - name: config
+          hostPath:
+            path: /mnt/local/nebula/config.yaml
+            type: File
         - name: media
           hostPath:
-            path: /mnt/pool/nebula_media
-            type: DirectoryOrCreate
+            path: /mnt/local/nebula/media
+            type: Directory
+        - name: thumbnails
+          hostPath:
+            path: /mnt/local/nebula/thumbnails
+            type: Directory
         - name: avatars
           hostPath:
             path: /mnt/local/nebula/avatars
-            type: DirectoryOrCreate
+            type: Directory
+        - name: tmp
+          emptyDir: {}
       restartPolicy: Always
       automountServiceAccountToken: false
       imagePullSecrets:
         - name: ghcr-io-credentials
       securityContext:
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
         seccompProfile:
           type: RuntimeDefault
       terminationGracePeriodSeconds: 30

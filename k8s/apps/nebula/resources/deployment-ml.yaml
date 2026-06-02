@@ -4,7 +4,7 @@ metadata:
   name: ml
 
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: ml
@@ -15,14 +15,14 @@ spec:
     spec:
       containers:
         - name: ml
-          image: ghcr.io/slashnephy/nebula-ml:main@sha256:661601b830a0d9a49e16bd3d53397ed78abd801d821ede3585f6ad9e1e532018
+          image: ghcr.io/slashnephy/nebula-ml:main@sha256:39559a98807cae88f3fa9e0e7ed6a6395e0c248b48780b1a343f0157d5229ce2
           env:
             - name: DEVICE
               value: openvino
             - name: MODEL_CACHE_DIR
               value: /cache
             - name: MAX_MEMORY_MB
-              value: "4096"
+              value: "8192"
           envFrom:
             - secretRef:
                 name: ml-secrets

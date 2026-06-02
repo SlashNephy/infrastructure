@@ -40,6 +40,8 @@ spec:
               subPath: users.yaml
             - name: pool
               mountPath: /mnt/pool
+            - name: local
+              mountPath: /mnt/local
           securityContext:
             allowPrivilegeEscalation: false
             # /etc/passwd を動的に編集する必要がある
@@ -54,6 +56,10 @@ spec:
         - name: pool
           hostPath:
             path: /mnt/pool
+            type: Directory
+        - name: local
+          hostPath:
+            path: /mnt/local
             type: Directory
       restartPolicy: Always
       securityContext:

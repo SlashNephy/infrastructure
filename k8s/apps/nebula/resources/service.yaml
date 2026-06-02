@@ -61,6 +61,36 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: ytdlp
+
+spec:
+  selector:
+    app: ytdlp
+  ports:
+    - name: http
+      port: 8086
+      targetPort: http
+      protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ffmpeg
+
+spec:
+  selector:
+    app: ffmpeg
+  ports:
+    - name: http
+      port: 8087
+      targetPort: http
+      protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: frontend
 
 spec:

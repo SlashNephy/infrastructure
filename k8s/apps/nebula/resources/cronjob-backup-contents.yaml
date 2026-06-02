@@ -1,0 +1,75 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-contents
+
+spec:
+  schedule: "15 * * * *"
+  timeZone: Asia/Tokyo
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: media
+              image: rclone/rclone:1.74.1@sha256:eb8788b795f0009324e9572b0e2acb9b56885327c2746b07d67a9d3b893a6602
+              args:
+                - sync
+                - /mnt/local/nebula/media
+                - google_drive:Backup/nebula/media
+                - --config=/mnt/local/nebula/rclone/rclone.conf
+              volumeMounts:
+                - name: media
+                  mountPath: /mnt/local/nebula/media
+                  readOnly: true
+                - name: rclone
+                  mountPath: /mnt/local/nebula/rclone
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsGroup: 1000
+                runAsUser: 1000
+            - name: avatars
+              image: rclone/rclone:1.74.1@sha256:eb8788b795f0009324e9572b0e2acb9b56885327c2746b07d67a9d3b893a6602
+              args:
+                - sync
+                - /mnt/local/nebula/avatars
+                - google_drive:Backup/nebula/avatars
+                - --config=/mnt/local/nebula/rclone/rclone.conf
+              volumeMounts:
+                - name: avatars
+                  mountPath: /mnt/local/nebula/avatars
+                  readOnly: true
+                - name: rclone
+                  mountPath: /mnt/local/nebula/rclone
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsGroup: 1000
+                runAsUser: 1000
+          volumes:
+            - name: media
+              hostPath:
+                path: /mnt/local/nebula/media
+                type: Directory
+            - name: avatars
+              hostPath:
+                path: /mnt/local/nebula/avatars
+                type: Directory
+            - name: rclone
+              hostPath:
+                path: /mnt/local/nebula/rclone
+                type: Directory
+          restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1

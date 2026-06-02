@@ -1,27 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: xctid
+  name: ytdlp
 
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: xctid
+      app: ytdlp
   template:
     metadata:
       labels:
-        app: xctid
+        app: ytdlp
     spec:
       containers:
-        - name: xctid
-          image: ghcr.io/slashnephy/nebula-xctid:main@sha256:6f378e537949ee68c2952d46928efe9d8603f3fa79118b50d1048d2ac4e03676
+        - name: ytdlp
+          image: ghcr.io/slashnephy/nebula-ytdlp:main@sha256:e8dff6398ece359a4897d4c7b880b34330bf2178104420befdf6c65c36f10ba3
           envFrom:
             - secretRef:
-                name: xctid-secrets
+                name: ytdlp-secrets
           ports:
             - name: http
-              containerPort: 8084
+              containerPort: 8086
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
           livenessProbe:
             failureThreshold: 5
             httpGet:
@@ -36,6 +39,9 @@ spec:
               drop:
                 - ALL
             readOnlyRootFilesystem: true
+      volumes:
+        - name: tmp
+          emptyDir: {}
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
