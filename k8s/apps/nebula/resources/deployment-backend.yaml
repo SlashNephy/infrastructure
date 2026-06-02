@@ -19,6 +19,9 @@ spec:
           args:
             - --config
             - /app/config.yaml
+          env:
+            - name: SERVER_ADDRESS
+              value: ":8080"
           envFrom:
             - configMapRef:
                 name: backend-config
