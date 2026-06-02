@@ -1,0 +1,121 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-database
+
+spec:
+  schedule: "45 * * * *"
+  timeZone: Asia/Tokyo
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          initContainers:
+            - name: dump
+              image: docker.io/bitnami/postgresql
+              command:
+                - bash
+                - -euo
+                - pipefail
+                - -c
+                - |
+                  pg_dumpall \
+                    --host="${PGHOST}" \
+                    --username="${PGUSER}" \
+                    --clean \
+                    --if-exists \
+                    --quote-all-identifiers \
+                    | encrypt-backup \
+                      -target /backup \
+                      -prefix database/pg_dumpall \
+                      -extension .pgdump
+              env:
+                - name: PGHOST
+                  value: postgresql
+              envFrom:
+                - secretRef:
+                    name: backup-database-secrets
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+                - name: tmp
+                  mountPath: /tmp
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsGroup: 1000
+                runAsNonRoot: true
+                runAsUser: 1000
+          containers:
+            - name: backup
+              image: rclone/rclone:1.74.1@sha256:eb8788b795f0009324e9572b0e2acb9b56885327c2746b07d67a9d3b893a6602
+              command:
+                - /bin/sh
+                - -ec
+                - |
+                  rclone copy /backup/database "${REMOTE}" \
+                    --include='pg_dumpall-*' \
+                    --config=/mnt/local/nebula/rclone/rclone.conf \
+                    --log-level=INFO
+
+                  rclone lsf "${REMOTE}" \
+                    --recursive \
+                    --files-only \
+                    --config=/mnt/local/nebula/rclone/rclone.conf \
+                    | awk -F/ '$NF ~ /^pg_dumpall-/ { print $NF "\t" $0 }' \
+                    | sort -r \
+                    | tail -n +"$((KEEP_COUNT + 1))" \
+                    | cut -f2- \
+                    | while IFS= read -r old; do
+                        rclone deletefile "${REMOTE}/${old}" \
+                          --config=/mnt/local/nebula/rclone/rclone.conf \
+                          --log-level=INFO
+                      done
+
+                  rclone rmdirs "${REMOTE}" \
+                    --leave-root \
+                    --config=/mnt/local/nebula/rclone/rclone.conf \
+                    --log-level=INFO
+              env:
+                - name: REMOTE
+                  value: google_drive:Backup/nebula/database
+                - name: KEEP_COUNT
+                  value: "10"
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+                  readOnly: true
+                - name: rclone
+                  mountPath: /mnt/local/nebula/rclone
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsGroup: 1000
+                runAsNonRoot: true
+                runAsUser: 1000
+          volumes:
+            - name: backup
+              emptyDir: {}
+            - name: rclone
+              hostPath:
+                path: /mnt/local/nebula/rclone
+                type: Directory
+            - name: tmp
+              emptyDir: {}
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          imagePullSecrets:
+            - name: ghcr-io-credentials
+          securityContext:
+            fsGroup: 1000
+            seccompProfile:
+              type: RuntimeDefault
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
