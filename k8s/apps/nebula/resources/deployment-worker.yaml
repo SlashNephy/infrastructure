@@ -22,9 +22,6 @@ spec:
             - secretRef:
                 name: backend-secrets
           volumeMounts:
-            - name: config
-              mountPath: /app/config.yaml
-              readOnly: true
             - name: media
               mountPath: /app/media
             - name: thumbnails
@@ -40,10 +37,6 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
       volumes:
-        - name: config
-          hostPath:
-            path: /mnt/local/nebula/config.yaml
-            type: File
         - name: media
           hostPath:
             path: /mnt/local/nebula/media
