@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM ghcr.io/actions/actions-runner:2.335.0@sha256:ccdcb5f6ad3ff02cda20d47544b9bc335b9d555b535fb3556da83e823652a8b4
+FROM ghcr.io/actions/actions-runner:2.335.1@sha256:08c30b0a7105f64bddfc485d2487a22aa03932a791402393352fdf674bda2c29
 
 ARG APT_PACKAGES="build-essential git curl"
 
