@@ -1,6 +1,6 @@
 module watch-k8s-events
 
-go 1.25.3
+go 1.26
 
 require (
 	github.com/bwmarrin/discordgo v0.29.0
