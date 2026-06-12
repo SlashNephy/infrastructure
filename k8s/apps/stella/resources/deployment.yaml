@@ -72,7 +72,7 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
         - name: db
-          image: public.ecr.aws/docker/library/mongo:7.0.34-jammy@sha256:80bdab05c3cdc7c233438f70553960e86112e0fc9d46f0409ee03fc796bb24b7
+          image: public.ecr.aws/docker/library/mongo:7.0.35-jammy@sha256:4e751f4c5aa4ec11a23aa27f1c3f9fe3d2b8c52abfd9734ae770da1a4fca39c4
           env:
             - name: MONGO_INITDB_DATABASE
               value: stella
