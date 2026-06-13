@@ -44,7 +44,7 @@ helmCharts:
         enabled: true
   - name: redis
     releaseName: redis
-    version: 25.5.3
+    version: 27.0.4
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       architecture: standalone
