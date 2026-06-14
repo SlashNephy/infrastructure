@@ -2,11 +2,11 @@ terraform {
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "5.18.0"
+      version = "5.19.1"
     }
     mackerel = {
       source  = "mackerelio-labs/mackerel"
-      version = "0.9.0"
+      version = "0.9.1"
     }
   }
 }

@@ -18,7 +18,7 @@ spec:
       containers:
         # https://github.com/sdr-enthusiasts/docker-adsb-ultrafeeder
         - name: ultrafeeder
-          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:telegraf@sha256:3dacf2c6f9adab6e22192c345d41fa8ebc9c6851aa1f58c3a20fd9bd33e817ea
+          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:telegraf@sha256:f0bd1c3a20cf605c6a691271603b7890fbd262fe92710a98c1ff76a854825a41
           env:
             - name: LOGLEVEL
               value: error
@@ -108,7 +108,7 @@ spec:
 
         # https://github.com/sdr-enthusiasts/docker-flightradar24
         - name: fr24feed
-          image: ghcr.io/sdr-enthusiasts/docker-flightradar24@sha256:ad54409a8b93abdd2b0ea434de9c92be7ec6b6965028b9ee2827c7f24fee092b
+          image: ghcr.io/sdr-enthusiasts/docker-flightradar24@sha256:ea29527713cfd2c0b2875aaed245e315522778f3f314484e483765fc3a9cc493
           env:
             - name: BEASTHOST
               value: localhost
