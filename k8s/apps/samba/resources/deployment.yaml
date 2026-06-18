@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: quay.io/samba.org/samba-server:v0.8@sha256:c01bd014570e5a2b49876debc69dae3cfb14ed562a02bbbed0493adf7521e0b9
+          image: quay.io/samba.org/samba-server:v0.9@sha256:6e1a4719586d78f94f8007d6d04a8390104bfd6ee4f4ca3a51fc04752e24b1a5
           env:
             - name: TZ
               value: Asia/Tokyo
