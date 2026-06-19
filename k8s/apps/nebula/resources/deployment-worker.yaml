@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: worker
-          image: ghcr.io/slashnephy/nebula-worker:main@sha256:629c260d8a4fc5fd00360aaf51caa1487e169d6756c4e3957b8c849f4fe6b094
+          image: ghcr.io/slashnephy/nebula-worker:main@sha256:928a87fb2384dcf41a3af830f4af691c7738551bbc783aacd42645f6f50a2348
           envFrom:
             - configMapRef:
                 name: backend-config
