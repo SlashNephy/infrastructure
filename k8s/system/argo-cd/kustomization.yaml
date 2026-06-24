@@ -35,7 +35,7 @@ helmCharts:
             args:
               - --url
               - https://id.starry.blue/application/o/argo-cd/
-            image: ghcr.io/slashnephy/wait-for:master@sha256:bec267002ea1d3d4bbb5fe6681fe0b784a07a51c1faddf78efd1b05ec4c37e76
+            image: ghcr.io/slashnephy/wait-for:master@sha256:37de4aac0184f33b08eb3a495e39ff517d1eb67eb51e751acfc264be319b92a0
         metrics:
           enabled: true
         # Telegraf は Pod Annotation による検出しかサポートしていない
