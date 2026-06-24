@@ -1,4 +1,4 @@
-FROM golang:1.26.4-trixie@sha256:bbf22ddccb3205344f2755ea8fa4fe39f7a8b2b77b9f7b764ec2aad31406f6fc AS base
+FROM golang:1.26.4-trixie@sha256:d4e92b5fc5b198732bc1f90bf08d581a482707c4bc724efd1484e59016c1d992 AS base
 WORKDIR /work
 
 COPY ./go.mod ./go.sum ./
