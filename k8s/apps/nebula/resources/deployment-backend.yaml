@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/slashnephy/nebula-backend:main@sha256:9109cefd773f56bc0efe733c49dcda6d3211ff9dba3c0042402a32f286d39ec1
+          image: ghcr.io/slashnephy/nebula-backend:main@sha256:7b53ff4e96110987c139afe25798ec8d010c91025772f9df62b655e4ca4bc057
           env:
             - name: SERVER_ADDRESS
               value: ":8080"
