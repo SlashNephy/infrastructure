@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: db
-          image: public.ecr.aws/docker/library/mongo:7.0.35-jammy@sha256:4e751f4c5aa4ec11a23aa27f1c3f9fe3d2b8c52abfd9734ae770da1a4fca39c4
+          image: public.ecr.aws/docker/library/mongo:7.0.37-jammy@sha256:b0c1f837c31921c93689559d5848fd14b7c421afb92d9b5a11e5a8769f98cad1
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
