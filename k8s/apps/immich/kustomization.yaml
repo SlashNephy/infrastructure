@@ -7,7 +7,7 @@ helmCharts:
   # https://immich.app/docs/install/kubernetes/
   - name: valkey
     releaseName: valkey
-    version: 6.1.9
+    version: 6.1.12
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       architecture: standalone
