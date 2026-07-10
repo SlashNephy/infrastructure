@@ -22,16 +22,16 @@ spec:
     app: default
   type: NodePort
   ports:
-    - name: dns-over-tcp
-      port: 53
-      targetPort: dns-over-tcp
-      nodePort: 53
-      protocol: TCP
-    - name: dns-over-udp
-      port: 53
-      targetPort: dns-over-udp
-      nodePort: 53
-      protocol: UDP
+    # - name: dns-over-tcp
+    #   port: 53
+    #   targetPort: dns-over-tcp
+    #   nodePort: 53
+    #   protocol: TCP
+    # - name: dns-over-udp
+    #   port: 53
+    #   targetPort: dns-over-udp
+    #   nodePort: 53
+    #   protocol: UDP
     - name: dns-over-tls
       port: 853
       targetPort: dns-over-tls
