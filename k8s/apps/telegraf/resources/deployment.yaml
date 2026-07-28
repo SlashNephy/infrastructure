@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: telegraf:1.39.1@sha256:8c1bc372ffa128be2febfe25f1fe092333d3d6c2293cf5e57176582179ba358a
+          image: telegraf:1.39.2@sha256:49899960eccad39415b91cf654324f0bb7efddaef8f1aa3ec24e2d8c6e19618e
           command:
             - telegraf
           env:
