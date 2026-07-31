@@ -4,7 +4,7 @@ metadata:
   name: books
 
 spec:
-  schedule: "*/15 * * * *"
+  schedule: "15 */3 * * *"
   timeZone: Asia/Tokyo
   jobTemplate:
     spec:
@@ -17,7 +17,7 @@ spec:
               args:
                 - sync
                 - /mnt/pool/books
-                - Neotopia:Books
+                - google_drive:Books
                 - --order-by=name
                 - --config=/config/rclone/rclone.conf
                 - --log-level=INFO
