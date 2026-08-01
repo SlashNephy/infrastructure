@@ -80,11 +80,16 @@ helmCharts:
               exporters:
                 - debug
               processors:
+                # Helm の values マージでは配列は置換されるため、chart が既定で
+                # 入れる memory_limiter と batch を明示的に書き戻す必要がある。
+                # 省略すると logs パイプラインからだけ両者が消える。
+                - memory_limiter
                 - filter/optout
                 - transform/severity
                 - transform/service_name
                 - transform/sampling
                 - probabilistic_sampler
+                - batch
       image:
         repository: otel/opentelemetry-collector-k8s
       mode: daemonset
