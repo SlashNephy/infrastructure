@@ -13,12 +13,78 @@ helmCharts:
       config:
         exporters:
           debug:
-            verbosity: basic
+            # 変換結果を目視で確認するため detailed にする。
+            # Task 5 で Mackerel exporter に切り替える際に削除する。
+            verbosity: detailed
+        processors:
+          # 除外対象を先に落とし、後続の変換コストを減らす
+          filter/optout:
+            error_mode: ignore
+            logs:
+              log_record:
+                - 'resource.attributes["k8s.pod.annotation.mackerel.io/logs"] == "false"'
+          probabilistic_sampler:
+            # 初期値は 100%。発生源の是正により全量でも月 720 円に収まるため、
+            # まず全量送信して実データを確認する。
+            sampling_percentage: 100
+            sampling_priority: sample_priority
+          transform/sampling:
+            error_mode: ignore
+            log_statements:
+              # WARN 以上は優先度 100 を付与し、サンプリング率に関わらず必ず通す
+              - set(attributes["sample_priority"], 100)
+                  where severity_number >= SEVERITY_NUMBER_WARN
+          transform/service_name:
+            error_mode: ignore
+            log_statements:
+              - set(resource.attributes["service.namespace"],
+                    resource.attributes["k8s.namespace.name"])
+              - set(resource.attributes["service.name"],
+                    resource.attributes["k8s.deployment.name"])
+                  where resource.attributes["k8s.deployment.name"] != nil
+              - set(resource.attributes["service.name"],
+                    resource.attributes["k8s.daemonset.name"])
+                  where resource.attributes["service.name"] == nil
+                    and resource.attributes["k8s.daemonset.name"] != nil
+              - set(resource.attributes["service.name"],
+                    resource.attributes["k8s.statefulset.name"])
+                  where resource.attributes["service.name"] == nil
+                    and resource.attributes["k8s.statefulset.name"] != nil
+              - set(resource.attributes["service.name"],
+                    resource.attributes["k8s.pod.name"])
+                  where resource.attributes["service.name"] == nil
+          transform/severity:
+            error_mode: ignore
+            log_statements:
+              # zerolog の ConsoleWriter 形式は ANSI カラーエスケープを含む。
+              # 先に除去しないと後続の正規表現がレベル表記に一致しない。
+              - replace_pattern(body, "\\x1b\\[[0-9;]*m", "") where IsString(body)
+              # JSON ログは level フィールドから判定する
+              - set(severity_number, SEVERITY_NUMBER_ERROR)
+                  where not IsString(body) and body["level"] == "error"
+              - set(severity_number, SEVERITY_NUMBER_WARN)
+                  where not IsString(body) and body["level"] == "warn"
+              - set(severity_number, SEVERITY_NUMBER_INFO)
+                  where not IsString(body) and body["level"] == "info"
+              # テキストログは本文から推定する。zerolog の ERR / WRN 表記にも対応する
+              - set(severity_number, SEVERITY_NUMBER_ERROR)
+                  where IsString(body)
+                    and IsMatch(body, "(?i)\\b(err|error|fatal|panic)\\b")
+              - set(severity_number, SEVERITY_NUMBER_WARN)
+                  where IsString(body)
+                    and severity_number == SEVERITY_NUMBER_UNSPECIFIED
+                    and IsMatch(body, "(?i)\\b(wrn|warn|warning)\\b")
         service:
           pipelines:
             logs:
               exporters:
                 - debug
+              processors:
+                - filter/optout
+                - transform/severity
+                - transform/service_name
+                - transform/sampling
+                - probabilistic_sampler
       image:
         repository: otel/opentelemetry-collector-k8s
       mode: daemonset
