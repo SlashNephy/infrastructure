@@ -48,6 +48,33 @@ jobs:
           branch-suffix: random
           title: update ${{ github.event.client_payload.images[0] }} 🔜 ${{ github.event.client_payload.digest }}
           body: https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
+          # stale.yaml がこのラベルで回収対象を絞り込む
+          labels: automerge
+
+      # 同一イメージのより新しい PR ができた時点で、古い PR のダイジェストは無意味になる。
+      # 下の gh pr merge はコンフリクトすると失敗して PR を残すため、その取りこぼしをここで回収する。
+      # マージが失敗しても実行されるよう、マージより前に置いている。
+      - name: Close Superseded Pull Requests
+        if: steps.create-pull-request.outputs.pull-request-number
+        env:
+          GH_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+          IMAGE: ${{ github.event.client_payload.images[0] }}
+          PR_NUMBER: ${{ steps.create-pull-request.outputs.pull-request-number }}
+        run: |
+          set -euo pipefail
+
+          # 上の Create Pull Request が組み立てるタイトル・ブランチ名の規則で同一イメージの PR を絞り込む。
+          # 別イメージの PR を巻き込まないよう、ブランチ名とタイトルの両方で照合する。
+          gh pr list --state open --limit 100 --json number,title,headRefName \
+            --jq '.[]
+              | select(.headRefName | startswith("ci/update-image-digest-"))
+              | select(.title | startswith("update " + env.IMAGE + " 🔜"))
+              | select(.number != (env.PR_NUMBER | tonumber))
+              | .number' |
+          while read -r number; do
+            echo "Closing superseded pull request #${number}"
+            gh pr close "$number" --delete-branch --comment "Superseded by #${PR_NUMBER}"
+          done
 
       - run: gh pr merge --squash $PR_NUMBER
         if: steps.create-pull-request.outputs.pull-request-number
