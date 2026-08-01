@@ -599,11 +599,16 @@ ANSI エスケープの除去、severity の判定、サービス名の設定、
               exporters:
                 - debug
               processors:
+                # Helm の values マージでは配列は置換されるため、chart が既定で
+                # 入れる memory_limiter と batch を明示的に書き戻す必要がある。
+                # 省略すると logs パイプラインからだけ両者が消える。
+                - memory_limiter
                 - filter/optout
                 - transform/severity
                 - transform/service_name
                 - transform/sampling
                 - probabilistic_sampler
+                - batch
 ```
 
 `processors` の並びは ESLint により昇順に整列されるが、`service.pipelines.logs.processors` は配列であり**実行順序を持つ**。この配列の順序は変更してはならない。`pnpm eslint --fix` の実行後に、この配列の順序が保たれていることを必ず確認する。
@@ -627,7 +632,9 @@ kube-linter は既存の 633 件を出力し exit code 1 で終了する。
 grep -A8 "processors:" k8s/system/opentelemetry-collector/kustomization.yaml | grep -A7 "filter/optout"
 ```
 
-期待：`filter/optout`, `transform/severity`, `transform/service_name`, `transform/sampling`, `probabilistic_sampler` の順で並んでいる。
+期待：`memory_limiter`, `filter/optout`, `transform/severity`, `transform/service_name`, `transform/sampling`, `probabilistic_sampler`, `batch` の順で並んでいる。
+生成後の config では preset が `k8sattributes` を先頭に挿入するため、最終的な並びは
+`k8sattributes, memory_limiter, filter/optout, ..., probabilistic_sampler, batch` になる。
 順序が変わっている場合、`pnpm eslint --fix` が配列を並び替えている。`eslint.config.mjs` の `yml/sort-sequence-values` の設定を確認し、該当パスが対象外であることを確かめる。対象になっている場合はこの配列に `# eslint-disable-next-line yml/sort-sequence-values` を付けるのではなく、ユーザーに相談する。
 
 - [ ] **Step 4: コミット**
@@ -726,11 +733,16 @@ mise exec -- kubectl logs "$POD" -n opentelemetry-collector --tail=500 \
               exporters:
                 - otlphttp/mackerel
               processors:
+                # Helm の values マージでは配列は置換されるため、chart が既定で
+                # 入れる memory_limiter と batch を明示的に書き戻す必要がある。
+                # 省略すると logs パイプラインからだけ両者が消える。
+                - memory_limiter
                 - filter/optout
                 - transform/severity
                 - transform/service_name
                 - transform/sampling
                 - probabilistic_sampler
+                - batch
 ```
 
 `valuesInline` の直下に `extraEnvs` を追加する（キーは昇順に整列されるため `config` の後、`image` の前になる）。
@@ -906,7 +918,10 @@ mise exec -- kubectl delete namespace mackerel-optout-test
               exporters:
                 - otlphttp/mackerel
               processors:
+                # 配列は置換されるため、chart 既定の memory_limiter と batch を明示する
+                - memory_limiter
                 - transform/service_name
+                - batch
       extraEnvs:
         - name: MACKEREL_APIKEY
           valueFrom:
@@ -1039,16 +1054,22 @@ Pod ログとは別のパイプラインにする理由は、journald には ANS
                 exporters:
                   - otlphttp/mackerel
                 processors:
+                  # Helm の values マージでは配列は置換されるため、chart が既定で
+                  # 入れる memory_limiter と batch を明示的に書き戻す必要がある。
+                  - memory_limiter
                   - filter/optout
                   - transform/severity
                   - transform/service_name
                   - transform/sampling
                   - probabilistic_sampler
+                  - batch
               logs/journald:
                 exporters:
                   - otlphttp/mackerel
                 processors:
+                  - memory_limiter
                   - transform/journald_service_name
+                  - batch
                 receivers:
                   - otlp
 ```
