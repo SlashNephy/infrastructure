@@ -12,6 +12,11 @@ helmCharts:
     valuesInline:
       config:
         exporters:
+          # chart は metrics/traces のパイプラインを既定で作り、debug exporter に
+          # 出力する。このリポジトリではログしか扱わず、メトリクスは
+          # mackerel-container-agent が別途送っているため、収集結果を捨てる。
+          # Helm のマージは null を無視するのでパイプラインごとは消せない。
+          nop: {}
           otlphttp/mackerel:
             endpoint: https://otlp-vaxila.mackerelio.com
             headers:
@@ -100,6 +105,12 @@ helmCharts:
                 - transform/sampling
                 - probabilistic_sampler
                 - batch
+            metrics:
+              exporters:
+                - nop
+            traces:
+              exporters:
+                - nop
       extraEnvs:
         - name: MACKEREL_APIKEY
           valueFrom:
