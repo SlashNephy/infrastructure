@@ -88,11 +88,29 @@ logs:
           StartLocal: drop # time で十分
           StartUTC: drop
       headers:
-        defaultmode: keep
+        # 全ヘッダーを記録すると 1 レコード 3,554 bytes に達し、その 73.5% を
+        # ヘッダーが占めていた。drop を既定にすることで、新しい機密ヘッダーが
+        # 増えても明示的に keep しない限りログに載らない。
+        defaultmode: drop
         names:
-          Authorization: redact
-          Cookie: redact
-          X-Authentik-Jwt: redact
+          Accept-Language: keep
+          # Cloudflare のジオ情報。緯度経度 (Cf-Iplatitude/Cf-Iplongitude)、
+          # 郵便番号、タイムゾーンは所在地の特定精度が高すぎるため keep しない。
+          Cf-Connecting-Ip: keep
+          Cf-Ipcity: keep
+          Cf-Ipcountry: keep
+          Cf-Ray: keep
+          Cf-Visitor: keep
+          Origin: keep
+          Referer: keep
+          Sec-Ch-Ua: keep
+          Sec-Ch-Ua-Mobile: keep
+          Sec-Ch-Ua-Platform: keep
+          Sec-Fetch-Dest: keep
+          Sec-Fetch-Mode: keep
+          Sec-Fetch-Site: keep
+          User-Agent: keep
+          X-Real-Ip: keep
     format: json
   general:
     level: INFO

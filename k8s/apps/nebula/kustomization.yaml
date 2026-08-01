@@ -98,3 +98,5 @@ configMapGenerator:
       - INSTAGRAM_BASE_URL=http://instagram:8085
       - YTDLP_BASE_URL=http://ytdlp:8086
       - FFMPEG_BASE_URL=http://ffmpeg:8087
+      # DEBUG では SQL クエリの全文が出力され、クラスタ全体のログ量の 58% を占めていた
+      - LOG_LEVEL=info

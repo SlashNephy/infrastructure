@@ -58,7 +58,31 @@ loki.relabel "node_systemd_journal" {
 }
 
 loki.source.journal "node_systemd_journal" {
-	forward_to    = [loki.write.default.receiver]
+	forward_to    = [
+		loki.write.default.receiver,
+		otelcol.receiver.loki.journald.receiver,
+	]
 	relabel_rules = loki.relabel.node_systemd_journal.rules
 	labels        = {component = "loki.source.journal"}
+}
+
+// journald のログを OpenTelemetry Collector に転送する。
+// Collector の公式イメージは distroless で journalctl を含まないため、
+// journald の読み取りだけを Alloy が担い、Mackerel への送信は Collector が行う。
+otelcol.receiver.loki "journald" {
+	output {
+		logs = [otelcol.exporter.otlp.collector.input]
+	}
+}
+
+otelcol.exporter.otlp "collector" {
+	client {
+		// otel-agent の DaemonSet 名は *-agent だが、Service 名には付かない
+		// （chart のヘルパーが agent/standalone で Service 名を分けていない）。
+		endpoint = "otel-agent-opentelemetry-collector.opentelemetry-collector:4317"
+
+		tls {
+			insecure = true
+		}
+	}
 }

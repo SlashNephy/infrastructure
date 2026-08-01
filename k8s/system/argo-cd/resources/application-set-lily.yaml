@@ -252,6 +252,10 @@ spec:
             namespace: mackerel-operator
             path: k8s/system/mackerel-operator
             project: system
+          - name: opentelemetry-collector
+            namespace: opentelemetry-collector
+            path: k8s/system/opentelemetry-collector
+            project: system
 
   template:
     metadata:
