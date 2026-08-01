@@ -49,6 +49,36 @@ diff /tmp/before.log /tmp/after.log && echo "新規の指摘なし"
 `go`、`pnpm`、`kubectl`、`kustomize`、`kube-linter` はいずれも **mise 経由で実行する**。
 システムの PATH には入っていないか、バージョンが mise.toml と不一致である。
 
+### Collector の設定検証
+
+`kustomize build` が通っても Collector が設定を受け付けるとは限らない。
+OTTL 式の誤りは `otelcol validate` でしか検出できない。
+Collector の config を変更したときは必ず実行する。
+
+```bash
+SB=$(mktemp -d)
+mise exec -- kustomize build --enable-helm k8s/system/opentelemetry-collector 2>/dev/null \
+  | python3 -c "
+import sys, yaml, pathlib, os
+for doc in yaml.safe_load_all(sys.stdin):
+    if doc and doc.get('kind') == 'ConfigMap' and 'agent' in doc['metadata']['name']:
+        pathlib.Path(os.environ['SB'] + '/relay.yaml').write_text(doc['data']['relay'])
+"
+mise exec -- docker run --rm \
+  -v "$SB/relay.yaml:/etc/otel/config.yaml:ro" \
+  -e MACKEREL_APIKEY=dummy -e MY_POD_IP=127.0.0.1 -e K8S_NODE_NAME=lily \
+  otel/opentelemetry-collector-k8s:latest \
+  validate --config=/etc/otel/config.yaml
+```
+
+出力が空であれば検証成功である。
+`otel-cluster` のリリースを追加した後は、ConfigMap 名の判定を `cluster` に変えて同様に検証する。
+
+**OTTL のパスにはコンテキスト名が必要である。**
+`body` ではなく `log.body`、`severity_number` ではなく `log.severity_number`、
+`attributes[...]` ではなく `log.attributes[...]` と書く。
+省略すると `unable to infer context from statements` で Collector が起動に失敗する。
+
 ---
 
 ## File Structure
@@ -551,8 +581,8 @@ ANSI エスケープの除去、severity の判定、サービス名の設定、
             error_mode: ignore
             log_statements:
               # WARN 以上は優先度 100 を付与し、サンプリング率に関わらず必ず通す
-              - set(attributes["sample_priority"], 100)
-                  where severity_number >= SEVERITY_NUMBER_WARN
+              - set(log.attributes["sample_priority"], 100)
+                  where log.severity_number >= SEVERITY_NUMBER_WARN
           transform/service_name:
             error_mode: ignore
             log_statements:
@@ -577,27 +607,27 @@ ANSI エスケープの除去、severity の判定、サービス名の設定、
             log_statements:
               # zerolog の ConsoleWriter 形式は ANSI カラーエスケープを含む。
               # 先に除去しないと後続の正規表現がレベル表記に一致しない。
-              - replace_pattern(body, "\\x1b\\[[0-9;]*m", "") where IsString(body)
+              - replace_pattern(log.body, "\\x1b\\[[0-9;]*m", "") where IsString(log.body)
               # filelog receiver の container operator は本文を文字列のまま body に
               # 入れるため、JSON ログも自動ではパースされない。明示的にパースして
               # map に変換することで、level の判定と Mackerel 画面での属性検索が効く。
-              - set(body, ParseJSON(body))
-                  where IsString(body) and IsMatch(body, "^\\s*\\{")
+              - set(log.body, ParseJSON(log.body))
+                  where IsString(log.body) and IsMatch(log.body, "^\\s*\\{")
               # JSON ログは level フィールドから判定する
-              - set(severity_number, SEVERITY_NUMBER_ERROR)
-                  where not IsString(body) and body["level"] == "error"
-              - set(severity_number, SEVERITY_NUMBER_WARN)
-                  where not IsString(body) and body["level"] == "warn"
-              - set(severity_number, SEVERITY_NUMBER_INFO)
-                  where not IsString(body) and body["level"] == "info"
+              - set(log.severity_number, SEVERITY_NUMBER_ERROR)
+                  where not IsString(log.body) and log.body["level"] == "error"
+              - set(log.severity_number, SEVERITY_NUMBER_WARN)
+                  where not IsString(log.body) and log.body["level"] == "warn"
+              - set(log.severity_number, SEVERITY_NUMBER_INFO)
+                  where not IsString(log.body) and log.body["level"] == "info"
               # テキストログは本文から推定する。zerolog の ERR / WRN 表記にも対応する
-              - set(severity_number, SEVERITY_NUMBER_ERROR)
-                  where IsString(body)
-                    and IsMatch(body, "(?i)\\b(err|error|fatal|panic)\\b")
-              - set(severity_number, SEVERITY_NUMBER_WARN)
-                  where IsString(body)
-                    and severity_number == SEVERITY_NUMBER_UNSPECIFIED
-                    and IsMatch(body, "(?i)\\b(wrn|warn|warning)\\b")
+              - set(log.severity_number, SEVERITY_NUMBER_ERROR)
+                  where IsString(log.body)
+                    and IsMatch(log.body, "(?i)\\b(err|error|fatal|panic)\\b")
+              - set(log.severity_number, SEVERITY_NUMBER_WARN)
+                  where IsString(log.body)
+                    and log.severity_number == SEVERITY_NUMBER_UNSPECIFIED
+                    and IsMatch(log.body, "(?i)\\b(wrn|warn|warning)\\b")
         service:
           pipelines:
             logs:
