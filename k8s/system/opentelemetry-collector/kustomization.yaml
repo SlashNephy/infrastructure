@@ -38,6 +38,12 @@ helmCharts:
             # まず全量送信して実データを確認する。
             sampling_percentage: 100
             sampling_priority: sample_priority
+          transform/journald_service_name:
+            error_mode: ignore
+            log_statements:
+              # ノードの systemd ログはクラスタ単位で扱う
+              - set(resource.attributes["service.namespace"], "lily")
+              - set(resource.attributes["service.name"], "systemd")
           transform/sampling:
             error_mode: ignore
             log_statements:
@@ -89,6 +95,13 @@ helmCharts:
                   where IsString(log.body)
                     and log.severity_number == SEVERITY_NUMBER_UNSPECIFIED
                     and IsMatch(log.body, "(?i)\\b(wrn|warn|warning)\\b")
+        receivers:
+          # Alloy から journald ログを OTLP で受け取る。journalctl を実行できない
+          # distroless イメージの代わりに、libsystemd を直接呼ぶ Alloy に読み取りを任せる。
+          otlp:
+            protocols:
+              grpc:
+                endpoint: 0.0.0.0:4317
         service:
           pipelines:
             logs:
@@ -105,6 +118,22 @@ helmCharts:
                 - transform/sampling
                 - probabilistic_sampler
                 - batch
+              # otlp receiver を追加した際、chart のプリセットが「シグナルに対応する
+              # receiver は明示指定がなければ自動的に追加する」ため、指定しないと
+              # journald 用の otlp receiver がこの Pod ログ用パイプラインにも二重に
+              # 接続されてしまう（journald のログが未整形のまま Mackerel に二重送信される）。
+              # そのため filelog のみを明示し、otlp の混入を防ぐ。
+              receivers:
+                - filelog
+            logs/journald:
+              exporters:
+                - otlphttp/mackerel
+              processors:
+                - memory_limiter
+                - transform/journald_service_name
+                - batch
+              receivers:
+                - otlp
             metrics:
               exporters:
                 - nop
@@ -145,6 +174,13 @@ helmCharts:
             - ALL
         privileged: false
         readOnlyRootFilesystem: true
+      service:
+        # chart は mode: daemonset のとき Service を既定で作らないため、Alloy から
+        # OTLP (:4317) を受けるために明示的に有効化する。daemonset モードで有効化
+        # すると internalTrafficPolicy が既定で Local になり、同一ノードの Pod
+        # にしか届かない。DaemonSet に対する Service としては望ましい挙動であり、
+        # lily は単一ノードクラスタのため実用上も問題ない。
+        enabled: true
 
   - name: opentelemetry-collector
     releaseName: otel-cluster
