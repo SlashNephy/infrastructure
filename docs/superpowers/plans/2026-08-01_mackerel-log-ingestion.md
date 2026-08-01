@@ -64,14 +64,19 @@ for doc in yaml.safe_load_all(sys.stdin):
     if doc and doc.get('kind') == 'ConfigMap' and 'agent' in doc['metadata']['name']:
         pathlib.Path(os.environ['SB'] + '/relay.yaml').write_text(doc['data']['relay'])
 "
+# 実際にデプロイされるタグで検証する。chart のバージョンと Collector の
+# バージョンは一致しないため、latest では検証にならない。
+TAG=$(mise exec -- kustomize build --enable-helm k8s/system/opentelemetry-collector 2>/dev/null \
+  | grep -oE 'otel/opentelemetry-collector-k8s:[0-9.]+' | head -1)
 mise exec -- docker run --rm \
   -v "$SB/relay.yaml:/etc/otel/config.yaml:ro" \
   -e MACKEREL_APIKEY=dummy -e MY_POD_IP=127.0.0.1 -e K8S_NODE_NAME=lily \
-  otel/opentelemetry-collector-k8s:latest \
+  "$TAG" \
   validate --config=/etc/otel/config.yaml
 ```
 
 出力が空であれば検証成功である。
+2026-08-01 時点では chart 0.159.0 が Collector 0.154.0 のイメージを指しており、両者は一致しない。
 `otel-cluster` のリリースを追加した後は、ConfigMap 名の判定を `cluster` に変えて同様に検証する。
 
 **OTTL のパスにはコンテキスト名が必要である。**
