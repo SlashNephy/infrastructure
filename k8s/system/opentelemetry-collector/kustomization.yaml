@@ -37,13 +37,18 @@ helmCharts:
                 # 接頭辞は付かない。誤ると nil 比較になり静かに機能しなくなる。
                 - 'resource.attributes["mackerel.io/logs"] == "false"'
           probabilistic_sampler:
+            attribute_source: record
+            from_attribute: sample_key
+            # Pod ログには trace ID がないため、既定の attribute_source: traceID の
+            # ままだと fail_closed: true により全ログが破棄される。100% を指定しても
+            # 「trace ID を持つログの 100%」の意味にしかならず、実測で 98.8% が
+            # 消えていた。種を k8s.pod.uid に明示する。
+            #
+            # 率を下げると Pod 単位で採否が決まる。採用された Pod のログは全量残り、
+            # 残りは全破棄される（WARN 以上は sampling_priority で常に通る）。
+            mode: hash_seed
             # 初期値は 100%。発生源の是正により全量でも月 720 円に収まるため、
             # まず全量送信して実データを確認する。
-            #
-            # 100 未満に下げるときは attribute_source と from_attribute の指定が
-            # 必須になる。Pod ログには trace ID がなく、既定の traceID を種にすると
-            # WARN 未満が指定率ではなく 0% になる。種の選び方は設計文書の
-            # 「サンプリング」節を参照する。
             sampling_percentage: 100
             sampling_priority: sample_priority
           transform/journald_service_name:
@@ -58,6 +63,11 @@ helmCharts:
               # WARN 以上は優先度 100 を付与し、サンプリング率に関わらず必ず通す
               - set(log.attributes["sample_priority"], 100)
                   where log.severity_number >= SEVERITY_NUMBER_WARN
+              # probabilistic_sampler の attribute_source: record はログレコード
+              # 属性しか見ない。k8s.pod.uid は k8sattributes がリソース属性に
+              # 付けるため、ここでレコード属性へ複写しないと参照できない。
+              - set(log.attributes["sample_key"], resource.attributes["k8s.pod.uid"])
+                  where resource.attributes["k8s.pod.uid"] != nil
           transform/service_name:
             error_mode: ignore
             log_statements:
