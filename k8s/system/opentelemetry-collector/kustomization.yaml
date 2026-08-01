@@ -142,8 +142,14 @@ helmCharts:
               exporters:
                 - otlphttp/mackerel
               processors:
+                # Pod ログと同じ severity 判定とサンプリングを通す。省略すると
+                # journald だけが常に全量送信され、サンプリング率を下げたときに
+                # 送信量の見積もりが崩れる。
                 - memory_limiter
+                - transform/severity
                 - transform/journald_service_name
+                - transform/sampling
+                - probabilistic_sampler
                 - batch
               receivers:
                 - otlp
@@ -285,4 +291,5 @@ helmCharts:
 
 resources:
   - ./resources/namespace.yaml
+  - ./resources/network-policy.yaml
   - ./resources/secret.yaml

@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: otel-agent-otlp
+
+spec:
+  # otel-agent は Mackerel API キーを持ち、受信したログをそのまま外部に転送する。
+  # OTLP receiver には認証がないため、到達できる Pod は偽ログを注入して
+  # 課金を増やしたりデータを汚染したりできる。到達元を Alloy だけに絞る。
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: grafana-alloy
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: alloy
+      ports:
+        - port: 4317
+          protocol: TCP
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: otel-agent
+  policyTypes:
+    - Ingress

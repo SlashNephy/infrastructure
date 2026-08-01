@@ -56,7 +56,7 @@ OTTL 式の誤りは `otelcol validate` でしか検出できない。
 Collector の config を変更したときは必ず実行する。
 
 ```bash
-SB=$(mktemp -d)
+export SB="$(mktemp -d)"
 mise exec -- kustomize build --enable-helm k8s/system/opentelemetry-collector 2>/dev/null \
   | python3 -c "
 import sys, yaml, pathlib, os
@@ -542,7 +542,20 @@ mise exec -- kubectl logs "$POD" -n opentelemetry-collector --tail=100 | grep -i
 ```
 
 `permission denied` が出る場合、`supplementalGroups: [0]` では不足している。
-その場合は `podSecurityContext` を `runAsUser: 0` に変更し、`runAsNonRoot` を削除して再デプロイする（他の securityContext 項目は維持する）。設計文書の未決事項に結果を追記する。
+**`runAsUser: 0` に切り替えてはならない。**
+この Collector は Mackerel API キーを保持しており、root で動かすと侵害時の影響範囲が広がる。
+
+検証をいったん止め、次を調査する。
+
+```bash
+# ログファイルの所有者・グループ・パーミッションを確認する
+mise exec -- kubectl debug node/lily -it --image=busybox -- \
+  sh -c 'ls -ln /host/var/log/pods/*/*/*.log | head -5'
+```
+
+所有グループが root でない、ACL が設定されている、マウント方法が想定と違う、のいずれかである。
+判明した条件に応じて `supplementalGroups` に必要な gid を追加するか、マウント設定を見直す。
+結果は設計文書の未決事項に追記する。
 
 ---
 
@@ -1118,8 +1131,14 @@ Pod ログとは別のパイプラインにする理由は、journald には ANS
                 exporters:
                   - otlphttp/mackerel
                 processors:
+                  # Pod ログと同じ severity 判定とサンプリングを通す。省略すると
+                  # journald だけが常に全量送信され、サンプリング率を下げたときに
+                  # 送信量の見積もりが崩れる。
                   - memory_limiter
+                  - transform/severity
                   - transform/journald_service_name
+                  - transform/sampling
+                  - probabilistic_sampler
                   - batch
                 receivers:
                   - otlp
