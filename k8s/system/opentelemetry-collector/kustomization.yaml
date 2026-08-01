@@ -146,6 +146,78 @@ helmCharts:
         privileged: false
         readOnlyRootFilesystem: true
 
+  - name: opentelemetry-collector
+    releaseName: otel-cluster
+    namespace: opentelemetry-collector
+    version: 0.159.0
+    repo: https://open-telemetry.github.io/opentelemetry-helm-charts
+    valuesInline:
+      config:
+        exporters:
+          # kubernetesEvents preset は logs パイプラインのみを使うが、chart は
+          # metrics/traces のパイプラインも既定で作り、debug exporter に出力する。
+          # このリリースはイベント収集専用でメトリクス・トレースは扱わないため、
+          # 収集結果を捨てる。Helm のマージは null を無視するのでパイプラインごとは消せない。
+          nop: {}
+          otlphttp/mackerel:
+            endpoint: https://otlp-vaxila.mackerelio.com
+            headers:
+              Mackerel-Api-Key: ${env:MACKEREL_APIKEY}
+            sending_queue:
+              batch:
+                # Mackerel が受け付ける 1 リクエストの上限
+                max_size: 3500000
+                sizer: bytes
+        processors:
+          transform/service_name:
+            error_mode: ignore
+            log_statements:
+              # クラスタ全体のイベントであり、特定の namespace に属さない
+              - set(resource.attributes["service.namespace"], "lily")
+              - set(resource.attributes["service.name"], "kubernetes-events")
+        service:
+          pipelines:
+            logs:
+              exporters:
+                - otlphttp/mackerel
+              processors:
+                # 配列は置換されるため、chart 既定の memory_limiter と batch を明示する
+                - memory_limiter
+                - transform/service_name
+                - batch
+            metrics:
+              exporters:
+                - nop
+            traces:
+              exporters:
+                - nop
+      extraEnvs:
+        - name: MACKEREL_APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: mackerel-api-key
+              key: apiKey
+      image:
+        repository: otel/opentelemetry-collector-k8s
+      mode: deployment
+      podSecurityContext:
+        runAsGroup: 10001
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      presets:
+        kubernetesEvents:
+          enabled: true
+      replicaCount: 1
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        privileged: false
+        readOnlyRootFilesystem: true
+
 resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
