@@ -32,10 +32,18 @@ helmCharts:
             error_mode: ignore
             logs:
               log_record:
-                - 'resource.attributes["k8s.pod.annotation.mackerel.io/logs"] == "false"'
+                # k8sattributes preset は tag_name: $$1 / key_regex: (.*) を生成するため、
+                # 属性名はアノテーションのキーそのものになる。k8s.pod.annotation. の
+                # 接頭辞は付かない。誤ると nil 比較になり静かに機能しなくなる。
+                - 'resource.attributes["mackerel.io/logs"] == "false"'
           probabilistic_sampler:
             # 初期値は 100%。発生源の是正により全量でも月 720 円に収まるため、
             # まず全量送信して実データを確認する。
+            #
+            # 100 未満に下げるときは attribute_source と from_attribute の指定が
+            # 必須になる。Pod ログには trace ID がなく、既定の traceID を種にすると
+            # WARN 未満が指定率ではなく 0% になる。種の選び方は設計文書の
+            # 「サンプリング」節を参照する。
             sampling_percentage: 100
             sampling_priority: sample_priority
           transform/journald_service_name:
@@ -96,6 +104,11 @@ helmCharts:
                     and log.severity_number == SEVERITY_NUMBER_UNSPECIFIED
                     and IsMatch(log.body, "(?i)\\b(wrn|warn|warning)\\b")
         receivers:
+          filelog:
+            # preset の includeCollectorLogs は otel-agent 自身の分しか除外しない。
+            # otel-cluster のログも Mackerel に送られてしまうため、両方を除外する。
+            exclude:
+              - /var/log/pods/opentelemetry-collector_otel-*_*/opentelemetry-collector/*.log
           # Alloy から journald ログを OTLP で受け取る。journalctl を実行できない
           # distroless イメージの代わりに、libsystemd を直接呼ぶ Alloy に読み取りを任せる。
           otlp:
@@ -159,6 +172,22 @@ helmCharts:
         # 読み取りには root グループへの所属が必要になる
         supplementalGroups:
           - 0
+      ports:
+        # DaemonSet では hostPort がノード IP に露出する。この Collector は
+        # Mackerel API キーを持つため、認証なしの受信口を LAN に開けない。
+        # Alloy からの接続は Service (internalTrafficPolicy: Local) 経由で足りる。
+        jaeger-compact:
+          enabled: false
+        jaeger-grpc:
+          enabled: false
+        jaeger-thrift:
+          enabled: false
+        otlp:
+          hostPort: 0
+        otlp-http:
+          enabled: false
+        zipkin:
+          enabled: false
       presets:
         kubernetesAttributes:
           enabled: true
