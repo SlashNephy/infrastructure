@@ -176,6 +176,69 @@ k8s/system/opentelemetry-collector/
 ApplicationSet への登録が必要である。
 `k8s/system/argo-cd/resources/application-set-lily.yaml` に project `system` として追加しなければ、ディレクトリを作ってもデプロイされない。
 
+## セキュリティコンテキスト
+
+ログ収集の DaemonSet を root で動かす必要はない。
+ノード上のファイルの権限を実測した結果を示す。
+
+| 対象 | パーミッション | 読み取りの条件 |
+| --- | --- | --- |
+| `/var/log/pods/` の各階層 | `drwxr-xr-x root root` | other に `x` があり通過できる |
+| `/var/log/pods/**/0.log` | `-rw-r----- root root` | root グループに属していれば読める |
+| `/var/log/journal/*/*.journal` | `-rw-r-----+ root 983` | gid 983（systemd-journal）に属していれば読める |
+
+`supplementalGroups` で必要なグループだけを付与すれば、非 root で読み取れる。
+現行の Alloy が uid 0 で動作しているのは、Helm chart が securityContext を設定せず、イメージの既定値がそのまま出ているためである。
+
+Collector には既存の慣行（`traefik/whoami`、`mackerel-container-agent-sidecar-injector`）と同じ形を適用する。
+
+otel-agent は Pod ログを読むため、root グループへの所属だけを追加する。
+
+```yaml
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  # /var/log/pods 配下のログファイルが 0640 root:root であるため、
+  # 読み取りには root グループへの所属が必要になる
+  supplementalGroups: [0]
+  seccompProfile:
+    type: RuntimeDefault
+securityContext:
+  privileged: false
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: [ALL]
+  readOnlyRootFilesystem: true
+```
+
+otel-cluster は Kubernetes API のみを参照し、ホストのファイルを読まない。
+`supplementalGroups` は付与しない。
+
+```yaml
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  seccompProfile:
+    type: RuntimeDefault
+securityContext:
+  privileged: false
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: [ALL]
+  readOnlyRootFilesystem: true
+```
+
+`readOnlyRootFilesystem: true` により、`logsCollection` preset の `storeCheckpoints` は使えない。
+このオプションは読み取り位置を `/var/lib/otelcol` に保存するもので、chart のドキュメントにも実行ユーザーを root に変更すると記載がある。
+既定値の `false` のまま進める。
+Pod 再起動時に読み取り位置を失う代償はあるが、評価フェーズでは非 root を維持することを優先する。
+
+稼働中の Alloy には手を入れない。
+journald の読み取りに必要な gid 983 はノードの `/etc/group` に依存する値であり、マニフェストにノード固有の数値を埋め込むことになる。
+Collector 側で非 root の動作を確認してから、別途適用を判断する。
+
 ## ログ属性の設計
 
 Mackerel のログ検索は `service.namespace` と `service.name` の組で対象サービスを選ぶ流れになっている。
@@ -355,6 +418,8 @@ redact の指定漏れという事故が構造的に起きなくなる。
 
 ## 検証
 
+- Collector の Pod が非 root（uid 10001）で起動し、`/var/log/pods` 配下のログを読めていること
+- kube-linter が Collector のマニフェストに対して特権関連の指摘を出さないこと
 - Collector の Pod が起動し、`otelcol_exporter_sent_log_records_total` が増加すること
 - Mackerel のログ画面で、`service.namespace` ごとにログが分類されて表示されること
 - WARN 以上のログが Mackerel に届いていること
@@ -367,4 +432,32 @@ redact の指定漏れという事故が構造的に起きなくなる。
 - **nebula アプリケーションが `LOG_LEVEL` 環境変数を参照するかは未確認である**。参照しない場合は、アプリケーション側の設定方法を調べ直す必要がある。
 - **ANSI エスケープ除去の正規表現は実データでの動作確認が必要である**。OTTL の `replace_pattern` は RE2 を使うため、`\x1b` の記法が期待通り解釈されるかを実際のログで確かめる。
 - **β 期間中はデータ保持が保証されない**。評価期間中に Loki を縮小しない理由がこれにあたる。
+- **`supplementalGroups: [0]` で実際に Pod ログを読めるかは実機で確認する**。ファイルの権限からは読めると判断できるが、非 root での動作は実際に Collector を起動して確かめる。
 - **ログ監視が未実装であるため、Loki 廃止の判断は保留する**。Loki 側でログを起点にしたアラートを運用している場合、Mackerel だけでは代替できない。
+
+## 採用しなかった選択肢
+
+journald の収集について、Alloy 以外の手段も検討した。
+イメージサイズは実測値である。
+
+| 方式 | journald の読み方 | イメージ | 公式イメージで動くか |
+| --- | --- | --- | --- |
+| Alloy（採用） | `loki.source.journal`（libsystemd） | 165 MB | 稼働中 |
+| Fluent Bit | `systemd` input（libsystemd） | 50 MB | そのまま動く |
+| カスタム Collector | `journald` receiver（`journalctl` を起動） | 89 MB | 自前ビルドが必要 |
+| Vector | `journald` source | 92 MB | そのまま動く |
+
+技術的には Fluent Bit が最も軽く、libsystemd を直接呼ぶ点でも筋が良い。
+OpenTelemetry の `journald` receiver は `journalctl` をサブプロセスとして起動し、その出力をパースする実装であり、テキストへの整形と再パースが挟まる。
+
+それでも Alloy を採用したのは、評価期間中は Loki のために Alloy がどのみち稼働しているためである。
+この期間に限れば、Alloy への追加実装は `config.alloy` の数行で済み、新しい DaemonSet を増やさない。
+Fluent Bit を今導入すると、Alloy と Fluent Bit が同じジャーナルを二重に読む期間が生じる。
+
+Loki を廃止する段階では、Alloy を Fluent Bit に置き換える余地がある。
+イメージは 165 MB から 50 MB に減り、Loki 系ツールへの依存を断てる。
+`db` パラメータによるカーソル永続化も利点になる。
+
+カスタムイメージ案は OpenTelemetry 公式が案内している方法だが、このリポジトリでは採用しない。
+CI に Trivy が組み込まれており、distroless から Debian ベースに移ると OS パッケージ由来の CVE が検出対象に加わる。
+`.trivyignore.yaml` の保守と、ベースイメージの追従を自前で背負うことになる。
