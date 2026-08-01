@@ -722,6 +722,11 @@ mise exec -- kubectl logs "$POD" -n opentelemetry-collector --tail=500 \
 ```yaml
       config:
         exporters:
+          # chart は metrics/traces のパイプラインを既定で作り、debug exporter に
+          # 出力する。このリポジトリではログしか扱わず、メトリクスは
+          # mackerel-container-agent が別途送っているため、収集結果を捨てる。
+          # Helm のマージは null を無視するのでパイプラインごとは消せない。
+          nop: {}
           otlphttp/mackerel:
             endpoint: https://otlp-vaxila.mackerelio.com
             headers:
@@ -734,6 +739,12 @@ mise exec -- kubectl logs "$POD" -n opentelemetry-collector --tail=500 \
         # (processors は Task 4 のまま変更しない)
         service:
           pipelines:
+            metrics:
+              exporters:
+                - nop
+            traces:
+              exporters:
+                - nop
             logs:
               exporters:
                 - otlphttp/mackerel
