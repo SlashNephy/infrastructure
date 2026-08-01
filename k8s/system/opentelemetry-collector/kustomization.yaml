@@ -5,31 +5,49 @@ namespace: opentelemetry-collector
 helmCharts:
   # https://artifacthub.io/packages/helm/opentelemetry-helm/opentelemetry-collector
   - name: opentelemetry-collector
-    releaseName: opentelemetry-collector
+    releaseName: otel-agent
     namespace: opentelemetry-collector
     version: 0.159.0
     repo: https://open-telemetry.github.io/opentelemetry-helm-charts
     valuesInline:
+      config:
+        exporters:
+          debug:
+            verbosity: basic
+        service:
+          pipelines:
+            logs:
+              exporters:
+                - debug
       image:
         repository: otel/opentelemetry-collector-k8s
-      mode: deployment
+      mode: daemonset
+      podSecurityContext:
+        runAsGroup: 10001
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile:
+          type: RuntimeDefault
+        # /var/log/pods 配下のログファイルが 0640 root:root であるため、
+        # 読み取りには root グループへの所属が必要になる
+        supplementalGroups:
+          - 0
       presets:
-        clusterMetrics:
-          enabled: true
-        hostMetrics:
-          enabled: true
-        kubeletMetrics:
-          enabled: true
         kubernetesAttributes:
           enabled: true
           extractAllPodAnnotations: true
           extractAllPodLabels: true
-        kubernetesEvents:
-          enabled: true
         logsCollection:
           enabled: true
           includeCollectorLogs: false
-      replicaCount: 1
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        privileged: false
+        readOnlyRootFilesystem: true
 
 resources:
   - ./resources/namespace.yaml
+  - ./resources/secret.yaml
