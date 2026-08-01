@@ -12,10 +12,15 @@ helmCharts:
     valuesInline:
       config:
         exporters:
-          debug:
-            # 変換結果を目視で確認するため detailed にする。
-            # Task 5 で Mackerel exporter に切り替える際に削除する。
-            verbosity: detailed
+          otlphttp/mackerel:
+            endpoint: https://otlp-vaxila.mackerelio.com
+            headers:
+              Mackerel-Api-Key: ${env:MACKEREL_APIKEY}
+            sending_queue:
+              batch:
+                # Mackerel が受け付ける 1 リクエストの上限
+                max_size: 3500000
+                sizer: bytes
         processors:
           # 除外対象を先に落とし、後続の変換コストを減らす
           filter/optout:
@@ -83,7 +88,7 @@ helmCharts:
           pipelines:
             logs:
               exporters:
-                - debug
+                - otlphttp/mackerel
               processors:
                 # Helm の values マージでは配列は置換されるため、chart が既定で
                 # 入れる memory_limiter と batch を明示的に書き戻す必要がある。
@@ -95,6 +100,12 @@ helmCharts:
                 - transform/sampling
                 - probabilistic_sampler
                 - batch
+      extraEnvs:
+        - name: MACKEREL_APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: mackerel-api-key
+              key: apiKey
       image:
         repository: otel/opentelemetry-collector-k8s
       mode: daemonset
