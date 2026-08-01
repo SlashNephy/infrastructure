@@ -293,8 +293,10 @@ metadata:
     mackerel.io/logs: "false"
 ```
 
-既存の設定で `kubernetesAttributes` preset の `extractAllPodAnnotations: true` が有効であるため、Pod のアノテーションは `k8s.pod.annotation.mackerel.io/logs` としてリソース属性に載る。
-filter processor の OTTL 式からそのまま参照できる。
+既存の設定で `kubernetesAttributes` preset の `extractAllPodAnnotations: true` が有効であるため、Pod のアノテーションはリソース属性に載る。
+この preset は `tag_name: $$1` と `key_regex: (.*)` を生成するため、属性名はアノテーションのキーそのものになる。
+`k8s.pod.annotation.` の接頭辞は付かない。
+OTTL では存在しない属性との比較が nil 比較になり false を返すだけであり、名前を誤ると警告もエラーも出ないまま静かに機能しなくなる。
 
 ```yaml
 filter/optout:
@@ -429,10 +431,13 @@ redact の指定漏れという事故が構造的に起きなくなる。
 
 ## 未決事項とリスク
 
-- **nebula アプリケーションが `LOG_LEVEL` 環境変数を参照するかは未確認である**。参照しない場合は、アプリケーション側の設定方法を調べ直す必要がある。
-- **ANSI エスケープ除去の正規表現は実データでの動作確認が必要である**。OTTL の `replace_pattern` は RE2 を使うため、`\x1b` の記法が期待通り解釈されるかを実際のログで確かめる。
+- ~~**nebula アプリケーションが `LOG_LEVEL` 環境変数を参照するかは未確認である**~~
+  → 解消。`backend/util/logger/logger.go` に `env:"LOG_LEVEL" envDefault:"debug"` と定義されていることをソースで確認した。既定値が DEBUG だったことも裏付けられた。
+- **ANSI エスケープ除去の正規表現は実データでの動作確認が必要である**。OTTL の `replace_pattern` は RE2 を使うため、`\x1b` の記法が期待通り解釈されるかを実際のログで確かめる。設定として妥当であることは `otelcol validate` で確認済みだが、実際に除去されるかは未検証である。
 - **β 期間中はデータ保持が保証されない**。評価期間中に Loki を縮小しない理由がこれにあたる。
 - **`supplementalGroups: [0]` で実際に Pod ログを読めるかは実機で確認する**。ファイルの権限からは読めると判断できるが、非 root での動作は実際に Collector を起動して確かめる。
+- **`mode: daemonset` は hostPort をノード IP に露出させる**。この Collector は Mackerel API キーを持つため、認証なしの受信口を LAN に開けない。`ports` で jaeger / zipkin / otlp-http を無効化し、`otlp` は `hostPort: 0` にした。Alloy からの接続は Service（`internalTrafficPolicy: Local`）経由で足りる。ポート宣言を消してもプロセスは Pod IP で listen したままである点は残る（クラスタ内からは到達可能）。
+- **`logsCollection` preset の `includeCollectorLogs: false` は自身のリリース分しか除外しない**。`otel-cluster` を追加した際に、そのログが Mackerel に送られる状態になった。`filelog.exclude` を `otel-*` パターンで上書きして両方を除外している。この上書きはリリース名の命名規則に暗黙的に依存する。
 - **ログ監視が未実装であるため、Loki 廃止の判断は保留する**。Loki 側でログを起点にしたアラートを運用している場合、Mackerel だけでは代替できない。
 
 ## 採用しなかった選択肢
