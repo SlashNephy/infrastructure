@@ -1,0 +1,38 @@
+name: Stale
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # JST 09:00 every day
+  # debug-only での動作確認と、緊急時の手動回収のために手動実行を許可する
+  workflow_dispatch:
+    inputs:
+      debug-only:
+        description: Log what would be closed without actually closing
+        type: boolean
+        default: false
+
+permissions: {}
+
+jobs:
+  close-stale-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # delete-branch がブランチを消すのに要る
+      pull-requests: write
+    steps:
+      - uses: actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
+        with:
+          # 回収対象は update-image-digest.yml が automerge ラベルを付けた PR に限る。
+          # close-pr-label は「クローズ時に付与するラベル」であって絞り込みではないので使わない。
+          # Renovate は renovate ラベル、Dependabot は dependencies ラベルなので巻き込まれない。
+          any-of-pr-labels: automerge
+          # イメージダイジェスト更新 PR は 1 日も経てば新しいダイジェストに置き換わっている。
+          # 残っているのはマージに失敗したものだけなので、stale と判定したら猶予なく閉じる。
+          days-before-pr-stale: 1
+          days-before-pr-close: 0
+          # Issue は対象外
+          days-before-issue-stale: -1
+          days-before-issue-close: -1
+          delete-branch: true
+          # schedule 実行では inputs が空になるため false に倒す
+          debug-only: ${{ inputs.debug-only || false }}
