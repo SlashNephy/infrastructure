@@ -59,6 +59,11 @@ helmCharts:
               # zerolog の ConsoleWriter 形式は ANSI カラーエスケープを含む。
               # 先に除去しないと後続の正規表現がレベル表記に一致しない。
               - replace_pattern(body, "\\x1b\\[[0-9;]*m", "") where IsString(body)
+              # filelog receiver の container operator は本文を文字列のまま body に
+              # 入れるため、JSON ログも自動ではパースされない。明示的にパースして
+              # map に変換することで、level の判定と Mackerel 画面での属性検索が効く。
+              - set(body, ParseJSON(body))
+                  where IsString(body) and IsMatch(body, "^\\s*\\{")
               # JSON ログは level フィールドから判定する
               - set(severity_number, SEVERITY_NUMBER_ERROR)
                   where not IsString(body) and body["level"] == "error"
