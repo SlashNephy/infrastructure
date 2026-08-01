@@ -25,14 +25,29 @@
 
 ```bash
 # kustomize build がすべてのディレクトリで通ることを確認する
-go run ./cmd/build-manifests
+mise exec -- go run ./cmd/build-manifests
+
+# YAML のキー順序を含む lint
+mise exec -- pnpm eslint --fix
+mise exec -- pnpm eslint
 
 # マニフェストの静的検査
 mise exec -- kube-linter lint --config .kube-linter.yaml ./k8s
-
-# YAML のキー順序を含む lint
-pnpm eslint
 ```
+
+**kube-linter はリポジトリ全体で 633 件の既存の指摘を出す**（2026-08-01 時点のベースライン）。
+`exit code 1` は正常であり、判定は「変更によって新規の指摘が増えていないこと」で行う。
+
+```bash
+mise exec -- kube-linter lint --config .kube-linter.yaml ./k8s > /tmp/after.log 2>&1
+git stash
+mise exec -- kube-linter lint --config .kube-linter.yaml ./k8s > /tmp/before.log 2>&1
+git stash pop
+diff /tmp/before.log /tmp/after.log && echo "新規の指摘なし"
+```
+
+`go`、`pnpm`、`kubectl`、`kustomize`、`kube-linter` はいずれも **mise 経由で実行する**。
+システムの PATH には入っていないか、バージョンが mise.toml と不一致である。
 
 ---
 
@@ -119,13 +134,17 @@ configMapGenerator:
 - [ ] **Step 4: ビルドと lint を通す**
 
 ```bash
-go run ./cmd/build-manifests
-pnpm eslint --fix
-pnpm eslint
+mise exec -- go run ./cmd/build-manifests
+mise exec -- pnpm eslint --fix
+mise exec -- pnpm eslint
 mise exec -- kube-linter lint --config .kube-linter.yaml ./k8s
 ```
 
-期待：いずれもエラーなし。`build-manifests` は `k8s/apps/nebula` を含む全ディレクトリのビルドに成功する。
+kube-linter は既存の 633 件を出力し exit code 1 で終了する。
+「全タスク共通の検証コマンド」節の手順でベースラインと diff を取り、
+**新規の指摘が増えていないこと**を確認する。
+
+期待：`build-manifests` と `eslint` はエラーなし。`build-manifests` は `k8s/apps/nebula` を含む全ディレクトリのビルドに成功する。kube-linter はベースラインとの diff が空である。
 
 - [ ] **Step 5: コミット**
 
@@ -233,13 +252,17 @@ logs:
 - [ ] **Step 3: ビルドと lint を通す**
 
 ```bash
-go run ./cmd/build-manifests
-pnpm eslint --fix
-pnpm eslint
+mise exec -- go run ./cmd/build-manifests
+mise exec -- pnpm eslint --fix
+mise exec -- pnpm eslint
 mise exec -- kube-linter lint --config .kube-linter.yaml ./k8s
 ```
 
-期待：いずれもエラーなし。
+kube-linter は既存の 633 件を出力し exit code 1 で終了する。
+「全タスク共通の検証コマンド」節の手順でベースラインと diff を取り、
+**新規の指摘が増えていないこと**を確認する。
+
+期待：`build-manifests` と `eslint` はエラーなし。kube-linter はベースラインとの diff が空である。
 
 - [ ] **Step 4: コミット**
 
@@ -393,13 +416,17 @@ resources:
 - [ ] **Step 4: ビルドと lint を通す**
 
 ```bash
-go run ./cmd/build-manifests
-pnpm eslint --fix
-pnpm eslint
+mise exec -- go run ./cmd/build-manifests
+mise exec -- pnpm eslint --fix
+mise exec -- pnpm eslint
 mise exec -- kube-linter lint --config .kube-linter.yaml ./k8s
 ```
 
-期待：いずれもエラーなし。
+kube-linter は既存の 633 件を出力し exit code 1 で終了する。
+「全タスク共通の検証コマンド」節の手順でベースラインと diff を取り、
+**新規の指摘が増えていないこと**を確認する。
+
+期待：`build-manifests` と `eslint` はエラーなし。kube-linter はベースラインとの diff が空である。
 `kube-linter` が `run-as-non-root` や `privileged-container` を指摘する場合、`podSecurityContext` と `securityContext` の設定が Helm chart のどのキーに対応しているかを確認する。chart によってはコンテナ単位の securityContext のキー名が異なる。
 
 - [ ] **Step 5: 生成されるマニフェストの securityContext を目視確認する**
@@ -584,11 +611,15 @@ ANSI エスケープの除去、severity の判定、サービス名の設定、
 - [ ] **Step 2: ビルドと lint を通す**
 
 ```bash
-go run ./cmd/build-manifests
-pnpm eslint --fix
-pnpm eslint
+mise exec -- go run ./cmd/build-manifests
+mise exec -- pnpm eslint --fix
+mise exec -- pnpm eslint
 mise exec -- kube-linter lint --config .kube-linter.yaml ./k8s
 ```
+
+kube-linter は既存の 633 件を出力し exit code 1 で終了する。
+「全タスク共通の検証コマンド」節の手順でベースラインと diff を取り、
+**新規の指摘が増えていないこと**を確認する。
 
 - [ ] **Step 3: processors 配列の順序が保たれていることを確認する**
 
@@ -718,11 +749,15 @@ mise exec -- kubectl logs "$POD" -n opentelemetry-collector --tail=500 \
 - [ ] **Step 2: ビルドと lint を通す**
 
 ```bash
-go run ./cmd/build-manifests
-pnpm eslint --fix
-pnpm eslint
+mise exec -- go run ./cmd/build-manifests
+mise exec -- pnpm eslint --fix
+mise exec -- pnpm eslint
 mise exec -- kube-linter lint --config .kube-linter.yaml ./k8s
 ```
+
+kube-linter は既存の 633 件を出力し exit code 1 で終了する。
+「全タスク共通の検証コマンド」節の手順でベースラインと diff を取り、
+**新規の指摘が増えていないこと**を確認する。
 
 `kube-linter` が `read-secret-from-env-var` を指摘しないことを確認する。このチェックは `.kube-linter.yaml` で除外済みである。
 
@@ -905,11 +940,15 @@ Kubernetes API のみを参照しホストのファイルを読まないため�
 - [ ] **Step 2: ビルドと lint を通す**
 
 ```bash
-go run ./cmd/build-manifests
-pnpm eslint --fix
-pnpm eslint
+mise exec -- go run ./cmd/build-manifests
+mise exec -- pnpm eslint --fix
+mise exec -- pnpm eslint
 mise exec -- kube-linter lint --config .kube-linter.yaml ./k8s
 ```
+
+kube-linter は既存の 633 件を出力し exit code 1 で終了する。
+「全タスク共通の検証コマンド」節の手順でベースラインと diff を取り、
+**新規の指摘が増えていないこと**を確認する。
 
 - [ ] **Step 3: 2 つのリリースが別々の名前で生成されることを確認する**
 
@@ -1064,11 +1103,15 @@ loki.source.journal "node_systemd_journal" {
 - [ ] **Step 3: ビルドと lint を通す**
 
 ```bash
-go run ./cmd/build-manifests
-pnpm eslint --fix
-pnpm eslint
+mise exec -- go run ./cmd/build-manifests
+mise exec -- pnpm eslint --fix
+mise exec -- pnpm eslint
 mise exec -- kube-linter lint --config .kube-linter.yaml ./k8s
 ```
+
+kube-linter は既存の 633 件を出力し exit code 1 で終了する。
+「全タスク共通の検証コマンド」節の手順でベースラインと diff を取り、
+**新規の指摘が増えていないこと**を確認する。
 
 `config.alloy` は `k8s/**/config/**` に該当するため `yml/file-extension` の対象外である。River 形式のファイルは ESLint の検査対象にならない。
 
