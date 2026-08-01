@@ -1,51 +1,7 @@
-loki.write "default" {
-	endpoint {
-		url = "http://loki.grafana-loki:3100/loki/api/v1/push"
-	}
-}
-
-discovery.kubernetes "pod" {
-	role = "pod"
-}
-
-discovery.relabel "pod_logs" {
-	targets = discovery.kubernetes.pod.targets
-
-	rule {
-		source_labels = ["__meta_kubernetes_namespace"]
-		action        = "replace"
-		target_label  = "namespace"
-	}
-
-	rule {
-		source_labels = ["__meta_kubernetes_pod_name"]
-		action        = "replace"
-		target_label  = "pod_name"
-	}
-
-	rule {
-		source_labels = ["__meta_kubernetes_pod_container_name"]
-		action        = "replace"
-		target_label  = "container_name"
-	}
-
-	rule {
-		source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
-		action        = "replace"
-		target_label  = "app_name"
-	}
-}
-
-loki.source.kubernetes "pod_logs" {
-	targets    = discovery.relabel.pod_logs.output
-	forward_to = [loki.write.default.receiver]
-}
-
-// loki.source.kubernetes_events "events" {
-// 	job_name   = "integrations/kubernetes/eventhandler"
-// 	log_format = "logfmt"
-// 	forward_to = [loki.write.default.receiver]
-// }
+// Loki を廃止したため、Alloy の役割は journald の読み取りだけに縮小した。
+// Pod ログは OpenTelemetry Collector が filelog receiver で直接読む。
+// Alloy が残っているのは、Collector の公式イメージが distroless で
+// journalctl を含まず journald receiver を使えないためである。
 
 loki.relabel "node_systemd_journal" {
 	forward_to = []
@@ -58,17 +14,13 @@ loki.relabel "node_systemd_journal" {
 }
 
 loki.source.journal "node_systemd_journal" {
-	forward_to    = [
-		loki.write.default.receiver,
-		otelcol.receiver.loki.journald.receiver,
-	]
+	forward_to    = [otelcol.receiver.loki.journald.receiver]
 	relabel_rules = loki.relabel.node_systemd_journal.rules
 	labels        = {component = "loki.source.journal"}
 }
 
 // journald のログを OpenTelemetry Collector に転送する。
-// Collector の公式イメージは distroless で journalctl を含まないため、
-// journald の読み取りだけを Alloy が担い、Mackerel への送信は Collector が行う。
+// 読み取りだけを Alloy が担い、Mackerel への送信は Collector が行う。
 otelcol.receiver.loki "journald" {
 	output {
 		logs = [otelcol.exporter.otlp.collector.input]
