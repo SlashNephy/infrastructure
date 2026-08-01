@@ -37,15 +37,41 @@ helmCharts:
                 # 接頭辞は付かない。誤ると nil 比較になり静かに機能しなくなる。
                 - 'resource.attributes["mackerel.io/logs"] == "false"'
           probabilistic_sampler:
+            attribute_source: record
+            from_attribute: sample_key
+            # Pod ログには trace ID がないため、既定の attribute_source: traceID の
+            # ままだと fail_closed: true により全ログが破棄される。100% を指定しても
+            # 「trace ID を持つログの 100%」の意味にしかならず、実測で 98.8% が
+            # 消えていた。種を k8s.pod.uid に明示する。
+            #
+            # 率を下げると Pod 単位で採否が決まる。採用された Pod のログは全量残り、
+            # 残りは全破棄される（WARN 以上は sampling_priority で常に通る）。
+            mode: hash_seed
             # 初期値は 100%。発生源の是正により全量でも月 720 円に収まるため、
             # まず全量送信して実データを確認する。
-            #
-            # 100 未満に下げるときは attribute_source と from_attribute の指定が
-            # 必須になる。Pod ログには trace ID がなく、既定の traceID を種にすると
-            # WARN 未満が指定率ではなく 0% になる。種の選び方は設計文書の
-            # 「サンプリング」節を参照する。
             sampling_percentage: 100
             sampling_priority: sample_priority
+          transform/journald_sampling:
+            error_mode: ignore
+            log_statements:
+              # WARN 以上は優先度 100 を付与し、サンプリング率に関わらず必ず通す
+              - set(log.attributes["sample_priority"], 100)
+                  where log.severity_number >= SEVERITY_NUMBER_WARN
+              # journald は Alloy から OTLP で届くため k8sattributes を通らず、
+              # k8s.pod.uid を持たない。Pod ログ用の種を流用すると空のままになり、
+              # fail_closed: true で WARN 未満が全破棄される。
+              # systemd の unit を種にすることで、率を下げたときに unit 単位で
+              # 採否が決まり、選ばれた unit のログは前後関係を保ったまま残る。
+              #
+              # unit が OTLP 変換後にリソース属性として現れるかは
+              # otelcol.receiver.loki の変換仕様に依存し、journald が 1 行も
+              # 流れていない現状では実測できていない。取れなかった場合は固定値に
+              # 落ちるため、率を下げると journald 全体が全通過か全破棄の二択になる。
+              # 率を下げる前に、実際に unit が取れているかを確認すること。
+              - set(log.attributes["sample_key"], resource.attributes["unit"])
+                  where resource.attributes["unit"] != nil
+              - set(log.attributes["sample_key"], "systemd")
+                  where log.attributes["sample_key"] == nil
           transform/journald_service_name:
             error_mode: ignore
             log_statements:
@@ -58,6 +84,18 @@ helmCharts:
               # WARN 以上は優先度 100 を付与し、サンプリング率に関わらず必ず通す
               - set(log.attributes["sample_priority"], 100)
                   where log.severity_number >= SEVERITY_NUMBER_WARN
+              # probabilistic_sampler の attribute_source: record はログレコード
+              # 属性しか見ない。k8s.pod.uid は k8sattributes がリソース属性に
+              # 付けるため、ここでレコード属性へ複写しないと参照できない。
+              #
+              # 種が空のままだと fail_closed: true により全破棄される。この
+              # パイプラインは filelog 由来の Pod ログ専用で k8sattributes を
+              # 通るため k8s.pod.uid は必ず存在するが、万一欠けた場合に
+              # 静かに消えることを避けて service.name を代替の種にする。
+              - set(log.attributes["sample_key"], resource.attributes["k8s.pod.uid"])
+                  where resource.attributes["k8s.pod.uid"] != nil
+              - set(log.attributes["sample_key"], resource.attributes["service.name"])
+                  where log.attributes["sample_key"] == nil
           transform/service_name:
             error_mode: ignore
             log_statements:
@@ -145,10 +183,12 @@ helmCharts:
                 # Pod ログと同じ severity 判定とサンプリングを通す。省略すると
                 # journald だけが常に全量送信され、サンプリング率を下げたときに
                 # 送信量の見積もりが崩れる。
+                # ただしサンプリングの種は Pod ログ用と共用できない
+                # （journald は k8s.pod.uid を持たない）ため、専用のものを使う。
                 - memory_limiter
                 - transform/severity
                 - transform/journald_service_name
-                - transform/sampling
+                - transform/journald_sampling
                 - probabilistic_sampler
                 - batch
               receivers:
