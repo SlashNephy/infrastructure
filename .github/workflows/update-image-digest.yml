@@ -19,6 +19,12 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          # repository_dispatch の github.sha は「イベント発生時の default branch 先頭」で固定される。
+          # ref を省略すると checkout はその SHA をそのまま掴むため、concurrency のキュー待ちの間に
+          # master が進んでいると古いコミットから分岐し、先にマージされた PR とコンフリクトする。
+          # ref を明示すると fetch 時にブランチ先端へ解決されるので、常に最新の master 上で更新できる。
+          # github.ref は repository_dispatch では default branch を指す。
+          ref: ${{ github.ref_name }}
 
       - name: Setup Go
         uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
