@@ -576,7 +576,7 @@ ANSI エスケープの除去、severity の判定、サービス名の設定、
             error_mode: ignore
             logs:
               log_record:
-                - 'resource.attributes["k8s.pod.annotation.mackerel.io/logs"] == "false"'
+                - 'resource.attributes["mackerel.io/logs"] == "false"'
           probabilistic_sampler:
             # 初期値は 100%。発生源の是正により全量でも月 720 円に収まるため、
             # まず全量送信して実データを確認する。

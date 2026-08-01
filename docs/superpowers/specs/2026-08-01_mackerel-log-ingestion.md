@@ -300,7 +300,7 @@ filter processor の OTTL 式からそのまま参照できる。
 filter/optout:
   logs:
     log_record:
-      - 'resource.attributes["k8s.pod.annotation.mackerel.io/logs"] == "false"'
+      - 'resource.attributes["mackerel.io/logs"] == "false"'
 ```
 
 ## サンプリング
