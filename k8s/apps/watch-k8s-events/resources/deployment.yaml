@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/watch-k8s-events:master@sha256:a9793267bfa05e7285536c780ecdaab7346a57615c9b69ed92bba07a30c0c1c4
+          image: ghcr.io/slashnephy/watch-k8s-events:master@sha256:7c712936f2209f6772fe051f10216a9bb19df1d3f17ec1bcc6bf5ef82f28c444
           envFrom:
             - secretRef:
                 name: app-secret
