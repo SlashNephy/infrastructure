@@ -1,3 +1,18 @@
+# v41 で logs.access から accessLog に移動し、キーは camelCase になった。
+# https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/
+accessLog:
+  enabled: true
+  # https://doc.traefik.io/traefik/observe/logs-and-access-logs/#log-fields-customization
+  fields:
+    defaultMode: keep
+    headers:
+      defaultMode: keep
+      names:
+        Authorization: drop
+    names:
+      StartUTC: drop
+  format: json
+
 autoscaling:
   enabled: false
 
@@ -16,24 +31,10 @@ ingressRoute:
   dashboard:
     enabled: false
 
-# https://docs.traefik.io/observability/logs/
-logs:
-  access:
-    enabled: true
-    # https://docs.traefik.io/observability/access-logs/#limiting-the-fieldsincluding-headers
-    fields:
-      general:
-        defaultmode: keep
-        names:
-          StartUTC: drop
-      headers:
-        defaultmode: keep
-        names:
-          Authorization: drop
-
-    format: json
-  general:
-    level: INFO
+# v41 で logs.general から log に移動した。
+# https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/
+log:
+  level: INFO
 
 metrics:
   prometheus: null
