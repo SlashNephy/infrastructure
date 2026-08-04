@@ -55,6 +55,16 @@ loki.relabel "node_systemd_journal" {
 		action        = "replace"
 		target_label  = "unit"
 	}
+
+	// systemd の PRIORITY をキーワード表記
+	// (emerg / alert / crit / error / warning / notice / info / debug) で残す。
+	// Collector 側の severity 判定は、この値があれば本文からの推測より優先する。
+	// 取り得る値は 8 種類しかないため、Loki のストリーム数への影響は小さい。
+	rule {
+		source_labels = ["__journal_priority_keyword"]
+		action        = "replace"
+		target_label  = "journal_priority"
+	}
 }
 
 loki.source.journal "node_systemd_journal" {

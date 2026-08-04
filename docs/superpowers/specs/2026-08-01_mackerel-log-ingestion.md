@@ -271,16 +271,25 @@ nebula のログは zerolog の ConsoleWriter 形式であり、レベル表記�
 1. ANSI エスケープの除去
    replace_pattern(body, "\x1b\[[0-9;]*m", "") where IsString(body)
 
-2. JSON ログなら level フィールドから判定
-   set(severity_number, SEVERITY_NUMBER_ERROR) where body["level"] == "error"
+2. レベル表記を log.cache["level"] に集約する
+   journald の PRIORITY → 構造化ログのキー → テキストログの表記、の順に見る
 
-3. テキストログは本文から推定（zerolog の ERR / WRN 表記にも対応する）
-   set(severity_number, SEVERITY_NUMBER_ERROR)
-     where IsString(body) and IsMatch(body, "(?i)\b(err|error|fatal|panic)\b")
+3. 集約した表記を小文字に正規化し、severity_number と severity_text へ変換する
 ```
 
+当初は「本文全体に `(?i)\b(err|error|fatal|panic)\b` が一致するか」で判定していたが、これは二重に誤っていた。
+
+- **判定漏れ**：ERROR と WARN のルールしか無く、INFO と DEBUG に相当する規則が存在しなかった。実クラスタのログ 1299 行のうち 1094 行 (84.2%) が `UNSPECIFIED` のまま送られていた
+- **誤判定**：メッセージ中の単語に引きずられ、`INFO ... Warning: watch ended with error` のような行が ERROR になっていた
+
+本文全体への部分一致はやめ、**先頭 72 文字以内で、区切り文字に挟まれたレベル表記のうち最も左に現れたもの**を切り出す方式に改めた。
+レベル表記の「位置」と「綴り」を規定することで、メッセージ本文に含まれる同じ単語を拾わなくなる。
+
 判定できなかったログは `UNSPECIFIED` のままとし、サンプリングの対象に含める。
-判定漏れしたエラーが間引かれる可能性を負うが、多弁なアプリケーションのノイズを抑えることを優先する。
+残る `UNSPECIFIED` はアクセスログ、スタックトレースの継続行、バナー出力など、元のログにレベル表記が存在しない行である。
+
+なお journald は systemd の `PRIORITY` を持つため、本文からの推測より確実な値が得られる。
+Alloy 側の relabel で `__journal_priority_keyword` を `journal_priority` ラベルとして残し、Collector はこれを最優先で採用する。
 
 ## オプトアウト
 
@@ -433,7 +442,9 @@ redact の指定漏れという事故が構造的に起きなくなる。
 
 - ~~**nebula アプリケーションが `LOG_LEVEL` 環境変数を参照するかは未確認である**~~
   → 解消。`backend/util/logger/logger.go` に `env:"LOG_LEVEL" envDefault:"debug"` と定義されていることをソースで確認した。既定値が DEBUG だったことも裏付けられた。
-- **ANSI エスケープ除去の正規表現は実データでの動作確認が必要である**。OTTL の `replace_pattern` は RE2 を使うため、`\x1b` の記法が期待通り解釈されるかを実際のログで確かめる。設定として妥当であることは `otelcol validate` で確認済みだが、実際に除去されるかは未検証である。
+- ~~**ANSI エスケープ除去の正規表現は実データでの動作確認が必要である**~~
+  → 解消。epgstation の `\x1b[32m[2026-08-04T09:10:05.106] [INFO] system - \x1b[39m` 形式が除去後に `[INFO]` として認識され、INFO に分類されることを実ログで確認した。
+- **Alloy から OTLP で届く Loki のラベルは、リソース属性ではなくログレコード属性に載る**。`otelcol.receiver.loki` の変換仕様による。Mackerel の画面で実データを確認して判明した。当初は `resource.attributes["unit"]` を参照しており、常に nil となって警告もエラーも出ないまま機能していなかった。同種の参照を追加するときは、必ず実データで載る場所を確認すること。
 - **β 期間中はデータ保持が保証されない**。評価期間中に Loki を縮小しない理由がこれにあたる。
 - **`supplementalGroups: [0]` で実際に Pod ログを読めるかは実機で確認する**。ファイルの権限からは読めると判断できるが、非 root での動作は実際に Collector を起動して確かめる。
 - **`mode: daemonset` は hostPort をノード IP に露出させる**。この Collector は Mackerel API キーを持つため、認証なしの受信口を LAN に開けない。`ports` で jaeger / zipkin / otlp-http を無効化し、`otlp` は `hostPort: 0` にした。Alloy からの接続は Service（`internalTrafficPolicy: Local`）経由で足りる。ポート宣言を消してもプロセスは Pod IP で listen したままである点は残る（クラスタ内からは到達可能）。
