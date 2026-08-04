@@ -63,13 +63,13 @@ helmCharts:
               # systemd の unit を種にすることで、率を下げたときに unit 単位で
               # 採否が決まり、選ばれた unit のログは前後関係を保ったまま残る。
               #
-              # unit が OTLP 変換後にリソース属性として現れるかは
-              # otelcol.receiver.loki の変換仕様に依存し、journald が 1 行も
-              # 流れていない現状では実測できていない。取れなかった場合は固定値に
-              # 落ちるため、率を下げると journald 全体が全通過か全破棄の二択になる。
-              # 率を下げる前に、実際に unit が取れているかを確認すること。
-              - set(log.attributes["sample_key"], resource.attributes["unit"])
-                  where resource.attributes["unit"] != nil
+              # Alloy の otelcol.receiver.loki は Loki のラベルをログレコード属性に
+              # 載せる。リソース属性ではない。Mackerel の画面で実データを確認する
+              # までは resource.attributes を参照しており、unit が常に nil になって
+              # 種が固定値 "systemd" に落ちていた。この状態で率を下げると journald
+              # 全体が全通過か全破棄の二択になる。
+              - set(log.attributes["sample_key"], log.attributes["unit"])
+                  where log.attributes["unit"] != nil
               - set(log.attributes["sample_key"], "systemd")
                   where log.attributes["sample_key"] == nil
           transform/journald_service_name:
@@ -126,21 +126,119 @@ helmCharts:
               # map に変換することで、level の判定と Mackerel 画面での属性検索が効く。
               - set(log.body, ParseJSON(log.body))
                   where IsString(log.body) and IsMatch(log.body, "^\\s*\\{")
-              # JSON ログは level フィールドから判定する
-              - set(log.severity_number, SEVERITY_NUMBER_ERROR)
-                  where not IsString(log.body) and log.body["level"] == "error"
-              - set(log.severity_number, SEVERITY_NUMBER_WARN)
-                  where not IsString(log.body) and log.body["level"] == "warn"
+
+              # 以降はレベル表記を log.cache["level"] にいったん集約し、最後に
+              # まとめて severity へ変換する。判定の「どこを見るか」と「何レベルか」
+              # を分離することで、対応形式を増やしても変換部が肥大化しない。
+              # cache はログレコードごとに独立しており、前の行の値は残らない。
+
+              # journald は systemd の PRIORITY を持つ。本文からの推測より確実で
+              # あるため最優先で採用する。Alloy の relabel で journal_priority
+              # ラベルとして残しており、値は syslog のキーワード表記
+              # (emerg / alert / crit / error / warning / notice / info / debug) になる。
+              #
+              # Alloy の otelcol.receiver.loki は Loki のラベルをリソース属性では
+              # なくログレコード属性に載せる。どちらに載るかは Mackerel の画面で
+              # 実データを見て確認した。resource.attributes を参照すると nil 比較に
+              # なり、警告もエラーも出ないまま常に判定に失敗する。
+              - set(log.cache["level"], log.attributes["journal_priority"])
+                  where log.attributes["journal_priority"] != nil
+
+              # 構造化ログはレベルを持つキーから読む。キー名はアプリケーションに
+              # よって異なるため、よく使われるものを順に見る。
+              - set(log.cache["level"], log.body["level"])
+                  where log.cache["level"] == nil
+                    and not IsString(log.body) and log.body["level"] != nil
+              - set(log.cache["level"], log.body["severity"])
+                  where log.cache["level"] == nil
+                    and not IsString(log.body) and log.body["severity"] != nil
+              - set(log.cache["level"], log.body["lvl"])
+                  where log.cache["level"] == nil
+                    and not IsString(log.body) and log.body["lvl"] != nil
+
+              # テキストログは本文からレベル表記を切り出す。本文全体への部分一致は
+              # 使えない。"watch ended with error" のように、メッセージ中の単語に
+              # 引きずられて INFO のログを ERROR と誤判定するためである。
+              # 先頭 72 文字以内の、区切り文字に挟まれた表記だけを拾い、最も左に
+              # 現れたものを採用する。72 文字はタイムスタンプが最も長い形式
+              # (Aug  4 11:36:34 (1785810994.460354) danted[120236]: info:) を
+              # 収める幅として決めた。
+              #
+              # ExtractPatterns は一致しなかった名前付きグループも空文字で返す。
+              # 1 つの正規表現に複数のグループを持たせると空文字と未一致を区別
+              # できなくなるため、形式ごとに 1 グループの正規表現に分けている。
+
+              # klog (Kubernetes 系コンポーネント)。行頭の I0804 / E0803 形式。
+              - set(log.cache["match"],
+                    ExtractPatterns(log.body, "^(?P<level>[DIWEF])\\d{4}\\s"))
+                  where IsString(log.body)
+              - set(log.cache["level"], log.cache["match"]["level"])
+                  where IsString(log.body) and log.cache["match"]["level"] != nil
+              # telegraf。E! / W! / I! / D! の 1 文字表記。
+              - set(log.cache["match"],
+                    ExtractPatterns(log.body, "^.{0,72}?(?:^|\\s)(?P<level>[DIWEF])!\\s"))
+                  where IsString(log.body) and log.cache["level"] == nil
+              - set(log.cache["level"], log.cache["match"]["level"])
+                  where IsString(log.body) and log.cache["level"] == nil
+                    and log.cache["match"]["level"] != nil
+              # PostgreSQL の LOG:。LOG は一般的な英単語であり、大文字かつ直後が
+              # コロンのときだけレベル表記とみなす。ERROR / FATAL など他のレベルは
+              # 後続の汎用パターンで拾える。
+              - set(log.cache["match"],
+                    ExtractPatterns(log.body, "^.{0,72}?(?:^|\\s)(?P<level>LOG):"))
+                  where IsString(log.body) and log.cache["level"] == nil
+              - set(log.cache["level"], log.cache["match"]["level"])
+                  where IsString(log.body) and log.cache["level"] == nil
+                    and log.cache["match"]["level"] != nil
+              # 汎用。level=info / [INFO] / |INFO| / INFO: / タブ区切りの INFO など、
+              # 区切り文字に挟まれたレベル表記を拾う。長い綴りを先に並べているのは、
+              # RE2 の選択肢が左優先で、warn を先に置くと warning が warn として
+              # 切り出されてしまうためである。
+              - set(log.cache["match"],
+                    ExtractPatterns(log.body,
+                      "^.{0,72}?(?:^|[\\s\\[|,=])(?P<level>(?i:trace|trc|debug|dbg|warning|warn|wrn|information|info|inf|notice|error|err|fatal|ftl|panic|pnc|critical|crit|alert|emerg))(?:[\\s\\]|:!,=]|$)"))
+                  where IsString(log.body) and log.cache["level"] == nil
+              - set(log.cache["level"], log.cache["match"]["level"])
+                  where IsString(log.body) and log.cache["level"] == nil
+                    and log.cache["match"]["level"] != nil
+
+              # 表記ゆれを小文字に寄せてから変換する
+              - set(log.cache["level"], ConvertCase(log.cache["level"], "lower"))
+                  where log.cache["level"] != nil
+
+              # severity_number と severity_text の双方を設定する。Mackerel の画面が
+              # どちらを表示に使うかは非公開であり、片方だけでは UNSPECIFIED の
+              # ままになる可能性があるため。
+              - set(log.severity_number, SEVERITY_NUMBER_TRACE)
+                  where IsMatch(log.cache["level"], "^(trace|trc)$")
+              - set(log.severity_text, "TRACE")
+                  where IsMatch(log.cache["level"], "^(trace|trc)$")
+              - set(log.severity_number, SEVERITY_NUMBER_DEBUG)
+                  where IsMatch(log.cache["level"], "^(debug|dbg|d)$")
+              - set(log.severity_text, "DEBUG")
+                  where IsMatch(log.cache["level"], "^(debug|dbg|d)$")
               - set(log.severity_number, SEVERITY_NUMBER_INFO)
-                  where not IsString(log.body) and log.body["level"] == "info"
-              # テキストログは本文から推定する。zerolog の ERR / WRN 表記にも対応する
-              - set(log.severity_number, SEVERITY_NUMBER_ERROR)
-                  where IsString(log.body)
-                    and IsMatch(log.body, "(?i)\\b(err|error|fatal|panic)\\b")
+                  where IsMatch(log.cache["level"], "^(info|inf|information|i|log)$")
+              - set(log.severity_text, "INFO")
+                  where IsMatch(log.cache["level"], "^(info|inf|information|i|log)$")
+              # syslog の notice に対応する severity は OpenTelemetry には無い。
+              # info より一段高い INFO2 に寄せる。
+              - set(log.severity_number, SEVERITY_NUMBER_INFO2)
+                  where IsMatch(log.cache["level"], "^notice$")
+              - set(log.severity_text, "NOTICE")
+                  where IsMatch(log.cache["level"], "^notice$")
               - set(log.severity_number, SEVERITY_NUMBER_WARN)
-                  where IsString(log.body)
-                    and log.severity_number == SEVERITY_NUMBER_UNSPECIFIED
-                    and IsMatch(log.body, "(?i)\\b(wrn|warn|warning)\\b")
+                  where IsMatch(log.cache["level"], "^(warning|warn|wrn|w)$")
+              - set(log.severity_text, "WARN")
+                  where IsMatch(log.cache["level"], "^(warning|warn|wrn|w)$")
+              - set(log.severity_number, SEVERITY_NUMBER_ERROR)
+                  where IsMatch(log.cache["level"], "^(error|err|e)$")
+              - set(log.severity_text, "ERROR")
+                  where IsMatch(log.cache["level"], "^(error|err|e)$")
+              - set(log.severity_number, SEVERITY_NUMBER_FATAL)
+                  where IsMatch(log.cache["level"], "^(fatal|ftl|panic|pnc|critical|crit|alert|emerg|f)$")
+              - set(log.severity_text, "FATAL")
+                  where IsMatch(log.cache["level"], "^(fatal|ftl|panic|pnc|critical|crit|alert|emerg|f)$")
         receivers:
           filelog:
             # preset の includeCollectorLogs は otel-agent 自身の分しか除外しない。
