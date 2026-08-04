@@ -451,6 +451,46 @@ redact の指定漏れという事故が構造的に起きなくなる。
 - **`logsCollection` preset の `includeCollectorLogs: false` は自身のリリース分しか除外しない**。`otel-cluster` を追加した際に、そのログが Mackerel に送られる状態になった。`filelog.exclude` を `otel-*` パターンで上書きして両方を除外している。この上書きはリリース名の命名規則に暗黙的に依存する。
 - **ログ監視が未実装であるため、Loki 廃止の判断は保留する**。Loki 側でログを起点にしたアラートを運用している場合、Mackerel だけでは代替できない。
 
+## Loki の廃止（2026-08-01 追記）
+
+評価の結果、Loki を廃止した。
+Mackerel への送信が全経路（Pod ログ、journald、Kubernetes Events）で成立したため、並走の必要がなくなった。
+
+廃止によって回収したもの。
+
+| 項目 | 内容 |
+| --- | --- |
+| Pod | loki-0、loki-chunks-cache-0、loki-results-cache-0 の 3 つ |
+| ディスク | 10Gi のローカル PV |
+
+Alloy は DaemonSet 1 Pod として残る。
+役割は journald の読み取りだけに縮小し、Pod ログの収集と Loki への書き込みは削除した。
+Collector の公式イメージが distroless で `journalctl` を含まず、journald receiver を使えないためである。
+
+PV の `persistentVolumeReclaimPolicy` は `Retain` であるため、ホスト上の `/mnt/local/grafana-loki/data` は残る。
+不要であれば手動で削除する。
+
+`k8s/apps/grafana-loki/` のマニフェストは削除せず残す。
+本リポジトリでは廃止したアプリのマニフェストを残し、ApplicationSet のエントリをコメントアウトして配信だけを止める慣習に従う（`feedchime`、`releasechime-*` などが同じ形である）。
+再開するときはコメントを外すだけでよい。
+
+### 廃止時点の送信量
+
+| 経路 | GB/日 | 占有率 |
+| --- | --- | --- |
+| Pod ログ | 1.128 | 99.6% |
+| journald | 0.005 | 0.4% |
+| 合計 | 1.133 | |
+
+月間 34.4 GB、正式リリース後の月額は約 2,409 円になる。
+当初の試算 0.68 GB/日 を上回った主因は Traefik のリクエスト量であり、1 レコードあたりのサイズ削減（3,554 → 1,438 bytes）は想定どおり効いている。
+
+送信量を下げる余地は次の順に大きい。
+
+- Traefik の 2xx を除外する（-0.4 GB/日 前後）
+- サンプリング率を下げる（50% で -0.5 GB/日）。`unit` 属性が取得できることは確認済みであり、journald は unit 単位で採否が決まる
+- `kube-system` をオプトアウトする（-0.15 GB/日）
+
 ## 採用しなかった選択肢
 
 journald の収集について、Alloy 以外の手段も検討した。
