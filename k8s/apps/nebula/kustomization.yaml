@@ -87,6 +87,7 @@ resources:
 configMapGenerator:
   - name: backend-config
     literals:
+      - MODE=production
       - SERVER_ORIGIN=https://nebula.starry.blue
       - FRONTEND_ORIGIN=https://nebula.starry.blue
       - COOKIE_DOMAIN=nebula.starry.blue
