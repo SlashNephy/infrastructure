@@ -20,7 +20,7 @@ jobs:
       contents: write # delete-branch がブランチを消すのに要る
       pull-requests: write
     steps:
-      - uses: actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
+      - uses: actions/stale@1e223db275d687790206a7acac4d1a11bd6fe629 # v10.4.0
         with:
           # 回収対象は update-image-digest.yml が automerge ラベルを付けた PR に限る。
           # close-pr-label は「クローズ時に付与するラベル」であって絞り込みではないので使わない。
