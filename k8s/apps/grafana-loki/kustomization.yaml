@@ -6,7 +6,7 @@ helmCharts:
   - name: loki
     releaseName: loki
     namespace: grafana-loki
-    version: 18.7.3
+    version: 18.7.4
     repo: oci://ghcr.io/grafana-community/helm-charts
     includeCRDs: true
     valuesInline:
