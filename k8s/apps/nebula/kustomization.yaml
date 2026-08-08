@@ -11,6 +11,12 @@ images:
     # チャート 18.x の既定タグは latest で、bitnamilegacy の latest は 2025-07 時点の
     # 古いイメージになるため、これまでレンダリングされていたタグを明示する
     newTag: 12-debian-12-r51@sha256:77e65e9d633ec1463f8bea185763aa7ef91e5ddbe0b60beb1b0b5d4da58882b6
+  - name: docker.io/bitnami/redis
+    newName: docker.io/bitnamilegacy/redis
+    # チャート既定タグは latest で、bitnamilegacy の latest は 2025-07 時点の古いイメージに
+    # なるため明示する。bitnamilegacy は凍結済みで稼働中の 8.2.2 を収録しておらず 8.2.1 が最新だが、
+    # 8.2.2 が書いた Multi-Part AOF を 8.2.1 が読めることは検証済み。
+    newTag: 8.2.1-debian-12-r0
 
 helmCharts:
   - name: postgresql
@@ -61,11 +67,10 @@ helmCharts:
       architecture: standalone
       auth:
         existingSecret: redis-secret
-      global:
-        imageRegistry: public.ecr.aws
-        security:
-          # imageRegistry を変更するために必要
-          allowInsecureImages: true
+      image:
+        # チャートの既定は registry-1.docker.io だが、それだと上の images による
+        # 差し替えが名前一致せず無言で素通りするので docker.io に戻す
+        registry: docker.io
       master:
         extraEnvVars:
           - name: TZ
