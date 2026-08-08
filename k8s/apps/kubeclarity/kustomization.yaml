@@ -39,3 +39,19 @@ patches:
           hostPath:
             path: /mnt/local/kubeclarity/postgresql
             type: DirectoryOrCreate
+      # Bitnami の PostgreSQL イメージは STOPSIGNAL を設定しておらず、PID 1 の postgres は
+      # SIGTERM を smart shutdown (既存クライアントが自ら切断するまで待つ) と解釈する。
+      # kubeclarity がコネクションを保持し続けるので待機が終わらず、
+      # terminationGracePeriodSeconds 満了で SIGKILL され、毎回クラッシュリカバリになる。
+      # 他アプリ (#9876) はチャートの primary.lifecycleHooks で対処したが、
+      # ここは sub-chart で values を渡せないため patch で当てる。
+      - op: add
+        path: /spec/template/spec/containers/0/lifecycle
+        value:
+          preStop:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                # terminationGracePeriodSeconds (30 秒) を超えないよう -t で頭打ちにする
+                - pg_ctl stop -D "$PGDATA" -m fast -w -t 25
