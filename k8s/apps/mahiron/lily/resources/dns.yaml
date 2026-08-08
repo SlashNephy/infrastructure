@@ -21,3 +21,21 @@ spec:
       recordType: CNAME
       targets:
         - gateway.starry.blue
+
+---
+apiVersion: mackerel.starry.blue/v1alpha1
+kind: ExternalMonitor
+metadata:
+  name: https
+
+spec:
+  certificationExpirationCritical: 7
+  certificationExpirationWarning: 30
+  expectedStatusCode: 200
+  maxCheckAttempts: 3
+  method: GET
+  responseTimeCritical: 10000
+  responseTimeDuration: 5
+  responseTimeWarning: 5000
+  service: Production
+  url: https://mahiron.starry.blue/api/version
