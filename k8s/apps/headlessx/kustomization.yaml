@@ -27,6 +27,21 @@ helmCharts:
         extraEnvVars:
           - name: TZ
             value: Asia/Tokyo
+        # Bitnami の PostgreSQL イメージは STOPSIGNAL を設定しておらず、PID 1 の postgres は
+        # SIGTERM を smart shutdown (既存クライアントが自ら切断するまで待つ) と解釈する。
+        # アプリがコネクションプールを保持し続けるので待機が終わらず、
+        # terminationGracePeriodSeconds 満了で SIGKILL され、毎回クラッシュリカバリになる。
+        # 公式 postgres イメージは STOPSIGNAL SIGINT でこれを回避しているが、
+        # Kubernetes 1.35 時点で stopSignal は ContainerStopSignals が alpha かつ無効のため使えない。
+        # そこで preStop で明示的に fast shutdown する。
+        lifecycleHooks:
+          preStop:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                # terminationGracePeriodSeconds (既定 30 秒) を超えないよう -t で頭打ちにする
+                - pg_ctl stop -D "$PGDATA" -m fast -w -t 25
         persistence:
           existingClaim: headlessx-postgresql-data
         resourcesPreset: nano
