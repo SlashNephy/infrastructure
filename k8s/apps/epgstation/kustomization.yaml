@@ -9,7 +9,7 @@ images:
   # タグは稼働中の 12.0.2-MariaDB に合わせており、バージョンは動かしていない。
   - name: docker.io/bitnami/mariadb
     newName: docker.io/bitnamilegacy/mariadb
-    newTag: 12.0.2-debian-12-r0
+    newTag: 12.0.2-debian-12-r0@sha256:888cdaae3cb996c4d28f7916106511de553545929957dd1d35221112df631e19
 
 helmCharts:
   - name: mariadb

@@ -16,7 +16,7 @@ images:
     # チャート既定タグは latest で、bitnamilegacy の latest は 2025-07 時点の古いイメージに
     # なるため明示する。bitnamilegacy は凍結済みで稼働中の 8.2.2 を収録しておらず 8.2.1 が最新だが、
     # 8.2.2 が書いた Multi-Part AOF を 8.2.1 が読めることは検証済み。
-    newTag: 8.2.1-debian-12-r0
+    newTag: 8.2.1-debian-12-r0@sha256:25bf63f3caf75af4628c0dfcf39859ad1ac8abe135be85e99699f9637b16dc28
 
 helmCharts:
   - name: postgresql
