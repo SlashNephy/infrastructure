@@ -13,7 +13,7 @@ spec:
         spec:
           initContainers:
             - name: dump
-              image: docker.io/bitnami/postgresql
+              image: docker.io/bitnami/postgresql@sha256:e6463683ee29a3bbe00051cb28f5d7871f4dde9f07008ebe3c65c230d85d2eb9
               command:
                 - bash
                 - -euo

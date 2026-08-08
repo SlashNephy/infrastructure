@@ -10,7 +10,7 @@ images:
     newName: docker.io/bitnamilegacy/os-shell
     # チャート 18.x の既定タグは latest で、bitnamilegacy の latest は 2025-07 時点の
     # 古いイメージになるため、これまでレンダリングされていたタグを明示する
-    newTag: 12-debian-12-r51
+    newTag: 12-debian-12-r51@sha256:77e65e9d633ec1463f8bea185763aa7ef91e5ddbe0b60beb1b0b5d4da58882b6
 
 helmCharts:
   - name: postgresql
