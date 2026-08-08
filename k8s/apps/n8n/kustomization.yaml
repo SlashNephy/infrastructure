@@ -59,24 +59,24 @@ helmCharts:
         # /rest/login が 503 Database is not ready! を返し続けた。
         # DB 接続まで見る /healthz/readiness を向けて、Kubernetes 側から検知・自己修復できるようにする。
         livenessProbe:
+          # PostgreSQL の再起動やメンテナンスで一時的に落ちただけで再起動ループに入らないよう、
+          # 5 分 (10s × 30) の猶予を持たせる。チャート既定の failureThreshold と同値。
+          failureThreshold: 30
           httpGet:
             path: /healthz/readiness
             port: http
-          # PostgreSQL の再起動やメンテナンスで一時的に落ちただけで再起動ループに入らないよう、
-          # 5 分 (10s × 30) の猶予を持たせる。チャート既定の failureThreshold と同値。
           periodSeconds: 10
-          failureThreshold: 30
         persistence:
           enabled: true
           existingClaim: n8n-data
           type: existing
         readinessProbe:
+          # 疎通不能なうちにリクエストを流し込まないよう、readiness は liveness より早く落とす。
+          failureThreshold: 3
           httpGet:
             path: /healthz/readiness
             port: http
-          # 疎通不能なうちにリクエストを流し込まないよう、readiness は liveness より早く落とす。
           periodSeconds: 10
-          failureThreshold: 3
       # TODO: worker を分離
       # worker:
       #   enabled: true
