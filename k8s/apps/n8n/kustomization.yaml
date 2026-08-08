@@ -6,6 +6,11 @@ images:
   # チャートの更新が遅いのでセルフアップデート
   - name: n8nio/n8n
     newTag: 2.33.3@sha256:769d3a624534ff8b5f3316ef71d4653f48794c47e4339436be7a308d6d6a1cc9
+  # Bitnami は 2025-08 にバージョン固定タグを有償枠へ移し、public.ecr.aws のミラーも 2026-06 に削除した。
+  # 無償でバージョンを固定できるのは凍結済みの bitnamilegacy だけなので、そこに固定する。
+  - name: docker.io/bitnami/postgresql
+    newName: docker.io/bitnamilegacy/postgresql
+    newTag: 17.6.0-debian-12-r4
 
 helmCharts:
   # https://github.com/8gears/n8n-helm-chart
@@ -62,7 +67,7 @@ helmCharts:
       #     enabled: false
   - name: postgresql
     releaseName: postgresql
-    version: 16.7.27
+    version: 18.8.4
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       auth:
@@ -82,11 +87,10 @@ helmCharts:
             existingClaim: n8n-postgresql-backup
           timeZone: Asia/Tokyo
         enabled: true
-      global:
-        imageRegistry: public.ecr.aws
-        security:
-          # imageRegistry を変更するために必要
-          allowInsecureImages: true
+      image:
+        # チャート 18.x の既定は registry-1.docker.io だが、それだと上の images による
+        # 差し替えが名前一致せず無言で素通りするので docker.io に戻す
+        registry: docker.io
       primary:
         extraEnvVars:
           - name: TZ
