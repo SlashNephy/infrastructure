@@ -9,7 +9,7 @@ images:
   # タグはチャート既定と同一で、バージョンは動かしていない。
   - name: docker.io/bitnami/influxdb
     newName: docker.io/bitnamilegacy/influxdb
-    newTag: 2.7.11-debian-12-r20
+    newTag: 2.7.11-debian-12-r20@sha256:587eaebfa5245ab7b46ce2f775f110cfcff028d816bae14d9ce987b21255798f
 
 helmCharts:
   - name: influxdb
