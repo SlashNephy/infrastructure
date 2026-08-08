@@ -5,7 +5,12 @@ namespace: n8n
 images:
   # チャートの更新が遅いのでセルフアップデート
   - name: n8nio/n8n
-    newTag: 2.28.0@sha256:ddd2afb595bf4507c4147b34de9a4690bab042124e84ee3ceba16f2db2459d22
+    newTag: 2.33.3@sha256:769d3a624534ff8b5f3316ef71d4653f48794c47e4339436be7a308d6d6a1cc9
+  # Bitnami は 2025-08 にバージョン固定タグを有償枠へ移し、public.ecr.aws のミラーも 2026-06 に削除した。
+  # 無償でバージョンを固定できるのは凍結済みの bitnamilegacy だけなので、そこに固定する。
+  - name: docker.io/bitnami/postgresql
+    newName: docker.io/bitnamilegacy/postgresql
+    newTag: 17.6.0-debian-12-r4@sha256:926356130b77d5742d8ce605b258d35db9b62f2f8fd1601f9dbaef0c8a710a8d
 
 helmCharts:
   # https://github.com/8gears/n8n-helm-chart
@@ -48,10 +53,30 @@ helmCharts:
               secretKeyRef:
                 name: n8n-secret
                 key: license_activation_key
+        # チャート既定は liveness / readiness とも /healthz を向いているが、これはプロセスの生存しか
+        # 見ないため、DB 接続が切れて n8n が自力で復帰できなくなっても Pod は Ready のまま放置される。
+        # 実際 2026-08-08 に PostgreSQL の再起動をきっかけに n8n の再接続機構が発火せず、
+        # /rest/login が 503 Database is not ready! を返し続けた。
+        # DB 接続まで見る /healthz/readiness を向けて、Kubernetes 側から検知・自己修復できるようにする。
+        livenessProbe:
+          # PostgreSQL の再起動やメンテナンスで一時的に落ちただけで再起動ループに入らないよう、
+          # 5 分 (10s × 30) の猶予を持たせる。チャート既定の failureThreshold と同値。
+          failureThreshold: 30
+          httpGet:
+            path: /healthz/readiness
+            port: http
+          periodSeconds: 10
         persistence:
           enabled: true
           existingClaim: n8n-data
           type: existing
+        readinessProbe:
+          # 疎通不能なうちにリクエストを流し込まないよう、readiness は liveness より早く落とす。
+          failureThreshold: 3
+          httpGet:
+            path: /healthz/readiness
+            port: http
+          periodSeconds: 10
       # TODO: worker を分離
       # worker:
       #   enabled: true
@@ -62,7 +87,7 @@ helmCharts:
       #     enabled: false
   - name: postgresql
     releaseName: postgresql
-    version: 16.7.27
+    version: 18.8.5
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       auth:
@@ -82,15 +107,29 @@ helmCharts:
             existingClaim: n8n-postgresql-backup
           timeZone: Asia/Tokyo
         enabled: true
-      global:
-        imageRegistry: public.ecr.aws
-        security:
-          # imageRegistry を変更するために必要
-          allowInsecureImages: true
+      image:
+        # チャート 18.x の既定は registry-1.docker.io だが、それだと上の images による
+        # 差し替えが名前一致せず無言で素通りするので docker.io に戻す
+        registry: docker.io
       primary:
         extraEnvVars:
           - name: TZ
             value: Asia/Tokyo
+        # Bitnami の PostgreSQL イメージは STOPSIGNAL を設定しておらず、PID 1 の postgres は
+        # SIGTERM を smart shutdown (既存クライアントが自ら切断するまで待つ) と解釈する。
+        # n8n はコネクションプールを保持し続けるので待機が終わらず、
+        # terminationGracePeriodSeconds 満了で SIGKILL され、毎回クラッシュリカバリになる。
+        # 公式 postgres イメージは STOPSIGNAL SIGINT でこれを回避しているが、
+        # Kubernetes 1.35 時点で stopSignal は ContainerStopSignals が alpha かつ無効のため使えない。
+        # そこで preStop で明示的に fast shutdown する。
+        lifecycleHooks:
+          preStop:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                # terminationGracePeriodSeconds (既定 30 秒) を超えないよう -t で頭打ちにする
+                - pg_ctl stop -D "$PGDATA" -m fast -w -t 25
         persistence:
           existingClaim: n8n-postgresql-data
         resourcesPreset: nano

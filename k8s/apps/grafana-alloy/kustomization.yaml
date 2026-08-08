@@ -6,7 +6,7 @@ helmCharts:
   - name: alloy
     releaseName: alloy
     namespace: grafana-alloy
-    version: 1.10.0
+    version: 1.11.0
     repo: https://grafana.github.io/helm-charts
     includeCRDs: true
     valuesInline:
@@ -16,7 +16,22 @@ helmCharts:
           create: false
           key: config.alloy
         mounts:
+          # loki.source.journal は /etc/machine-id を読んで自分のマシンの
+          # ジャーナルディレクトリ (/var/log/journal/<machine-id>/) を特定する。
+          # コンテナ内の /etc/machine-id は空のため、ホストのものをマウントしないと
+          # 対象が見つからず、エラーも出ないまま 1 行も読めない。
+          extra:
+            - name: etc-machine-id
+              mountPath: /etc/machine-id
+              readOnly: true
           varlog: true
+      controller:
+        volumes:
+          extra:
+            - name: etc-machine-id
+              hostPath:
+                path: /etc/machine-id
+                type: File
 
 resources:
   - ./resources/dns.yaml

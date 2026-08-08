@@ -23,8 +23,16 @@ spec:
           namespace: authentik
           port: http
 
+    # このルールに middleware を付けないのは意図的で、アプリケーション側で自前の
+    # 認証・認可を行う経路をまとめている。/mcp はブラウザ以外のクライアントが
+    # Bearer トークンで叩く API であり、対話的なログインを前提とする forward-auth を
+    # 通すと SSO へリダイレクトされて到達できなくなる。
+    #
+    # /mcp を PathPrefix にすると frontend の別のパスまで巻き込むため、完全一致と
+    # 配下だけを対象にする。Traefik の PathPrefix がセグメント境界を見るかどうかに
+    # 依存しない書き方でもある。
     - kind: Rule
-      match: Host(`nebula.starry.blue`) && (PathPrefix(`/api`) || PathPrefix(`/oauth`)) && !Path(`/oauth/authorize`)
+      match: Host(`nebula.starry.blue`) && (PathPrefix(`/api`) || PathPrefix(`/oauth`) || PathPrefix(`/.well-known`) || Path(`/mcp`) || PathPrefix(`/mcp/`)) && !Path(`/oauth/authorize`)
       priority: 20
       services:
         - name: backend

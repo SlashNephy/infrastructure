@@ -1,4 +1,4 @@
-FROM golang:1.26.4-trixie@sha256:68b7145ec43d1820b9a56704554b53d1520aa2a15cb5233e374188a31b2a1bce AS base
+FROM golang:1.26.5-trixie@sha256:4ee9ffa999b4583ce281939cdff828763083610292f252279a0cee77473bd9a7 AS base
 WORKDIR /work
 
 COPY ./go.mod ./go.sum ./
@@ -10,7 +10,7 @@ WORKDIR /work
 COPY ./ ./
 RUN CGO_ENABLED=0 make build
 
-FROM gcr.io/distroless/static-debian13:nonroot
+FROM gcr.io/distroless/static-debian13:nonroot@sha256:f7f8f729987ad0fdf6b05eeeae94b26e6a0f613bdf46feea7fc40f7bd72953e6
 WORKDIR /
 
 COPY --from=build /work/app /

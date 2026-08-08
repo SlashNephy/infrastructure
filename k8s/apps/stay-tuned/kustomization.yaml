@@ -2,25 +2,46 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: stay-tuned
 
+images:
+  # Bitnami は 2025-08 にバージョン固定タグを有償枠へ移し、public.ecr.aws のミラーも 2026-06 に削除した。
+  # 無償でバージョンを固定できるのは凍結済みの bitnamilegacy だけなので、そこに固定する。
+  - name: docker.io/bitnami/postgresql
+    newName: docker.io/bitnamilegacy/postgresql
+    newTag: 17.6.0-debian-12-r4@sha256:926356130b77d5742d8ce605b258d35db9b62f2f8fd1601f9dbaef0c8a710a8d
+
 helmCharts:
   - name: postgresql
     releaseName: postgresql
-    version: 16.7.27
+    version: 18.8.5
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       auth:
         database: stay-tuned
         existingSecret: postgresql-secret
         username: stay-tuned
-      global:
-        imageRegistry: public.ecr.aws
-        security:
-          # imageRegistry を変更するために必要
-          allowInsecureImages: true
+      image:
+        # チャート 18.x の既定は registry-1.docker.io だが、それだと上の images による
+        # 差し替えが名前一致せず無言で素通りするので docker.io に戻す
+        registry: docker.io
       primary:
         extraEnvVars:
           - name: TZ
             value: Asia/Tokyo
+        # Bitnami の PostgreSQL イメージは STOPSIGNAL を設定しておらず、PID 1 の postgres は
+        # SIGTERM を smart shutdown (既存クライアントが自ら切断するまで待つ) と解釈する。
+        # アプリがコネクションプールを保持し続けるので待機が終わらず、
+        # terminationGracePeriodSeconds 満了で SIGKILL され、毎回クラッシュリカバリになる。
+        # 公式 postgres イメージは STOPSIGNAL SIGINT でこれを回避しているが、
+        # Kubernetes 1.35 時点で stopSignal は ContainerStopSignals が alpha かつ無効のため使えない。
+        # そこで preStop で明示的に fast shutdown する。
+        lifecycleHooks:
+          preStop:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                # terminationGracePeriodSeconds (既定 30 秒) を超えないよう -t で頭打ちにする
+                - pg_ctl stop -D "$PGDATA" -m fast -w -t 25
         persistence:
           existingClaim: stay-tuned-postgresql-data
         resourcesPreset: nano

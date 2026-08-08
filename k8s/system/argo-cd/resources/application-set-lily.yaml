@@ -124,10 +124,6 @@ spec:
             namespace: file-browser
             path: k8s/apps/file-browser
             project: apps
-          - name: komga
-            namespace: komga
-            path: k8s/apps/komga
-            project: apps
           - name: cloudflare-ddns
             namespace: cloudflare-ddns
             path: k8s/apps/cloudflare-ddns
@@ -144,10 +140,10 @@ spec:
             namespace: orb
             path: k8s/apps/orb
             project: apps
-          - name: grafana-loki
-            namespace: grafana-loki
-            path: k8s/apps/grafana-loki
-            project: apps
+          # - name: grafana-loki
+          #   namespace: grafana-loki
+          #   path: k8s/apps/grafana-loki
+          #   project: apps
           - name: grafana-alloy
             namespace: grafana-alloy
             path: k8s/apps/grafana-alloy
@@ -251,6 +247,10 @@ spec:
           - name: mackerel-operator
             namespace: mackerel-operator
             path: k8s/system/mackerel-operator
+            project: system
+          - name: opentelemetry-collector
+            namespace: opentelemetry-collector
+            path: k8s/system/opentelemetry-collector
             project: system
 
   template:

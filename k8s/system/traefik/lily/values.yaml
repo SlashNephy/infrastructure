@@ -1,4 +1,41 @@
 
+# v41 で logs.access から accessLog に移動し、キーは camelCase になった。
+# https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/
+accessLog:
+  enabled: true
+  # https://doc.traefik.io/traefik/observe/logs-and-access-logs/#log-fields-customization
+  fields:
+    defaultMode: keep
+    headers:
+      # 全ヘッダーを記録すると 1 レコード 3,554 bytes に達し、その 73.5% を
+      # ヘッダーが占めていた。drop を既定にすることで、新しい機密ヘッダーが
+      # 増えても明示的に keep しない限りログに載らない。
+      defaultMode: drop
+      names:
+        Accept-Language: keep
+        # Cloudflare のジオ情報。緯度経度 (Cf-Iplatitude/Cf-Iplongitude)、
+        # 郵便番号、タイムゾーンは所在地の特定精度が高すぎるため keep しない。
+        Cf-Connecting-Ip: keep
+        Cf-Ipcity: keep
+        Cf-Ipcountry: keep
+        Cf-Ray: keep
+        Cf-Visitor: keep
+        Origin: keep
+        Referer: keep
+        Sec-Ch-Ua: keep
+        Sec-Ch-Ua-Mobile: keep
+        Sec-Ch-Ua-Platform: keep
+        Sec-Fetch-Dest: keep
+        Sec-Fetch-Mode: keep
+        Sec-Fetch-Site: keep
+        User-Agent: keep
+        X-Real-Ip: keep
+    names:
+      ClientAddr: drop # ClientHost:ClientPort の組み合わせなので不要
+      StartLocal: drop # time で十分
+      StartUTC: drop
+  format: json
+
 additionalArguments:
   - --api.disabledashboardad=true
 
@@ -75,27 +112,10 @@ ingressRoute:
   dashboard:
     enabled: false
 
-# https://docs.traefik.io/observability/logs/
-logs:
-  access:
-    enabled: true
-    # https://docs.traefik.io/observability/access-logs/#limiting-the-fieldsincluding-headers
-    fields:
-      general:
-        defaultmode: keep
-        names:
-          ClientAddr: drop # ClientHost:ClientPort の組み合わせなので不要
-          StartLocal: drop # time で十分
-          StartUTC: drop
-      headers:
-        defaultmode: keep
-        names:
-          Authorization: redact
-          Cookie: redact
-          X-Authentik-Jwt: redact
-    format: json
-  general:
-    level: INFO
+# v41 で logs.general から log に移動した。
+# https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/
+log:
+  level: INFO
 
 ocsp:
   enabled: true

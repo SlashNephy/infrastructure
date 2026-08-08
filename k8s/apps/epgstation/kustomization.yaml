@@ -2,21 +2,29 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: epgstation
 
+images:
+  # Bitnami は 2025-08 にバージョン固定タグを有償枠へ移し (無償は latest のみ)、
+  # 逃がし先だった public.ecr.aws のミラーも 2026-06 に削除した。
+  # 無償でバージョンを固定できるのは凍結済みの bitnamilegacy だけなので、そこに固定する。
+  # タグは稼働中の 12.0.2-MariaDB に合わせており、バージョンは動かしていない。
+  - name: docker.io/bitnami/mariadb
+    newName: docker.io/bitnamilegacy/mariadb
+    newTag: 12.0.2-debian-12-r0@sha256:888cdaae3cb996c4d28f7916106511de553545929957dd1d35221112df631e19
+
 helmCharts:
   - name: mariadb
     releaseName: mariadb
-    version: 24.2.0
+    version: 27.0.1
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       auth:
         database: epgstation
         existingSecret: mariadb-secret
         username: epgstation
-      global:
-        imageRegistry: public.ecr.aws
-        security:
-          # imageRegistry を変更するために必要
-          allowInsecureImages: true
+      image:
+        # チャートの既定は registry-1.docker.io だが、それだと上の images による
+        # 差し替えが名前一致せず無言で素通りするので docker.io に戻す
+        registry: docker.io
       primary:
         extraEnvVars:
           - name: TZ

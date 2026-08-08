@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/slashnephy/epgstation-custom-hwaccel:master@sha256:fdbd1a2b7073241198cc1e3856cadfb52c78f19f676fd0f1e1117b5d0ddffabd
+          image: ghcr.io/slashnephy/epgstation-custom-hwaccel:master@sha256:f89c0b319e4c04d1fc37ac0df91bb01247d429c3b3ef5132616432ebe83d52bc
           ports:
             - containerPort: 8888
           volumeMounts:

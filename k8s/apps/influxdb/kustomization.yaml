@@ -2,6 +2,15 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: influxdb
 
+images:
+  # Bitnami は 2025-08 にバージョン固定タグを有償枠へ移し (無償は latest のみ)、
+  # 逃がし先だった public.ecr.aws のミラーも 2026-06 に削除した。
+  # 無償でバージョンを固定できるのは凍結済みの bitnamilegacy だけなので、そこに固定する。
+  # タグはチャート既定と同一で、バージョンは動かしていない。
+  - name: docker.io/bitnami/influxdb
+    newName: docker.io/bitnamilegacy/influxdb
+    newTag: 2.7.11-debian-12-r20@sha256:587eaebfa5245ab7b46ce2f775f110cfcff028d816bae14d9ce987b21255798f
+
 helmCharts:
   - name: influxdb
     releaseName: influxdb
@@ -11,11 +20,6 @@ helmCharts:
     valuesInline:
       auth:
         existingSecret: admin-secret
-      global:
-        imageRegistry: public.ecr.aws
-        security:
-          # imageRegistry を変更するために必要
-          allowInsecureImages: true
       influxdb:
         resourcesPreset: medium
         service:

@@ -16,12 +16,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          # repository_dispatch の github.sha は「イベント発生時の default branch 先頭」で固定される。
+          # ref を省略すると checkout はその SHA をそのまま掴むため、concurrency のキュー待ちの間に
+          # master が進んでいると古いコミットから分岐し、先にマージされた PR とコンフリクトする。
+          # ref を明示すると fetch 時にブランチ先端へ解決されるので、常に最新の master 上で更新できる。
+          # github.ref は repository_dispatch では default branch を指す。
+          ref: ${{ github.ref_name }}
 
       - name: Setup Go
-        uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version-file: cmd/update-image-digest/go.mod
           cache-dependency-path: cmd/update-image-digest/go.sum
@@ -48,6 +54,33 @@ jobs:
           branch-suffix: random
           title: update ${{ github.event.client_payload.images[0] }} 🔜 ${{ github.event.client_payload.digest }}
           body: https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
+          # stale.yaml がこのラベルで回収対象を絞り込む
+          labels: automerge
+
+      # 同一イメージのより新しい PR ができた時点で、古い PR のダイジェストは無意味になる。
+      # 下の gh pr merge はコンフリクトすると失敗して PR を残すため、その取りこぼしをここで回収する。
+      # マージが失敗しても実行されるよう、マージより前に置いている。
+      - name: Close Superseded Pull Requests
+        if: steps.create-pull-request.outputs.pull-request-number
+        env:
+          GH_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+          IMAGE: ${{ github.event.client_payload.images[0] }}
+          PR_NUMBER: ${{ steps.create-pull-request.outputs.pull-request-number }}
+        run: |
+          set -euo pipefail
+
+          # 上の Create Pull Request が組み立てるタイトル・ブランチ名の規則で同一イメージの PR を絞り込む。
+          # 別イメージの PR を巻き込まないよう、ブランチ名とタイトルの両方で照合する。
+          gh pr list --state open --limit 100 --json number,title,headRefName \
+            --jq '.[]
+              | select(.headRefName | startswith("ci/update-image-digest-"))
+              | select(.title | startswith("update " + env.IMAGE + " 🔜"))
+              | select(.number != (env.PR_NUMBER | tonumber))
+              | .number' |
+          while read -r number; do
+            echo "Closing superseded pull request #${number}"
+            gh pr close "$number" --delete-branch --comment "Superseded by #${PR_NUMBER}"
+          done
 
       - run: gh pr merge --squash $PR_NUMBER
         if: steps.create-pull-request.outputs.pull-request-number
