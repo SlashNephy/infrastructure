@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: pic-table
-              image: public.ecr.aws/docker/library/mongo:7.0.39-jammy@sha256:04582c3a144d088f841c446abfc19f79adcefa8bd00ad4a7fb18e27b9585c5d6
+              image: public.ecr.aws/docker/library/mongo:7.0.40-jammy@sha256:d29d168ee010c2d701720aa909fe44baa86dfc54e6ccc54e3781c518fab525f7
               command:
                 - bash
                 - -c
@@ -45,7 +45,7 @@ spec:
                     - ALL
                 readOnlyRootFilesystem: true
             - name: pic-tag-replace-table
-              image: public.ecr.aws/docker/library/mongo:7.0.39-jammy@sha256:04582c3a144d088f841c446abfc19f79adcefa8bd00ad4a7fb18e27b9585c5d6
+              image: public.ecr.aws/docker/library/mongo:7.0.40-jammy@sha256:d29d168ee010c2d701720aa909fe44baa86dfc54e6ccc54e3781c518fab525f7
               command:
                 - bash
                 - -c
