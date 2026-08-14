@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: lily-nebula-argo-cd
+
+spec:
+  destination:
+    namespace: argo-cd
+    server: https://kubernetes.default.svc
+  project: system
+  revisionHistoryLimit: 1
+  source:
+    path: k8s/argo-cd
+    repoURL: https://github.com/SlashNephy/nebula
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - RespectIgnoreDifferences=true
+      - FailOnSharedResource=true

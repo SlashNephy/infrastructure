@@ -87,15 +87,16 @@ helmCharts:
           nodePortHttps: 30001
           type: NodePort
 resources:
-  - ./resources/application-private.yaml
-  - ./resources/application-set-lily.yaml
+  - ./resources/application/lily.yaml
+  - ./resources/application/nebula.yaml
+  - ./resources/application/private.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
   - ./resources/namespace.yaml
   - ./resources/projects.yaml
   - ./resources/secret.yaml
   # - ./resources/secret-bbc.yaml
-  # - ./resources/application-set-bbc.yaml
+  # - ./resources/application/bbc.yaml
   # - ./resources/service-bbc.yaml
 
 patches:
