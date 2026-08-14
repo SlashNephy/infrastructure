@@ -276,3 +276,9 @@ spec:
   ignoreApplicationDifferences:
     - jsonPointers:
         - /spec/syncPolicy
+  # ApplicationSet は既定で生成した Application に resources-finalizer を付ける。
+  # element を外すと Application の削除が実リソースへ波及するため、
+  # Application を別の管理下へ引き継ぐ作業のあいだだけ、リソースを保全する側へ倒す。
+  # 引き継ぎが済んだらこのブロックごと戻す。
+  syncPolicy:
+    preserveResourcesOnDeletion: true
