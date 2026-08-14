@@ -8,6 +8,11 @@ spec:
   timeZone: Asia/Tokyo
   jobTemplate:
     spec:
+      # 暴走時の打ち切り。通常でも 86 分かかる（2026-08-14 実測 5155 秒）ため、
+      # 正常な同期を殺さないよう通常値の約 2 倍に置く。
+      # concurrencyPolicy: Forbid があるので多重起動はしないが、上限がないと
+      # 1 本が走り続けてノードの I/O を占有し続ける
+      activeDeadlineSeconds: 10800
       backoffLimit: 0
       template:
         spec:
