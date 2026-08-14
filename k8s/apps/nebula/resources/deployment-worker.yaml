@@ -30,6 +30,16 @@ spec:
               mountPath: /app/avatars
             - name: tmp
               mountPath: /tmp
+          # requests は低く、limits で上限を切る。requests を書かずに limits だけ置くと
+          # requests が limits と同値になり Guaranteed に昇格して etcd との競合で優位に
+          # 立ってしまうため、意図的に Burstable に留める
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 2Gi
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:

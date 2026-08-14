@@ -34,8 +34,17 @@ spec:
               mountPath: /cache
             - name: tmp
               mountPath: /tmp
+          # requests は低く、limits で上限を切る。requests を書かずに limits だけ置くと
+          # requests が limits と同値になり Guaranteed に昇格して etcd との競合で優位に
+          # 立ってしまうため、意図的に Burstable に留める。
+          # memory limits は MAX_MEMORY_MB=8192 に対する余裕を見て 10Gi
           resources:
+            requests:
+              cpu: 500m
+              memory: 2Gi
             limits:
+              cpu: "3"
+              memory: 10Gi
               gpu.intel.com/i915: "1"
           livenessProbe:
             failureThreshold: 5
