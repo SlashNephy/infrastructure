@@ -39,13 +39,13 @@ spec:
           # 立ってしまうため、意図的に Burstable に留める。
           # memory limits は MAX_MEMORY_MB=8192 に対する余裕を見て 10Gi
           resources:
+            limits:
+              cpu: "3"
+              gpu.intel.com/i915: "1"
+              memory: 10Gi
             requests:
               cpu: 500m
               memory: 2Gi
-            limits:
-              cpu: "3"
-              memory: 10Gi
-              gpu.intel.com/i915: "1"
           livenessProbe:
             failureThreshold: 5
             httpGet:

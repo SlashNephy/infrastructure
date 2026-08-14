@@ -34,12 +34,12 @@ spec:
           # requests が limits と同値になり Guaranteed に昇格して etcd との競合で優位に
           # 立ってしまうため、意図的に Burstable に留める
           resources:
-            requests:
-              cpu: 100m
-              memory: 256Mi
             limits:
               cpu: "1"
               memory: 2Gi
+            requests:
+              cpu: 100m
+              memory: 256Mi
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
