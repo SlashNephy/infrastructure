@@ -88,6 +88,7 @@ helmCharts:
           type: NodePort
 resources:
   - ./resources/application/lily.yaml
+  - ./resources/application/nebula.yaml
   - ./resources/application/private.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
