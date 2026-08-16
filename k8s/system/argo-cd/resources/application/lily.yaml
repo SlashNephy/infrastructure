@@ -240,6 +240,12 @@ spec:
             namespace: external-dns
             path: k8s/system/external-dns
             project: system
+          # CRD のみ。destination.namespace は cluster-scoped リソースには
+          # 使われないが、ApplicationSet の template が要求するため指定する。
+          - name: gateway-api
+            namespace: kube-system
+            path: k8s/system/gateway-api
+            project: system
           - name: mackerel-operator
             namespace: mackerel-operator
             path: k8s/system/mackerel-operator

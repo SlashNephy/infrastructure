@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+commonAnnotations:
+  # CRD が大きく、client-side apply では last-applied-configuration が
+  # annotation の上限 (262,144 bytes) を超える。また既存の CRD は手動で
+  # apply されており Argo CD の管理外にあるため、adopt の際に
+  # フィールドの衝突を避ける必要がある。
+  argocd.argoproj.io/sync-options: ServerSideApply=true
+
+# Traefik v3.7 は experimentalChannel なしで TLSRoute を watch する。TLSRoute が
+# standard channel に入ったのは Gateway API v1.5.0 であり、それ以前の CRD では
+# Traefik が tlsroutes を list できず watch エラーを出し続ける。
+#
+# v1.6.x にしない理由: Traefik v3.7 は TCPRoute を v1alpha2 で watch するが、
+# v1.6.0 で TCPRoute は standard channel の v1 に移った。TCPRoute を使う場合は
+# experimental channel が必要になる。lily は TCPRoute を使っていないため、
+# Traefik v3.7 がサポートする v1.5.1 に留める。
+# https://doc.traefik.io/traefik/v3.7/migrate/v3/
+resources:
+  - github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.5.1
