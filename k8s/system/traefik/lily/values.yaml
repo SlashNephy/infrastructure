@@ -60,6 +60,13 @@ env:
     value: Asia/Tokyo
 
 experimental:
+  # プラグインの取得は起動時に一度だけ行われ、失敗しても Traefik はそのまま起動する。
+  # ノード起動直後は CoreDNS が未 Ready なため plugins.traefik.io を解決できず、
+  # cloudflarewarp が無効のまま上がる。すると websecure の既定 middleware である
+  # trust-cloudflare-ips が「存在しない middleware」となり、全ルーターが読み込まれず
+  # 404 を返し続ける。/ping は 200 のままなので probe では検知できない。
+  # 起動を中止させることで kubelet の再起動に委ね、DNS 復旧後に自動回復させる。
+  abortOnPluginFailure: true
   plugins:
     cloudflarewarp:
       moduleName: github.com/BetterCorp/cloudflarewarp
