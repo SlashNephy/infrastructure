@@ -21,6 +21,15 @@ helmCharts:
       enableIPv6Masquerade: true
       envoy:
         enabled: false
+      # endpoint-create API の既定は rate-limit 0.5/s, parallel-requests 4,
+      # max-wait-duration 15s。lily は 160 Pod が 1 ノードに載っているため
+      # ノード再起動時に endpoint 作成が殺到し、15 秒待ちきれなかった CNI ADD が
+      # 429 putEndpointIdTooManyRequests で落ちる。kubelet が sandbox 作成を
+      # backoff 付きでリトライするので最終的には収束するが、その間 Pod の起動順が
+      # 大きく乱れる。待たされること自体は害がないため、まず待機上限のみ緩める。
+      # https://docs.cilium.io/en/stable/configuration/api-rate-limiting/
+      extraConfig:
+        api-rate-limit: endpoint-create=max-wait-duration:2m
       hostPort:
         enabled: true
       hubble:
