@@ -11,7 +11,7 @@ kind: Kustomization
 # Traefik v3.7 がサポートする v1.5.1 に留める。
 # https://doc.traefik.io/traefik/v3.7/migrate/v3/
 resources:
-  - github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.5.1
+  - github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.6.1
 
 commonAnnotations:
   # CRD が大きく、client-side apply では last-applied-configuration が
