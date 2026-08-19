@@ -5,7 +5,7 @@ namespace: n8n
 images:
   # チャートの更新が遅いのでセルフアップデート
   - name: n8nio/n8n
-    newTag: 2.34.4@sha256:f69bad7a699300702af665b9f13fc67455b93c9fb9174bca6c37f3d4a47b8583
+    newTag: 2.35.1@sha256:b6175b0839ab13b82cdbd1781eda6f4f0b56c8a2011e2ad2e99490ffbf8b718d
   # Bitnami は 2025-08 にバージョン固定タグを有償枠へ移し、public.ecr.aws のミラーも 2026-06 に削除した。
   # 無償でバージョンを固定できるのは凍結済みの bitnamilegacy だけなので、そこに固定する。
   - name: docker.io/bitnami/postgresql
