@@ -15,11 +15,16 @@ spec:
     spec:
       containers:
         - name: app
-          # latest (477c0d5) は --adapt-resolution を渡すサーバーコードと、そのオプションを持たない
+          # latest は --adapt-resolution を渡すサーバーコードと、そのオプションを持たない
           # QSVEncC 8.16 を同梱しており、ライブ視聴時にエンコーダーが即座に落ちる。
           # 上流はオプション導入 (fc98a36) の 4 日後に QSVEncC を 8.26 へ更新した (8cb8df8) が、
-          # まだイメージを再ビルドしていない。再ビルド後の Renovate PR で追従する。
-          image: ghcr.io/tsukumijima/konomitv:latest@sha256:9619cd20262fb08bb1c4cf0464b06927f86742447bcc9379cb245daeb556d941
+          # まだイメージを再ビルドしていない。
+          #
+          # latest の過去の digest はレジストリに残っていないため戻せない。
+          # リリースビルドはサーバーコードと同梱エンコーダーの組み合わせが整合しており、
+          # マイグレーションも master と同一 (11_20260604000000_update.py で終端) なので、
+          # 上流が再ビルドするまでリリースタグに固定する。
+          image: ghcr.io/tsukumijima/konomitv:v0.14.1@sha256:3c27362b49da1047593ef933d9ffad247f965627507c0c6c3ec0269b06e6e8b8
           volumeMounts:
             - name: config
               mountPath: /code/config.yaml
