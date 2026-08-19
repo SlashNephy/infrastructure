@@ -29,7 +29,7 @@
 | `/mnt/local/mahiron5/config/server.yml` | lily ホスト | 待ち受けアドレス、DB パス、ログレベル、ジョブスケジュール |
 | `/mnt/local/mahiron5/config/tuners.yml` | lily ホスト | ローカルチューナー 16 本の定義 |
 | `/mnt/local/mahiron5/config/remotes.yml` | lily ホスト | Mirakurun 互換サーバーへの接続情報 (名前 / URL / Basic 認証) |
-| `/mnt/local/mahiron5/config/channels.yml` | lily ホスト | チャンネル 78 件。リモート取り込み分は `routes` で経路を定義 |
+| `/mnt/local/mahiron5/config/channels.yml` | lily ホスト | チャンネル定義。リモート取り込み分は `routes` で経路を定義 |
 
 タスクは「ホスト側設定の作成 → 使い捨て Pod での検証 → リポジトリ側の変更 → 本番切替 → 証跡」の順に進む。
 この順序は Argo CD の自動同期を前提としており、入れ替えると本番が壊れた設定で起動する。
@@ -185,7 +185,7 @@ Expected: `-rw-------`
 ssh lily 'cp /mnt/local/mahiron/config/channels.yml /mnt/local/mahiron5/config/channels.yml && grep -c "^- name:" /mnt/local/mahiron5/config/channels.yml'
 ```
 
-Expected: `78`
+Expected: `78` (この時点では現行の写しなので 78 件)
 
 - [ ] **Step 4: EXT の各エントリを `routes` に書き換える**
 
@@ -199,8 +199,7 @@ Expected: `78`
   type: EXT1
   channel: "47"
   routes:
-    - id: <リモート名>
-      remote: <リモート名>
+    - remote: <リモート名>
       type: EXT1        # リモート側のチャンネル種別
       channel: "47"
       priority: 10
@@ -218,40 +217,57 @@ Expected: `78`
   type: EXT2
   channel: "16"
   routes:
-    - id: <リモート名 1>
-      remote: <リモート名 1>
+    - remote: <リモート名 1>
       type: GR
       channel: "16"
-      isDisabled: true    # bbc を指す経路のみ
       priority: 10
-    - id: <リモート名 2>
-      remote: <リモート名 2>
-      type: GR
-      channel: "16"
-      priority: 20
-    - id: <リモート名 3>
-      remote: <リモート名 3>
-      type: GR
-      channel: "16"
-      priority: 30
 ```
 
-- [ ] **Step 5: EXT6 を無効化する**
+`id` は省略する。省略時は `<remote>:<type>:<channel>` が自動で割り当てられ、経路ごとに一意になる。
 
-EXT6 の 2 件は bbc が唯一の供給元であり、bbc は稼働していない。
-チャンネル定義は残し、`isDisabled: true` を付けて `routes` は与えない。
+- [ ] **Step 5: 到達できないリモートをコメントアウトする**
+
+移行前に各リモートの到達性を確認する。
+
+```bash
+ssh lily 'for h in <リモートのホスト名を列挙>; do printf "%s -> " "$h"; getent hosts "$h" >/dev/null && echo OK || echo NXDOMAIN; done'
+```
+
+Mahiron 5 は起動時に `remotes.yml` の全リモートへイベントストリームを張る。
+経路を `isDisabled: true` にしても接続を試みるため、到達できないリモートを残すと
+再接続の WARN が永続的に出続ける。無効化は `isDisabled` ではなくコメントアウトで行う。
+
+到達できないリモートを指す経路は、理由を添えてコメントアウトする。
 
 ```yaml
-- name: <現行のまま>
-  type: EXT6
-  channel: "<現行のまま>"
-  isDisabled: true
+  routes:
+    - remote: <生きているリモート>
+      type: GR
+      channel: "16"
+      priority: 10
+#     # 停止中
+#     - remote: <到達できないリモート>
+#       type: GR
+#       channel: "16"
+#       priority: 20
 ```
 
-- [ ] **Step 6: EXT4 の経路を定義する**
+- [ ] **Step 6: 供給元を失うチャンネルをコメントアウトする**
 
-EXT4 の 3 件は 4 系ではストリーム経路が存在しなかった (リモート取り込み用チューナーが未定義だった)。
-他の単一経路の種別と同じ形で `routes` を定義する。設計文書で合意済みの挙動変化である。
+経路のリモートがすべて到達できない種別 (EXT4 と EXT6) は、チャンネル定義ごとコメントアウトする。
+既存の `channels.yml` が休止中の CATV 局をコメントアウトで残している形と揃える。
+
+```yaml
+# 経路のリモートが名前解決できないため無効化
+# - name: <現行のまま>
+#   type: EXT4
+#   channel: "<現行のまま>"
+#   routes:
+#     - remote: <到達できないリモート>
+#       type: GR
+#       channel: "<現行のまま>"
+#       priority: 10
+```
 
 - [ ] **Step 7: 書き換え漏れがないことを確認する**
 
@@ -262,13 +278,13 @@ ssh lily 'grep -c "servicesCommand\|programsCommand" /mnt/local/mahiron5/config/
 Expected: `0`
 
 ```bash
-ssh lily 'grep -c "^- name:" /mnt/local/mahiron5/config/channels.yml; grep -c "routes:" /mnt/local/mahiron5/config/channels.yml; grep -c "isDisabled: true" /mnt/local/mahiron5/config/channels.yml'
+ssh lily 'grep -c "^- name:" /mnt/local/mahiron5/config/channels.yml; grep -c "^  routes:" /mnt/local/mahiron5/config/channels.yml; grep -c "isDisabled" /mnt/local/mahiron5/config/channels.yml'
 ```
 
-Expected: 順に `78` / `29` / `7`
-(`routes` は EXT1 7 + EXT2 5 + EXT3 1 + EXT4 3 + EXT5 3 + EXT7 10 = 29 件、
-`isDisabled: true` は EXT6 2 件 + EXT2 の bbc 経路 5 件 = 7 件。
-実際の件数は Step 1 の出力と突き合わせて確定させる)
+Expected: 順に `73` / `26` / `0`
+(有効チャンネルは 78 − EXT4 3 件 − EXT6 2 件 = 73 件、
+`routes` は EXT1 7 + EXT2 5 + EXT3 1 + EXT5 3 + EXT7 10 = 26 件、
+無効化はコメントアウトで行うため `isDisabled` は使わない)
 
 - [ ] **Step 8: コミット**
 
@@ -301,7 +317,7 @@ ssh lily 'mkdir -p /mnt/local/mahiron5/config-check && cp /mnt/local/mahiron5/co
 ssh lily 'grep -v "^  isDisabled:" /mnt/local/mahiron5/config/channels.yml | awk "/^- name:/{print; print \"  isDisabled: true\"; next} {print}" > /mnt/local/mahiron5/config-check/channels.yml && grep -c "^  isDisabled: true" /mnt/local/mahiron5/config-check/channels.yml'
 ```
 
-Expected: `78`
+Expected: `78` (この時点では現行の写しなので 78 件)
 
 検証用の `server.yml` は待ち受けポートだけ変える。
 
