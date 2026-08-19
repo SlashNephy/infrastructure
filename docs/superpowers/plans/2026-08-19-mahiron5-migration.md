@@ -95,10 +95,11 @@ EOF'
 ssh lily 'grep -n "^- name:" /mnt/local/mahiron/config/tuners.yml | head -20'
 ```
 
-Expected: 17 番目の `- name:` がリモート取り込み用 (`dtv.` で始まるもの) であることを確認する。
+Expected: 1〜16 番目がローカルのチューナー (`PX-` で始まる名前)、
+17 番目以降がリモート取り込み用の定義であることを確認する。
 
 ```bash
-ssh lily 'awk "/^# dtv/{exit} {print}" /mnt/local/mahiron/config/tuners.yml > /mnt/local/mahiron5/config/tuners.yml && grep -c "^- name:" /mnt/local/mahiron5/config/tuners.yml'
+ssh lily 'awk "/mirakurun-client/{exit} /^- name:/ && \$0 !~ /^- name: PX-/{exit} {print}" /mnt/local/mahiron/config/tuners.yml > /mnt/local/mahiron5/config/tuners.yml && grep -c "^- name:" /mnt/local/mahiron5/config/tuners.yml'
 ```
 
 Expected: `16`
@@ -264,7 +265,7 @@ Expected: `0`
 ssh lily 'grep -c "^- name:" /mnt/local/mahiron5/config/channels.yml; grep -c "routes:" /mnt/local/mahiron5/config/channels.yml; grep -c "isDisabled: true" /mnt/local/mahiron5/config/channels.yml'
 ```
 
-Expected: 順に `78` / `29` / `4`
+Expected: 順に `78` / `29` / `7`
 (`routes` は EXT1 7 + EXT2 5 + EXT3 1 + EXT4 3 + EXT5 3 + EXT7 10 = 29 件、
 `isDisabled: true` は EXT6 2 件 + EXT2 の bbc 経路 5 件 = 7 件。
 実際の件数は Step 1 の出力と突き合わせて確定させる)
@@ -540,7 +541,11 @@ kubectl exec -n mahiron deploy/deployment -- curl -fsS http://localhost:40772/ap
 
 Expected: 3 つの出力を記録する。移行後の比較対象になる。
 
-- [ ] **Step 2: PR を作ってマージする**
+- [ ] **Step 2: PR を作り、マージ前にユーザーの承認を得る**
+
+Argo CD は `automated` + `selfHeal` で同期するため、**master へのマージがそのまま本番のロールアウトになる**。
+プランの承認とマージの承認は別である。
+PR を作ったら、マージしてよいかをユーザーに明示的に確認し、承認を得るまでマージしない。
 
 ```bash
 git push -u origin feat/mahiron5-migration
