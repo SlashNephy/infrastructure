@@ -15,16 +15,14 @@ spec:
     spec:
       containers:
         - name: app
-          # latest は --adapt-resolution を渡すサーバーコードと、そのオプションを持たない
-          # QSVEncC 8.16 を同梱しており、ライブ視聴時にエンコーダーが即座に落ちる。
-          # 上流はオプション導入 (fc98a36) の 4 日後に QSVEncC を 8.26 へ更新した (8cb8df8) が、
-          # まだイメージを再ビルドしていない。
+          # latest はサーバーコードが QSVEncC に --adapt-resolution を渡すが、同梱の QSVEncC 8.16 は
+          # このオプションを持たない。QSVEncC を使うとライブ視聴でエンコーダーが起動直後に落ちるため、
+          # 上流が QSVEncC 8.26 を含むイメージを再ビルドするまで config.yaml で FFmpeg を使う。
           #
-          # latest の過去の digest はレジストリに残っていないため戻せない。
-          # リリースビルドはサーバーコードと同梱エンコーダーの組み合わせが整合しており、
-          # マイグレーションも master と同一 (11_20260604000000_update.py で終端) なので、
-          # 上流が再ビルドするまでリリースタグに固定する。
-          image: ghcr.io/tsukumijima/konomitv:v0.14.1@sha256:3c27362b49da1047593ef933d9ffad247f965627507c0c6c3ec0269b06e6e8b8
+          # リリースタグ v0.14.1 への固定も試したが、こちらは Mirakurun のバージョンを
+          # /api/tuners の Server レスポンスヘッダーから判定する。Mahiron 5 系はこのヘッダーを
+          # 返さないため設定バリデーションで弾かれ、KonomiTV が起動しない。
+          image: ghcr.io/tsukumijima/konomitv:latest@sha256:477c0d5f8b4253b3fd5a6561f0bc287f5a3dac4d141e96bf83397f901da84ce3
           volumeMounts:
             - name: config
               mountPath: /code/config.yaml

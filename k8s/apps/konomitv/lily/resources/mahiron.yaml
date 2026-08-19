@@ -1,0 +1,11 @@
+# Mahiron の Service を直接引かず、Server レスポンスヘッダーを補う Traefik の経路を経由する。
+# 理由は k8s/apps/mahiron/lily/resources/ingress.yaml の Middleware のコメントを参照。
+# この Service 名がそのまま Host ヘッダーになり、Traefik 側の Host 一致条件と対応する。
+apiVersion: v1
+kind: Service
+metadata:
+  name: mahiron-internal
+
+spec:
+  type: ExternalName
+  externalName: traefik.traefik.svc.cluster.local
