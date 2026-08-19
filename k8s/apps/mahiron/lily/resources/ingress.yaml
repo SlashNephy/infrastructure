@@ -54,3 +54,42 @@ spec:
     realm: Access Restricted
     removeHeader: true
     secret: basic-auth-credentials
+
+---
+# KonomiTV は Mirakurun のバージョンを /api/tuners の Server レスポンスヘッダーから判定し、
+# 取得できないと「Mirakurun の URL ではない」として起動を拒否する。
+# 元々は /api/version を叩いていたが、Mirakurun 4.0.0-beta.5 以下に同 API で録画中の TS が
+# ドロップするバグがあったため、KonomiTV 側が 850e559 でヘッダー参照に切り替えた経緯がある。
+#
+# Mahiron 4 系は Server: Mahiron/<version> を返していたが、5 系は返さない。
+# 上流が対応するまで、内部向けの経路でヘッダーを補う。
+# 値はバージョン表示にしか使われないため、パッチ更新で陳腐化しない粒度にとどめる。
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: mirakurun-compat-server-header
+
+spec:
+  headers:
+    customResponseHeaders:
+      Server: Mahiron/5.x
+
+---
+# クラスタ内から Mirakurun 互換クライアントが参照するための経路。
+# 参照側は Traefik を指す ExternalName Service を置き、その名前が Host ヘッダーになる。
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: route-internal
+
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`mahiron-internal`)
+      services:
+        - name: app
+          port: 40772
+      middlewares:
+        - name: mirakurun-compat-server-header

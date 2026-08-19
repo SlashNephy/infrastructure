@@ -8,8 +8,11 @@ general:
   debug: true
   debug_encoder: true
 
-  encoder: QSVEncC
-  mirakurun_url: "http://app.mahiron:40772/"
+  # 同梱の QSVEncC 8.16 が --adapt-resolution を解釈できずライブ視聴が失敗するため、
+  # 上流がイメージを再ビルドするまでソフトウェアエンコードにフォールバックする
+  encoder: FFmpeg
+  # Server レスポンスヘッダーを補うため Traefik を経由する (resources/mahiron.yaml を参照)
+  mirakurun_url: "http://mahiron-internal/"
 
 tv:
   max_alive_time: 60
