@@ -17,10 +17,12 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/starrybluesky/mahiron-custom:master@sha256:7eb928c1d01f0c4fc4bf80b791d66a13444d0dcdbc1091c11ca551a8ba4a0582
+          image: ghcr.io/starrybluesky/mahiron5-custom:master@sha256:cf9b52112b58ec39473d42071881408305f8b71daaa3e90bc0ab09f4c760fc6a
+          # イメージ既定の設定ディレクトリは /app/config のため、明示的に上書きする
+          args:
+            - -config-dir
+            - /etc/mahiron
           env:
-            - name: EXTERNAL_JSON_PATH
-              value: /etc/mahiron/services.yml
             - name: TZ
               value: Asia/Tokyo
           ports:
@@ -31,8 +33,6 @@ spec:
             - name: config
               mountPath: /etc/mahiron
               readOnly: true
-            - name: check-services
-              mountPath: /tmp/mahiron-check-services
             - name: dev-px4video0
               mountPath: /dev/px4video0
             - name: dev-px4video1
@@ -72,18 +72,15 @@ spec:
                 - SYS_NICE
             privileged: true
       volumes:
+        # 4 系の /mnt/local/mahiron/ は切り戻しの土台として残し、5 系は別ディレクトリを使う
         - name: data
           hostPath:
-            path: /mnt/local/mahiron/data
+            path: /mnt/local/mahiron5/data
             type: DirectoryOrCreate
         - name: config
           hostPath:
-            path: /mnt/local/mahiron/config
+            path: /mnt/local/mahiron5/config
             type: Directory
-        - name: check-services
-          hostPath:
-            path: /mnt/local/mahiron/check-services
-            type: DirectoryOrCreate
         - name: dev-px4video0
           hostPath:
             path: /dev/px4video0
