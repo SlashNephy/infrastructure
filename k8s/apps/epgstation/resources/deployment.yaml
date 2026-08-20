@@ -33,11 +33,37 @@ spec:
           resources:
             limits:
               gpu.intel.com/i915: "1"
+          # 起動後の応答停止に備えるもの。起動できない状態の検出は startupProbe が担う (下記のコメントを参照)
+          livenessProbe:
+            # 録画中の再起動は取り逃しに直結するため、一時的な応答遅延では落とさない
+            failureThreshold: 4
+            httpGet:
+              path: /api/version
+              port: 8888
+            periodSeconds: 30
+            timeoutSeconds: 5
           securityContext:
             capabilities:
               drop:
                 - ALL
             readOnlyRootFilesystem: true
+          # EPGStation は Mirakurun の OpenAPI 定義を起動時に一度だけ取得して永久にキャッシュする。
+          # 定義のパス項目に parameters が無い世代を掴むと、以降 getStatus() が
+          # TypeError: p.parameters is not iterable で落ち続ける。これはリクエスト送出前に起きるうえ、
+          # ConnectionCheckModel が理由ごと catch するため、EPGStation にも Mirakurun にもログが残らない。
+          # Mirakurun 側を直しても定義は再取得されないので、再起動しない限り復帰しない。
+          #
+          # HTTP を待ち受けるサービスプロセスは checkMirakurun() の後に起動するため、
+          # この停止中は 8888 が listen しない。プローブで検出して再起動をかける。
+          startupProbe:
+            # Mirakurun が本当に落ちている間の待機は正常な挙動なので、猶予を広く取る。
+            # ノード再起動時の収束に約 6 分かかるため、それを超える 10 分に設定する。
+            failureThreshold: 60
+            httpGet:
+              path: /api/version
+              port: 8888
+            periodSeconds: 10
+            timeoutSeconds: 5
       volumes:
         - name: data
           hostPath:
