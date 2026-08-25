@@ -1,0 +1,45 @@
+server:
+  port: 8080
+  # ルートファイルシステムが読み取り専用のため、書き込み先を hostPath に逃がす
+  database: /data/database.db
+  # インデックス用 SQLite とサムネイルの置き場。再起動のたびに再インデックスしないよう永続化する
+  cacheDir: /data/cache
+  logging:
+    - levels: info|warning|error
+  sources:
+    # records_links のシンボリックリンクは /mnt/pool/records を指す。
+    # 参照先がソースのルート外に出ると解決が拒否されるため、/mnt/pool ごと 1 つのソースにする
+    - path: /mnt/pool
+      name: pool
+      # ソースが複数あるときは既定で有効にならないため、明示する
+      config:
+        defaultEnabled: true
+    - path: /capture
+      name: konomitv-capture
+      config:
+        defaultEnabled: true
+
+auth:
+  methods:
+    password:
+      enabled: false
+    # authentik の forward-auth が付与するヘッダをそのまま利用する
+    proxy:
+      enabled: true
+      header: X-authentik-username
+      logoutRedirectUrl: https://files.starry.blue/outpost.goauthentik.io/sign_out
+  # このユーザー名で初回ログインしたときに admin 権限が付与される
+  adminUsername: spica
+
+userDefaults:
+  account:
+    loginMethod: proxy
+    # admin 権限だけでは書き込みが拒否されるため、個別に許可する。
+    # ログインできるのは authentik を通過したユーザーのみなので、既定値として付与してよい
+    permissions:
+      create: true
+      delete: true
+      download: true
+      modify: true
+      realtime: true
+      share: true
