@@ -15,26 +15,28 @@ spec:
     spec:
       containers:
         - name: app
-          image: filebrowser/filebrowser:v2.63.23@sha256:a469ea076d4a1b4b1d86a41d130f2f536cd9da996a2b1fb39c0d7635f9d89b9a
+          image: gtstef/filebrowser:1.5.3-stable@sha256:e2ac55ccbe53d63b3f1d7d5ea5b82edf589b005a4b747b59912f97c6ba4f969e
           env:
             - name: TZ
               value: Asia/Tokyo
+            - name: FILEBROWSER_CONFIG
+              value: /config/config.yaml
           ports:
             - containerPort: 8080
           volumeMounts:
             - name: config
-              mountPath: /config/settings.json
+              mountPath: /config/config.yaml
               readOnly: true
-              subPath: config.json
+              subPath: config.yaml
             - name: data
               mountPath: /data
             - name: public
-              mountPath: /srv/public
+              mountPath: /mnt/pool/public
               readOnly: true
             - name: music
-              mountPath: /srv/music
+              mountPath: /mnt/pool/music
             - name: dtv-records-links
-              mountPath: /srv/dtv/records
+              mountPath: /mnt/pool/records_links
               readOnly: true
             - name: dtv-records
               mountPath: /mnt/pool/records
@@ -43,7 +45,21 @@ spec:
               mountPath: /mnt/pool/records_local
               readOnly: true
             - name: dtv-konomitv-capture
-              mountPath: /srv/dtv/konomitv-capture
+              mountPath: /capture
+            - name: tmp
+              mountPath: /tmp
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 5
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -52,6 +68,14 @@ spec:
             readOnlyRootFilesystem: true
             runAsGroup: 1000
             runAsUser: 1000
+          startupProbe:
+            # 初回起動時は全ソースのインデックス作成が走るため、猶予を広く取る
+            failureThreshold: 60
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 5
       volumes:
         - name: config
           configMap:
@@ -85,6 +109,8 @@ spec:
           hostPath:
             path: /mnt/local/konomitv/data/capture
             type: Directory
+        - name: tmp
+          emptyDir: {}
       restartPolicy: Always
       securityContext:
         seccompProfile:

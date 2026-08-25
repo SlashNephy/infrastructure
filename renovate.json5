@@ -24,6 +24,16 @@
         'ghcr.io/immich-app/**',
       ],
     },
+    // FileBrowser Quantum は stable と beta のタグを併走させているため、stable のみを追従する
+    {
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'gtstef/filebrowser',
+      ],
+      versioning: 'regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-stable$',
+    },
     // OCI イメージで参照されるチャートで pinDigest を無効化する
     // https://github.com/renovatebot/renovate/discussions/38038
     {
