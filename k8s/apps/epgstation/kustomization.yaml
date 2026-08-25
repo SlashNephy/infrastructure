@@ -29,7 +29,11 @@ helmCharts:
         extraEnvVars:
           - name: TZ
             value: Asia/Tokyo
-        extraFlags: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_520_ci --expire-logs-days=30 --slow-query-log --slow-query-log-file=/dev/stdout --log-output=FILE
+        # innodb-buffer-pool-size: 既定の 128MB では program テーブル (data 107MB + index 5MB) だけで
+        # 使い切ってしまい、ルール検索の全件スキャンのたびに他のページを追い出して読み直していた。
+        # ルールのキーワード検索は LIKE '%…%' なのでインデックスでは救えず、
+        # キャッシュに載せる以外に打つ手が無い。コンテナの memory limit 3Gi の半分を割り当てる。
+        extraFlags: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_520_ci --expire-logs-days=30 --slow-query-log --slow-query-log-file=/dev/stdout --log-output=FILE --innodb-buffer-pool-size=1610612736
         livenessProbe:
           failureThreshold: 5
           periodSeconds: 60
@@ -40,6 +44,7 @@ helmCharts:
 resources:
   - ./../../common/registry-ghcr-io/lily
   - ./resources/cronjob-backup.yaml
+  - ./resources/cronjob-db-maintenance.yaml
   - ./resources/cronjob-restart.yaml
   - ./resources/deployment.yaml
   - ./resources/dns.yaml
