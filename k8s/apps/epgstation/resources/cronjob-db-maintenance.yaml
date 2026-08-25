@@ -1,0 +1,58 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: db-maintenance
+
+# EPGStation は TypeORM の固定マイグレーション一覧しか流さない (synchronize: false) ため、
+# 手で足したインデックスが起動時に消えることはない。一方 DBTools のバックアップは
+# JSON でのデータ書き出しであり、そこから復元するとスキーマはマイグレーションで作り直される。
+# つまりインデックスは復元のたびに失われる。マニフェストで追跡し冪等に流し直すため CronJob にしている。
+spec:
+  schedule: "30 5 * * *"
+  timeZone: Asia/Tokyo
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        spec:
+          containers:
+            - name: mariadb
+              # mariadb クライアントを使うだけ。バージョンとレジストリの事情は kustomization.yaml のコメントを参照
+              image: docker.io/bitnamilegacy/mariadb:12.0.2-debian-12-r0@sha256:888cdaae3cb996c4d28f7916106511de553545929957dd1d35221112df631e19
+              command:
+                - sh
+                - -c
+                - |
+                  set -eu
+                  exec mariadb -h mariadb -u epgstation -p"${MARIADB_PASSWORD}" epgstation <<'SQL'
+                  -- ルールの重複回避 (avoidDuplicate) は
+                  --   select P.id from program as P, recorded_history as R
+                  --   where P.shortName = R.name and P.channelId = R.channelId
+                  -- を SELECT 句のサブクエリとして毎回評価する。recorded_history には
+                  -- (channelId, endAt) しか無いため program 全件を駆動表にした結合になっていた。
+                  -- name を先頭に持つインデックスを足すと 1 行参照に落ちる。
+                  -- 上流のマイグレーションと名前が衝突しないよう custom_ を付けている。
+                  CREATE INDEX IF NOT EXISTS custom_idx_rh_name_channelId
+                    ON recorded_history (name(64), channelId);
+
+                  -- program は EPG 更新のたびに全件を消して入れ直すため統計が壊れやすい。
+                  -- Cardinality が全て 1 になると結合順序の判断を誤る。
+                  ANALYZE TABLE program, recorded_history, reserve, recorded;
+                  SQL
+              env:
+                - name: MARIADB_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: mariadb-secret
+                      key: mariadb-password
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+          restartPolicy: Never
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+  concurrencyPolicy: Forbid
