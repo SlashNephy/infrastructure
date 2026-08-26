@@ -8,6 +8,10 @@ spec:
   selector:
     matchLabels:
       app: default
+  # SQLite の DB を hostPath 上で単一ライターとして開くため、
+  # 新旧 Pod が同時に存在すると "the database is locked" で新 Pod が起動できない
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
