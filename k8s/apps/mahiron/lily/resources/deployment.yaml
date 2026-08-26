@@ -152,3 +152,8 @@ spec:
       securityContext:
         seccompProfile:
           type: RuntimeDefault
+      # Mahiron は tuner を `sh -c "recpt1 ..."` で起動するが、この sh は exec せず fork するため
+      # recpt1 は孫プロセスになる。停止時に Wait されるのは直接の子である sh だけで、
+      # 孤児になった recpt1 はコンテナ内 PID 1 (= mahiron 自身) に reparent されて reap されない。
+      # PID namespace を共有して PID 1 を pause に譲り、pause に孤児を回収させる。
+      shareProcessNamespace: true
