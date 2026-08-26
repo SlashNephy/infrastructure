@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: ghcr.io/starrybluesky/mahiron5-custom:master@sha256:000b43bdf9de6a7aeb14ebe425e5bb3fc8653e52352f0a58b94544f7d0d6ce24
+          image: ghcr.io/starrybluesky/mahiron5-custom:master@sha256:0cf35f4c6a8c6a0a6360fb9620a00bf88ff0a2938ccfec3c957fc3c45ff969b1
           # イメージ既定の設定ディレクトリは /app/config のため、明示的に上書きする
           args:
             - -config-dir
