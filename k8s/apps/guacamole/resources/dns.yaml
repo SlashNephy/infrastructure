@@ -23,11 +23,12 @@ metadata:
 spec:
   certificationExpirationCritical: 7
   certificationExpirationWarning: 30
-  expectedStatusCode: 200
+  expectedStatusCode: 302 # TODO: アプリケーションに到達できるようにし 200 を確認する
   method: GET
   responseTimeCritical: 10000
   responseTimeDuration: 5
   responseTimeWarning: 5000
   service: Production
-  # Guacamole に /health に相当する端点はないため / を見る
-  url: https://remote.starry.blue/
+  # Guacamole に /health に相当する端点はなく、未認証では forward-auth が
+  # authentik へリダイレクトするため 302 を見る
+  url: https://remote.starry.blue
