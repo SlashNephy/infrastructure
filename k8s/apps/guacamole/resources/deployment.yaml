@@ -76,6 +76,11 @@ spec:
           volumeMounts:
             - name: guacd-tmp
               mountPath: /tmp
+            # FreeRDP は TLS 接続の途中で証明書ストア (HOME/.config/freerdp/certs) を作る。
+            # ignore-cert は検証の可否を変えるだけでストアの初期化は省略しないため、
+            # ここが書けないとハンドシェイクが完了せず RDP 接続に失敗する
+            - name: guacd-home
+              mountPath: /home/guacd
           livenessProbe:
             periodSeconds: 30
             tcpSocket:
@@ -101,6 +106,8 @@ spec:
         - name: tmp
           emptyDir: {}
         - name: guacd-tmp
+          emptyDir: {}
+        - name: guacd-home
           emptyDir: {}
       restartPolicy: Always
       hostname: guacamole
