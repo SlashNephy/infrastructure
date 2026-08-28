@@ -1,0 +1,34 @@
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: dns
+
+spec:
+  endpoints:
+    - dnsName: remote.starry.blue
+      providerSpecific:
+        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
+          value: "true"
+      recordTTL: 1 # Auto
+      recordType: CNAME
+      targets:
+        - gateway.starry.blue
+
+---
+apiVersion: mackerel.starry.blue/v1alpha1
+kind: ExternalMonitor
+metadata:
+  name: https
+
+spec:
+  certificationExpirationCritical: 7
+  certificationExpirationWarning: 30
+  expectedStatusCode: 302 # TODO: アプリケーションに到達できるようにし 200 を確認する
+  method: GET
+  responseTimeCritical: 10000
+  responseTimeDuration: 5
+  responseTimeWarning: 5000
+  service: Production
+  # Guacamole に /health に相当する端点はなく、未認証では forward-auth が
+  # authentik へリダイレクトするため 302 を見る
+  url: https://remote.starry.blue

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service
+
+spec:
+  selector:
+    app: app
+  ports:
+    # guacd の 4822 は同一 Pod 内からしか使わないため Service に出さない
+    - name: app
+      port: 8080
+      targetPort: 8080
