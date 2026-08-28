@@ -172,6 +172,10 @@ spec:
             namespace: home-assistant
             path: k8s/apps/home-assistant
             project: apps
+          - name: guacamole
+            namespace: guacamole
+            path: k8s/apps/guacamole
+            project: apps
 
           # cron
           - name: cron-backup-volumes
