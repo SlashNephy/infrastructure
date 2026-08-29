@@ -43,6 +43,16 @@ helmCharts:
         # TSM ファイルの refault が毎秒 8,000 回超に達し HTTP 応答が liveness probe の
         # timeout (30 秒) を超えるため、2 日で 88 回再起動していた。
         # ノードには 13 GB の空きがあるので、データ量に見合う limit を明示する。
+        #
+        # あわせて telegraf バケットのリテンションを 10 年から 90 日へ、shard group duration を
+        # 24h から 7d へ短縮した (2026-08-29)。容量は約 11 GB → 3.6 GB に落ちる見込み。
+        # バケットは Helm でも Terraform でも管理していない (TFC からクラスタ内へ到達できない) ため、
+        # influx CLI で直接適用している。値を変えるときは下記を実行する。
+        #
+        #   kubectl -n influxdb exec deploy/influxdb -- bash -c \
+        #     'export INFLUX_TOKEN=$(cat /opt/bitnami/influxdb/secrets/admin-user-token); \
+        #      influx bucket update --host http://127.0.0.1:8086 -i 9640aa1885903715 \
+        #        --retention 90d --shard-group-duration 168h'
         resources:
           limits:
             cpu: "2"
