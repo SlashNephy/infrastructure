@@ -21,6 +21,23 @@ helmCharts:
       auth:
         existingSecret: admin-secret
       influxdb:
+        # 322 shard の open と WAL の再生に最大 340 秒かかり、liveness probe の猶予
+        # (initialDelaySeconds 180 + periodSeconds 45 × failureThreshold 6 = 450 秒) に
+        # 余裕がない。startupProbe で起動完了までは liveness probe を止める。
+        #
+        # チャート既定の startupProbe は `influx --host <url> ping` を実行するが、influx CLI は
+        # --host をサブコマンドの後ろにしか取らないため常に失敗する (readinessProbe 側は正しい順序で
+        # 書かれている)。チャートを patch せずに済むよう customStartupProbe で置き換える。
+        # 起動が完了して HTTP listener が上がるまでは接続自体が失敗するので、/health で十分。
+        customStartupProbe:
+          failureThreshold: 20
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 30
         # resourcesPreset: medium (memory limit 1536Mi) では 12 GB / 322 shard のデータ量に対して
         # ページキャッシュが確保できず、cgroup が limit に張り付いて reclaim を繰り返していた。
         # TSM ファイルの refault が毎秒 8,000 回超に達し HTTP 応答が liveness probe の
@@ -40,16 +57,6 @@ helmCharts:
             http: 30086
             rpc: 30088
           type: NodePort
-        # 322 shard の open と WAL の再生に最大 340 秒かかり、liveness probe の猶予
-        # (initialDelaySeconds 180 + periodSeconds 45 × failureThreshold 6 = 450 秒) に
-        # 余裕がない。startupProbe で起動完了までは liveness probe を止める。
-        startupProbe:
-          enabled: true
-          failureThreshold: 20
-          initialDelaySeconds: 60
-          periodSeconds: 30
-          successThreshold: 1
-          timeoutSeconds: 30
         updateStrategy:
           type: Recreate # host volume を使っているので RollingUpdate できない
       persistence:
