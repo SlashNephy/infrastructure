@@ -48,10 +48,6 @@ spec:
             namespace: mahiron
             path: k8s/apps/mahiron/lily
             project: apps
-          - name: mirakurun-iptv-rewriter
-            namespace: mirakurun-iptv-rewriter
-            path: k8s/apps/mirakurun-iptv-rewriter
-            project: apps
           - name: rclone
             namespace: rclone
             path: k8s/apps/rclone
@@ -59,14 +55,6 @@ spec:
           - name: telegraf
             namespace: telegraf
             path: k8s/apps/telegraf
-            project: apps
-          - name: wolweb
-            namespace: wolweb
-            path: k8s/apps/wolweb
-            project: apps
-          - name: kubeclarity
-            namespace: kubeclarity
-            path: k8s/apps/kubeclarity
             project: apps
           - name: kubernetes-dashboard
             namespace: kubernetes-dashboard
@@ -171,10 +159,6 @@ spec:
           - name: storage-class
             namespace: kube-system
             path: k8s/system/storage-class
-            project: system
-          - name: actions-runner-controller
-            namespace: arc-systems
-            path: k8s/system/actions-runner-controller
             project: system
           - name: tailscale-operator
             namespace: tailscale-operator
