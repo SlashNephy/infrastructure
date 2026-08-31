@@ -132,14 +132,6 @@ spec:
             namespace: influxdb
             path: k8s/apps/influxdb
             project: apps
-          - name: orb
-            namespace: orb
-            path: k8s/apps/orb
-            project: apps
-          # - name: grafana-loki
-          #   namespace: grafana-loki
-          #   path: k8s/apps/grafana-loki
-          #   project: apps
           - name: grafana-alloy
             namespace: grafana-alloy
             path: k8s/apps/grafana-alloy
@@ -159,14 +151,6 @@ spec:
           - name: samba
             namespace: samba
             path: k8s/apps/samba
-            project: apps
-          - name: openclaw
-            namespace: openclaw
-            path: k8s/apps/openclaw
-            project: apps
-          - name: headlessx
-            namespace: headlessx
-            path: k8s/apps/headlessx
             project: apps
           - name: home-assistant
             namespace: home-assistant
@@ -235,10 +219,6 @@ spec:
           - name: reloader
             namespace: reloader
             path: k8s/system/reloader
-            project: system
-          - name: openclaw-operator
-            namespace: openclaw-operator-system
-            path: k8s/system/openclaw-operator
             project: system
           - name: external-dns
             namespace: external-dns
