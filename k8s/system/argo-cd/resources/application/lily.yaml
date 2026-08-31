@@ -8,18 +8,6 @@ spec:
     - list:
         elements:
           # apps
-          - name: 052-bot-karasu
-            namespace: 052-bot-karasu
-            path: k8s/apps/052-bot/karasu
-            project: apps
-          - name: 052-bot-kashiwa
-            namespace: 052-bot-kashiwa
-            path: k8s/apps/052-bot/kashiwa
-            project: apps
-          - name: 052-bot-samekan
-            namespace: 052-bot-samekan
-            path: k8s/apps/052-bot/samekan
-            project: apps
           - name: anilist-synchronizer
             namespace: anilist-synchronizer
             path: k8s/apps/anilist-synchronizer
@@ -44,10 +32,6 @@ spec:
             namespace: epgstation
             path: k8s/apps/epgstation
             project: apps
-          # - name: feedchime
-          #   namespace: feedchime
-          #   path: k8s/apps/feedchime
-          #   project: apps
           - name: konomitv
             namespace: konomitv
             path: k8s/apps/konomitv/lily
@@ -71,26 +55,6 @@ spec:
           - name: rclone
             namespace: rclone
             path: k8s/apps/rclone
-            project: apps
-          # - name: releasechime-ai
-          #   namespace: releasechime-ai
-          #   path: k8s/apps/releasechime/ai
-          #   project: apps
-          # - name: releasechime-dtv
-          #   namespace: releasechime-dtv
-          #   path: k8s/apps/releasechime/dtv
-          #   project: apps
-          # - name: releasechime-ff14
-          #   namespace: releasechime-ff14
-          #   path: k8s/apps/releasechime/ff14
-          #   project: apps
-          # - name: soundbot-reloaded
-          #   namespace: soundbot-reloaded
-          #   path: k8s/apps/soundbot-reloaded
-          #   project: apps
-          - name: symm
-            namespace: symm
-            path: k8s/apps/symm
             project: apps
           - name: telegraf
             namespace: telegraf
