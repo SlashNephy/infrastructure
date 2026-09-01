@@ -1,14 +1,38 @@
-# https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta3/
+# https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta4/
+#
+# このファイルはクラスタ設定の唯一の情報源であり、init だけでなくアップグレード時にも渡す。
+#   kubeadm upgrade apply --config k8s/init/lily/kubeadm-config.yaml v1.x.y
+# こうすると kube-system/kubeadm-config と kube-system/kubelet-config の
+# ConfigMap が本ファイルで上書きされ、apiserver の static pod manifest と
+# /var/lib/kubelet/config.yaml がそこから再生成される。
+# ConfigMap に書いていない設定 (failSwapOn, service-node-port-range 等) は
+# アップグレードのたびに消えるため、手で足さず必ずここに書くこと。
 
-apiVersion: kubeadm.k8s.io/v1beta3
+apiVersion: kubeadm.k8s.io/v1beta4
 kind: ClusterConfiguration
+apiServer:
+  extraArgs:
+    - name: authorization-mode
+      value: Node,RBAC
+    # 53 番 (DNS) を NodePort で公開するため下限を広げている
+    - name: service-node-port-range
+      value: 53-60000
 networking:
   podSubnet: 10.0.0.0/16,fdac:2d12:9f5::/64
   serviceSubnet: 10.1.0.0/16,fdac:2d12:9f5::/112
 
 ---
-apiVersion: kubeadm.k8s.io/v1beta3
+apiVersion: kubeadm.k8s.io/v1beta4
 kind: InitConfiguration
 nodeRegistration:
   name: lily
   criSocket: unix:///var/run/crio/crio.sock
+
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+# lily は swap を有効にしているため、無いと kubelet が起動しない
+failSwapOn: false
+# イメージを 7 日で GC する。閾値ベースの GC は既定値 (high 85 / low 80) のまま。
+# 片方だけ下げると low > high になって kubelet が起動不能になる
+imageMaximumGCAge: 168h
