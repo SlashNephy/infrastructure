@@ -6,7 +6,7 @@ helmCharts:
   - name: grafana
     releaseName: grafana
     namespace: grafana
-    version: 13.0.1
+    version: 13.2.1
     repo: oci://ghcr.io/grafana-community/helm-charts
     includeCRDs: true
     valuesInline:
