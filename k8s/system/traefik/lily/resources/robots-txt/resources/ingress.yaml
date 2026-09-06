@@ -1,0 +1,38 @@
+# bot のクロールを抑止するため、全ホスト共通で /robots.txt を返す。
+# アプリ側のルーター (Host(...) のみ) より確実に優先させるため priority を明示する。
+#
+# *.starry.blue と *.gateway.starry.blue は TLSOption が異なり、同一 SNI に
+# 複数の TLSOption が紐づくと適用されるオプションが不定になる。混線を避けるため
+# ルーターを分けている。
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: robots-txt
+
+spec:
+  routes:
+    - kind: Rule
+      match: HostRegexp(`^(.+\.)?starry\.blue$`) && !HostRegexp(`^.+\.gateway\.starry\.blue$`) && Path(`/robots.txt`)
+      priority: 1000
+      services:
+        - name: robots-txt
+          port: http
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: robots-txt-gateway
+
+spec:
+  routes:
+    - kind: Rule
+      match: HostRegexp(`^.+\.gateway\.starry\.blue$`) && Path(`/robots.txt`)
+      priority: 1000
+      services:
+        - name: robots-txt
+          port: http
+
+  tls:
+    options:
+      name: gateway
