@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: robots-txt
+
+spec:
+  replicas: 1
+  # lily は単一ノードのため、複製しても可用性は上がらない。
+  # 更新時に robots.txt が落ちないよう、新しい Pod が Ready になってから旧 Pod を止める。
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: robots-txt
+  template:
+    metadata:
+      labels:
+        app: robots-txt
+    spec:
+      containers:
+        - name: app
+          image: nginxinc/nginx-unprivileged:1.31.5-trixie@sha256:f4a6f1ea26f4e500265b60b1935f2a5a0bc0cc5da4ca02ec32b2099426612229
+          # 公式イメージの ENTRYPOINT は /etc/nginx 以下を書き換えようとして
+          # readOnlyRootFilesystem で警告を出すため、nginx を直接起動する。
+          command:
+            - nginx
+            - -c
+            - /etc/nginx/custom/nginx.conf
+            - -g
+            - daemon off;
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: config
+              mountPath: /etc/nginx/custom/nginx.conf
+              readOnly: true
+              subPath: nginx.conf
+            - name: config
+              mountPath: /srv/robots.txt
+              readOnly: true
+              subPath: robots.txt
+            - name: tmp
+              mountPath: /tmp
+          livenessProbe:
+            httpGet:
+              path: /robots.txt
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /robots.txt
+              port: http
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+      volumes:
+        - name: config
+          configMap:
+            name: robots-txt-config
+        - name: tmp
+          emptyDir: {}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+        seccompProfile:
+          type: RuntimeDefault

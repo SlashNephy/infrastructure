@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ./resources/deployment.yaml
+  - ./resources/ingress.yaml
+  - ./resources/service.yaml
+
+configMapGenerator:
+  - name: robots-txt-config
+    files:
+      - ./config/nginx.conf
+      - ./config/robots.txt
