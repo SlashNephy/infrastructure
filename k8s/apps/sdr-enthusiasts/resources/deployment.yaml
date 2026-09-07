@@ -18,7 +18,7 @@ spec:
       containers:
         # https://github.com/sdr-enthusiasts/docker-adsb-ultrafeeder
         - name: ultrafeeder
-          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:telegraf@sha256:61ffa27b984c1b9dfc3750b45c1388daa914af1465e841426a02fdec0bf8595b
+          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:telegraf@sha256:0c23cc9290f6c2559134d2d6d299a6ad01a9fd7e2e6dcbfc67ac79b9f3c13c57
           env:
             - name: LOGLEVEL
               value: error
