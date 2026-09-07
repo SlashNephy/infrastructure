@@ -5,6 +5,15 @@ metadata:
 
 spec:
   routes:
+    # bot のクロールを抑止するため robots.txt を返す。
+    - kind: Rule
+      match: Host(`whoami.starry.blue`) && Path(`/robots.txt`)
+      priority: 100
+      services:
+        - name: robots-txt
+          namespace: traefik
+          port: http
+
     - kind: Rule
       match: Host(`whoami.starry.blue`)
       services:
@@ -19,6 +28,15 @@ metadata:
 
 spec:
   routes:
+    # bot のクロールを抑止するため robots.txt を返す。
+    - kind: Rule
+      match: Host(`whoami.gateway.starry.blue`) && Path(`/robots.txt`)
+      priority: 100
+      services:
+        - name: robots-txt
+          namespace: traefik
+          port: http
+
     - kind: Rule
       match: Host(`whoami.gateway.starry.blue`)
       services:
