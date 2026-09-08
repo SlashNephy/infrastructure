@@ -27,6 +27,10 @@ kind: InitConfiguration
 nodeRegistration:
   name: lily
   criSocket: unix:///var/run/crio/crio.sock
+# Cilium が kubeProxyReplacement: true でサービスの負荷分散を BPF で担うため、
+# kube-proxy addon は入れない。
+skipPhases:
+  - addon/kube-proxy
 
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
@@ -36,3 +40,17 @@ failSwapOn: false
 # イメージを 7 日で GC する。閾値ベースの GC は既定値 (high 85 / low 80) のまま。
 # 片方だけ下げると low > high になって kubelet が起動不能になる
 imageMaximumGCAge: 168h
+
+---
+# kubeadm upgrade apply / upgrade node はどちらも addon フェーズを持ち、
+# その中に kube-proxy サブフェーズがある。skip しないとアップグレードのたびに
+# kube-proxy DaemonSet が復活する。
+#   kubeadm upgrade apply --config k8s/init/lily/kubeadm-config.yaml v1.x.y
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: UpgradeConfiguration
+apply:
+  skipPhases:
+    - addon/kube-proxy
+node:
+  skipPhases:
+    - addon/kube-proxy
