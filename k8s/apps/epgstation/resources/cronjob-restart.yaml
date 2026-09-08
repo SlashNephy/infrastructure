@@ -35,6 +35,7 @@ spec:
               type: RuntimeDefault
           serviceAccountName: restart
   concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
 
 ---
 apiVersion: v1
