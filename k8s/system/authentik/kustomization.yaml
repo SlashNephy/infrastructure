@@ -49,6 +49,7 @@ helmCharts:
                 selector:
                   matchLabels:
                     name: authentik-postgres-backup
+            successfulJobsHistoryLimit: 1
             timeZone: Asia/Tokyo
           enabled: true
         enabled: true

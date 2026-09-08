@@ -105,6 +105,7 @@ helmCharts:
           schedule: "20 * * * *"
           storage:
             existingClaim: n8n-postgresql-backup
+          successfulJobsHistoryLimit: 1
           timeZone: Asia/Tokyo
         enabled: true
       image:
