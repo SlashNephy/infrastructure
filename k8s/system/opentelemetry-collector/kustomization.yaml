@@ -245,6 +245,19 @@ helmCharts:
             # otel-cluster のログも Mackerel に送られてしまうため、両方を除外する。
             exclude:
               - /var/log/pods/opentelemetry-collector_otel-*_*/opentelemetry-collector/*.log
+            # 既定の 200ms では、ログの実流量が 13.7 KiB/s しかないにもかかわらず
+            # otel-agent が CPU 0.26 コアと 27.7 MB/s のアロケーションを消費していた。
+            # 消費のほぼ全量が poll ループ (glob 展開と 380 ファイル分の
+            # フィンガープリント読み) で、処理チェーン側ではない。
+            #
+            # lily と同規模 (355 ファイル / 18.7 rec/s) をローカルで再現して計測した:
+            #   200ms + processors なし : CPU 6.7% / alloc 24.5 MB/s
+            #   200ms + processors フル : CPU 6.7% / alloc 24.4 MB/s
+            #   1s    + processors フル : CPU 1.4% / alloc  5.1 MB/s
+            # 取り込みレコード数はいずれも同一で、取りこぼしはない。
+            #
+            # 代償はログ到達が最大 0.8 秒遅れることだけで、この用途では問題にならない。
+            poll_interval: 1s
           # Alloy から journald ログを OTLP で受け取る。journalctl を実行できない
           # distroless イメージの代わりに、libsystemd を直接呼ぶ Alloy に読み取りを任せる。
           otlp:
