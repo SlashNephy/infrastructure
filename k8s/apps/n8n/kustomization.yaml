@@ -103,9 +103,9 @@ helmCharts:
           restartPolicy: Never
           # @hourly
           schedule: "20 * * * *"
-          successfulJobsHistoryLimit: 1
           storage:
             existingClaim: n8n-postgresql-backup
+          successfulJobsHistoryLimit: 1
           timeZone: Asia/Tokyo
         enabled: true
       image:

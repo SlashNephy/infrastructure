@@ -44,12 +44,12 @@ helmCharts:
             restartPolicy: Never
             # @hourly
             schedule: "30 * * * *"
-            successfulJobsHistoryLimit: 1
             storage:
               volumeClaimTemplates:
                 selector:
                   matchLabels:
                     name: authentik-postgres-backup
+            successfulJobsHistoryLimit: 1
             timeZone: Asia/Tokyo
           enabled: true
         enabled: true
