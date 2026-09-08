@@ -44,6 +44,7 @@ helmCharts:
             restartPolicy: Never
             # @hourly
             schedule: "30 * * * *"
+            successfulJobsHistoryLimit: 1
             storage:
               volumeClaimTemplates:
                 selector:
