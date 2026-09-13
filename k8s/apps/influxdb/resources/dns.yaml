@@ -23,10 +23,10 @@ metadata:
 spec:
   certificationExpirationCritical: 7
   certificationExpirationWarning: 30
-  expectedStatusCode: 302 # TODO: アプリケーションに到達できるようにし 200 を確認する
+  expectedStatusCode: 204
   method: GET
   responseTimeCritical: 10000
   responseTimeDuration: 5
   responseTimeWarning: 5000
   service: Production
-  url: https://influxdb.starry.blue
+  url: https://influxdb.starry.blue/ping
