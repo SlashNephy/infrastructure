@@ -927,7 +927,7 @@ Expected: `200` (認証なしのため既に 200)
 
 - [ ] **Step 2: ExternalMonitor を追加する**
 
-`k8s/system/traefik/lily/resources/whoami/resources/dns.yaml` の末尾に追加する。
+`k8s/system/traefik/lily/resources/whoami/resources/dns.yaml` の末尾に追加する。名前を `https` にすると同一 namespace の Traefik ダッシュボードの監視と衝突し kustomize build が失敗するため、`whoami-https` とする。
 
 ```yaml
 
@@ -935,7 +935,7 @@ Expected: `200` (認証なしのため既に 200)
 apiVersion: mackerel.starry.blue/v1alpha1
 kind: ExternalMonitor
 metadata:
-  name: https
+  name: whoami-https
 
 spec:
   certificationExpirationCritical: 7

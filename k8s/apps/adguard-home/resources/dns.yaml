@@ -13,3 +13,22 @@ spec:
       recordType: CNAME
       targets:
         - gateway.starry.blue
+
+---
+apiVersion: mackerel.starry.blue/v1alpha1
+kind: ExternalMonitor
+metadata:
+  name: https
+
+spec:
+  certificationExpirationCritical: 7
+  certificationExpirationWarning: 30
+  expectedStatusCode: 200
+  method: GET
+  responseTimeCritical: 10000
+  responseTimeDuration: 5
+  responseTimeWarning: 5000
+  service: Production
+  # DoH のクエリを投げ、名前解決そのものが成功することを確認する。
+  # dns パラメータは example.com の A レコード照会。
+  url: https://dns.starry.blue/dns-query?dns=AAABAAABAAAAAAAAB2V4YW1wbGUDY29tAAABAAE
