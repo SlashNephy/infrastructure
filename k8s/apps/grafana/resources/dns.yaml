@@ -25,8 +25,8 @@ spec:
   certificationExpirationWarning: 30
   expectedStatusCode: 200
   method: GET
-  responseTimeCritical: 10000
+  responseTimeCritical: 5000
   responseTimeDuration: 5
-  responseTimeWarning: 5000
+  responseTimeWarning: 3000
   service: Production
   url: https://grafana.starry.blue/api/health
