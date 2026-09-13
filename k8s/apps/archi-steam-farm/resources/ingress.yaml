@@ -31,3 +31,12 @@ spec:
         - name: authentik-server
           namespace: authentik
           port: http
+
+    # 外形監視のため ASF のヘルスチェック端点のみ認証を迂回させる。
+    # authentik の Unauthenticated Paths ではなくここで表現し、設定を可視化する。
+    - kind: Rule
+      match: Host(`asf.starry.blue`) && Path(`/healthcheck`)
+      priority: 20
+      services:
+        - name: service
+          port: app
