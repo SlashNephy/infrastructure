@@ -31,3 +31,12 @@ spec:
         - name: authentik-server
           namespace: authentik
           port: http
+
+    # Guacamole に /health 相当の端点はないため、静的な言語一覧を返す
+    # /api/languages を外形監視の対象として認証から外す。
+    - kind: Rule
+      match: Host(`remote.starry.blue`) && Path(`/api/languages`)
+      priority: 20
+      services:
+        - name: service
+          port: app

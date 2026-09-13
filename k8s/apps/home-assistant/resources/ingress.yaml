@@ -31,3 +31,12 @@ spec:
         - name: authentik-server
           namespace: authentik
           port: http
+
+    # 外形監視のため manifest.json のみ認証を迂回させる。
+    # 認証機構の構成を返す /auth/providers は開けない。
+    - kind: Rule
+      match: Host(`home.starry.blue`) && Path(`/manifest.json`)
+      priority: 20
+      services:
+        - name: home-assistant
+          port: http

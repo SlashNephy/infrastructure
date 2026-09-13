@@ -31,3 +31,13 @@ spec:
         - name: authentik-server
           namespace: authentik
           port: http
+
+    # 外形監視のため /ping のみ認証を迂回させる。
+    # 本文で構成を返す /health ではなく、本文が空の /ping を選ぶ。
+    # なお版数は /ping でも X-Influxdb-Version ヘッダーで返る。
+    - kind: Rule
+      match: Host(`influxdb.starry.blue`) && Path(`/ping`)
+      priority: 20
+      services:
+        - name: influxdb
+          port: http
