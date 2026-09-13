@@ -88,7 +88,7 @@ Traefik の Deployment には `--ping=true` が設定済みであることを確
 
 ## 今後の課題 (本 spec の範囲外)
 
-- **既存 6 ホストの移行**: `asf` / `epgstation` / `files` / `konomitv` / `mahiron` / `navidrome` は authentik 側の設定に依存して 200 を返している。うち 5 つは単一の health パスのみを開けており機械的に移行できるが、**Navidrome だけは認証の迂回範囲がアプリケーションの API 全域に及ぶ**。これは外部クライアント向けの意図的な設定であり、health パスへの置き換えでは機能を壊す。Navidrome は独立した設計を要する。
+- **既存 6 ホストの移行**: `asf` / `epgstation` / `files` / `konomitv` / `mahiron` / `navidrome` は authentik 側の設定に依存して 200 を返している。うち 5 つは単一の health パスのみを開けており機械的に移行できるが、**Navidrome だけは迂回の範囲がヘルスチェックにとどまらない**。外部クライアントを動かすための意図的な設定であり、health パスへの置き換えでは機能を壊す。Navidrome は独立した設計を要する。
 - **宙に浮いた Proxy Provider の棚卸し**: `kubeclarity.starry.blue` と `wol.starry.blue` の Proxy Provider が authentik に残っているが、どちらもデプロイされていない (ArgoCD の Application が存在せず、DNS も解決しない)。リポジトリにマニフェストのみ残存している。
 - **ultrafeeder の受信状況**: 調査中、`/metrics` が `readsb_aircraft_total 0` および `rssi_average -50.0` を返していた。一時的に機体が居ないだけの可能性もあるが、受信できていない可能性がある。
 
