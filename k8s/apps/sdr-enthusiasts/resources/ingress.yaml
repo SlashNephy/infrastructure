@@ -14,8 +14,11 @@ spec:
           namespace: traefik
           port: http
 
+    # priority を省略するとルール長 (24) が優先度になり、outpost ルートの
+    # 15 を上回って認証の経路が意図せず catch-all 側に倒れる。
     - kind: Rule
       match: Host(`1090.starry.blue`)
+      priority: 10
       services:
         - name: ultrafeeder
           port: http
@@ -29,4 +32,14 @@ spec:
       services:
         - name: authentik-server
           namespace: authentik
+          port: http
+
+    # 外形監視のため tar1090 のバージョン端点のみ認証を迂回させる。
+    # /data/aircraft.json や受信機の座標を含む /data/receiver.json、
+    # 受信状況を返す /data/status.json と /metrics は認証の内側に残す。
+    - kind: Rule
+      match: Host(`1090.starry.blue`) && Path(`/version`)
+      priority: 20
+      services:
+        - name: ultrafeeder
           port: http
