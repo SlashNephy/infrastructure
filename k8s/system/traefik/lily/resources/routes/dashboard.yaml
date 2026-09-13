@@ -34,9 +34,10 @@ spec:
           port: http
 
     # 外形監視のため ping@internal を認証なしで公開する。
-    # 動的ルートとして公開するため、プラグインの取得失敗などでルーター
-    # テーブルが読み込まれない場合はこのルート自体が消えて 404 になる。
-    # traefik entrypoint 上の静的な ping と違い、その障害を検知できる。
+    # 動的ルートとして公開するため、entrypoint の既定 middleware が欠ける
+    # などでルーターテーブルが読み込まれない場合はこのルート自体が消えて
+    # 404 になる。プロセスが生きていれば常に 200 を返す traefik entrypoint
+    # 上の静的な ping と違い、その障害を検知できる。
     - kind: Rule
       match: Host(`traefik.starry.blue`) && Path(`/ping`)
       priority: 20
