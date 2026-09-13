@@ -37,7 +37,7 @@ priority 20 は、konomitv が `/sw.js` に対して既に使っている「ア�
 ## パスの選定基準
 
 1. **公開しても情報が漏れないこと。** 例外ルートは認証なしでインターネットに露出する。アプリケーションの機能や状態を返すパスは選ばない。
-2. **Cloudflare の既定キャッシュ対象拡張子を避けること。** 全ホストが `cloudflare-proxied: true` であるため、`.js` や `.css` を監視するとオリジンが停止してもキャッシュから 200 が返り、障害を検知できない。
+2. **Cloudflare の既定キャッシュ対象拡張子を避けること。** 大半のホストが `cloudflare-proxied: true` であるため (`dns.starry.blue` のみ `false`)、`.js` や `.css` を監視するとオリジンが停止してもキャッシュから 200 が返り、障害を検知できない。
 
 ## Phase 1: 例外ルートの追加と監視の 200 化
 
@@ -46,16 +46,16 @@ priority 20 は、konomitv が `/sw.js` に対して既に使っている「ア�
 | ホスト | 追加する `Path()` | 転送先 | expectedStatusCode | 備考 |
 | --- | --- | --- | --- | --- |
 | `grafana-alloy.starry.blue` | `/-/ready` | `alloy:http-metrics` | 200 | 監視を新規作成 |
-| `home.starry.blue` | `/manifest.json` | `home-assistant:8080` | 200 | 監視を新規作成 |
-| `1090.starry.blue` | `/version` | `ultrafeeder:80` | 200 | 監視を新規作成 |
-| `remote.starry.blue` | `/api/languages` | `service:8080` | 200 | 既存監視の URL を差し替え |
-| `influxdb.starry.blue` | `/ping` | `influxdb:8086` | 204 | 既存監視の URL を差し替え |
+| `home.starry.blue` | `/manifest.json` | `home-assistant:http` | 200 | 監視を新規作成 |
+| `1090.starry.blue` | `/version` | `ultrafeeder:http` | 200 | 監視を新規作成 |
+| `remote.starry.blue` | `/api/languages` | `service:app` | 200 | 既存監視の URL を差し替え |
+| `influxdb.starry.blue` | `/ping` | `influxdb:http` | 204 | 既存監視の URL を差し替え |
 | `k8s.starry.blue` | `/healthz` | `kubernetes-dashboard-kong-proxy:kong-proxy-tls` | 200 | 既存監視の URL を差し替え |
 
 選定の根拠:
 
 - `1090` は tar1090 のバージョン文字列 1 行だけを返す `/version` を選ぶ。`/` はフロントエンドのシェルを公開してしまい、`/data/aircraft.json` や受信機の座標を含む `/data/receiver.json` は認証の内側に残す必要がある。`/data/status.json` と `/metrics` も 200 を返すが、受信状況が漏れるため採用しない。
-- `influxdb` は版数を返す `/health` ではなく、本文が空の `/ping` を選ぶ。204 を期待する。
+- `influxdb` は本文で構成を返す `/health` ではなく、本文が空の `/ping` を選ぶ。204 を期待する。版数は `/ping` でも `X-Influxdb-Version` ヘッダーで返るため、そこは選定理由にならない。
 - `home-assistant` は `/manifest.json` を選ぶ。`/auth/providers` は認証機構の構成を返すため採用しない。
 - `k8s` の転送先は TLS を喋る kong-proxy であるため、例外ルートにも既存の catch-all と同じ `scheme: https` と `serversTransport: allow-insecure` を指定する。ポート名の指定だけでは疎通しない。
 
@@ -88,8 +88,8 @@ Traefik の Deployment には `--ping=true` が設定済みであることを確
 
 ## 今後の課題 (本 spec の範囲外)
 
-- **既存 6 ホストの移行**: `asf` / `epgstation` / `files` / `konomitv` / `mahiron` / `navidrome` は authentik 側の設定に依存して 200 を返している。うち 5 つは単一の health パスのみを開けており機械的に移行できるが、**Navidrome だけは迂回の範囲がヘルスチェックにとどまらない**。外部クライアントを動かすための意図的な設定であり、health パスへの置き換えでは機能を壊す。Navidrome は独立した設計を要する。
-- **宙に浮いた Proxy Provider の棚卸し**: `kubeclarity.starry.blue` と `wol.starry.blue` の Proxy Provider が authentik に残っているが、どちらもデプロイされていない (ArgoCD の Application が存在せず、DNS も解決しない)。リポジトリにマニフェストのみ残存している。
+- **既存 6 ホストの移行**: `asf` / `epgstation` / `files` / `konomitv` / `mahiron` / `navidrome` は authentik 側の設定に依存して 200 を返している。うち 5 つは単一の health パスのみを開けており機械的に移行できる。**Navidrome だけは事情が異なり、単純な置き換えでは機能を壊す**ため、独立した設計を要する。
+- **宙に浮いた Proxy Provider の棚卸し**: デプロイされていないアプリケーションの Proxy Provider が authentik にいくつか残っている。コンソール操作での整理が必要。
 - **ultrafeeder の受信状況**: 調査中、`/metrics` が `readsb_aircraft_total 0` および `rssi_average -50.0` を返していた。一時的に機体が居ないだけの可能性もあるが、受信できていない可能性がある。
 
 ## 検証

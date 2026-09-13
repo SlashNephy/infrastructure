@@ -478,7 +478,8 @@ Expected: `302`
 
 ```yaml
     # 外形監視のため /ping のみ認証を迂回させる。
-    # 版数を返す /health ではなく、本文が空の /ping を選ぶ。
+    # 本文で構成を返す /health ではなく、本文が空の /ping を選ぶ。
+    # なお版数は /ping でも X-Influxdb-Version ヘッダーで返る。
     - kind: Rule
       match: Host(`influxdb.starry.blue`) && Path(`/ping`)
       priority: 20
@@ -1283,7 +1284,7 @@ Step 2 から Step 6 の出力を before / after が識別できる形でまと�
 
 ## 完了後に残る課題 (本計画の範囲外)
 
-- **既存 6 ホストの移行**: `asf` / `epgstation` / `files` / `konomitv` / `mahiron` / `navidrome` は authentik 側の設定に依存して 200 を返している。うち 5 つは単一のヘルスパスのみを開けており機械的に移行できるが、Navidrome は迂回の範囲がヘルスチェックにとどまらないため、独立した設計を要する。
-- **authentik の Proxy Provider の棚卸し**: `code-server` と `cilium` の該当エントリは本計画の完了により冗長になる。またデプロイされていないアプリケーションの Provider が残っている。削除はコンソール操作となるためユーザーの作業になる。
+- **既存 6 ホストの移行**: `asf` / `epgstation` / `files` / `konomitv` / `mahiron` / `navidrome` は authentik 側の設定に依存して 200 を返している。うち 5 つは単一のヘルスパスのみを開けており機械的に移行できる。Navidrome だけは事情が異なり、独立した設計を要する。
+- **authentik の Proxy Provider の棚卸し**: `code-server` と `cilium` の該当エントリは本計画の完了により冗長になる。またデプロイされていないアプリケーションの Provider もいくつか残っている。削除はコンソール操作となるためユーザーの作業になる。
 - **`epgstation-api` / `mahiron-api` の監視**: `headers[].valueFrom.secretKeyRef` で API キーを渡せば 200 監視が可能。
 - **ultrafeeder の受信状況**: 調査中、`/metrics` が `readsb_aircraft_total 0` および `rssi_average -50.0` を返していた。受信できていない可能性がある。

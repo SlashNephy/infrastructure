@@ -33,7 +33,8 @@ spec:
           port: http
 
     # 外形監視のため /ping のみ認証を迂回させる。
-    # 版数を返す /health ではなく、本文が空の /ping を選ぶ。
+    # 本文で構成を返す /health ではなく、本文が空の /ping を選ぶ。
+    # なお版数は /ping でも X-Influxdb-Version ヘッダーで返る。
     - kind: Rule
       match: Host(`influxdb.starry.blue`) && Path(`/ping`)
       priority: 20
