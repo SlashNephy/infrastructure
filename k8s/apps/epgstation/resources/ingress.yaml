@@ -32,6 +32,15 @@ spec:
           namespace: authentik
           port: http
 
+    # 外形監視のためバージョン端点のみ認証を迂回させる。
+    # authentik の Unauthenticated Paths ではなくここで表現し、設定を可視化する。
+    - kind: Rule
+      match: Host(`epgstation.starry.blue`) && Path(`/api/version`)
+      priority: 20
+      services:
+        - name: app
+          port: 8888
+
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
