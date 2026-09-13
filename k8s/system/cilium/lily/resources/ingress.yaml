@@ -31,3 +31,13 @@ spec:
         - name: authentik-server
           namespace: authentik
           port: http
+
+    # 外形監視のため /healthz のみ認証を迂回させる。
+    # 従来は authentik の Unauthenticated Paths で開けていたが、
+    # 設定を可視化するため IngressRoute 側の表現に移した。
+    - kind: Rule
+      match: Host(`cilium.starry.blue`) && Path(`/healthz`)
+      priority: 20
+      services:
+        - name: hubble-ui
+          port: http
