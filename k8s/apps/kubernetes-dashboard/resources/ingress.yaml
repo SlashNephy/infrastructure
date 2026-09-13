@@ -34,7 +34,8 @@ spec:
           namespace: authentik
           port: http
 
-    # 外形監視のため kong の /healthz のみ認証を迂回させる。
+    # Dashboard に専用の health 端点は無く、Kong の web ルートに落ちて SPA の
+    # シェルが返る。Kong と dashboard-web が応答していることの確認にとどまる。
     # 転送先が TLS を喋るため catch-all と同じ scheme と serversTransport が要る。
     - kind: Rule
       match: Host(`k8s.starry.blue`) && Path(`/healthz`)
