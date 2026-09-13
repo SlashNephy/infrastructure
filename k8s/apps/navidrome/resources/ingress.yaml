@@ -31,3 +31,14 @@ spec:
         - name: authentik-server
           namespace: authentik
           port: http
+
+    # 外形監視のためヘルスチェック端点のみ認証を迂回させる。
+    # authentik の Unauthenticated Paths ではなくここで表現し、設定を可視化する。
+    # Subsonic API (/rest/) の迂回は SSO を通れないクライアントのためのもので、
+    # Path() 完全一致では表現できないため authentik 側に残している。
+    - kind: Rule
+      match: Host(`navidrome.starry.blue`) && Path(`/ping`)
+      priority: 20
+      services:
+        - name: app
+          port: 4533
