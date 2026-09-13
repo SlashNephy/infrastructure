@@ -33,6 +33,18 @@ spec:
           namespace: authentik
           port: http
 
+    # 外形監視のため ping@internal を認証なしで公開する。
+    # 動的ルートとして公開するため、entrypoint の既定 middleware が欠ける
+    # などでルーターテーブルが読み込まれない場合はこのルート自体が消えて
+    # 404 になる。プロセスが生きていれば常に 200 を返す traefik entrypoint
+    # 上の静的な ping と違い、その障害を検知できる。
+    - kind: Rule
+      match: Host(`traefik.starry.blue`) && Path(`/ping`)
+      priority: 20
+      services:
+        - name: ping@internal
+          kind: TraefikService
+
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
@@ -68,10 +80,10 @@ metadata:
 spec:
   certificationExpirationCritical: 7
   certificationExpirationWarning: 30
-  expectedStatusCode: 302 # TODO: アプリケーションに到達できるようにし 200 を確認する
+  expectedStatusCode: 200
   method: GET
   responseTimeCritical: 10000
   responseTimeDuration: 5
   responseTimeWarning: 5000
   service: Production
-  url: https://traefik.starry.blue/health
+  url: https://traefik.starry.blue/ping
