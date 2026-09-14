@@ -65,6 +65,16 @@ spec:
               mountPath: /dev/pxmlt8video6
             - name: dev-pxmlt8video7
               mountPath: /dev/pxmlt8video7
+          # requests を指定せず BestEffort になっていると、cgroup v2 の
+          # kubepods-besteffort.slice は cpu.weight=1 で kubepods-burstable.slice (197) に
+          # 200:1 で劣後する。recpt1 は USB のリングバッファを一定間隔で読み出す必要があるため、
+          # ノードが混んでいる間だけランキュー待ちが伸びてドロップが増えていた。
+          # Burstable に上げて CPU の取り分を確保する。
+          # CFS スロットリングによる 100ms 単位の停止はドロップに直結するため limits は付けない。
+          resources:
+            requests:
+              cpu: "2"
+              memory: 1Gi
           securityContext:
             capabilities:
               add:

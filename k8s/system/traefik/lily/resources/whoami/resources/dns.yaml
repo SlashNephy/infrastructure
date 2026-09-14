@@ -13,11 +13,21 @@ spec:
       recordType: CNAME
       targets:
         - gateway.starry.blue
-    - dnsName: whoami.gateway.starry.blue
-      providerSpecific:
-        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
-          value: "false"
-      recordTTL: 1 # Auto
-      recordType: CNAME
-      targets:
-        - gateway.starry.blue
+
+---
+apiVersion: mackerel.starry.blue/v1alpha1
+kind: ExternalMonitor
+metadata:
+  name: whoami-https
+
+spec:
+  certificationExpirationCritical: 7
+  certificationExpirationWarning: 14
+  expectedStatusCode: 200
+  method: GET
+  responseTimeCritical: 5000
+  responseTimeDuration: 1
+  responseTimeWarning: 3000
+  service: Production
+  # Traefik のルーティング経路そのものが生きていることを確認する合成監視。
+  url: https://whoami.starry.blue/

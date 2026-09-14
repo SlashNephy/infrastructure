@@ -5,6 +5,15 @@ metadata:
 
 spec:
   routes:
+    # bot のクロールを抑止するため robots.txt を返す。
+    - kind: Rule
+      match: Host(`remote.starry.blue`) && Path(`/robots.txt`)
+      priority: 100
+      services:
+        - name: robots-txt
+          namespace: traefik
+          port: http
+
     - kind: Rule
       match: Host(`remote.starry.blue`)
       priority: 10
@@ -22,3 +31,12 @@ spec:
         - name: authentik-server
           namespace: authentik
           port: http
+
+    # Guacamole に /health 相当の端点はないため、静的な言語一覧を返す
+    # /api/languages を外形監視の対象として認証から外す。
+    - kind: Rule
+      match: Host(`remote.starry.blue`) && Path(`/api/languages`)
+      priority: 20
+      services:
+        - name: service
+          port: app

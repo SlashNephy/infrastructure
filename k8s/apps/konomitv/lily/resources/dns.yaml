@@ -13,14 +13,6 @@ spec:
       recordType: CNAME
       targets:
         - gateway.starry.blue
-    - dnsName: konomitv.gateway.starry.blue
-      providerSpecific:
-        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
-          value: "false"
-      recordTTL: 1 # Auto
-      recordType: CNAME
-      targets:
-        - gateway.starry.blue
 
 ---
 apiVersion: mackerel.starry.blue/v1alpha1
@@ -30,11 +22,11 @@ metadata:
 
 spec:
   certificationExpirationCritical: 7
-  certificationExpirationWarning: 30
+  certificationExpirationWarning: 14
   expectedStatusCode: 200
   method: GET
-  responseTimeCritical: 10000
-  responseTimeDuration: 5
-  responseTimeWarning: 5000
+  responseTimeCritical: 5000
+  responseTimeDuration: 1
+  responseTimeWarning: 3000
   service: Production
   url: https://konomitv.starry.blue/api/version

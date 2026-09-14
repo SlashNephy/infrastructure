@@ -7,7 +7,7 @@ helmCharts:
   - name: argo-cd
     releaseName: argo-cd
     namespace: argo-cd
-    version: 10.4.0
+    version: 10.8.1
     repo: https://argoproj.github.io/argo-helm
     valuesInline:
       applicationSet:
@@ -35,7 +35,7 @@ helmCharts:
             args:
               - --url
               - https://id.starry.blue/application/o/argo-cd/
-            image: ghcr.io/slashnephy/wait-for:master@sha256:d7c2c1e2c6ad5e81ab6407985ef65173e77a6e3f0d541903faf572e70ec756f6
+            image: ghcr.io/slashnephy/wait-for:master@sha256:cb9d8f7de065e63da501fe98659eea249ebd7d5b423d2b75df61c7a53f8a66e7
         metrics:
           enabled: true
         # Telegraf は Pod Annotation による検出しかサポートしていない

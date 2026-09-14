@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: restart
-              image: ghcr.io/slashnephy/restart-epgstation-deployment:master@sha256:614e490c1f39d2cbe0ed29f00db7183d5255d28bb8a91150af27c6d96aff8ed3
+              image: ghcr.io/slashnephy/restart-epgstation-deployment:master@sha256:e1fce5543e2a86a767142efd2c32e6f9a1012cf7b2aa99ef96bc120ba5a8fd7f
               env:
                 - name: EPGSTATION_URL
                   value: http://app:8888
@@ -35,6 +35,7 @@ spec:
               type: RuntimeDefault
           serviceAccountName: restart
   concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
 
 ---
 apiVersion: v1

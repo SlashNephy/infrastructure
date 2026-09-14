@@ -5,6 +5,24 @@ metadata:
 
 spec:
   routes:
+    # bot のクロールを抑止するため robots.txt を返す。
+    - kind: Rule
+      match: Host(`stay-tuned-api.starry.blue`) && Path(`/robots.txt`)
+      priority: 100
+      services:
+        - name: robots-txt
+          namespace: traefik
+          port: http
+
+    # bot のクロールを抑止するため robots.txt を返す。
+    - kind: Rule
+      match: Host(`stay-tuned-river.starry.blue`) && Path(`/robots.txt`)
+      priority: 100
+      services:
+        - name: robots-txt
+          namespace: traefik
+          port: http
+
     - kind: Rule
       match: Host(`stay-tuned-api.starry.blue`)
       services:

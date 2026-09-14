@@ -5,7 +5,7 @@ namespace: n8n
 images:
   # チャートの更新が遅いのでセルフアップデート
   - name: n8nio/n8n
-    newTag: 2.36.6@sha256:ac17f6df352c221d17ad2d566e5e61835bcc36de1e912650c8dced43d8cccf76
+    newTag: 2.38.3@sha256:4b76b9c5a69dc1c0f26bedd21b4e281ac2c84bd88d33857487b9e63dd0a42e87
   # Bitnami は 2025-08 にバージョン固定タグを有償枠へ移し、public.ecr.aws のミラーも 2026-06 に削除した。
   # 無償でバージョンを固定できるのは凍結済みの bitnamilegacy だけなので、そこに固定する。
   - name: docker.io/bitnami/postgresql
@@ -87,7 +87,7 @@ helmCharts:
       #     enabled: false
   - name: postgresql
     releaseName: postgresql
-    version: 18.8.13
+    version: 18.8.17
     repo: oci://registry-1.docker.io/bitnamicharts
     valuesInline:
       auth:
@@ -105,6 +105,7 @@ helmCharts:
           schedule: "20 * * * *"
           storage:
             existingClaim: n8n-postgresql-backup
+          successfulJobsHistoryLimit: 1
           timeZone: Asia/Tokyo
         enabled: true
       image:
