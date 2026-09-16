@@ -65,8 +65,11 @@ authentik の API トークン (intent=api, expiring=false) を 1Password 経由
 
 operator は Role の作成と object permission の付与を行うため、トークンは superuser 相当の権限を持つ必要がある。
 
-**トークンと 1Password item の作成は手作業で先に済ませる。**
-Argo CD は selfHeal で自動同期するため、Secret が存在しない状態でマージすると Pod が `CreateContainerConfigError` に落ちる。
+**トークンの発行と 1Password item への登録は手作業で、マージより先に済ませる。**
+Secret 自体はこの変更に含まれる `OnePasswordItem` から生成されるため、初回同期で一時的に `CreateContainerConfigError` になるのは想定どおりで自然に解消する。
+問題になるのは値のほうである。`AUTHENTIK_TOKEN` は `secretKeyRef` の env であり、コンテナ起動時にしか解決されない。
+1Password Connect が Secret を更新しても、走っている Pod はダミー値を保持し続ける。
+チャートの Deployment に Reloader のアノテーションはないため、ダミー値のままマージすると手動での再起動が要る可能性がある。
 
 ### 無効化する機能
 
