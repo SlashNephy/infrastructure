@@ -16,7 +16,7 @@ data:
         type: oidc
         config:
           issuer: https://id.starry.blue/application/o/argo-cd/
-          clientID: 8GakiR150BGbrWcW6nkDpS0yyyFizEeif1RhtlKO
+          clientID: $dex.authentik.clientID
           clientSecret: $dex.authentik.clientSecret
           insecureEnableGroups: true
           scopes:
@@ -46,4 +46,3 @@ data:
   # https://argo-cd.readthedocs.io/en/latest/faq/#how-often-does-argo-cd-check-for-changes-to-my-git-or-helm-repository
   timeout.reconciliation: "0"
   url: https://argocd.starry.blue
-

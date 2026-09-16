@@ -25,12 +25,17 @@ spec:
       invalidation:
         slug: default-provider-invalidation-flow
     oauth2:
-      # client ID は argocd-cm の dex.config に直書きされ、client secret は
-      # argocd-secret にある。source of truth が 2 つに割れているため、
-      # credentials.secretRef は使わず operator には触らせない。
       accessCodeValidity: minutes=1
       accessTokenValidity: hours=1
       clientType: Confidential
+      # argocd-secret を client ID / client secret の source of truth とする。
+      # dex も argocd-cm の $dex.authentik.* 経由で同じ Secret を読むため、
+      # ローテーションは 1Password の item を更新するだけで両側に行き渡る。
+      credentials:
+        secretRef:
+          name: argocd-secret
+          clientIDKey: dex.authentik.clientID
+          clientSecretKey: dex.authentik.clientSecret
       grantTypes:
         - AuthorizationCode
       includeClaimsInIDToken: true
