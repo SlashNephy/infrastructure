@@ -29,4 +29,19 @@ spec:
       outpost:
         name: authentik Embedded Outpost
       refreshTokenValidity: days=30
+      # navidrome は自前の認証を持ち、Subsonic クライアントは SSO を通れないため、
+      # これらのパスはセッションが無くても通す。
+      #
+      # Traefik 側で middleware を外す形では代替できない。authentik はセッションが
+      # あればこの一覧に載っているパスでも X-Authentik-Username を付けるが
+      # (mode_forward.go: claims != nil なら allowlist より先に addHeaders)、
+      # middleware を通さないとヘッダ自体が付かず、navidrome の
+      # ND_REVERSEPROXYUSERHEADER による自動ログインが成立しない。
+      unauthenticatedPaths:
+        - ^/rest/.+
+        - ^/api/.+
+        - ^/auth/.+
+        - ^/static/.+
+        - ^/app/manifest.webmanifest$
+        - ^/app/static/.+
   slug: navidrome
