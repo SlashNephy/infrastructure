@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: file-browser
 
 resources:
+  - ./resources/authentik.yaml
   - ./resources/deployment.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml

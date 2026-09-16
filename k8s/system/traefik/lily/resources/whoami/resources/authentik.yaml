@@ -1,0 +1,13 @@
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: whoami
+
+spec:
+  # whoami は Traefik の経路そのものが生きていることを確認する合成監視の対象であり、
+  # 認証をかけると目的と衝突する。Provider を持たせず、library のリンクだけを管理する。
+  access:
+    public: true
+  launchURL: https://whoami.starry.blue
+  name: whoami
+  slug: whoami
