@@ -113,8 +113,13 @@ spec:
         name: authentik Embedded Outpost
   access:
     rules:
-      - group: Nerd
+      - group:
+          name: Nerd
 ```
+
+参照フィールドはすべてオブジェクト形式である。
+`group: Nerd` のような文字列は CRD の検証で弾かれる (`must be of type object`)。
+将来 Group が CRD 化されたときに `groupRef` などを足せるようにするための形である。
 
 `adopt: IfMatch` とする。
 CR に書いたフィールドが authentik の現状と一致したときだけマーカーを付ける。
