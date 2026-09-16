@@ -186,6 +186,10 @@ spec:
             namespace: authentik-operator
             path: k8s/system/authentik-operator
             project: system
+          - name: actions-runner-controller
+            namespace: arc-systems
+            path: k8s/system/actions-runner-controller
+            project: system
 
   template:
     metadata:
