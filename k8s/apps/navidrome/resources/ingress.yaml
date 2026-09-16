@@ -34,10 +34,29 @@ spec:
 
     # 外形監視のためヘルスチェック端点のみ認証を迂回させる。
     # authentik の Unauthenticated Paths ではなくここで表現し、設定を可視化する。
-    # Subsonic API (/rest/) の迂回は SSO を通れないクライアントのためのもので、
-    # Path() 完全一致では表現できないため authentik 側に残している。
     - kind: Rule
       match: Host(`navidrome.starry.blue`) && Path(`/ping`)
+      priority: 20
+      services:
+        - name: app
+          port: 4533
+
+    # navidrome は自前の認証を持ち、Subsonic クライアントは SSO を通れない。
+    # これらのパスは navidrome 自身の認証に委ね、forward auth を通さない。
+    # したがって authentik が守るのは HTML のシェルだけで、API とログインは
+    # navidrome の認証で完結する。
+    #
+    # 以前は authentik の Unauthenticated Paths に置いていたが、設定を可視化する
+    # ため、ここへ移した。/ping と同じ方針である。
+    #
+    # /app/ 自体は forward auth を通す。ここで拾うのは配下の静的アセットと
+    # manifest だけである。
+    - kind: Rule
+      match: >-
+        Host(`navidrome.starry.blue`) &&
+        (PathPrefix(`/rest/`) || PathPrefix(`/api/`) || PathPrefix(`/auth/`) ||
+        PathPrefix(`/static/`) || PathPrefix(`/app/static/`) ||
+        Path(`/app/manifest.webmanifest`))
       priority: 20
       services:
         - name: app
