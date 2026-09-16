@@ -8,14 +8,3 @@ helmCharts:
     version: 0.14.2
     repo: oci://ghcr.io/actions/actions-runner-controller-charts
     includeCRDs: true
-  - name: gha-runner-scale-set
-    releaseName: arc-nebula-runners
-    namespace: arc-runners
-    version: 0.14.2
-    repo: oci://ghcr.io/actions/actions-runner-controller-charts
-    includeCRDs: true
-    valuesFile: nebula-values.yaml
-
-resources:
-  - ./resources/runner-namespace.yaml
-  - ./resources/runner-secret.yaml
