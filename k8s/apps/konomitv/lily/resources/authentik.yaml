@@ -1,0 +1,32 @@
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: konomitv
+
+spec:
+  access:
+    rules:
+      - group:
+          name: Nerd
+  adopt: IfMatch
+  group: DTV
+  icon: https://raw.githubusercontent.com/tsukumijima/KonomiTV/master/client/public/assets/images/icons/icon-512px.png
+  name: KonomiTV
+  provider:
+    name: KonomiTV
+    flows:
+      authentication:
+        slug: sign-in
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    proxy:
+      accessTokenValidity: days=7
+      forwardAuthSingle:
+        externalHost: https://konomitv.starry.blue
+      interceptHeaderAuth: true
+      outpost:
+        name: authentik Embedded Outpost
+      refreshTokenValidity: days=30
+  slug: konomitv

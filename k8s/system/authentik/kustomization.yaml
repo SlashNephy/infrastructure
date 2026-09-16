@@ -92,6 +92,7 @@ helmCharts:
         #   prometheus.io/port: "9300"
 
 resources:
+  - ./resources/application-mackerel.yaml
   - ./resources/cronjob-cleanup-backup.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml

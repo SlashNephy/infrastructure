@@ -1,0 +1,31 @@
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: archisteamfarm
+
+spec:
+  access:
+    rules:
+      - group:
+          name: ArchiSteamFarm
+  adopt: IfMatch
+  icon: https://raw.githubusercontent.com/JustArchiNET/ArchiSteamFarm/main/resources/ASF_184x184.png
+  name: ArchiSteamFarm
+  provider:
+    name: ArchiSteamFarm
+    flows:
+      authentication:
+        slug: sign-in
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    proxy:
+      accessTokenValidity: days=1
+      forwardAuthSingle:
+        externalHost: https://asf.starry.blue
+      interceptHeaderAuth: true
+      outpost:
+        name: authentik Embedded Outpost
+      refreshTokenValidity: days=30
+  slug: archisteamfarm

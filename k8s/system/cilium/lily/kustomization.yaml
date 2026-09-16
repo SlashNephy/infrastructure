@@ -68,5 +68,6 @@ helmCharts:
       socketLB:
         hostNamespaceOnly: true
 resources:
+  - ./resources/authentik.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml

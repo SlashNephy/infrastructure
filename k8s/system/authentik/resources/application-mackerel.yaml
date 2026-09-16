@@ -1,0 +1,14 @@
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: mackerel
+
+spec:
+  access:
+    public: true
+  adopt: IfMatch
+  group: Observability
+  icon: https://github.com/mackerelio.png
+  launchURL: https://mackerel.io/orgs/StarryBlueSky/dashboard
+  name: Mackerel
+  slug: mackerel

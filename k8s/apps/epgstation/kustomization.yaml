@@ -43,6 +43,7 @@ helmCharts:
         resourcesPreset: large
 resources:
   - ./../../common/registry-ghcr-io/lily
+  - ./resources/authentik.yaml
   - ./resources/cronjob-backup.yaml
   - ./resources/cronjob-db-maintenance.yaml
   - ./resources/cronjob-restart.yaml

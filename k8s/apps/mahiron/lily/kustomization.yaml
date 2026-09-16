@@ -4,6 +4,7 @@ namespace: mahiron
 
 resources:
   - ./../../../common/registry-ghcr-io/lily
+  - ./resources/authentik.yaml
   - ./resources/deployment.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
