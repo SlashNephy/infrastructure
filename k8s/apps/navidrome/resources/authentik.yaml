@@ -1,0 +1,32 @@
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: navidrome
+
+spec:
+  access:
+    rules:
+      - group:
+          name: Admin
+  adopt: IfMatch
+  group: Multimedia
+  icon: https://github.com/navidrome.png
+  name: Navidrome
+  provider:
+    name: Navidrome
+    flows:
+      authentication:
+        slug: sign-in
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    proxy:
+      accessTokenValidity: days=1
+      forwardAuthSingle:
+        externalHost: https://navidrome.starry.blue
+      interceptHeaderAuth: true
+      outpost:
+        name: authentik Embedded Outpost
+      refreshTokenValidity: days=30
+  slug: navidrome

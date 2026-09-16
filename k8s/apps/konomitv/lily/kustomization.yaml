@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: konomitv
 
 resources:
+  - ./resources/authentik.yaml
   - ./resources/deployment.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml

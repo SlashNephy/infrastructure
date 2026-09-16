@@ -1,0 +1,34 @@
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: epgstation
+
+spec:
+  access:
+    rules:
+      - user:
+          username: github-actions-tvtest-distribution
+      - group:
+          name: Nerd
+  adopt: IfMatch
+  group: DTV
+  icon: https://raw.githubusercontent.com/l3tnun/EPGStation/master/client/public/icon/icon-512.png
+  name: EPGStation
+  provider:
+    name: EPGStation
+    flows:
+      authentication:
+        slug: sign-in
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    proxy:
+      accessTokenValidity: days=7
+      forwardAuthSingle:
+        externalHost: https://epgstation.starry.blue
+      interceptHeaderAuth: true
+      outpost:
+        name: authentik Embedded Outpost
+      refreshTokenValidity: days=30
+  slug: epgstation

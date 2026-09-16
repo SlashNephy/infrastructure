@@ -1,0 +1,30 @@
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: apache-guacamole
+
+spec:
+  access:
+    rules:
+      - group:
+          name: Admin
+  adopt: IfMatch
+  group: Personal
+  icon: https://guacamole.apache.org/images/logos/guac-tricolor-logo.svg
+  name: Apache Guacamole
+  provider:
+    name: Apache Guacamole
+    flows:
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    proxy:
+      accessTokenValidity: days=1
+      forwardAuthSingle:
+        externalHost: https://remote.starry.blue
+      interceptHeaderAuth: true
+      outpost:
+        name: authentik Embedded Outpost
+      refreshTokenValidity: days=30
+  slug: apache-guacamole

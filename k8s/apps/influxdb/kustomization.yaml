@@ -73,6 +73,7 @@ helmCharts:
         existingClaim: influxdb-data
 
 resources:
+  - ./resources/authentik.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
   - ./resources/secret.yaml

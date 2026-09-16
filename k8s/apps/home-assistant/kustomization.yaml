@@ -22,6 +22,7 @@ helmCharts:
         existingClaim: home-assistant-config
 
 resources:
+  - ./resources/authentik.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
   - ./resources/volume.yaml

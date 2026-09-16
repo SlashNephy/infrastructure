@@ -1,0 +1,55 @@
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: argo-cd
+
+spec:
+  access:
+    rules:
+      - group:
+          name: ArgoCD/Admin
+      - group:
+          name: ArgoCD/Viewer
+  adopt: IfMatch
+  group: System
+  icon: https://github.com/argoproj.png
+  launchURL: https://argocd.starry.blue/auth/login
+  name: Argo CD
+  provider:
+    name: Argo CD
+    flows:
+      authentication:
+        slug: sign-in
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    oauth2:
+      # client ID は argocd-cm の dex.config に直書きされ、client secret は
+      # argocd-secret にある。source of truth が 2 つに割れているため、
+      # credentials.secretRef は使わず operator には触らせない。
+      accessCodeValidity: minutes=1
+      accessTokenValidity: hours=1
+      clientType: Confidential
+      grantTypes:
+        - AuthorizationCode
+      includeClaimsInIDToken: true
+      issuerMode: PerProvider
+      logoutMethod: BackChannel
+      redirectURIs:
+        - matchingMode: Strict
+          type: Authorization
+          url: https://argocd.starry.blue/auth/callback
+        - matchingMode: Strict
+          type: Authorization
+          url: https://argocd.starry.blue/api/dex/callback
+      refreshTokenThreshold: seconds=0
+      refreshTokenValidity: days=30
+      scopes:
+        - scopeName: openid
+        - scopeName: email
+        - scopeName: profile
+      signingKey:
+        name: id.starry.blue
+      subjectMode: HashedUserID
+  slug: argo-cd
