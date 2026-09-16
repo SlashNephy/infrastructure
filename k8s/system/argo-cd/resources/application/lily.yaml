@@ -182,6 +182,10 @@ spec:
             namespace: opentelemetry-collector
             path: k8s/system/opentelemetry-collector
             project: system
+          - name: authentik-operator
+            namespace: authentik-operator
+            path: k8s/system/authentik-operator
+            project: system
 
   template:
     metadata:

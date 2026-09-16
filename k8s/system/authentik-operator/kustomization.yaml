@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: authentik-operator
+
+helmCharts:
+  - name: authentik-operator
+    releaseName: authentik-operator
+    namespace: authentik-operator
+    version: 2026.8.0
+    repo: https://slashnephy.github.io/authentik-operator
+    includeCRDs: true
+    valuesInline:
+      authentik:
+        token:
+          key: token
+          secretName: authentik-operator
+        # 公開 URL は Cloudflare proxied を通るため、エッジの障害やレート制限の影響を受ける。
+        # Traefik の forwardAuth Middleware と同じく、クラスタ内部の Service を直接指す。
+        url: http://authentik-server.authentik.svc.cluster.local
+      # authentik の Application / Provider には Kubernetes のラベルに相当するフィールドがないため、
+      # operator は authentik-operator-<clusterName> という RBAC Role を所有権マーカーとして使う。
+      # この Role には誰も所属しないので、アクセス制御には影響しない。
+      clusterName: lily
+      # 収集するものがないため無効にする。既定の true では未使用の Service と
+      # metrics 用の ClusterRole / ClusterRoleBinding が作られる。
+      metrics:
+        enabled: false
+
+resources:
+  - ./resources/secret.yaml
