@@ -1,0 +1,56 @@
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: grafana
+
+spec:
+  # PolicyBinding を持たず、全ユーザーがアクセスできる。
+  access:
+    public: true
+  # 既存の Application を取り込む。CR の内容が authentik の現状と一致したときだけ
+  # マーカーを付ける。差異があれば Ready=False で止まり、書き込みは起きない。
+  adopt: IfMatch
+  group: Observability
+  icon: https://github.com/grafana.png
+  launchURL: https://grafana.starry.blue
+  name: Grafana
+  provider:
+    name: Grafana
+    flows:
+      authentication:
+        slug: sign-in
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    oauth2:
+      accessCodeValidity: minutes=1
+      accessTokenValidity: hours=1
+      clientType: Confidential
+      # grafana-secret を client ID / client secret の source of truth にする。
+      # ローテーションは 1Password の item を更新すれば operator が authentik へ反映する。
+      # ただし Grafana 側は envFrom で読むため、反映には Pod の再起動が要る。
+      credentials:
+        secretRef:
+          name: grafana-secret
+          clientIDKey: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+          clientSecretKey: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+      grantTypes:
+        - AuthorizationCode
+      includeClaimsInIDToken: true
+      issuerMode: PerProvider
+      logoutMethod: BackChannel
+      redirectURIs:
+        - matchingMode: Strict
+          type: Authorization
+          url: https://grafana.starry.blue/login/generic_oauth
+      refreshTokenThreshold: seconds=0
+      refreshTokenValidity: days=30
+      scopes:
+        - scopeName: openid
+        - scopeName: email
+        - scopeName: profile
+      signingKey:
+        name: id.starry.blue
+      subjectMode: HashedUserID
+  slug: grafana

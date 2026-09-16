@@ -29,6 +29,7 @@ helmCharts:
           name: grafana-data
 
 resources:
+  - ./resources/authentik.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
   - ./resources/namespace.yaml
