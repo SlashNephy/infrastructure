@@ -178,6 +178,12 @@ func filterEvent(event *coreV1.Event, syncedAt time.Time) bool {
 		return false
 	}
 
+	// startup probe は failureThreshold に達するまで失敗するのが前提なので、1 回の失敗は異常ではない。
+	// 起動できないまま終わる場合は CrashLoopBackOff の BackOff イベントで通知される。
+	if event.Reason == "Unhealthy" && strings.HasPrefix(event.Message, "Startup probe failed:") {
+		return false
+	}
+
 	if event.Reason == "BackoffLimitExceeded" {
 		switch {
 		case event.InvolvedObject.Kind == "Job" && event.Namespace == "rclone" && strings.HasPrefix(event.InvolvedObject.Name, "music-"):
