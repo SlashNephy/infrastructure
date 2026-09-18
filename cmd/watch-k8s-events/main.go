@@ -16,6 +16,7 @@ import (
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/kubernetes"
+	typedCoreV1 "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/client-go/rest"
 )
 
@@ -71,23 +72,43 @@ func watchEvents(ctx context.Context, clientSet *kubernetes.Clientset, config *C
 	}
 
 	client := clientSet.CoreV1().Events(metaV1.NamespaceAll)
-	watcher, err := client.Watch(ctx, metaV1.ListOptions{})
+
+	// ResourceVersion を指定しない Watch は既存のイベントを全件 ADDED として流し直すため、
+	// 開始位置を List で取得してから Watch する。
+	resourceVersion, syncedAt, err := resyncResourceVersion(ctx, client)
 	if err != nil {
 		return err
 	}
-	defer watcher.Stop()
 
-	slog.InfoContext(ctx, "Kubernetes events watching started")
+	watcher, err := client.Watch(ctx, metaV1.ListOptions{ResourceVersion: resourceVersion})
+	if err != nil {
+		return err
+	}
+	defer func() {
+		watcher.Stop()
+	}()
+
+	slog.InfoContext(ctx, "Kubernetes events watching started", slog.String("resourceVersion", resourceVersion))
 
 	for {
 		select {
 		case <-ctx.Done():
 			return nil
 		case event, ok := <-watcher.ResultChan():
-			if !ok {
-				slog.WarnContext(ctx, "event channel closed, reconnecting")
+			if !ok || event.Type == watch.Error {
+				// ResourceVersion が古すぎて再開できない場合は取得し直す
+				if event.Type == watch.Error {
+					resourceVersion, syncedAt, err = resyncResourceVersion(ctx, client)
+					if err != nil {
+						return err
+					}
+				}
 
-				watcher, err = client.Watch(ctx, metaV1.ListOptions{})
+				slog.WarnContext(ctx, "event channel closed, reconnecting", slog.String("resourceVersion", resourceVersion))
+
+				watcher.Stop()
+
+				watcher, err = client.Watch(ctx, metaV1.ListOptions{ResourceVersion: resourceVersion})
 				if err != nil {
 					return err
 				}
@@ -95,12 +116,27 @@ func watchEvents(ctx context.Context, clientSet *kubernetes.Clientset, config *C
 				continue
 			}
 
-			handleEvent(ctx, event, config, discordSession)
+			if k8sEvent, ok := event.Object.(*coreV1.Event); ok {
+				resourceVersion = k8sEvent.ResourceVersion
+			}
+
+			handleEvent(ctx, event, config, discordSession, syncedAt)
 		}
 	}
 }
 
-func handleEvent(ctx context.Context, event watch.Event, config *Config, discordSession *discordgo.Session) {
+// resyncResourceVersion は Watch の開始位置に使う ResourceVersion と、それを取得した時刻を返す。
+func resyncResourceVersion(ctx context.Context, client typedCoreV1.EventInterface) (string, time.Time, error) {
+	// イベント本体は不要なので Limit: 1 でコレクションの ResourceVersion だけを取る
+	list, err := client.List(ctx, metaV1.ListOptions{Limit: 1})
+	if err != nil {
+		return "", time.Time{}, err
+	}
+
+	return list.ResourceVersion, time.Now(), nil
+}
+
+func handleEvent(ctx context.Context, event watch.Event, config *Config, discordSession *discordgo.Session, syncedAt time.Time) {
 	if event.Object == nil {
 		return
 	}
@@ -114,7 +150,7 @@ func handleEvent(ctx context.Context, event watch.Event, config *Config, discord
 		return
 	}
 
-	if !filterEvent(k8sEvent) {
+	if !filterEvent(k8sEvent, syncedAt) {
 		return
 	}
 
@@ -131,9 +167,14 @@ func handleEvent(ctx context.Context, event watch.Event, config *Config, discord
 	}
 }
 
-func filterEvent(event *coreV1.Event) bool {
+func filterEvent(event *coreV1.Event, syncedAt time.Time) bool {
 	// 一旦 Warning だけ
 	if event.Type != "Warning" {
+		return false
+	}
+
+	// ResourceVersion を取り直して Watch を貼り直したときに、既に通知済みのイベントを再通知しない
+	if eventTimestamp(event).Before(syncedAt) {
 		return false
 	}
 
@@ -156,16 +197,6 @@ func sendDiscordNotification(session *discordgo.Session, webhookID, webhookToken
 		color = 0x00FF00 // 緑
 	case coreV1.EventTypeWarning:
 		color = 0xFF9900 // オレンジ
-	}
-
-	var timestamp time.Time
-	switch {
-	case !event.LastTimestamp.IsZero():
-		timestamp = event.LastTimestamp.Time
-	case !event.FirstTimestamp.IsZero():
-		timestamp = event.FirstTimestamp.Time
-	default:
-		timestamp = time.Now()
 	}
 
 	embed := &discordgo.MessageEmbed{
@@ -194,7 +225,7 @@ func sendDiscordNotification(session *discordgo.Session, webhookID, webhookToken
 				Inline: true,
 			},
 		},
-		Timestamp: timestamp.Format(time.RFC3339),
+		Timestamp: eventTimestamp(event).Format(time.RFC3339),
 	}
 
 	params := &discordgo.WebhookParams{
@@ -203,4 +234,16 @@ func sendDiscordNotification(session *discordgo.Session, webhookID, webhookToken
 
 	_, err := session.WebhookExecute(webhookID, webhookToken, false, params)
 	return err
+}
+
+// eventTimestamp はイベントの発生時刻を返す。
+func eventTimestamp(event *coreV1.Event) time.Time {
+	switch {
+	case !event.LastTimestamp.IsZero():
+		return event.LastTimestamp.Time
+	case !event.FirstTimestamp.IsZero():
+		return event.FirstTimestamp.Time
+	default:
+		return time.Now()
+	}
 }
