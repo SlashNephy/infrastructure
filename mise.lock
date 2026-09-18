@@ -36,37 +36,37 @@ checksum = "sha256:a3911b5e0e1b1053f25ed0675f4c1c6aad1e2bfcf253df2b9be4caabd2edd
 url = "https://dl.google.com/go/go1.27.1.windows-amd64.zip"
 
 [[tools.helm]]
-version = "3.21.4"
+version = "3.22.0"
 backend = "aqua:helm/helm"
-specifiers = ["3.21.4"]
+specifiers = ["3.22.0"]
 
 [tools.helm."platforms.linux-arm64"]
-checksum = "sha256:b54c04b4e0b2540bbdc08c17a121dab70e9a2ed0de5705528fec68a5fd3b85a7"
-url = "https://get.helm.sh/helm-v3.21.4-linux-arm64.tar.gz"
+checksum = "sha256:f14e804dfee240f55525b667488fe9adca349e63e00c9af634c0beb1421ac310"
+url = "https://get.helm.sh/helm-v3.22.0-linux-arm64.tar.gz"
 
 [tools.helm."platforms.linux-arm64-musl"]
-checksum = "sha256:b54c04b4e0b2540bbdc08c17a121dab70e9a2ed0de5705528fec68a5fd3b85a7"
-url = "https://get.helm.sh/helm-v3.21.4-linux-arm64.tar.gz"
+checksum = "sha256:f14e804dfee240f55525b667488fe9adca349e63e00c9af634c0beb1421ac310"
+url = "https://get.helm.sh/helm-v3.22.0-linux-arm64.tar.gz"
 
 [tools.helm."platforms.linux-x64"]
-checksum = "sha256:61f88ab166748cb19604d7884cb100ae9ccb13804ddeb98e08af167eacbb6a14"
-url = "https://get.helm.sh/helm-v3.21.4-linux-amd64.tar.gz"
+checksum = "sha256:1e4ab49e429626cf6c6958d914248b78c9730803c2751b87627e171dc800e7bb"
+url = "https://get.helm.sh/helm-v3.22.0-linux-amd64.tar.gz"
 
 [tools.helm."platforms.linux-x64-musl"]
-checksum = "sha256:61f88ab166748cb19604d7884cb100ae9ccb13804ddeb98e08af167eacbb6a14"
-url = "https://get.helm.sh/helm-v3.21.4-linux-amd64.tar.gz"
+checksum = "sha256:1e4ab49e429626cf6c6958d914248b78c9730803c2751b87627e171dc800e7bb"
+url = "https://get.helm.sh/helm-v3.22.0-linux-amd64.tar.gz"
 
 [tools.helm."platforms.macos-arm64"]
-checksum = "sha256:6e0bf5eb6daafc2b1ec34bb5ba04ef103f3afc16192fb19805c2924d7ea1033f"
-url = "https://get.helm.sh/helm-v3.21.4-darwin-arm64.tar.gz"
+checksum = "sha256:4c9982a6cdeb458b60258df66b55398ca5b19293f6877faffe2909ad6f23dfe0"
+url = "https://get.helm.sh/helm-v3.22.0-darwin-arm64.tar.gz"
 
 [tools.helm."platforms.macos-x64"]
-checksum = "sha256:9173d05edf9592c6be1d0412ffafd935448dfc7a63c2bc732b8c67e55503e8a8"
-url = "https://get.helm.sh/helm-v3.21.4-darwin-amd64.tar.gz"
+checksum = "sha256:bd1d09f316558dda23698527859600936fed1371021ce0f2272d66b2fdcfa69c"
+url = "https://get.helm.sh/helm-v3.22.0-darwin-amd64.tar.gz"
 
 [tools.helm."platforms.windows-x64"]
-checksum = "sha256:cc9e4589d6f459a522eefc56b15636dd6e949f103de63bfb944f38d898609457"
-url = "https://get.helm.sh/helm-v3.21.4-windows-amd64.tar.gz"
+checksum = "sha256:43d898ffe2929046c805160b54ee704abc8b5736331fd3d54898cddabb86595f"
+url = "https://get.helm.sh/helm-v3.22.0-windows-amd64.tar.gz"
 
 [[tools.kube-linter]]
 version = "0.8.3"
