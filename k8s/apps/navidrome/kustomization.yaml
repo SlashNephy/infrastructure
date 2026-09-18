@@ -3,13 +3,14 @@ kind: Kustomization
 namespace: navidrome
 
 resources:
-  - ./resources/authentik.yaml
   - ./resources/deployment.yaml
-  - ./resources/dns.yaml
-  - ./resources/ingress.yaml
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
   - ./resources/service.yaml
+  # Ingress は廃止
+  # - ./resources/authentik.yaml
+  # - ./resources/dns.yaml
+  # - ./resources/ingress.yaml
 
 configMapGenerator:
   # https://www.navidrome.org/docs/usage/configuration-options/
