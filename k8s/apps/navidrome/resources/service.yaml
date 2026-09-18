@@ -6,8 +6,10 @@ metadata:
 spec:
   selector:
     app: default
+  type: NodePort
   ports:
     - name: "4533"
       port: 4533
       targetPort: 4533
+      nodePort: 4533
       protocol: TCP
