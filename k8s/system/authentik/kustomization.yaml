@@ -90,6 +90,16 @@ helmCharts:
         #   prometheus.io/scheme: http
         #   prometheus.io/path: /metrics
         #   prometheus.io/port: "9300"
+      worker:
+        # probe の ak healthcheck は Django を起動する exec probe で、平常時でも 0.5s 前後、
+        # ノードが混み合うと 1s を超える。worker は resources 未指定で BestEffort のため、
+        # 既定の 3s ではタイムアウトして Unhealthy イベントが出る。
+        livenessProbe:
+          timeoutSeconds: 10
+        readinessProbe:
+          timeoutSeconds: 10
+        startupProbe:
+          timeoutSeconds: 10
 
 resources:
   - ./resources/application-mackerel.yaml
