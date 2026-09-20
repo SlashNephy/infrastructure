@@ -12,6 +12,13 @@ helmCharts:
     repo: https://helm.cilium.io
     includeCRDs: true
     valuesInline:
+      # MTU を明示しないと、Cilium は検出したデバイスの最小 MTU を採る。
+      # lily では tailscale0 (1280) が検出対象に入るため Pod が 1280 に張り付き、
+      # enp1s0 の 9000 がまったく活かされていなかった。
+      # tailscale0 を devices から外す案は、tailnet 経由の NodePort と
+      # pod -> tailnet の BPF masquerade の両方を壊すため採れない。
+      # 実測でスイッチは 9018 バイトフレームを通す (gw のみ 1500)。
+      MTU: 9000
       autoDirectNodeRoutes: true
       bpf:
         masquerade: true
@@ -61,6 +68,14 @@ helmCharts:
         prometheus:
           enabled: true
         replicas: 1
+      # loadBalancer.mode: hybrid なので TCP は DSR で返る。DSR 経路は
+      # オプション分だけパケットが伸びるため、MTU いっぱいで届いたパケットは
+      # device_mtu を超えて DROP_FRAG_NEEDED になる。この値を入れないと
+      # silent drop になり、入れるとクライアントに ICMP fragmentation-needed が
+      # 返って PMTU が下がる (enable-pmtu-discovery -> ENABLE_DSR_ICMP_ERRORS)。
+      # MTU 9000 に揃えた LAN クライアントから NodePort を叩く経路で効く。
+      pmtuDiscovery:
+        enabled: true
       prometheus:
         enabled: true
 
