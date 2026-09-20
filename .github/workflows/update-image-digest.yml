@@ -15,10 +15,21 @@ jobs:
   update-image-digest:
     runs-on: ubuntu-latest
     steps:
+      # 自リポジトリに限定した、有効期限 1 時間のトークンを発行する。
+      # ジョブ終了時に post ステップが自動で revoke する。
+      - name: Create GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: Iv23liKChiFOA2aFE8Wa # slashnephy-infrastructure
+          private-key: ${{ secrets.DISPATCH_APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
       - name: Checkout Repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           # repository_dispatch の github.sha は「イベント発生時の default branch 先頭」で固定される。
           # ref を省略すると checkout はその SHA をそのまま掴むため、concurrency のキュー待ちの間に
           # master が進んでいると古いコミットから分岐し、先にマージされた PR とコンフリクトする。
@@ -44,12 +55,11 @@ jobs:
         id: create-pull-request
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
-          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           commit-message: |
             update ${{ github.event.client_payload.images[0] }} 🔜 ${{ github.event.client_payload.digest }}
 
             https://github.com/${{ github.event.client_payload.github.repository }}/commit/${{ github.event.client_payload.github.sha }}
-          author: StarryBlueSky-bot <97773209+StarryBlueSky-bot@users.noreply.github.com>
           branch: ci/update-image-digest
           branch-suffix: random
           title: update ${{ github.event.client_payload.images[0] }} 🔜 ${{ github.event.client_payload.digest }}
@@ -63,7 +73,7 @@ jobs:
       - name: Close Superseded Pull Requests
         if: steps.create-pull-request.outputs.pull-request-number
         env:
-          GH_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           IMAGE: ${{ github.event.client_payload.images[0] }}
           PR_NUMBER: ${{ steps.create-pull-request.outputs.pull-request-number }}
         run: |
@@ -85,5 +95,5 @@ jobs:
       - run: gh pr merge --squash $PR_NUMBER
         if: steps.create-pull-request.outputs.pull-request-number
         env:
-          GH_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_NUMBER: ${{ steps.create-pull-request.outputs.pull-request-number }}
