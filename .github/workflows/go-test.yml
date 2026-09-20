@@ -1,0 +1,45 @@
+name: Go Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+      # Dockerfile のビルドはテストファイルをコンパイルしないため、テストが壊れても検知できない。
+      # go.work に列挙したモジュールを 1 つずつ、Dockerfile と同じ GOWORK=off で検査する。
+      - name: Test
+        run: |
+          set -euo pipefail
+
+          status=0
+          for dir in $(go work edit -json | jq -r '.Use[].DiskPath'); do
+            echo "::group::${dir}"
+            (
+              cd "$dir"
+
+              unformatted="$(gofmt -l .)"
+              if [ -n "$unformatted" ]; then
+                echo "gofmt needed:"
+                echo "$unformatted"
+                exit 1
+              fi
+
+              GOWORK=off GOTOOLCHAIN=local go vet ./...
+              GOWORK=off GOTOOLCHAIN=local go test -race ./...
+            ) || status=1
+            echo "::endgroup::"
+          done
+
+          exit "$status"
