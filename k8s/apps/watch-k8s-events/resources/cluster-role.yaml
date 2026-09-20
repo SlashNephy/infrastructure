@@ -12,6 +12,13 @@ rules:
       - get
       - watch
       - list
+  # 削除中の Pod が出す probe 失敗イベントを捨てるために deletionTimestamp を見る
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - get
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
