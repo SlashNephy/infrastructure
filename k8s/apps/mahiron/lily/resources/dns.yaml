@@ -7,7 +7,7 @@ spec:
   endpoints:
     - dnsName: mahiron.starry.blue
       providerSpecific:
-        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
+        - name: external-dns.kubernetes.io/cloudflare-proxied
           value: "true"
       recordTTL: 1 # Auto
       recordType: CNAME
@@ -15,7 +15,7 @@ spec:
         - gateway.starry.blue
     - dnsName: mahiron-api.starry.blue
       providerSpecific:
-        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
+        - name: external-dns.kubernetes.io/cloudflare-proxied
           value: "false"
       recordTTL: 1 # Auto
       recordType: CNAME

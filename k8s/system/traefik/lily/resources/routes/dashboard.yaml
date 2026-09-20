@@ -64,7 +64,7 @@ spec:
   endpoints:
     - dnsName: traefik.starry.blue
       providerSpecific:
-        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
+        - name: external-dns.kubernetes.io/cloudflare-proxied
           value: "true"
       recordTTL: 1 # Auto
       recordType: CNAME
