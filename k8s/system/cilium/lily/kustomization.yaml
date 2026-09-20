@@ -12,6 +12,13 @@ helmCharts:
     repo: https://helm.cilium.io
     includeCRDs: true
     valuesInline:
+      # MTU を明示しないと、Cilium は検出したデバイスの最小 MTU を採る。
+      # lily では tailscale0 (1280) が検出対象に入るため Pod が 1280 に張り付き、
+      # enp1s0 の 9000 がまったく活かされていなかった。
+      # tailscale0 を devices から外す案は、tailnet 経由の NodePort と
+      # pod -> tailnet の BPF masquerade の両方を壊すため採れない。
+      # 実測でスイッチは 9018 バイトフレームを通す (gw のみ 1500)。
+      MTU: 9000
       autoDirectNodeRoutes: true
       bpf:
         masquerade: true
@@ -57,13 +64,6 @@ helmCharts:
       loadBalancer:
         acceleration: best-effort
         mode: hybrid
-      # MTU を明示しないと、Cilium は検出したデバイスの最小 MTU を採る。
-      # lily では tailscale0 (1280) が検出対象に入るため Pod が 1280 に張り付き、
-      # enp1s0 の 9000 がまったく活かされていなかった。
-      # tailscale0 を devices から外す案は、tailnet 経由の NodePort と
-      # pod -> tailnet の BPF masquerade の両方を壊すため採れない。
-      # 実測でスイッチは 9018 バイトフレームを通す (gw のみ 1500)。
-      MTU: 9000
       operator:
         prometheus:
           enabled: true
