@@ -10,7 +10,7 @@ permissions: {}
 
 jobs:
   build:
-    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@cf12e2d382df42d9fcfc4ee94f901661d8255d19 # v0.0.7
+    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@70aa7999543c0745815c8233fd18fc1759748f6c # v1.0.0
     permissions:
       contents: read
       packages: write
@@ -22,4 +22,4 @@ jobs:
       image-platforms: linux/amd64
       dispatch-update-image-digest: true
     secrets:
-      dispatch-github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
+      dispatch-app-private-key: ${{ secrets.DISPATCH_APP_PRIVATE_KEY }}
