@@ -68,10 +68,12 @@ helmCharts:
         prometheus:
           enabled: true
         replicas: 1
-      # MTU を 9000 に上げると、tailscale0 (1280) 向けに出る Pod 発のパケットが
-      # 経路 MTU を超えうる。DSR や Host: BPF の経路はカーネルの転送処理を
-      # 通らず ICMP too big が生成されないため、BPF データパス側から
-      # fragmentation-needed を返させる。
+      # loadBalancer.mode: hybrid なので TCP は DSR で返る。DSR 経路は
+      # オプション分だけパケットが伸びるため、MTU いっぱいで届いたパケットは
+      # device_mtu を超えて DROP_FRAG_NEEDED になる。この値を入れないと
+      # silent drop になり、入れるとクライアントに ICMP fragmentation-needed が
+      # 返って PMTU が下がる (enable-pmtu-discovery -> ENABLE_DSR_ICMP_ERRORS)。
+      # MTU 9000 に揃えた LAN クライアントから NodePort を叩く経路で効く。
       pmtuDiscovery:
         enabled: true
       prometheus:
