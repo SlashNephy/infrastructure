@@ -8,10 +8,6 @@ spec:
     - list:
         elements:
           # apps
-          - name: anilist-synchronizer
-            namespace: anilist-synchronizer
-            path: k8s/apps/anilist-synchronizer
-            project: apps
           - name: annict2anilist
             namespace: annict2anilist
             path: k8s/apps/annict2anilist
