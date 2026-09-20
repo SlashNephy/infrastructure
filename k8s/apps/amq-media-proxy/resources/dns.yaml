@@ -7,7 +7,7 @@ spec:
   endpoints:
     - dnsName: amq-proxy.starry.blue
       providerSpecific:
-        - name: external-dns.alpha.kubernetes.io/cloudflare-proxied
+        - name: external-dns.kubernetes.io/cloudflare-proxied
           value: "false"
       recordTTL: 1 # Auto
       recordType: CNAME
