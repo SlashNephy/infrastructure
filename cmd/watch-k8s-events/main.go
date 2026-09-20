@@ -13,12 +13,19 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/caarlos0/env/v11"
 	coreV1 "k8s.io/api/core/v1"
+	apiErrors "k8s.io/apimachinery/pkg/api/errors"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/kubernetes"
 	typedCoreV1 "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/client-go/rest"
 )
+
+// notifyCountInterval は同じイベントを再通知するまでに必要な count の増分。
+// Kubernetes は同じ理由・同じ対象のイベントを新規作成せず既存オブジェクトの count を加算するため、
+// 再発のたびに通知すると Discord が溢れる。
+const notifyCountInterval = 5
 
 type Config struct {
 	DiscordWebhookID    string `env:"DISCORD_WEBHOOK_ID,notEmpty"`
@@ -88,6 +95,8 @@ func watchEvents(ctx context.Context, clientSet *kubernetes.Clientset, config *C
 		watcher.Stop()
 	}()
 
+	handler := newEventHandler(config, discordSession, clientSet.CoreV1(), syncedAt)
+
 	slog.InfoContext(ctx, "Kubernetes events watching started", slog.String("resourceVersion", resourceVersion))
 
 	for {
@@ -98,7 +107,7 @@ func watchEvents(ctx context.Context, clientSet *kubernetes.Clientset, config *C
 			if !ok || event.Type == watch.Error {
 				// ResourceVersion が古すぎて再開できない場合は取得し直す
 				if event.Type == watch.Error {
-					resourceVersion, syncedAt, err = resyncResourceVersion(ctx, client)
+					resourceVersion, handler.syncedAt, err = resyncResourceVersion(ctx, client)
 					if err != nil {
 						return err
 					}
@@ -120,7 +129,7 @@ func watchEvents(ctx context.Context, clientSet *kubernetes.Clientset, config *C
 				resourceVersion = k8sEvent.ResourceVersion
 			}
 
-			handleEvent(ctx, event, config, discordSession, syncedAt)
+			handler.handleEvent(ctx, event)
 		}
 	}
 }
@@ -136,12 +145,28 @@ func resyncResourceVersion(ctx context.Context, client typedCoreV1.EventInterfac
 	return list.ResourceVersion, time.Now(), nil
 }
 
-func handleEvent(ctx context.Context, event watch.Event, config *Config, discordSession *discordgo.Session, syncedAt time.Time) {
-	if event.Object == nil {
-		return
-	}
+type eventHandler struct {
+	config         *Config
+	discordSession *discordgo.Session
+	podsGetter     typedCoreV1.PodsGetter
+	syncedAt       time.Time
+	// lastNotifiedCounts は通知済みイベントの count を保持する。
+	// Watch のループは単一の goroutine から呼ばれるため排他は不要。
+	lastNotifiedCounts map[types.UID]int32
+}
 
-	if event.Type != watch.Added {
+func newEventHandler(config *Config, discordSession *discordgo.Session, podsGetter typedCoreV1.PodsGetter, syncedAt time.Time) *eventHandler {
+	return &eventHandler{
+		config:             config,
+		discordSession:     discordSession,
+		podsGetter:         podsGetter,
+		syncedAt:           syncedAt,
+		lastNotifiedCounts: make(map[types.UID]int32),
+	}
+}
+
+func (h *eventHandler) handleEvent(ctx context.Context, event watch.Event) {
+	if event.Object == nil {
 		return
 	}
 
@@ -150,21 +175,85 @@ func handleEvent(ctx context.Context, event watch.Event, config *Config, discord
 		return
 	}
 
-	if !filterEvent(k8sEvent, syncedAt) {
+	// イベントは TTL (既定 1 時間) で削除される。再発を追跡する必要が無くなるので状態も捨てる。
+	if event.Type == watch.Deleted {
+		delete(h.lastNotifiedCounts, k8sEvent.UID)
 		return
 	}
 
-	slog.DebugContext(
+	// 再発は既存オブジェクトの count 更新として届くため Modified も扱う
+	if event.Type != watch.Added && event.Type != watch.Modified {
+		return
+	}
+
+	if !filterEvent(k8sEvent, h.syncedAt) {
+		return
+	}
+
+	if h.isTerminatingPodEvent(ctx, k8sEvent) {
+		return
+	}
+
+	if !h.shouldNotify(k8sEvent) {
+		return
+	}
+
+	slog.InfoContext(
 		ctx,
-		"new event received",
+		"notifying event",
+		slog.String("eventType", string(event.Type)),
 		slog.String("reason", k8sEvent.Reason),
 		slog.String("message", k8sEvent.Message),
 		slog.String("namespace", k8sEvent.Namespace),
+		slog.String("involvedObject", k8sEvent.InvolvedObject.Name),
+		slog.Int("count", int(eventCount(k8sEvent))),
 	)
 
-	if err := sendDiscordNotification(discordSession, config.DiscordWebhookID, config.DiscordWebhookToken, k8sEvent); err != nil {
+	if err := sendDiscordNotification(h.discordSession, h.config.DiscordWebhookID, h.config.DiscordWebhookToken, k8sEvent); err != nil {
 		slog.ErrorContext(ctx, "failed to send Discord notification", "error", err)
 	}
+}
+
+// shouldNotify は通知すべきイベントかどうかを count の増分で判定し、通知する場合に限り状態を更新する。
+// 初見のイベントは必ず通知する。既に通知したイベントは count が notifyCountInterval 以上増えたときだけ再通知する。
+func (h *eventHandler) shouldNotify(event *coreV1.Event) bool {
+	count := eventCount(event)
+
+	lastNotified, notified := h.lastNotifiedCounts[event.UID]
+	if notified && count < lastNotified+notifyCountInterval {
+		return false
+	}
+
+	h.lastNotifiedCounts[event.UID] = count
+	return true
+}
+
+// isTerminatingPodEvent は削除中 (あるいは既に削除された) Pod の probe 失敗イベントかどうかを返す。
+// kubelet は削除中の Pod にも readinessProbe を回し続けるため、ロールアウトのたびに
+// `connection refused` が記録される。削除が決まった Pod の probe 失敗は actionable ではない。
+func (h *eventHandler) isTerminatingPodEvent(ctx context.Context, event *coreV1.Event) bool {
+	if event.Reason != "Unhealthy" || event.InvolvedObject.Kind != "Pod" {
+		return false
+	}
+
+	pod, err := h.podsGetter.Pods(event.InvolvedObject.Namespace).Get(ctx, event.InvolvedObject.Name, metaV1.GetOptions{})
+	switch {
+	case apiErrors.IsNotFound(err):
+		// 通知を組み立てる時点で既に消えていることが実際にある
+		return true
+	case err != nil:
+		// 判定できないときは握り潰さずに通知する
+		slog.WarnContext(
+			ctx,
+			"failed to get pod for event",
+			slog.String("namespace", event.InvolvedObject.Namespace),
+			slog.String("pod", event.InvolvedObject.Name),
+			slog.String("error", err.Error()),
+		)
+		return false
+	}
+
+	return pod.DeletionTimestamp != nil
 }
 
 func filterEvent(event *coreV1.Event, syncedAt time.Time) bool {
@@ -205,33 +294,44 @@ func sendDiscordNotification(session *discordgo.Session, webhookID, webhookToken
 		color = 0xFF9900 // オレンジ
 	}
 
+	fields := []*discordgo.MessageEmbedField{
+		{
+			Name:   "Object Kind",
+			Value:  fmt.Sprintf("%s/%s", event.InvolvedObject.APIVersion, event.InvolvedObject.Kind),
+			Inline: true,
+		},
+		{
+			Name:   "Object Name",
+			Value:  event.InvolvedObject.Name,
+			Inline: true,
+		},
+		{
+			Name:   "Source",
+			Value:  event.Source.Component,
+			Inline: true,
+		},
+		{
+			Name:   "Count",
+			Value:  fmt.Sprintf("%d", eventCount(event)),
+			Inline: true,
+		},
+	}
+
+	// 継続中かどうかが分かるように初回の発生時刻を出す
+	if firstSeen := eventFirstTimestamp(event); !firstSeen.IsZero() {
+		fields = append(fields, &discordgo.MessageEmbedField{
+			Name:   "First Seen",
+			Value:  fmt.Sprintf("<t:%d:R>", firstSeen.Unix()),
+			Inline: true,
+		})
+	}
+
 	embed := &discordgo.MessageEmbed{
 		Title:       fmt.Sprintf("[%s] %s", event.Namespace, event.Reason),
 		Description: event.Message,
 		Color:       color,
-		Fields: []*discordgo.MessageEmbedField{
-			{
-				Name:   "Object Kind",
-				Value:  fmt.Sprintf("%s/%s", event.InvolvedObject.APIVersion, event.InvolvedObject.Kind),
-				Inline: true,
-			},
-			{
-				Name:   "Object Name",
-				Value:  event.InvolvedObject.Name,
-				Inline: true,
-			},
-			{
-				Name:   "Source",
-				Value:  event.Source.Component,
-				Inline: true,
-			},
-			{
-				Name:   "Count",
-				Value:  fmt.Sprintf("%d", event.Count),
-				Inline: true,
-			},
-		},
-		Timestamp: eventTimestamp(event).Format(time.RFC3339),
+		Fields:      fields,
+		Timestamp:   eventTimestamp(event).Format(time.RFC3339),
 	}
 
 	params := &discordgo.WebhookParams{
@@ -242,14 +342,44 @@ func sendDiscordNotification(session *discordgo.Session, webhookID, webhookToken
 	return err
 }
 
-// eventTimestamp はイベントの発生時刻を返す。
+// eventCount はイベントの発生回数を返す。
+// events.k8s.io/v1 で記録されたイベントは count ではなく series.count に回数を持つ。
+func eventCount(event *coreV1.Event) int32 {
+	if event.Series != nil && event.Series.Count > 0 {
+		return event.Series.Count
+	}
+
+	if event.Count > 0 {
+		return event.Count
+	}
+
+	return 1
+}
+
+// eventTimestamp はイベントの直近の発生時刻を返す。
 func eventTimestamp(event *coreV1.Event) time.Time {
 	switch {
+	case event.Series != nil && !event.Series.LastObservedTime.IsZero():
+		return event.Series.LastObservedTime.Time
 	case !event.LastTimestamp.IsZero():
 		return event.LastTimestamp.Time
+	case !event.EventTime.IsZero():
+		return event.EventTime.Time
 	case !event.FirstTimestamp.IsZero():
 		return event.FirstTimestamp.Time
 	default:
 		return time.Now()
+	}
+}
+
+// eventFirstTimestamp はイベントの初回の発生時刻を返す。分からない場合はゼロ値を返す。
+func eventFirstTimestamp(event *coreV1.Event) time.Time {
+	switch {
+	case !event.FirstTimestamp.IsZero():
+		return event.FirstTimestamp.Time
+	case !event.EventTime.IsZero():
+		return event.EventTime.Time
+	default:
+		return time.Time{}
 	}
 }
