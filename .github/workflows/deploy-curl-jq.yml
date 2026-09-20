@@ -50,13 +50,26 @@ jobs:
 
           commit=$(gh api "repos/$REPO/git/commits" -f message="chore: verify app token permissions" -f tree="$tree" -f "parents[]=$base_sha" --jq .sha)
           gh api "repos/$REPO/git/refs" -f "ref=refs/heads/$branch" -f "sha=$commit" --jq .ref
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
 
-          url=$(gh pr create --base master --head "$branch" --title "chore: verify app token permissions" --body "App トークンの権限確認用。すぐ閉じます。")
-          echo "number=${url##*/}" >> "$GITHUB_OUTPUT"
+          number=$(gh api "repos/$REPO/pulls" -f title="chore: verify app token permissions" -f head="$branch" -f base=master -f body="App トークンの権限確認用。すぐ閉じます。" --jq .number)
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+          echo "created pull request #$number"
 
       - name: Close pull request
         if: always() && steps.pr.outputs.number
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
           PR_NUMBER: ${{ steps.pr.outputs.number }}
-        run: gh pr close "$PR_NUMBER" --delete-branch --comment "権限確認が完了したため閉じます。"
+        run: |
+          set -euo pipefail
+          gh api --method PATCH "repos/$REPO/pulls/$PR_NUMBER" -f state=closed --jq '"closed #" + (.number|tostring)'
+
+      - name: Delete branch
+        if: always() && steps.pr.outputs.branch
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ steps.pr.outputs.branch }}
+        run: gh api --method DELETE "repos/$REPO/git/refs/heads/$BRANCH" && echo "deleted $BRANCH"
