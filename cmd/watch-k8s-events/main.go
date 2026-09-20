@@ -190,11 +190,12 @@ func (h *eventHandler) handleEvent(ctx context.Context, event watch.Event) {
 		return
 	}
 
-	if h.isTerminatingPodEvent(ctx, k8sEvent) {
+	// Pod の取得より先に判定して、通知しないイベントでは API を叩かないようにする
+	if !h.shouldNotify(k8sEvent) {
 		return
 	}
 
-	if !h.shouldNotify(k8sEvent) {
+	if h.isTerminatingPodEvent(ctx, k8sEvent) {
 		return
 	}
 
