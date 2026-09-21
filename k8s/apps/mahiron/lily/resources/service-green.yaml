@@ -113,9 +113,10 @@ spec:
                 secretKeyRef:
                   name: tailnet-green-auth
                   key: TS_AUTHKEY
-            - name: TS_DEST_IP
+            # TS_DEST_IP は tailnet から届いた通信をクラスタ側へ流す ingress 用で、egress には使えない
+            - name: TS_TAILNET_TARGET_IP
               value: 100.75.194.23
-            # tailscale0 以外から届いた通信は全て TS_DEST_IP へ DNAT されるため、
+            # tailscale0 以外から届いた通信は全て TS_TAILNET_TARGET_IP へ DNAT されるため、
             # kubelet の httpGet probe は使えない。loopback で待ち受けて exec probe から叩く
             - name: TS_ENABLE_HEALTH_CHECK
               value: "true"
