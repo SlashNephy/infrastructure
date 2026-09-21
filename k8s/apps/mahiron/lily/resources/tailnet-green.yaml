@@ -47,14 +47,14 @@ kind: RoleBinding
 metadata:
   name: tailnet-green
 
-subjects:
-  - kind: ServiceAccount
-    name: tailnet-green
 roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
   name: tailnet-green
 
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+subjects:
+  - name: tailnet-green
+    kind: ServiceAccount
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
@@ -82,7 +82,6 @@ spec:
       labels:
         app: tailnet-green
     spec:
-      serviceAccountName: tailnet-green
       initContainers:
         # DNAT した通信を tailscale0 へ転送するため、Pod 内で IP 転送を有効にする。
         # net.ipv4.ip_forward は kubelet の既定の許可リストに無い
@@ -130,6 +129,10 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.uid
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
           readinessProbe:
             exec:
               command:
@@ -138,14 +141,14 @@ spec:
                 - -O
                 - /dev/null
                 - http://127.0.0.1:9002/healthz
-          resources:
-            requests:
-              cpu: 10m
-              memory: 64Mi
           securityContext:
             privileged: true
       restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
 
+      serviceAccountName: tailnet-green
 ---
 apiVersion: v1
 kind: Service
