@@ -66,4 +66,5 @@ providers:
 
 service:
   ipFamilyPolicy: PreferDualStack
-  type: NodePort
+  spec:
+    type: NodePort
