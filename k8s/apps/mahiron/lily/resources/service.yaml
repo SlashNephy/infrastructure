@@ -12,15 +12,3 @@ spec:
       port: 40772
       targetPort: 40772
       protocol: TCP
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: bbc
-  annotations:
-    tailscale.com/tailnet-fqdn: mahiron-bbc.spotted-halfmoon.ts.net
-
-spec:
-  type: ExternalName
-  externalName: placeholder # generated
