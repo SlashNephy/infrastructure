@@ -157,6 +157,8 @@ spec:
             type: CharDevice
       restartPolicy: Always
       hostNetwork: true
+      # remote の green を tailnet-green Service の名前で引くため、hostNetwork でもクラスタ DNS を使う
+      dnsPolicy: ClusterFirstWithHostNet
       imagePullSecrets:
         - name: ghcr-io-credentials
       securityContext:
