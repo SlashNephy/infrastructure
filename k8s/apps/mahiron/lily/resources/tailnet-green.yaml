@@ -1,0 +1,185 @@
+# 共有デバイス green (Mahiron の remote) へ転送する tailnet の egress プロキシ。
+# tailscale-operator の egress は tag 付きノードとして参加するため、他ユーザーから
+# 共有されたデバイスには届かない。ユーザー名義 (タグ無し) の auth key で参加させる。
+# ホストの tailscaled と違い、src_valid_mark などの sysctl は Pod のネットワーク名前空間に閉じる。
+# https://github.com/tailscale/tailscale/tree/main/docs/k8s
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tailnet-green
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: tailnet-green
+
+rules:
+  # create は resourceNames で絞れない
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - create
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    resourceNames:
+      - tailnet-green-state
+    verbs:
+      - get
+      - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - get
+      - create
+      - patch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tailnet-green
+
+roleRef:
+  name: tailnet-green
+
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+subjects:
+  - name: tailnet-green
+    kind: ServiceAccount
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: tailnet-green-auth
+
+spec:
+  itemPath: vaults/4mogpcwrvtvsnpooum4vcevwkm/items/lvk2bmojcxf73oszyqxutsn7gq
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tailnet-green
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: tailnet-green
+  template:
+    metadata:
+      labels:
+        app: tailnet-green
+    spec:
+      initContainers:
+        # DNAT した通信を tailscale0 へ転送するため、Pod 内で IP 転送を有効にする。
+        # net.ipv4.ip_forward は kubelet の既定の許可リストに無い
+        - name: sysctler
+          image: tailscale/tailscale:v1.102.4@sha256:2667499ed87ae29218f292556ba062918402dd5e92e93637af14867e4df12dd3
+          command:
+            - /bin/sh
+            - -c
+            - sysctl -w net.ipv4.ip_forward=1 net.ipv6.conf.all.forwarding=1
+          securityContext:
+            privileged: true
+      containers:
+        - name: tailscale
+          image: tailscale/tailscale:v1.102.4@sha256:2667499ed87ae29218f292556ba062918402dd5e92e93637af14867e4df12dd3
+          env:
+            - name: TS_HOSTNAME
+              value: lily-green
+            - name: TS_KUBE_SECRET
+              value: tailnet-green-state
+            - name: TS_USERSPACE
+              value: "false"
+            - name: TS_DEBUG_FIREWALL_MODE
+              value: auto
+            # 状態が Secret に残っていれば auth key を使わない
+            - name: TS_AUTH_ONCE
+              value: "true"
+            - name: TS_AUTHKEY
+              valueFrom:
+                secretKeyRef:
+                  name: tailnet-green-auth
+                  key: TS_AUTHKEY
+            - name: TS_DEST_IP
+              value: 100.75.194.23
+            # tailscale0 以外から届いた通信は全て TS_DEST_IP へ DNAT されるため、
+            # kubelet の httpGet probe は使えない。loopback で待ち受けて exec probe から叩く
+            - name: TS_ENABLE_HEALTH_CHECK
+              value: "true"
+            - name: TS_LOCAL_ADDR_PORT
+              value: 127.0.0.1:9002
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_UID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.uid
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+          readinessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -O
+                - /dev/null
+                - http://127.0.0.1:9002/healthz
+          securityContext:
+            privileged: true
+      restartPolicy: Always
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+
+      serviceAccountName: tailnet-green
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tailnet-green
+
+spec:
+  selector:
+    app: tailnet-green
+  type: ClusterIP
+  ports:
+    - name: "40772"
+      port: 40772
+      targetPort: 40772
+      protocol: TCP
+
+---
+# 呼び出し元は hostNetwork の Mahiron だけなので、ingress は host に限る
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: tailnet-green
+
+spec:
+  endpointSelector:
+    matchLabels:
+      app: tailnet-green
+  ingress:
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "40772"
+              protocol: TCP

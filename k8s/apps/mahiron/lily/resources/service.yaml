@@ -24,16 +24,3 @@ metadata:
 spec:
   type: ExternalName
   externalName: placeholder # generated
-
-# 共有デバイスは OAuth 資格情報からアクセスできない
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: pink
-#   annotations:
-#     tailscale.com/tailnet-fqdn: pink.tail3fe75.ts.net
-
-# spec:
-#   type: ExternalName
-#   externalName: placeholder # generated
