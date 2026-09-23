@@ -23,6 +23,9 @@ spec:
       containers:
         - name: influxdb
           image: public.ecr.aws/docker/library/influxdb:2.7.11@sha256:d92a10e9e75aff18eca38ff3a8f0b4a800706a5dd44d1b0ece264af04458525b
+          # TSI のパーティションを開くとき、MANIFEST に無いファイルをディレクトリを付けずに相対パスで消そうとする。
+          # 作業ディレクトリが読み取り専用の / だと EROFS になり shard ごと開けなくなるので、書き込める場所に移す。
+          workingDir: /tmp
           env:
             # Bitnami のイメージが使っていたデータの場所をそのまま使う
             - name: INFLUXD_BOLT_PATH
