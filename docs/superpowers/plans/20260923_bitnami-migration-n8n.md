@@ -61,7 +61,7 @@ pgaudit は公式イメージに無いので preload を外す。拡張を作っ
 - [ ] **Step 1: 変更前のレンダリング結果を保存する**
 
 ```bash
-S=/tmp/claude-1000/-home-spica-ghq-github-com-SlashNephy-infrastructure/d1c3a786-dc9f-4ece-b0ff-f01322095888/scratchpad
+S=$(mktemp -d)
 kubectl kustomize --enable-helm k8s/apps/n8n > $S/n8n-before.yaml
 ```
 

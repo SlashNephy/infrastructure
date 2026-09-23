@@ -5,7 +5,7 @@ metadata:
 
 spec:
   replicas: 1
-  # selector と serviceName は不変なので、Bitnami チャートが作っていた値を維持してその場で更新させる
+  # selector は不変なので、Bitnami チャートが作っていた値を維持してその場で更新させる
   selector:
     matchLabels:
       app.kubernetes.io/component: primary
@@ -102,4 +102,5 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
+  # serviceName も不変。チャートが作っていた headless Service の名前を維持する
   serviceName: postgresql-hl
