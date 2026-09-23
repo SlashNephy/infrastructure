@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql
+
+spec:
+  replicas: 1
+  # selector と serviceName は不変なので、Bitnami チャートが作っていた値を維持してその場で更新させる
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: primary
+      app.kubernetes.io/instance: postgresql
+      app.kubernetes.io/name: postgresql
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: primary
+        app.kubernetes.io/instance: postgresql
+        app.kubernetes.io/name: postgresql
+    spec:
+      containers:
+        - name: postgresql
+          # bookworm (glibc 2.36) に固定する。既存 DB は libc の en_US.UTF-8 照合で collation version 2.36 が
+          # 記録されており、glibc が変わると索引の並び順が食い違う恐れがある。
+          image: public.ecr.aws/docker/library/postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3
+          args:
+            - -c
+            - config_file=/etc/postgresql/postgresql.conf
+            - -c
+            - hba_file=/etc/postgresql/pg_hba.conf
+          env:
+            # Bitnami のイメージが使っていたデータディレクトリをそのまま使う
+            - name: PGDATA
+              value: /bitnami/postgresql/data
+            - name: TZ
+              value: Asia/Tokyo
+          ports:
+            - name: tcp-postgresql
+              containerPort: 5432
+          volumeMounts:
+            - name: data
+              mountPath: /bitnami/postgresql
+            - name: config
+              mountPath: /etc/postgresql
+              readOnly: true
+            - name: run
+              mountPath: /var/run/postgresql
+            - name: tmp
+              mountPath: /tmp
+            - name: dshm
+              mountPath: /dev/shm
+          resources:
+            limits:
+              cpu: 150m
+              ephemeral-storage: 2Gi
+              memory: 192Mi
+            requests:
+              cpu: 100m
+              ephemeral-storage: 50Mi
+              memory: 128Mi
+          livenessProbe:
+            exec:
+              command: [pg_isready, -U, n8n, -d, dbname=n8n, -h, 127.0.0.1, -p, "5432"]
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command: [pg_isready, -U, n8n, -d, dbname=n8n, -h, 127.0.0.1, -p, "5432"]
+            failureThreshold: 6
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            # 既存データの所有者が 1001 なので合わせる
+            runAsGroup: 1001
+            runAsNonRoot: true
+            runAsUser: 1001
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: n8n-postgresql-data
+        - name: config
+          configMap:
+            name: postgresql-config
+        - name: run
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+        - name: dshm
+          emptyDir:
+            medium: Memory
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+  serviceName: postgresql-hl
