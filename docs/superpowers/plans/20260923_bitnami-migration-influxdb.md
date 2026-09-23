@@ -290,12 +290,14 @@ kube-linter の差分で許容するのは次だけ。それ以外が出たら�
 - [ ] **Step 8: server-side dry-run と、Pod テンプレートの SA 参照を確かめる**
 
 ```bash
-kubectl apply --server-side --dry-run=server --force-conflicts -f $S/influx-after.yaml 2>&1 | grep -v 'last-applied-configuration' | grep -iE 'error|invalid|forbidden|deployment|serviceaccount'
+kubectl apply --dry-run=server -f $S/influx-after.yaml 2>&1 | grep -iE 'error|invalid|forbidden|deployment|serviceaccount'
 kubectl -n influxdb get deploy influxdb -o jsonpath='{.spec.template.spec.serviceAccount}|{.spec.template.spec.serviceAccountName}{"\n"}'
 kubectl -n influxdb get sa influxdb
 ```
 
 Expected: エラーは無く、`deployment.apps/influxdb` と `serviceaccount/influxdb` が受理される。稼働中の SA 参照は `influxdb|influxdb` で、同名の SA がマニフェストに残っていることで参照が切れない。
+
+Argo CD は client-side apply で同期するので、dry-run も `--server-side` を付けずに行う。`--server-side` を付けると、Argo CD が client-side apply で所有している旧 readinessProbe の `exec` が残り、`may not specify more than 1 handler type` という誤検知になる。
 
 不変フィールドのエラーが出たら、ここで止まってユーザーに相談する。稼働中のリソースは消さない。
 
@@ -371,7 +373,7 @@ time docker stop -t 30 influx-official
 docker logs influx-official 2>&1 | grep -iE 'Terminating|Stopping|shutdown' | head -5
 ```
 
-Expected: 30 秒を待たずに終わる (SIGTERM で正常終了する)。
+Expected: 30 秒を待たずに終わる。influxd は停止時にログを出さず、終了コードは 2 になる (Bitnami のイメージでも同じ)。
 
 - [ ] **Step 5: 後片付け**
 
@@ -417,7 +419,7 @@ gh pr create --title "feat(influxdb): Bitnami チャートから公式イメー�
 
 ### Task 4: マージ後の検証
 
-マージはユーザーの操作。Recreate なので、切り替え中は数十秒 InfluxDB が止まる。Telegraf は送れなかった分をバッファして、後で再送する。
+マージはユーザーの操作。Recreate で startupProbe の initialDelaySeconds が 60 秒なので、切り替え中は 1〜2 分 InfluxDB が止まる。Telegraf は送れなかった分をバッファして、後で再送する。
 
 - [ ] **Step 1: 同期されたリビジョンと Pod を確かめる**
 
@@ -462,7 +464,15 @@ curl -s -o /dev/null -w '%{http_code}\n' http://lily:30086/health
 
 Expected: `200`。
 
-- [ ] **Step 5: PR に after の証跡をコメントする**
+- [ ] **Step 5: Renovate による更新を確かめる**
+
+Renovate は公式イメージの更新を自動マージする (ユーザー判断で現状維持)。2.7.11 より新しいタグがあるので、マージ後まもなく更新 PR が作られて自動マージされる見込み。更新された場合は Step 1〜4 をもう一度行う。
+
+```bash
+gh pr list --search 'influxdb in:title' --state all --limit 3
+```
+
+- [ ] **Step 6: PR に after の証跡をコメントする**
 
 ## 切り戻し
 

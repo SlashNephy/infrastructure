@@ -31,7 +31,7 @@ spec:
               value: /bitnami/influxdb
             - name: INFLUXD_HTTP_BIND_ADDRESS
               value: 0.0.0.0:8086
-            # 設定ファイルは置かない。entrypoint が書き込もうとするので emptyDir にしてある
+            # 設定ファイルは置かない。entrypoint がこのディレクトリに mkdir / chmod を試みるので emptyDir にしてある
             - name: INFLUXD_CONFIG_PATH
               value: /etc/influxdb2
             - name: HOME
