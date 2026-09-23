@@ -22,7 +22,7 @@ spec:
         - name: postgresql
           # bookworm (glibc 2.36) に固定する。既存 DB は libc の en_US.UTF-8 照合で collation version 2.36 が
           # 記録されており、glibc が変わると索引の並び順が食い違う恐れがある。
-          image: public.ecr.aws/docker/library/postgres:17.11-bookworm@sha256:639ab7ceb90e13123085b741fb31ef493fba25463002f6da665352e7b534b652
+          image: public.ecr.aws/docker/library/postgres:18.6-bookworm@sha256:3725f4e2499eef5134592b3b4ab79a543ed7f8e533b05b5b637af926630f6650
           args:
             - -c
             - config_file=/etc/postgresql/postgresql.conf
