@@ -17,8 +17,8 @@ spec:
         spec:
           containers:
             - name: mariadb
-              # mariadb クライアントを使うだけ。バージョンとレジストリの事情は kustomization.yaml のコメントを参照
-              image: docker.io/bitnamilegacy/mariadb:12.0.2-debian-12-r0@sha256:888cdaae3cb996c4d28f7916106511de553545929957dd1d35221112df631e19
+              # mariadb クライアントを使うだけ。サーバーと同じイメージにそろえる
+              image: public.ecr.aws/docker/library/mariadb:12.0.2@sha256:607835cd628b78e2876f6a586d0ec37b296c47683b31ef750002d3d17d3d8f7a
               command:
                 - sh
                 - -c
@@ -51,6 +51,10 @@ spec:
                   drop:
                     - ALL
                 readOnlyRootFilesystem: true
+                # 公式イメージは USER を指定しておらず root で動くので、mysql ユーザーを明示する
+                runAsGroup: 999
+                runAsNonRoot: true
+                runAsUser: 999
           restartPolicy: Never
           securityContext:
             seccompProfile:

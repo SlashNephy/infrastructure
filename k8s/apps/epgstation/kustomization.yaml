@@ -2,48 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: epgstation
 
-images:
-  # Bitnami は 2025-08 にバージョン固定タグを有償枠へ移し (無償は latest のみ)、
-  # 逃がし先だった public.ecr.aws のミラーも 2026-06 に削除した。
-  # 無償でバージョンを固定できるのは凍結済みの bitnamilegacy だけなので、そこに固定する。
-  # タグは稼働中の 12.0.2-MariaDB に合わせており、バージョンは動かしていない。
-  - name: docker.io/bitnami/mariadb
-    newName: docker.io/bitnamilegacy/mariadb
-    newTag: 12.0.2-debian-12-r0@sha256:888cdaae3cb996c4d28f7916106511de553545929957dd1d35221112df631e19
-
-helmCharts:
-  - name: mariadb
-    releaseName: mariadb
-    version: 27.3.0
-    repo: oci://registry-1.docker.io/bitnamicharts
-    valuesInline:
-      auth:
-        database: epgstation
-        existingSecret: mariadb-secret
-        username: epgstation
-      image:
-        # チャートの既定は registry-1.docker.io だが、それだと上の images による
-        # 差し替えが名前一致せず無言で素通りするので docker.io に戻す
-        registry: docker.io
-      primary:
-        extraEnvVars:
-          - name: TZ
-            value: Asia/Tokyo
-        # innodb-buffer-pool-size: 既定の 128MB では program テーブル (data 107MB + index 5MB) だけで
-        # 使い切ってしまい、ルール検索の全件スキャンのたびに他のページを追い出して読み直していた。
-        # ルールのキーワード検索は LIKE '%…%' なのでインデックスでは救えず、
-        # キャッシュに載せる以外に打つ手が無い。コンテナの memory limit 3Gi の半分を割り当てる。
-        extraFlags: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_520_ci --expire-logs-days=30 --slow-query-log --slow-query-log-file=/dev/stdout --log-output=FILE --innodb-buffer-pool-size=1610612736
-        livenessProbe:
-          failureThreshold: 5
-          periodSeconds: 60
-          timeoutSeconds: 10
-        persistence:
-          existingClaim: epgstation-mariadb-data
-        resourcesPreset: large
 resources:
   - ./../../common/registry-ghcr-io/lily
   - ./resources/authentik.yaml
+  - ./resources/configmap-mariadb.yaml
   - ./resources/cronjob-backup.yaml
   - ./resources/cronjob-db-maintenance.yaml
   - ./resources/cronjob-restart.yaml
@@ -52,5 +14,8 @@ resources:
   - ./resources/ingress.yaml
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
+  - ./resources/service-mariadb.yaml
   - ./resources/service.yaml
+  - ./resources/serviceaccount-mariadb.yaml
+  - ./resources/statefulset-mariadb.yaml
   - ./resources/volume.yaml
