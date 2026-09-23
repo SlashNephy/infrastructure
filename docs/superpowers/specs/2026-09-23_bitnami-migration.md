@@ -41,7 +41,7 @@ Bitnami のチャートを外し、公式イメージの StatefulSet（InfluxDB 
 
 InfluxDB について、influxdata 公式チャートは appVersion が 2.7.4 で現行の 2.7.11 より古いため使わない。
 
-イメージは kustomize の `images:` で digest まで固定し、Renovate の kustomize manager で追従する。
+イメージはリポジトリの慣習どおり、マニフェストに `public.ecr.aws/docker/library/*` を digest 付きで書き、Renovate で追従する。
 
 ### 既存 PVC をそのまま使う
 
@@ -54,7 +54,7 @@ InfluxDB について、influxdata 公式チャートは appVersion が 2.7.4 �
 ## 共通の設計
 
 - **Service 名を維持する。** `postgresql` / `influxdb` / `mariadb` の名前とポートを変えない。クライアント（n8n、Telegraf、Grafana、EPGStation）は変更しない
-- **Secret を維持する。** 既存の Secret をそのまま参照する。初期化済みの DB を使うので、公式イメージの初期化用環境変数は効かないが、probe とクライアントのために参照は残す
+- **Secret を維持する。** 既存の Secret をそのまま使う。初期化済みの DB を使うので、DB 本体には初期化用の資格情報を渡さない。Secret を参照するのはクライアントとバックアップのジョブだけになる
 - **既存の調整を移植する。** TZ、resources、probe の閾値、InfluxDB の NodePort（30086 / 30088）、MariaDB の起動フラグ一式
 - **不要になった回避策を消す。**
   - PostgreSQL の preStop による fast shutdown: 公式イメージは `STOPSIGNAL SIGINT` を持つ
@@ -83,7 +83,7 @@ InfluxDB について、influxdata 公式チャートは appVersion が 2.7.4 �
 
 ### 切り替え前
 
-1. 本番 PVC のデータを tar で手元に写し、公式イメージを本番と同じ UID・パス・引数で `docker run` する
+1. 本番の論理バックアップを、現行と同じ Bitnami イメージで作った手元のデータディレクトリに流し込む。それを公式イメージで、本番と同じ UID・パス・引数で `docker run` する（稼働中の PVC を直接コピーすると整合しないため）
 2. 起動すること、既存データを読めること、クライアントから接続・クエリできることを確かめる
 3. `kubectl kustomize --enable-helm` / `pnpm eslint` / `kube-linter` を通す
 

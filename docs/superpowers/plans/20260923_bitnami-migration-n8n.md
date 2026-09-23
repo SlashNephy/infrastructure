@@ -351,7 +351,10 @@ pnpm eslint k8s/apps/n8n
 kube-linter lint --config .kube-linter.yaml k8s/apps/n8n
 ```
 
-Expected: どちらもエラー 0。kube-linter の指摘が出た場合は抑制せずユーザーに相談する。
+Expected: どちらもエラー 0。
+
+- `yml/sort-keys` の指摘は `pnpm eslint --fix k8s/apps/n8n` で直す。手で並べ替えない
+- kube-linter の指摘 (NetworkPolicy を外したことによる `non-isolated-pod` など) は、抑制も no-op のリソースの追加もせずにユーザーに相談する
 
 - [ ] **Step 9: server-side dry-run で受理を確かめる**
 
@@ -360,6 +363,8 @@ kubectl apply --server-side --dry-run=server -f $S/n8n-after.yaml --force-confli
 ```
 
 Expected: 出力なし (StatefulSet の不変フィールド変更エラーが出ないこと)。
+
+不変フィールドのエラーが出た場合はここで止まってユーザーに相談する。稼働中の StatefulSet を消して通すことはしない。
 
 - [ ] **Step 10: コミット**
 
@@ -405,11 +410,14 @@ Expected: `pg_hba.conf  postgresql.conf`
 
 ```bash
 F=$(ssh lily 'ls -1 /mnt/local/n8n/postgresql-backup/pg_dumpall-*.pgdump | tail -1')
-ssh lily "cat $F" > $S/n8n.pgdump
+# ロールのパスワードハッシュは lily 側で落としてから持ち出す
+ssh lily "sed -E \"s/ PASSWORD '[^']*'//\" $F" > $S/n8n.pgdump
 head -c 300 $S/n8n.pgdump; ls -la $S/n8n.pgdump
 ```
 
 Expected: `--` で始まる SQL で、サイズが 0 でない。
+
+このコマンドが権限で拒否された場合は、回避策を探さずにユーザーに実行を依頼する。
 
 - [ ] **Step 3: Bitnami のイメージでデータディレクトリを作り、ダンプを流し込む**
 
@@ -419,14 +427,13 @@ docker run -d --name pg-bitnami -v n8n-pg-test:/bitnami/postgresql \
   -e POSTGRESQL_POSTGRES_PASSWORD=test -e POSTGRESQL_USERNAME=n8n -e POSTGRESQL_PASSWORD=test -e POSTGRESQL_DATABASE=n8n \
   docker.io/bitnamilegacy/postgresql:17.6.0-debian-12-r4@sha256:926356130b77d5742d8ce605b258d35db9b62f2f8fd1601f9dbaef0c8a710a8d
 until docker exec pg-bitnami pg_isready -h 127.0.0.1; do sleep 1; done
-sed -E "s/ PASSWORD '[^']*'//" $S/n8n.pgdump \
-  | docker exec -i -e PGPASSWORD=test pg-bitnami psql -h 127.0.0.1 -U postgres -d postgres -q 2>&1 \
+docker exec -i -e PGPASSWORD=test pg-bitnami psql -h 127.0.0.1 -U postgres -d postgres -q < $S/n8n.pgdump 2>&1 \
   | grep -v 'already exists\|current user cannot be dropped' | tail -5
 docker exec -e PGPASSWORD=test pg-bitnami psql -h 127.0.0.1 -U n8n -d n8n -Atc 'select count(*) from workflow_entity'
 docker stop -t 30 pg-bitnami
 ```
 
-ダンプに含まれるロールのパスワードハッシュは `sed` で落としている。本番のパスワードを手元に持ち込まず、テスト用の `test` のまま接続できるようにするため。
+ダンプに含まれるロールのパスワードハッシュは Step 2 で落としている。本番のパスワードを手元に持ち込まず、テスト用の `test` のまま接続できるようにするため。
 
 Expected: ワークフロー数が 1 以上で、`docker stop` が 30 秒待たずに終わる。
 
@@ -491,10 +498,9 @@ flowchart LR
   hl[Service postgresql-hl] --> sts
   sts --> cm[ConfigMap postgresql-config]
   sts --> pvc[PVC n8n-postgresql-data]
-  sts --> sec[Secret postgresql-secret]
   cj[CronJob cronjob-backup] --> svc
   cj --> bpvc[PVC n8n-postgresql-backup]
-  cj --> sec
+  cj --> sec[Secret postgresql-secret]
   clean[CronJob cronjob-cleanup-backup] --> bpvc
 ```
 
@@ -545,7 +551,9 @@ kubectl -n n8n logs deploy/n8n --since=10m | grep -iE 'error|database' | tail -2
 kubectl -n n8n exec deploy/n8n -- wget -qO- http://127.0.0.1:5678/healthz/readiness
 ```
 
-Expected: `{"status":"ok"}`。ブラウザで n8n にログインし、ワークフロー一覧が表示され、直近の実行履歴が切り替え後も増えていることを確かめる (スクリーンショットを PR に添付)。
+Expected: `{"status":"ok"}`。`postgresql-0` が Ready になってから 60 秒経っても `ok` にならない場合は、n8n の再接続が発火していない (2026-08-08 と同じ事象)。liveness の猶予 5 分を待たずに `kubectl -n n8n rollout restart deploy/n8n` する。
+
+ブラウザで n8n にログインし、ワークフロー一覧が表示され、直近の実行履歴が切り替え後も増えていることを確かめる (スクリーンショットを PR に添付)。
 
 - [ ] **Step 4: バックアップを確かめる**
 
@@ -563,10 +571,10 @@ Expected: 新しい `pg_dumpall-*.pgdump` が増え、サイズが直前のも�
 ```bash
 kubectl -n n8n delete pod postgresql-0
 kubectl -n n8n wait --for=condition=Ready pod/postgresql-0 --timeout=120s
-kubectl -n n8n logs postgresql-0 | grep -iE 'not properly shut down|ready to accept'
+kubectl -n n8n logs postgresql-0 | grep -E 'database system was shut down at|not properly shut down'
 ```
 
-Expected: 新しい Pod の起動ログに `not properly shut down` が無い。
+Expected: `database system was shut down at` が出る (前回の停止が正常だった場合にだけ出る行)。`received fast shutdown request` は旧 Pod のログにあり削除後は読めないので、Task 2 Step 6 で確認済みとする。
 
 - [ ] **Step 6: PR に after の証跡をコメントする**
 
