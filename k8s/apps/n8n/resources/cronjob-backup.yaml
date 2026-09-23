@@ -14,7 +14,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: public.ecr.aws/docker/library/postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3
+              image: public.ecr.aws/docker/library/postgres:17.11-bookworm@sha256:639ab7ceb90e13123085b741fb31ef493fba25463002f6da665352e7b534b652
               command:
                 - bash
                 - -c
