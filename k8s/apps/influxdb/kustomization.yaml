@@ -2,79 +2,20 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: influxdb
 
-images:
-  # Bitnami は 2025-08 にバージョン固定タグを有償枠へ移し (無償は latest のみ)、
-  # 逃がし先だった public.ecr.aws のミラーも 2026-06 に削除した。
-  # 無償でバージョンを固定できるのは凍結済みの bitnamilegacy だけなので、そこに固定する。
-  # タグはチャート既定と同一で、バージョンは動かしていない。
-  - name: docker.io/bitnami/influxdb
-    newName: docker.io/bitnamilegacy/influxdb
-    newTag: 2.7.11-debian-12-r20@sha256:587eaebfa5245ab7b46ce2f775f110cfcff028d816bae14d9ce987b21255798f
-
-helmCharts:
-  - name: influxdb
-    releaseName: influxdb
-    namespace: influxdb
-    version: 6.6.16
-    repo: oci://registry-1.docker.io/bitnamicharts
-    valuesInline:
-      auth:
-        existingSecret: admin-secret
-      influxdb:
-        # 322 shard の open と WAL の再生に最大 340 秒かかり、liveness probe の猶予
-        # (initialDelaySeconds 180 + periodSeconds 45 × failureThreshold 6 = 450 秒) に
-        # 余裕がない。startupProbe で起動完了までは liveness probe を止める。
-        #
-        # チャート既定の startupProbe は `influx --host <url> ping` を実行するが、influx CLI は
-        # --host をサブコマンドの後ろにしか取らないため常に失敗する (readinessProbe 側は正しい順序で
-        # 書かれている)。チャートを patch せずに済むよう customStartupProbe で置き換える。
-        # 起動が完了して HTTP listener が上がるまでは接続自体が失敗するので、/health で十分。
-        customStartupProbe:
-          failureThreshold: 20
-          httpGet:
-            path: /health
-            port: http
-          initialDelaySeconds: 60
-          periodSeconds: 30
-          successThreshold: 1
-          timeoutSeconds: 30
-        # resourcesPreset: medium (memory limit 1536Mi) では 12 GB / 322 shard のデータ量に対して
-        # ページキャッシュが確保できず、cgroup が limit に張り付いて reclaim を繰り返していた。
-        # TSM ファイルの refault が毎秒 8,000 回超に達し HTTP 応答が liveness probe の
-        # timeout (30 秒) を超えるため、2 日で 88 回再起動していた。
-        # ノードには 13 GB の空きがあるので、データ量に見合う limit を明示する。
-        #
-        # あわせて telegraf バケットのリテンションを 10 年から 90 日へ、shard group duration を
-        # 24h から 7d へ短縮した (2026-08-29)。容量は約 11 GB → 3.6 GB に落ちる見込み。
-        # バケットは Helm でも Terraform でも管理していない (TFC からクラスタ内へ到達できない) ため、
-        # influx CLI で直接適用している。値を変えるときは下記を実行する。
-        #
-        #   kubectl -n influxdb exec deploy/influxdb -- bash -c \
-        #     'export INFLUX_TOKEN=$(cat /opt/bitnami/influxdb/secrets/admin-user-token); \
-        #      influx bucket update --host http://127.0.0.1:8086 -i 9640aa1885903715 \
-        #        --retention 90d --shard-group-duration 168h'
-        resources:
-          limits:
-            cpu: "2"
-            ephemeral-storage: 2Gi
-            memory: 4Gi
-          requests:
-            cpu: 500m
-            ephemeral-storage: 50Mi
-            memory: 2Gi
-        service:
-          nodePorts:
-            http: 30086
-            rpc: 30088
-          type: NodePort
-        updateStrategy:
-          type: Recreate # host volume を使っているので RollingUpdate できない
-      persistence:
-        existingClaim: influxdb-data
-
+# telegraf バケットのリテンションは 90 日、shard group duration は 7d (2026-08-29 に変更)。
+# バケットは Helm でも Terraform でも管理していない (TFC からクラスタ内へ到達できない) ため、
+# influx CLI で直接適用している。値を変えるときは下記を実行する。
+#
+#   kubectl -n influxdb exec deploy/influxdb -- bash -c \
+#     'export INFLUX_TOKEN=$(cat "$INFLUXDB_ADMIN_USER_TOKEN_FILE"); \
+#      influx bucket update --host http://127.0.0.1:8086 -i 9640aa1885903715 \
+#        --retention 90d --shard-group-duration 168h'
 resources:
   - ./resources/authentik.yaml
+  - ./resources/deployment.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
   - ./resources/secret.yaml
+  - ./resources/service.yaml
+  - ./resources/serviceaccount.yaml
   - ./resources/volume.yaml

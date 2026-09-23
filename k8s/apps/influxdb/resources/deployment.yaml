@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: influxdb
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate # host volume を使っているので RollingUpdate できない
+  # selector は不変なので、Bitnami チャートが作っていた値を維持してその場で更新させる
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: influxdb
+      app.kubernetes.io/instance: influxdb
+      app.kubernetes.io/name: influxdb
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: influxdb
+        app.kubernetes.io/instance: influxdb
+        app.kubernetes.io/name: influxdb
+    spec:
+      containers:
+        - name: influxdb
+          image: public.ecr.aws/docker/library/influxdb:2.7.11@sha256:d92a10e9e75aff18eca38ff3a8f0b4a800706a5dd44d1b0ece264af04458525b
+          env:
+            # Bitnami のイメージが使っていたデータの場所をそのまま使う
+            - name: INFLUXD_BOLT_PATH
+              value: /bitnami/influxdb/influxd.bolt
+            - name: INFLUXD_ENGINE_PATH
+              value: /bitnami/influxdb
+            - name: INFLUXD_HTTP_BIND_ADDRESS
+              value: 0.0.0.0:8086
+            # 設定ファイルは置かない。entrypoint が書き込もうとするので emptyDir にしてある
+            - name: INFLUXD_CONFIG_PATH
+              value: /etc/influxdb2
+            - name: HOME
+              value: /bitnami/influxdb
+            # influx CLI の接続設定。Bitnami の初期化時に作られたものを使い続ける
+            - name: INFLUX_CONFIGS_PATH
+              value: /bitnami/influxdb/configs
+            # 運用で influx CLI を使うときに参照する。サーバー自体は使わない
+            - name: INFLUXDB_ADMIN_ORG
+              value: primary
+            - name: INFLUXDB_ADMIN_USER_TOKEN_FILE
+              value: /run/secrets/influxdb/admin-user-token
+          ports:
+            - name: http
+              containerPort: 8086
+            - name: rpc
+              containerPort: 8088
+          volumeMounts:
+            - name: data
+              mountPath: /bitnami/influxdb
+            - name: config
+              mountPath: /etc/influxdb2
+            - name: tmp
+              mountPath: /tmp
+            - name: admin-secret
+              mountPath: /run/secrets/influxdb
+              readOnly: true
+          # 12 GB / 322 shard の頃、memory limit 1536Mi ではページキャッシュが確保できず
+          # reclaim を繰り返して liveness probe が timeout していた。データ量に見合う limit を明示する。
+          resources:
+            limits:
+              cpu: "2"
+              ephemeral-storage: 2Gi
+              memory: 4Gi
+            requests:
+              cpu: 500m
+              ephemeral-storage: 50Mi
+              memory: 2Gi
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 45
+            timeoutSeconds: 30
+          readinessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 45
+            timeoutSeconds: 30
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            # 既存データの所有者が 1001 なので合わせる
+            runAsGroup: 1001
+            runAsNonRoot: true
+            runAsUser: 1001
+          # 起動時は shard の open と WAL の再生を待つ。データ量が多かった頃は最大 340 秒かかった。
+          # 起動完了までは HTTP listener が上がらないので /health への接続自体が失敗する。
+          startupProbe:
+            failureThreshold: 20
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 30
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: influxdb-data
+        - name: config
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}
+        - name: admin-secret
+          secret:
+            secretName: admin-secret
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: influxdb
