@@ -18,20 +18,63 @@ spec:
         app.kubernetes.io/instance: postgresql
         app.kubernetes.io/name: postgresql
     spec:
+      initContainers:
+        - name: dump-pg17
+          image: public.ecr.aws/docker/library/postgres:17.11-bookworm@sha256:639ab7ceb90e13123085b741fb31ef493fba25463002f6da665352e7b534b652
+          command: [bash, /upgrade/dump.sh]
+          volumeMounts:
+            - name: data
+              mountPath: /bitnami/postgresql
+            - name: config
+              mountPath: /etc/postgresql
+              readOnly: true
+            - name: upgrade
+              mountPath: /upgrade
+              readOnly: true
+            - name: restore
+              mountPath: /restore
+            - name: dump-tmp
+              mountPath: /tmp
+            - name: run
+              mountPath: /var/run/postgresql
+          resources:
+            limits:
+              cpu: 500m
+              ephemeral-storage: 2Gi
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              ephemeral-storage: 50Mi
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 1001
+            runAsNonRoot: true
+            runAsUser: 1001
       containers:
         - name: postgresql
           # bookworm (glibc 2.36) に固定する。既存 DB は libc の en_US.UTF-8 照合で collation version 2.36 が
           # 記録されており、glibc が変わると索引の並び順が食い違う恐れがある。
-          image: public.ecr.aws/docker/library/postgres:17.11-bookworm@sha256:639ab7ceb90e13123085b741fb31ef493fba25463002f6da665352e7b534b652
+          image: public.ecr.aws/docker/library/postgres:18.6-bookworm@sha256:3725f4e2499eef5134592b3b4ab79a543ed7f8e533b05b5b637af926630f6650
           args:
             - -c
             - config_file=/etc/postgresql/postgresql.conf
             - -c
             - hba_file=/etc/postgresql/pg_hba.conf
           env:
-            # Bitnami のイメージが使っていたデータディレクトリをそのまま使う
+            # 17 のデータディレクトリ (/bitnami/postgresql/data) は切り戻し用に残し、18 は隣に作る
             - name: PGDATA
-              value: /bitnami/postgresql/data
+              value: /bitnami/postgresql/data18
+            # 空の PGDATA を initdb するときにだけ使う。既存のロールのパスワードはダンプの値で上書きされる
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: postgres-password
             - name: TZ
               value: Asia/Tokyo
           ports:
@@ -49,11 +92,18 @@ spec:
               mountPath: /tmp
             - name: dshm
               mountPath: /dev/shm
+            - name: restore
+              mountPath: /restore
+              readOnly: true
+            - name: upgrade
+              mountPath: /docker-entrypoint-initdb.d/restore.sh
+              subPath: restore.sh
           resources:
             limits:
               cpu: 150m
               ephemeral-storage: 2Gi
-              memory: 192Mi
+              # ダンプの流し込みで索引を作り直すので、通常時より余裕を持たせる
+              memory: 512Mi
             requests:
               cpu: 100m
               ephemeral-storage: 50Mi
@@ -62,14 +112,12 @@ spec:
             exec:
               command: [pg_isready, -U, n8n, -d, dbname=n8n, -h, 127.0.0.1, -p, "5432"]
             failureThreshold: 6
-            initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
           readinessProbe:
             exec:
               command: [pg_isready, -U, n8n, -d, dbname=n8n, -h, 127.0.0.1, -p, "5432"]
             failureThreshold: 6
-            initialDelaySeconds: 5
             periodSeconds: 10
             timeoutSeconds: 5
           securityContext:
@@ -82,6 +130,14 @@ spec:
             runAsGroup: 1001
             runAsNonRoot: true
             runAsUser: 1001
+          # 初回の起動はダンプの流し込みを含むので、終わるまでは startupProbe だけで見る (最大 10 分)。
+          # 途中で liveness に落とされると .restored が置かれず、やり直しを繰り返してしまう。
+          startupProbe:
+            exec:
+              command: [pg_isready, -U, n8n, -d, dbname=n8n, -h, 127.0.0.1, -p, "5432"]
+            failureThreshold: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
       volumes:
         - name: data
           persistentVolumeClaim:
@@ -96,6 +152,13 @@ spec:
         - name: dshm
           emptyDir:
             medium: Memory
+        - name: upgrade
+          configMap:
+            name: postgresql-upgrade
+        - name: restore
+          emptyDir: {}
+        - name: dump-tmp
+          emptyDir: {}
       automountServiceAccountToken: false
       securityContext:
         fsGroup: 1001
