@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql-config
+
+# Bitnami のイメージは設定をデータディレクトリの外に生成しており、PVC 側には postgresql.conf も pg_hba.conf も無い。
+# 公式イメージでも同じ PVC を使うため、Bitnami が生成していた値のうち単一インスタンスで意味のあるものを渡す。
+data:
+  pg_hba.conf: |
+    local all all md5
+    host all all 127.0.0.1/32 md5
+    host all all ::1/128 md5
+    host all all 0.0.0.0/0 md5
+    host all all ::/0 md5
+  postgresql.conf: |
+    listen_addresses = '*'
+    port = 5432
+    max_wal_size = 400MB
+    client_min_messages = error

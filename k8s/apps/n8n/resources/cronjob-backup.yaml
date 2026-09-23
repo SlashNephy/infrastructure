@@ -1,0 +1,57 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-backup
+
+# ファイル名の形式は cronjob-cleanup-backup の glob (pg_dumpall-*.pgdump) と揃えている
+spec:
+  schedule: "20 * * * *"
+  timeZone: Asia/Tokyo
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: app
+              image: public.ecr.aws/docker/library/postgres:17.6-bookworm@sha256:f3bd19c606e442c3d7bdfa8002e03fe260a1023351e0ea4598032022b68dd6e3
+              command:
+                - bash
+                - -c
+                - pg_dumpall --clean --if-exists --load-via-partition-root --quote-all-identifiers --no-password --file="/backup/pg_dumpall-$(date '+%Y-%m-%d-%H-%M').pgdump"
+              env:
+                - name: PGHOST
+                  value: postgresql
+                - name: PGUSER
+                  value: postgres
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: postgresql-secret
+                      key: postgres-password
+                - name: TZ
+                  value: Asia/Tokyo
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsGroup: 1001
+                runAsNonRoot: true
+                runAsUser: 1001
+          volumes:
+            - name: backup
+              persistentVolumeClaim:
+                claimName: n8n-postgresql-backup
+          restartPolicy: Never
+          securityContext:
+            fsGroup: 1001
+            seccompProfile:
+              type: RuntimeDefault
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1

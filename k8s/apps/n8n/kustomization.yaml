@@ -6,11 +6,6 @@ images:
   # チャートの更新が遅いのでセルフアップデート
   - name: n8nio/n8n
     newTag: 2.40.0@sha256:fba7e81fa077ad8b6486804fec33a962ab44a64ce9e3bc8d488465b0f8d65a52
-  # Bitnami は 2025-08 にバージョン固定タグを有償枠へ移し、public.ecr.aws のミラーも 2026-06 に削除した。
-  # 無償でバージョンを固定できるのは凍結済みの bitnamilegacy だけなので、そこに固定する。
-  - name: docker.io/bitnami/postgresql
-    newName: docker.io/bitnamilegacy/postgresql
-    newTag: 17.6.0-debian-12-r4@sha256:926356130b77d5742d8ce605b258d35db9b62f2f8fd1601f9dbaef0c8a710a8d
 
 helmCharts:
   # https://github.com/8gears/n8n-helm-chart
@@ -85,62 +80,17 @@ helmCharts:
       #   enabled: true
       #   auth:
       #     enabled: false
-  - name: postgresql
-    releaseName: postgresql
-    version: 18.11.3
-    repo: oci://registry-1.docker.io/bitnamicharts
-    valuesInline:
-      auth:
-        database: n8n
-        existingSecret: postgresql-secret
-        username: n8n
-      backup:
-        cronjob:
-          concurrencyPolicy: Forbid
-          containerSecurityContext:
-            runAsGroup: 1000
-            runAsUser: 1000
-          restartPolicy: Never
-          # @hourly
-          schedule: "20 * * * *"
-          storage:
-            existingClaim: n8n-postgresql-backup
-          successfulJobsHistoryLimit: 1
-          timeZone: Asia/Tokyo
-        enabled: true
-      image:
-        # チャート 18.x の既定は registry-1.docker.io だが、それだと上の images による
-        # 差し替えが名前一致せず無言で素通りするので docker.io に戻す
-        registry: docker.io
-      primary:
-        extraEnvVars:
-          - name: TZ
-            value: Asia/Tokyo
-        # Bitnami の PostgreSQL イメージは STOPSIGNAL を設定しておらず、PID 1 の postgres は
-        # SIGTERM を smart shutdown (既存クライアントが自ら切断するまで待つ) と解釈する。
-        # n8n はコネクションプールを保持し続けるので待機が終わらず、
-        # terminationGracePeriodSeconds 満了で SIGKILL され、毎回クラッシュリカバリになる。
-        # 公式 postgres イメージは STOPSIGNAL SIGINT でこれを回避しているが、
-        # Kubernetes 1.35 時点で stopSignal は ContainerStopSignals が alpha かつ無効のため使えない。
-        # そこで preStop で明示的に fast shutdown する。
-        lifecycleHooks:
-          preStop:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                # terminationGracePeriodSeconds (既定 30 秒) を超えないよう -t で頭打ちにする
-                - pg_ctl stop -D "$PGDATA" -m fast -w -t 25
-        persistence:
-          existingClaim: n8n-postgresql-data
-        resourcesPreset: nano
 
 resources:
+  - ./resources/configmap-postgresql.yaml
+  - ./resources/cronjob-backup.yaml
   - ./resources/cronjob-cleanup-backup.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
   - ./resources/secret.yaml
   - ./resources/service-lm-studio.yaml
+  - ./resources/service-postgresql.yaml
+  - ./resources/statefulset-postgresql.yaml
   - ./resources/volume-backup.yaml
   - ./resources/volume-data.yaml
   - ./resources/volume-postgresql.yaml
