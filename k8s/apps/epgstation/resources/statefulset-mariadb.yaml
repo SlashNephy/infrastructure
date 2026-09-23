@@ -62,14 +62,12 @@ spec:
             exec:
               command: [healthcheck.sh, --defaults-extra-file=/bitnami/mariadb/data/.my-healthcheck.cnf, --connect, --innodb_initialized]
             failureThreshold: 5
-            initialDelaySeconds: 120
             periodSeconds: 60
             timeoutSeconds: 10
           readinessProbe:
             exec:
               command: [healthcheck.sh, --defaults-extra-file=/bitnami/mariadb/data/.my-healthcheck.cnf, --connect, --innodb_initialized]
             failureThreshold: 3
-            initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
           securityContext:
@@ -82,6 +80,14 @@ spec:
             runAsGroup: 1001
             runAsNonRoot: true
             runAsUser: 1001
+          # 初回の起動とバージョンの更新時は、mariadbd の前に mariadb-upgrade が走る。
+          # その間に liveness で落とされないよう、起動完了までは startupProbe だけで見る (最大 5 分)。
+          startupProbe:
+            exec:
+              command: [healthcheck.sh, --defaults-extra-file=/bitnami/mariadb/data/.my-healthcheck.cnf, --connect, --innodb_initialized]
+            failureThreshold: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
       volumes:
         - name: data
           persistentVolumeClaim:
