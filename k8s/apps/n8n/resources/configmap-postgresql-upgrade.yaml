@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql-upgrade
+
+# PostgreSQL 17 → 18 のメジャー更新を、ダンプと流し込みで行うためのスクリプト。
+# 公式イメージには自動で更新する仕組みが無く、18 のサーバーは 17 のデータディレクトリを読めない。
+#
+# 1. initContainer (17 のイメージ) が、旧 Pod が止めた 17 のデータディレクトリを手元だけで起動して pg_dumpall する
+# 2. 本体 (18 のイメージ) の entrypoint が空の新しいデータディレクトリを initdb し、restore.sh でダンプを流し込む
+#
+# 旧 Pod が止まった後にダンプするので書き込みを取りこぼさない。旧データディレクトリはそのまま残す。
+# 流し込みが最後まで終わったら .restored を置き、それが無ければ次の起動でやり直す。
+data:
+  dump.sh: |
+    set -eu
+    old=/bitnami/postgresql/data
+    new=/bitnami/postgresql/data18
+    if [ -f "$new/.restored" ]; then
+      echo "PostgreSQL 18 data directory is already restored, skipping dump"
+      exit 0
+    fi
+    # 前回の流し込みが途中で止まった場合は、初期化からやり直させる
+    rm -rf "$new"
+    if [ "$(cat "$old/PG_VERSION")" != 17 ]; then
+      echo "unexpected PG_VERSION in $old" >&2
+      exit 1
+    fi
+    # ソケットだけで待ち受ける一時サーバー。/tmp はこの initContainer 専用の emptyDir
+    echo "local all all trust" > /tmp/pg_hba.conf
+    pg_ctl -D "$old" -w -t 300 start -o "-c config_file=/etc/postgresql/postgresql.conf -c hba_file=/tmp/pg_hba.conf -c listen_addresses= -c unix_socket_directories=/tmp"
+    pg_dumpall -h /tmp -U postgres --file=/restore/dumpall.sql
+    pg_ctl -D "$old" -w -m fast stop
+    echo "dumped $(wc -c < /restore/dumpall.sql) bytes"
+  restore.sh: |
+    # docker-entrypoint.sh が initdb の直後に source する (set -Eeo pipefail の下で動く)。
+    # source されるので、ここでシェルのオプションを変えない。一時サーバーはソケットだけで待ち受けている
+    # 初期化で作られるロールと同名の CREATE ROLE だけを落とし、それ以外のエラーでは止める
+    grep -v '^CREATE ROLE postgres;$' /restore/dumpall.sql \
+      | psql -v ON_ERROR_STOP=1 --no-psqlrc --quiet --username postgres --dbname postgres
+    touch "$PGDATA/.restored"
+    echo "restored dump into $PGDATA"
