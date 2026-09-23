@@ -102,5 +102,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
+      serviceAccountName: postgresql
   # serviceName も不変。チャートが作っていた headless Service の名前を維持する
   serviceName: postgresql-hl
