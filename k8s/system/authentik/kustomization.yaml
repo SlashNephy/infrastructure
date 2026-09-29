@@ -78,7 +78,7 @@ helmCharts:
           limits:
             memory: 1536Mi
           requests:
-            memory: 1Gi
+            memory: 768Mi
         # Telegraf は Pod Annotation による検出しかサポートしていない
         # TODO: メトリックが正しく収集できていない
         # https://github.com/SlashNephy/infrastructure/issues/5601
