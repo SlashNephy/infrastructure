@@ -20,6 +20,11 @@ helmCharts:
       persistence:
         enabled: true
         existingClaim: home-assistant-config
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          memory: 512Mi
 
 resources:
   - ./resources/authentik.yaml
