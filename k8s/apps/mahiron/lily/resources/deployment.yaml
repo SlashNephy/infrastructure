@@ -161,6 +161,7 @@ spec:
       hostNetwork: true
       imagePullSecrets:
         - name: ghcr-io-credentials
+      priorityClassName: recording
       securityContext:
         seccompProfile:
           type: RuntimeDefault

@@ -1,0 +1,9 @@
+# 録画系 (mahiron / EPGStation / MariaDB) の Pod に付ける。
+# ノードのメモリ requests に空きが無いとき、優先度 0 の Pod (self-hosted runner など) を追い出してでも録画系を起動させる。
+# ingress (load-balancer: 1000) よりは下に置く。
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: recording
+
+value: 500
