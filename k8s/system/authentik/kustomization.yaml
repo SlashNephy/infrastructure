@@ -74,6 +74,11 @@ helmCharts:
           enabled: true
         # chart 既定の soft な podAntiAffinity により、ノードが複数あれば別ノードに分散される
         replicas: 2
+        resources:
+          limits:
+            memory: 1536Mi
+          requests:
+            memory: 1Gi
         # Telegraf は Pod Annotation による検出しかサポートしていない
         # TODO: メトリックが正しく収集できていない
         # https://github.com/SlashNephy/infrastructure/issues/5601
