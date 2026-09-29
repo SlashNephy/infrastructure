@@ -88,6 +88,7 @@ spec:
       restartPolicy: Always
       imagePullSecrets:
         - name: ghcr-io-credentials
+      priorityClassName: recording
       securityContext:
         seccompProfile:
           type: RuntimeDefault
