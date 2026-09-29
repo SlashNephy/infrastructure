@@ -27,6 +27,11 @@ helmCharts:
         enabled: true
         selectorLabels:
           name: grafana-data
+      resources:
+        limits:
+          memory: 1280Mi
+        requests:
+          memory: 768Mi
 
 resources:
   - ./resources/authentik.yaml
