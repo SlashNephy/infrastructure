@@ -22,8 +22,6 @@ helmCharts:
           username: dummy
         postgresql:
           password: dummy
-        redis:
-          password: dummy
         secret_key: dummy
       geoip:
         accountId: dummy
@@ -69,19 +67,13 @@ helmCharts:
             selector:
               matchLabels:
                 name: authentik-postgres
-      redis:
-        auth:
-          enabled: true
-          password: dummy
-        enabled: true
-        master:
-          persistence:
-            enabled: false
       server:
         ingress:
           enabled: false
         metrics:
           enabled: true
+        # chart 既定の soft な podAntiAffinity により、ノードが複数あれば別ノードに分散される
+        replicas: 2
         # Telegraf は Pod Annotation による検出しかサポートしていない
         # TODO: メトリックが正しく収集できていない
         # https://github.com/SlashNephy/infrastructure/issues/5601
@@ -98,6 +90,7 @@ helmCharts:
           timeoutSeconds: 10
         readinessProbe:
           timeoutSeconds: 10
+        replicas: 2
         startupProbe:
           timeoutSeconds: 10
 
@@ -113,7 +106,7 @@ resources:
   - ./resources/secret.yaml
 
 patches:
-  # authentik / authentik-postgresql / authentik-redis Secret は 1Password で管理されるので自動で作成されるシークレットを空にする
+  # authentik / authentik-postgresql Secret は 1Password で管理されるので自動で作成されるシークレットを空にする
   - target:
       version: v1
       kind: Secret
@@ -125,13 +118,6 @@ patches:
       version: v1
       kind: Secret
       name: authentik-postgresql
-    patch: |-
-      - path: /data
-        op: remove
-  - target:
-      version: v1
-      kind: Secret
-      name: authentik-redis
     patch: |-
       - path: /data
         op: remove
