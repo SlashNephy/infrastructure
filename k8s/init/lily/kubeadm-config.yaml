@@ -17,6 +17,14 @@ apiServer:
     # 53 番 (DNS) を NodePort で公開するため下限を広げている
     - name: service-node-port-range
       value: 53-60000
+controllerManager:
+  extraArgs:
+    # Pod の IP は Cilium の cluster-pool IPAM が CiliumNode に割り当てるため、ノードの podCIDR は使わない。
+    # podSubnet を書くと kubeadm が allocate-node-cidrs=true を付け、kube-controller-manager が
+    # 割り当てを試みる。IPv6 の podSubnet (/64) は serviceSubnet (/112) を含むため割り当てられる
+    # /64 が 1 つも残らず、CIDRNotAvailable を出して約 5 分ごとに失敗し続けていた
+    - name: allocate-node-cidrs
+      value: "false"
 networking:
   podSubnet: 10.0.0.0/16,fdac:2d12:9f5::/64
   serviceSubnet: 10.1.0.0/16,fdac:2d12:9f5::/112
