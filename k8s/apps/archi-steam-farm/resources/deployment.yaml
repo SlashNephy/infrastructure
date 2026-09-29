@@ -32,6 +32,11 @@ spec:
               readOnly: true
             - name: tmp
               mountPath: /tmp
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              memory: 640Mi
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
