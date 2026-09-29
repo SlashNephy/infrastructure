@@ -25,6 +25,15 @@ helmCharts:
           requests:
             cpu: 100m
             memory: 128Mi
+      worker:
+        config:
+          core:
+            # NodeFeature は kube-apiserver の watch cache に更新のたびの版が展開されて残る。
+            # network.* には Cilium が Pod ごとに作る lxc* インターフェースが並び、Pod の増減のたびに NodeFeature
+            # (kernel.config を含めて約 640KB) 全体が書き直されていた。どちらも NodeFeatureRule から参照していないので公開しない
+            noPublishFeatures:
+              - kernel.config
+              - network.*
 
 resources:
   - ./resources/namespace.yaml
