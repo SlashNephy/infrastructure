@@ -9,6 +9,44 @@ helmCharts:
     namespace: kubernetes-dashboard
     version: 7.14.0
     repo: https://kubernetes-retired.github.io/dashboard/
+    # chart 既定のメモリ (requests 200Mi / limits 400Mi) は実使用量 (直近 30 日の最大で 55Mi 以下) に対して過大
+    valuesInline:
+      api:
+        containers:
+          resources:
+            limits:
+              cpu: 250m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+      auth:
+        containers:
+          resources:
+            limits:
+              cpu: 250m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+      metricsScraper:
+        containers:
+          resources:
+            limits:
+              cpu: 250m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+      web:
+        containers:
+          resources:
+            limits:
+              cpu: 250m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
 
 resources:
   - ./resources/account.yaml
