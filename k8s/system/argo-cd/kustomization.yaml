@@ -29,6 +29,12 @@ helmCharts:
           prometheus.io/port: "8082"
           prometheus.io/scheme: http
           prometheus.io/scrape: "true"
+        # 他のすべての app を同期・自己修復する要であり、OOM で落ちると git からは直せないため limits は多めに取る
+        resources:
+          limits:
+            memory: 2Gi
+          requests:
+            memory: 1Gi
       dex:
         initContainers:
           - name: wait-for-authentik
