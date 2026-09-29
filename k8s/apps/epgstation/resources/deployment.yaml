@@ -33,6 +33,10 @@ spec:
           resources:
             limits:
               gpu.intel.com/i915: "1"
+              # 直近 30 日の最大は RSS 967Mi / working set 1028Mi。録画を落とさないよう余裕を多めに取る
+              memory: 2Gi
+            requests:
+              memory: 1Gi
           # 起動後の応答停止に備えるもの。起動できない状態の検出は startupProbe が担う (下記のコメントを参照)
           livenessProbe:
             # 録画中の再起動は取り逃しに直結するため、一時的な応答遅延では落とさない
