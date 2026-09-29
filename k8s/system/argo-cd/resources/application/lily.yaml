@@ -114,6 +114,10 @@ spec:
             namespace: auto-claimer
             path: k8s/cron/auto-claimer
             project: cron
+          - name: cron-delete-failed-pods
+            namespace: cron-delete-failed-pods
+            path: k8s/cron/delete-failed-pods
+            project: cron
 
           # system
           - name: 1password-lily

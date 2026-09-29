@@ -1,0 +1,77 @@
+# kube-controller-manager の terminated Pod GC は既定の閾値 (12500 個) を超えるまで動かないため、
+# ノード再起動時に UnexpectedAdmissionError などで Failed になった Pod が残り続ける。
+# descheduler の RemoveFailedPods は単一ノードのクラスタでは動かない (ノードが 2 台未満だと実行サイクルごと飛ばす) ため、自前で消す。
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob
+
+spec:
+  schedule: "17 * * * *"
+  timeZone: Asia/Tokyo
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: app
+              image: alpine/kubectl:1.37.0@sha256:954b65dea0eb140219b440413ede17c2eca205866df350d3c1fbc84d28af14ae
+              command:
+                - /bin/ash
+                - -c
+                - |
+                  set -euo pipefail
+                  threshold=$(( $(date -u +%s) - 86400 ))
+                  kubectl get pods -A --field-selector=status.phase=Failed -o jsonpath='{range .items[*]}{.metadata.namespace}|{.metadata.name}|{.metadata.ownerReferences[0].kind}|{.status.startTime}|{.status.containerStatuses[*].state.terminated.finishedAt}{"\n"}{end}' |
+                  while IFS='|' read -r namespace name owner started finished; do
+                    # Job の Pod は CronJob の failedJobsHistoryLimit に任せる。
+                    # 所有者の無い Pod や static Pod のミラー (所有者は Node) は手で作ったものなので残す
+                    case "$owner" in
+                      "" | Job | Node) continue ;;
+                    esac
+                    # 終了時刻はコンテナの finishedAt の最後のもの。起動前に弾かれた Pod には無い (jsonpath は null を出す) ので
+                    # startTime で代用する。Ready の lastTransitionTime はノードの再起動のたびに更新されるので使えない
+                    ended=$(echo "$finished" | tr ' ' '\n' | grep -E '^[0-9]' | sort | tail -n 1 || true)
+                    ended=${ended:-$started}
+                    [ -n "$ended" ] || continue
+                    # 解析できない時刻はここで失敗させる (if の条件式の中では set -e が効かない)
+                    ended_at=$(date -u -D '%Y-%m-%dT%H:%M:%SZ' -d "$ended" +%s)
+                    # 失敗直後の調査に使えるよう、終了から 1 日は残す
+                    if [ "$ended_at" -le "$threshold" ]; then
+                      kubectl delete pod --namespace "$namespace" "$name" --wait=false
+                    fi
+                  done
+              env:
+                # kubectl がキャッシュを書き込めるようにする
+                - name: HOME
+                  value: /tmp
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+              resources:
+                limits:
+                  memory: 128Mi
+                requests:
+                  cpu: 10m
+                  memory: 32Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+          volumes:
+            - name: tmp
+              emptyDir: {}
+          restartPolicy: Never
+          securityContext:
+            runAsGroup: 65534
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile:
+              type: RuntimeDefault
+          serviceAccountName: service-account
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
