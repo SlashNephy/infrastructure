@@ -43,6 +43,11 @@ spec:
               mountPath: /opt/adguardhome/conf
             - name: certificates
               mountPath: /certs
+          resources:
+            limits:
+              memory: 1536Mi
+            requests:
+              memory: 768Mi
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
