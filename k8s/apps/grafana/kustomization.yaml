@@ -31,7 +31,7 @@ helmCharts:
         limits:
           memory: 1280Mi
         requests:
-          memory: 768Mi
+          memory: 512Mi
 
 resources:
   - ./resources/authentik.yaml
