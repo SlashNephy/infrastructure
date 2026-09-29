@@ -26,7 +26,8 @@ controllerManager:
     - name: allocate-node-cidrs
       value: "false"
 networking:
-  podSubnet: 10.0.0.0/16,fdac:2d12:9f5::/64
+  # Cilium の cluster-pool IPAM のプール (k8s/system/cilium/lily) と同じ範囲にする
+  podSubnet: 10.0.0.0/16,fd00::/104
   serviceSubnet: 10.1.0.0/16,fdac:2d12:9f5::/112
 
 ---
