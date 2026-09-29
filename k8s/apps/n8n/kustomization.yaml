@@ -72,6 +72,11 @@ helmCharts:
             path: /healthz/readiness
             port: http
           periodSeconds: 10
+        resources:
+          limits:
+            memory: 1536Mi
+          requests:
+            memory: 640Mi
       # TODO: worker を分離
       # worker:
       #   enabled: true
