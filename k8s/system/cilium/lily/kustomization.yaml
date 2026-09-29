@@ -46,19 +46,28 @@ helmCharts:
           enabled: true
         ui:
           enabled: true
+      # Pod の IP は cluster-pool IPAM が CiliumNode に割り当てる。プールを明示しないとチャートの既定値
+      # (10.0.0.0/8, fd00::/104) が使われ、ipv4NativeRoutingCIDR などで宣言した範囲と食い違っていた。
+      # 既存の割り当て (10.0.0.0/24, fd00::/120) を含む範囲にしてあるので、Pod の IP は変わらない。
+      # kubeadm の podSubnet (k8s/init/lily/kubeadm-config.yaml) も同じ範囲にそろえる
       ipMasqAgent:
         config:
           nonMasqueradeCIDRs:
             - 10.0.0.0/16
-            - fdac:2d12:9f5::/64
+            - fd00::/104
         enabled: true
+      ipam:
+        operator:
+          clusterPoolIPv4MaskSize: 24
+          clusterPoolIPv4PodCIDRList:
+            - 10.0.0.0/16
+          clusterPoolIPv6MaskSize: 120
+          clusterPoolIPv6PodCIDRList:
+            - fd00::/104
       ipv4NativeRoutingCIDR: 10.0.0.0/16
       ipv6:
         enabled: true
-      ipv6NativeRoutingCIDR: fdac:2d12:9f5::/64
-      k8s:
-        requireIPv4PodCIDR: true
-        requireIPv6PodCIDR: true
+      ipv6NativeRoutingCIDR: fd00::/104
       k8sServiceHost: 192.168.1.2
       k8sServicePort: 6443
       kubeProxyReplacement: true
