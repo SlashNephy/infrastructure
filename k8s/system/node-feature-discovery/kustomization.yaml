@@ -9,6 +9,22 @@ helmCharts:
     version: 0.19.0
     repo: https://kubernetes-sigs.github.io/node-feature-discovery/charts
     includeCRDs: true
+    # chart 既定の limits (master 4Gi / gc 1Gi) は実使用量 (直近 30 日の最大で master 73Mi / gc 43Mi) に対して過大
+    valuesInline:
+      gc:
+        resources:
+          limits:
+            memory: 128Mi
+          requests:
+            cpu: 10m
+            memory: 64Mi
+      master:
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
 
 resources:
   - ./resources/namespace.yaml
