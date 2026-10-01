@@ -45,6 +45,7 @@ spec:
           # デバイスの検出と kubelet の device-plugins ソケットへの登録に必要
           securityContext:
             privileged: true
+            readOnlyRootFilesystem: true
       volumes:
         - name: device-plugins
           hostPath:
