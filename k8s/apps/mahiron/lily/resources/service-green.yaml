@@ -131,6 +131,8 @@ spec:
                 fieldRef:
                   fieldPath: metadata.uid
           resources:
+            limits:
+              devic.es/tun: 1
             requests:
               cpu: 10m
               memory: 64Mi
@@ -142,8 +144,11 @@ spec:
                 - -O
                 - /dev/null
                 - http://127.0.0.1:9002/healthz
+          # カーネルモードに要るのは tun と経路・iptables の操作だけである。tun は generic-device-plugin から割り当てる
           securityContext:
-            privileged: true
+            capabilities:
+              add:
+                - NET_ADMIN
       restartPolicy: Always
       securityContext:
         seccompProfile:

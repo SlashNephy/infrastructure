@@ -33,45 +33,18 @@ spec:
             - name: config
               mountPath: /etc/mahiron
               readOnly: true
-            - name: dev-px4video0
-              mountPath: /dev/px4video0
-            - name: dev-px4video1
-              mountPath: /dev/px4video1
-            - name: dev-px4video2
-              mountPath: /dev/px4video2
-            - name: dev-px4video3
-              mountPath: /dev/px4video3
-            - name: dev-px4video4
-              mountPath: /dev/px4video4
-            - name: dev-px4video5
-              mountPath: /dev/px4video5
-            - name: dev-px4video6
-              mountPath: /dev/px4video6
-            - name: dev-px4video7
-              mountPath: /dev/px4video7
-            - name: dev-pxmlt8video0
-              mountPath: /dev/pxmlt8video0
-            - name: dev-pxmlt8video1
-              mountPath: /dev/pxmlt8video1
-            - name: dev-pxmlt8video2
-              mountPath: /dev/pxmlt8video2
-            - name: dev-pxmlt8video3
-              mountPath: /dev/pxmlt8video3
-            - name: dev-pxmlt8video4
-              mountPath: /dev/pxmlt8video4
-            - name: dev-pxmlt8video5
-              mountPath: /dev/pxmlt8video5
-            - name: dev-pxmlt8video6
-              mountPath: /dev/pxmlt8video6
-            - name: dev-pxmlt8video7
-              mountPath: /dev/pxmlt8video7
           # requests を指定せず BestEffort になっていると、cgroup v2 の
           # kubepods-besteffort.slice は cpu.weight=1 で kubepods-burstable.slice (197) に
           # 200:1 で劣後する。recpt1 は USB のリングバッファを一定間隔で読み出す必要があるため、
           # ノードが混んでいる間だけランキュー待ちが伸びてドロップが増えていた。
           # Burstable に上げて CPU の取り分を確保する。
-          # CFS スロットリングによる 100ms 単位の停止はドロップに直結するため limits は付けない。
+          # CFS スロットリングによる 100ms 単位の停止はドロップに直結するため CPU の limits は付けない。
+          #
+          # チューナーは generic-device-plugin の拡張リソースとして割り当てる (拡張リソースは limits に書く)。
+          # privileged だとホストの /dev が丸ごと見えるため外す
           resources:
+            limits:
+              devic.es/pxtuners: 1
             requests:
               cpu: "2"
               memory: 1Gi
@@ -80,7 +53,6 @@ spec:
               add:
                 - SYS_ADMIN
                 - SYS_NICE
-            privileged: true
       volumes:
         # 4 系の /mnt/local/mahiron/ は切り戻しの土台として残し、5 系は別ディレクトリを使う
         - name: data
@@ -91,70 +63,6 @@ spec:
           hostPath:
             path: /mnt/local/mahiron5/config
             type: Directory
-        - name: dev-px4video0
-          hostPath:
-            path: /dev/px4video0
-            type: CharDevice
-        - name: dev-px4video1
-          hostPath:
-            path: /dev/px4video1
-            type: CharDevice
-        - name: dev-px4video2
-          hostPath:
-            path: /dev/px4video2
-            type: CharDevice
-        - name: dev-px4video3
-          hostPath:
-            path: /dev/px4video3
-            type: CharDevice
-        - name: dev-px4video4
-          hostPath:
-            path: /dev/px4video4
-            type: CharDevice
-        - name: dev-px4video5
-          hostPath:
-            path: /dev/px4video5
-            type: CharDevice
-        - name: dev-px4video6
-          hostPath:
-            path: /dev/px4video6
-            type: CharDevice
-        - name: dev-px4video7
-          hostPath:
-            path: /dev/px4video7
-            type: CharDevice
-        - name: dev-pxmlt8video0
-          hostPath:
-            path: /dev/pxmlt8video0
-            type: CharDevice
-        - name: dev-pxmlt8video1
-          hostPath:
-            path: /dev/pxmlt8video1
-            type: CharDevice
-        - name: dev-pxmlt8video2
-          hostPath:
-            path: /dev/pxmlt8video2
-            type: CharDevice
-        - name: dev-pxmlt8video3
-          hostPath:
-            path: /dev/pxmlt8video3
-            type: CharDevice
-        - name: dev-pxmlt8video4
-          hostPath:
-            path: /dev/pxmlt8video4
-            type: CharDevice
-        - name: dev-pxmlt8video5
-          hostPath:
-            path: /dev/pxmlt8video5
-            type: CharDevice
-        - name: dev-pxmlt8video6
-          hostPath:
-            path: /dev/pxmlt8video6
-            type: CharDevice
-        - name: dev-pxmlt8video7
-          hostPath:
-            path: /dev/pxmlt8video7
-            type: CharDevice
       restartPolicy: Always
       # remote の green を tailnet-green Service の名前で引くため、hostNetwork でもクラスタ DNS を使う
       dnsPolicy: ClusterFirstWithHostNet
