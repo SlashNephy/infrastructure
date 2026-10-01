@@ -15,12 +15,6 @@ $ kubectl kustomize --enable-helm k8s/init/${ENV_NAME} | kubectl apply -f -
 
 ## Useful Commands
 
-- Generate long-lived bearer token for kubernetes-dashboard
-
-```console
-$ kubectl create token admin-user -n kubernetes-dashboard --duration=4294967296s
-```
-
 - Obtain Argo CD initial password
 
 ```console
