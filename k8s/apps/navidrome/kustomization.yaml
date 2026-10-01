@@ -5,6 +5,7 @@ namespace: navidrome
 resources:
   - ./resources/deployment.yaml
   - ./resources/namespace.yaml
+  - ./resources/network.yaml
   - ./resources/secret.yaml
   - ./resources/service.yaml
   # Ingress は廃止
