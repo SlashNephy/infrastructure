@@ -44,6 +44,15 @@ skipPhases:
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
+# privileged を外した Pod が、自身のネットワーク名前空間に閉じた sysctl を Pod の
+# securityContext.sysctls で設定できるようにする。いずれも既定の許可リストに無い。
+# ip_forward / forwarding は Pod 内での転送に、disable_ipv6 は VPN を張る Pod で
+# トンネル外への IPv6 の素抜けを防ぐのに使う。ワイルドカードは使わず個別に許可する
+allowedUnsafeSysctls:
+  - net.ipv4.ip_forward
+  - net.ipv6.conf.all.forwarding
+  - net.ipv6.conf.all.disable_ipv6
+  - net.ipv6.conf.default.disable_ipv6
 # 既定の 100Mi では、kubelet が退避を始める前にカーネルの回収が詰まる。
 # evictionHard は 1 つでも書くと、書かなかった項目が既定値ではなく 0 になるので、既定値も書き写す
 evictionHard:
