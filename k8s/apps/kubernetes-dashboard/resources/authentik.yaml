@@ -9,6 +9,8 @@ spec:
       - group:
           name: Admin
   adopt: IfMatch
+  # dashboard の撤去に先立ち、CR の削除時に authentik 側の Application と Provider も消えるようにする
+  deletionPolicy: Delete
   group: System
   icon: https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png
   name: Kubernetes Dashboard
