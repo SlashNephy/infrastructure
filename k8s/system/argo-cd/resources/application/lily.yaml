@@ -128,6 +128,10 @@ spec:
             namespace: cert-manager
             path: k8s/system/cert-manager/lily
             project: system
+          - name: generic-device-plugin
+            namespace: generic-device-plugin
+            path: k8s/system/generic-device-plugin
+            project: system
           - name: intel-device-plugins-operator
             namespace: intel-device-plugins-operator
             path: k8s/system/intel-device-plugins-operator

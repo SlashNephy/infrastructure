@@ -1,0 +1,65 @@
+# https://github.com/squat/generic-device-plugin
+# ホストのデバイスを拡張リソースとして Pod に割り当てる。
+# アプリ側で privileged: true と /dev の hostPath を使わずにデバイスを渡すためのもの
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: generic-device-plugin
+
+spec:
+  selector:
+    matchLabels:
+      app: generic-device-plugin
+  template:
+    metadata:
+      labels:
+        app: generic-device-plugin
+    spec:
+      containers:
+        - name: app
+          image: squat/generic-device-plugin:0.2.0@sha256:66c8d5c270eb2b721f1064c549b9b7898152a6d2f0163380a5d37dc7636c20ff
+          args:
+            # ADS-B 受信用の RTL-SDR (sdr-enthusiasts)
+            - --device
+            - |
+              name: rtlsdr
+              groups:
+                - usb:
+                    - vendor: "0bda"
+                      product: "2838"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: device-plugins
+              mountPath: /var/lib/kubelet/device-plugins
+            - name: dev
+              mountPath: /dev
+          resources:
+            limits:
+              memory: 32Mi
+            requests:
+              cpu: 10m
+              memory: 16Mi
+          # デバイスの検出と kubelet の device-plugins ソケットへの登録に必要
+          securityContext:
+            privileged: true
+      volumes:
+        - name: device-plugins
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
+            type: Directory
+        - name: dev
+          hostPath:
+            path: /dev
+            type: Directory
+      priorityClassName: system-node-critical
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      tolerations:
+        - effect: NoExecute
+          operator: Exists
+        - effect: NoSchedule
+          operator: Exists
