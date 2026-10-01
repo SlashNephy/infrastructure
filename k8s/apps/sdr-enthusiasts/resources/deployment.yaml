@@ -88,9 +88,6 @@ spec:
               mountPath: /var/globe_history
             - name: ultrafeeder-graphs1090
               mountPath: /var/lib/collectd
-            - name: dev-bus-usb
-              mountPath: /dev/bus/usb
-              readOnly: true
             - name: proc-diskstats
               mountPath: /proc/diskstats
               readOnly: true
@@ -103,8 +100,10 @@ spec:
               mountPath: /tmp
             - name: var-log
               mountPath: /var/log
-          securityContext:
-            privileged: true
+          # RTL-SDR は generic-device-plugin から割り当てる。privileged と /dev/bus/usb の hostPath は不要
+          resources:
+            limits:
+              devic.es/rtlsdr: 1
 
         # https://github.com/sdr-enthusiasts/docker-flightradar24
         - name: fr24feed
@@ -139,10 +138,6 @@ spec:
           hostPath:
             path: /mnt/local/sdr-enthusiasts/ultrafeeder/graphs1090
             type: DirectoryOrCreate
-        - name: dev-bus-usb
-          hostPath:
-            path: /dev/bus/usb
-            type: Directory
         - name: proc-diskstats
           hostPath:
             path: /proc/diskstats
