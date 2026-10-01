@@ -27,6 +27,36 @@ spec:
                 - usb:
                     - vendor: "0bda"
                       product: "2838"
+            # 録画用の DVB チューナー (mahiron)。全チューナーを 1 つの Pod にまとめて渡す
+            - --device
+            - |
+              name: pxtuners
+              groups:
+                - paths:
+                    - path: /dev/px4video0
+                    - path: /dev/px4video1
+                    - path: /dev/px4video2
+                    - path: /dev/px4video3
+                    - path: /dev/px4video4
+                    - path: /dev/px4video5
+                    - path: /dev/px4video6
+                    - path: /dev/px4video7
+                    - path: /dev/pxmlt8video0
+                    - path: /dev/pxmlt8video1
+                    - path: /dev/pxmlt8video2
+                    - path: /dev/pxmlt8video3
+                    - path: /dev/pxmlt8video4
+                    - path: /dev/pxmlt8video5
+                    - path: /dev/pxmlt8video6
+                    - path: /dev/pxmlt8video7
+            # カーネルモードの VPN / tailscale 用。複数の Pod で共有する
+            - --device
+            - |
+              name: tun
+              groups:
+                - count: 10
+                  paths:
+                    - path: /dev/net/tun
           ports:
             - name: http
               containerPort: 8080
