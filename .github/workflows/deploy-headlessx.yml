@@ -12,7 +12,7 @@ jobs:
   build-api:
     # 無限ループすることがある
     if: github.actor != 'slashnephy-infrastructure[bot]'
-    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@70aa7999543c0745815c8233fd18fc1759748f6c # v1.0.0
+    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@d5bbbb58e94f3b25497f996ea141b31d6db26857 # v1.0.1
     permissions:
       contents: read
       packages: write
@@ -32,7 +32,7 @@ jobs:
   build-web:
     # 無限ループすることがある
     if: github.actor != 'slashnephy-infrastructure[bot]'
-    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@70aa7999543c0745815c8233fd18fc1759748f6c # v1.0.0
+    uses: SlashNephy/actions/.github/workflows/build-docker-image.yml@d5bbbb58e94f3b25497f996ea141b31d6db26857 # v1.0.1
     permissions:
       contents: read
       packages: write
