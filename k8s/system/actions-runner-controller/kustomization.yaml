@@ -10,6 +10,9 @@ helmCharts:
     repo: oci://ghcr.io/actions/actions-runner-controller-charts
     includeCRDs: true
 
+resources:
+  - ./resources/namespace.yaml
+
 patches:
   # v0.15.0 で CRD が大きくなり、client-side apply では last-applied-configuration が
   # annotation の上限 (262,144 bytes) を超えて sync に失敗する。
@@ -19,3 +22,4 @@ patches:
       - op: add
         path: /metadata/annotations/argocd.argoproj.io~1sync-options
         value: ServerSideApply=true
+
