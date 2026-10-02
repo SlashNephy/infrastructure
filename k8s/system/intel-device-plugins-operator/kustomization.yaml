@@ -21,6 +21,7 @@ helmCharts:
 
 resources:
   - ./resources/namespace.yaml
+  - ./resources/service-account.yaml
 
 patches:
   - target:
@@ -32,3 +33,69 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/readinessProbe/timeoutSeconds
         value: 10
+      # chart は default SA を使うため、同じ ns の gpu-plugin DaemonSet にも operator の権限が渡ってしまう
+      - op: add
+        path: /spec/template/spec/serviceAccountName
+        value: inteldeviceplugins-controller-manager
+  - target:
+      group: rbac.authorization.k8s.io
+      version: v1
+      name: inteldeviceplugins-(manager|auth|leader-election)-rolebinding
+    patch: |-
+      - op: replace
+        path: /subjects/0/name
+        value: inteldeviceplugins-controller-manager
+  # chart の Role は古い。upstream の deployments/operator/rbac/role.yaml (v0.37.0) に揃え、
+  # 使われていない nodes/proxy・serviceaccounts・clusterrolebindings を落とす
+  - target:
+      group: rbac.authorization.k8s.io
+      version: v1
+      kind: ClusterRole
+      name: inteldeviceplugins-manager-role
+    patch: |-
+      - op: replace
+        path: /rules
+        value:
+          - apiGroups: [""]
+            resources: [pods]
+            verbs: [get, list, watch]
+          - apiGroups: [apps]
+            resources: [daemonsets]
+            verbs: [create, delete, get, list, patch, update, watch]
+          - apiGroups: [coordination.k8s.io]
+            resources: [leases]
+            verbs: [create]
+          - apiGroups: [coordination.k8s.io]
+            resources: [leases]
+            resourceNames: [d1c7b6d5.intel.com]
+            verbs: [get, update]
+          - apiGroups: [deviceplugin.intel.com]
+            resources:
+              - dsadeviceplugins
+              - gpudeviceplugins
+              - iaadeviceplugins
+              - npudeviceplugins
+              - qatdeviceplugins
+              - sgxdeviceplugins
+            verbs: [create, delete, get, list, patch, update, watch]
+          - apiGroups: [deviceplugin.intel.com]
+            resources:
+              - dsadeviceplugins/finalizers
+              - gpudeviceplugins/finalizers
+              - iaadeviceplugins/finalizers
+              - npudeviceplugins/finalizers
+              - qatdeviceplugins/finalizers
+              - sgxdeviceplugins/finalizers
+            verbs: [update]
+          - apiGroups: [deviceplugin.intel.com]
+            resources:
+              - dsadeviceplugins/status
+              - gpudeviceplugins/status
+              - iaadeviceplugins/status
+              - npudeviceplugins/status
+              - qatdeviceplugins/status
+              - sgxdeviceplugins/status
+            verbs: [get, patch, update]
+          - apiGroups: [security.openshift.io]
+            resources: [securitycontextconstraints]
+            verbs: [use]
