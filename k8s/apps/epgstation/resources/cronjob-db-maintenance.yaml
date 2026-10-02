@@ -18,7 +18,7 @@ spec:
           containers:
             - name: mariadb
               # mariadb クライアントを使うだけ。サーバーと同じイメージにそろえる
-              image: public.ecr.aws/docker/library/mariadb:13.0.2@sha256:d4fdec0510ad498e4f3127da30a99df3745bd6d5e611ae6ac5f76403d9284a8d
+              image: public.ecr.aws/docker/library/mariadb:13.0.2@sha256:2fd6d83be13d6f95119fe7823c4a445a771d973ce15a4f4621e3c14898f9f1ab
               command:
                 - sh
                 - -c
