@@ -1,0 +1,74 @@
+# kube-apiserver の監査ポリシー。lily の /etc/kubernetes/audit-policy.yaml に置く (kubeadm-config.yaml 参照)。
+# https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/
+#
+# 目的は「誰が何を変えたか」と「Secret などを誰が読んだか」を残すこと。
+# 読み取りの大半はコントローラの list/watch で量が多く価値が低いので落とす。
+# ルールは上から順に評価され、最初に一致したもので決まる。
+apiVersion: audit.k8s.io/v1
+kind: Policy
+# リクエスト受信時点のイベントは完了時のイベントと重複するので記録しない
+omitStages:
+  - RequestReceived
+rules:
+  # ヘルスチェックやメトリクスなど、リソースを伴わない読み取り
+  - level: None
+    nonResourceURLs:
+      - /healthz*
+      - /livez*
+      - /readyz*
+      - /metrics
+      - /version
+      - /openapi*
+      - /api
+      - /api/*
+      - /apis
+      - /apis/*
+
+  # 頻繁に更新されるだけで監査の価値が無いもの
+  - resources:
+      - group: coordination.k8s.io
+        resources: [leases]
+      - group: ""
+        resources: [events]
+      - group: events.k8s.io
+        resources: [events]
+    level: None
+
+  # kubelet (system:nodes) による自ノードの Pod / Node 状態の更新
+  - resources:
+      - group: ""
+        resources: [nodes, nodes/status, pods, pods/status]
+    verbs: [get, list, watch, patch, update]
+    level: None
+    userGroups: ["system:nodes"]
+
+  # Secret 等は中身を残さず、誰がいつ触ったかだけを残す (読み取りも含む)
+  - resources:
+      - group: ""
+        resources: [secrets, configmaps, serviceaccounts/token]
+      - group: authentication.k8s.io
+        resources: [tokenreviews]
+    level: Metadata
+
+  # Pod への exec などはサブリソースへの create / get として届く (WebSocket 経由だと get) ため、
+  # 読み取りを落とすより前に置く
+  - resources:
+      - group: ""
+        resources: [pods/exec, pods/attach, pods/portforward, pods/proxy, nodes/proxy, services/proxy]
+    level: Metadata
+
+  # 上記以外の読み取りは量が多いので落とす
+  - verbs: [get, list, watch]
+    level: None
+
+  # RBAC と Pod / Namespace の変更は、誰が何を許可・起動したかを本文ごと残す。
+  # Pod Security Admission の audit 違反は Metadata 以上なら annotation として付く
+  - resources:
+      - group: rbac.authorization.k8s.io
+      - group: ""
+        resources: [pods, namespaces]
+    verbs: [create, update, patch, delete, deletecollection]
+    level: Request
+
+  # その他の変更は Metadata のみ
+  - level: Metadata

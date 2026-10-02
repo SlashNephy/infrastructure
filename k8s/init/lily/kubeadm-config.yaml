@@ -17,6 +17,28 @@ apiServer:
     # 53 番 (DNS) を NodePort で公開するため下限を広げている
     - name: service-node-port-range
       value: 53-60000
+    # 監査ログ。ポリシーは同じディレクトリの audit-policy.yaml を /etc/kubernetes/ に置く。
+    # 100MB x 6 世代、最長 7 日で回す
+    - name: audit-policy-file
+      value: /etc/kubernetes/audit-policy.yaml
+    - name: audit-log-path
+      value: /var/log/kubernetes/audit/audit.log
+    - name: audit-log-maxsize
+      value: "100"
+    - name: audit-log-maxbackup
+      value: "5"
+    - name: audit-log-maxage
+      value: "7"
+  extraVolumes:
+    - name: audit-policy
+      hostPath: /etc/kubernetes/audit-policy.yaml
+      mountPath: /etc/kubernetes/audit-policy.yaml
+      pathType: File
+      readOnly: true
+    - name: audit-log
+      hostPath: /var/log/kubernetes/audit
+      mountPath: /var/log/kubernetes/audit
+      pathType: DirectoryOrCreate
 controllerManager:
   extraArgs:
     # Pod の IP は Cilium の cluster-pool IPAM が CiliumNode に割り当てるため、ノードの podCIDR は使わない。
