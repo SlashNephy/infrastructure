@@ -37,6 +37,7 @@ resources:
   - ./resources/authentik.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
+  - ./resources/namespace.yaml
 configMapGenerator:
   - name: config
     files:
