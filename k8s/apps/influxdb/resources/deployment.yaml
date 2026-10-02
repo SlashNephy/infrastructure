@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: influxdb
-          image: public.ecr.aws/docker/library/influxdb:2.9.1@sha256:05d6fb735bc22449c401094d42846123a24e3325d3a6e092242a45bfd68fff21
+          image: public.ecr.aws/docker/library/influxdb:2.9.1@sha256:db0bdab1e5ad5ee899c127b8c13d9c986a3ced78cd9200dd80a1064bf1533b6e
           # TSI のパーティションを開くとき、MANIFEST に無いファイルをディレクトリを付けずに相対パスで消そうとする。
           # 作業ディレクトリが読み取り専用の / だと EROFS になり shard ごと開けなくなるので、書き込める場所に移す。
           workingDir: /tmp
