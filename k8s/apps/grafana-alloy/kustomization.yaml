@@ -32,6 +32,12 @@ helmCharts:
               hostPath:
                 path: /etc/machine-id
                 type: File
+      # journald を読んで OTLP で送るだけで Kubernetes API を使わないため、chart 既定の
+      # ClusterRole (クラスタ全体の Secret の get/list/watch を含む) も SA トークンも要らない
+      rbac:
+        create: false
+      serviceAccount:
+        automountServiceAccountToken: false
 
 resources:
   - ./resources/authentik.yaml
