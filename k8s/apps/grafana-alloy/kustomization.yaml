@@ -25,6 +25,12 @@ helmCharts:
               mountPath: /etc/machine-id
               readOnly: true
           varlog: true
+      # journald を読んで OTLP で送るだけで Kubernetes API を使わないため、chart 既定の
+      # ClusterRole (クラスタ全体の Secret の get/list/watch を含む) も SA トークンも要らない
+      rbac:
+        create: false
+      serviceAccount:
+        automountServiceAccountToken: false
       controller:
         volumes:
           extra:
