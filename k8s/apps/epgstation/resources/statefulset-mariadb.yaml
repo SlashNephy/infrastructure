@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: mariadb
-          image: public.ecr.aws/docker/library/mariadb:13.0.2@sha256:2fd6d83be13d6f95119fe7823c4a445a771d973ce15a4f4621e3c14898f9f1ab
+          image: public.ecr.aws/docker/library/mariadb:13.0.2@sha256:f1bba652ba57bea3099ca2fe1af692af537c27d96e0bcde39dce29e2ba1ec4f3
           # 相対パスでファイルを扱う処理が読み取り専用の / を基準にしないよう、書き込める場所に置く
           workingDir: /tmp
           env:
