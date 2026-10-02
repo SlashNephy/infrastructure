@@ -64,9 +64,6 @@ spec:
             path: /mnt/local/mahiron5/config
             type: Directory
       restartPolicy: Always
-      # remote の green を tailnet-green Service の名前で引くため、hostNetwork でもクラスタ DNS を使う
-      dnsPolicy: ClusterFirstWithHostNet
-      hostNetwork: true
       imagePullSecrets:
         - name: ghcr-io-credentials
       priorityClassName: recording

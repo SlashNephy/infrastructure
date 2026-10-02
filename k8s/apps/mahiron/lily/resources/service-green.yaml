@@ -168,7 +168,7 @@ spec:
       protocol: TCP
 
 ---
-# 呼び出し元は hostNetwork の Mahiron だけなので、ingress は host に限る
+# 呼び出し元は Mahiron だけなので、ingress は Mahiron の Pod に限る
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -179,8 +179,9 @@ spec:
     matchLabels:
       app: tailnet-green
   ingress:
-    - fromEntities:
-        - host
+    - fromEndpoints:
+        - matchLabels:
+            app: default
       toPorts:
         - ports:
             - port: "40772"

@@ -1,0 +1,27 @@
+# 以前は hostNetwork で全アドレスの 40772 を認証無しで待ち受けていた。
+# NodePort で LAN の端末から直接使えるようにしたうえで、ingress をクラスタ内と LAN に絞る。
+# kube-proxy replacement の単一ノードでは NodePort 経由でも送信元 IP が保たれるため、
+# fromCIDR で LAN の端末に絞れる
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: app
+
+spec:
+  endpointSelector:
+    matchLabels:
+      app: default
+  ingress:
+    # traefik・epgstation・konomitv など
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "40772"
+              protocol: TCP
+    - fromCIDRSet:
+        - cidr: 192.168.1.0/24
+      toPorts:
+        - ports:
+            - port: "40772"
+              protocol: TCP
