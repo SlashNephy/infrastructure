@@ -1,12 +1,19 @@
 # https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta4/
 #
-# このファイルはクラスタ設定の唯一の情報源であり、init だけでなくアップグレード時にも渡す。
+# このファイルはクラスタ設定の唯一の情報源である。ConfigMap に書いていない設定
+# (failSwapOn, service-node-port-range 等) はアップグレードのたびに消えるため、手で足さず必ずここに書くこと。
+#
+# kubeadm upgrade apply は --config の ClusterConfiguration を反映しない (クラスタ内の
+# kube-system/kubeadm-config ConfigMap をそのまま使う)。ClusterConfiguration を変えたら、
+# 次の手順で ConfigMap と static pod manifest を更新する。kubernetesVersion を書いておかないと
+# kubeadm が最新の安定版を取りに行くため、実行時に現在のバージョンを差し込む。
+#   v=$(kubectl -n kube-system get cm kubeadm-config -o jsonpath='{.data.ClusterConfiguration}' | awk '/^kubernetesVersion:/{print $2}')
+#   sed "/^kind: ClusterConfiguration\$/a kubernetesVersion: $v" k8s/init/lily/kubeadm-config.yaml > /tmp/kubeadm-config.yaml
+#   sudo kubeadm init phase upload-config kubeadm --config /tmp/kubeadm-config.yaml
+#   sudo kubeadm init phase control-plane all --config /tmp/kubeadm-config.yaml
+#
+# アップグレード時は UpgradeConfiguration を使うためにこのファイルを渡す。
 #   kubeadm upgrade apply --config k8s/init/lily/kubeadm-config.yaml v1.x.y
-# こうすると kube-system/kubeadm-config と kube-system/kubelet-config の
-# ConfigMap が本ファイルで上書きされ、apiserver の static pod manifest と
-# /var/lib/kubelet/config.yaml がそこから再生成される。
-# ConfigMap に書いていない設定 (failSwapOn, service-node-port-range 等) は
-# アップグレードのたびに消えるため、手で足さず必ずここに書くこと。
 
 apiVersion: kubeadm.k8s.io/v1beta4
 kind: ClusterConfiguration
