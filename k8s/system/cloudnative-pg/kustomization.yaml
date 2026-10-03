@@ -12,10 +12,10 @@ helmCharts:
     includeCRDs: true
     valuesInline:
       resources:
-        requests:
-          memory: 128Mi
         limits:
           memory: 512Mi
+        requests:
+          memory: 128Mi
 
 resources:
   - ./resources/namespace.yaml
