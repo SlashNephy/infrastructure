@@ -164,6 +164,10 @@ spec:
             namespace: reloader
             path: k8s/system/reloader
             project: system
+          - name: cloudnative-pg
+            namespace: cnpg-system
+            path: k8s/system/cloudnative-pg
+            project: system
           - name: external-dns
             namespace: external-dns
             path: k8s/system/external-dns
