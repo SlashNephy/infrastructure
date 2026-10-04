@@ -9,13 +9,13 @@ helmCharts:
     version: 0.4.0
     repo: https://slashnephy.github.io/mackerel-operator
     includeCRDs: true
+    valuesInline:
+      agentInjector:
+        enabled: true
+      policy: sync
     # kustomize はクラスタに問い合わせずに描画するため、agent injector が要求する API を明示する。
     apiVersions:
       - admissionregistration.k8s.io/v1/MutatingAdmissionPolicy
-    valuesInline:
-      policy: sync
-      agentInjector:
-        enabled: true
 
 resources:
   - ./resources/namespace.yaml
