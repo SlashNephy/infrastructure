@@ -78,6 +78,17 @@
       ],
       datasourceTemplate: 'docker',
     },
+    // kustomize マネージャーは helmCharts[].valuesInline 内のイメージを拾わない
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        'k8s/system/mackerel-operator/kustomization.yaml',
+      ],
+      matchStrings: [
+        'repository:\\s*(?<depName>[^\\s]+)\\s*\\n\\s*tag:\\s*(?<currentValue>[^\\s@]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?',
+      ],
+      datasourceTemplate: 'docker',
+    },
     {
       customType: 'regex',
       managerFilePatterns: [
