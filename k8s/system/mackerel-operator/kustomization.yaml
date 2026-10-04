@@ -16,6 +16,13 @@ helmCharts:
         image:
           repository: mackerel/mackerel-container-agent
           tag: v0.13.4-plugins@sha256:46164d96395a600704e1c0ed1f998555314b10c22f98352a43d23521ece0df9b
+        # chart の既定は limits だけで、requests も 128Mi になる。注入先の Pod ごとに積み上がるので、
+        # requests は実際の使用量に寄せて小さくする。limits は chart の既定のまま
+        resources:
+          limits:
+            memory: 128Mi
+          requests:
+            memory: 16Mi
       policy: sync
     # kustomize はクラスタに問い合わせずに描画するため、agent injector が要求する API を明示する。
     apiVersions:
