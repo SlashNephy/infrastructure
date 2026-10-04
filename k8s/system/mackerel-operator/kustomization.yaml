@@ -6,11 +6,16 @@ helmCharts:
   - name: mackerel-operator
     releaseName: mackerel-operator
     namespace: mackerel-operator
-    version: 0.3.0
+    version: 0.4.0
     repo: https://slashnephy.github.io/mackerel-operator
     includeCRDs: true
+    # kustomize はクラスタに問い合わせずに描画するため、agent injector が要求する API を明示する。
+    apiVersions:
+      - admissionregistration.k8s.io/v1/MutatingAdmissionPolicy
     valuesInline:
       policy: sync
+      agentInjector:
+        enabled: true
 
 resources:
   - ./resources/namespace.yaml
