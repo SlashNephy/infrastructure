@@ -6,12 +6,16 @@ helmCharts:
   - name: mackerel-operator
     releaseName: mackerel-operator
     namespace: mackerel-operator
-    version: 0.4.0
+    version: 0.4.1
     repo: https://slashnephy.github.io/mackerel-operator
     includeCRDs: true
     valuesInline:
       agentInjector:
         enabled: true
+        # chart の既定値ではなくこちらで追従する (renovate.json5 の customManagers を参照)。
+        image:
+          repository: mackerel/mackerel-container-agent
+          tag: v0.13.4-plugins@sha256:46164d96395a600704e1c0ed1f998555314b10c22f98352a43d23521ece0df9b
       policy: sync
     # kustomize はクラスタに問い合わせずに描画するため、agent injector が要求する API を明示する。
     apiVersions:
