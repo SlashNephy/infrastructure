@@ -9,6 +9,8 @@ helmCharts:
     version: 0.3.0
     repo: https://slashnephy.github.io/mackerel-operator
     includeCRDs: true
+    valuesInline:
+      policy: sync
 
 resources:
   - ./resources/namespace.yaml
