@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: public.ecr.aws/amazoncorretto/amazoncorretto:8-al2023-jre@sha256:91dd1ffe6a0c362c2af35bb9a28fec39b3b028494ff018dcc91a2a3a7f98980f
+          image: public.ecr.aws/amazoncorretto/amazoncorretto:8-al2023-jre@sha256:462820dd2df6a4e1cea2e49160f94a8ab0da84d5c0feacd24da29136db197c51
           workingDir: /app
           args:
             - java
