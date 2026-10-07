@@ -17,9 +17,6 @@ helmCharts:
       envFromSecrets:
         - name: grafana-secret
       grafana.ini:
-        auth.anonymous:
-          enabled: true
-          hide_version: true
         server:
           domain: grafana.starry.blue
           root_url: https://grafana.starry.blue
