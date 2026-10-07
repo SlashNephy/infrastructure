@@ -12,8 +12,12 @@ spec:
     - http/1.1
   clientAuth:
     clientAuthType: RequireAndVerifyClientCert
+    # Cloudflare 共通の origin-pull 証明書は他のアカウントのゾーンからの接続でも提示されるため、
+    # starry.blue ゾーン専用のクライアント証明書 (zone-level Authenticated Origin Pulls) に移行する。
+    # 移行中は両方の CA を信頼する
     secretNames:
       - cloudflare-ca-secret
+      - starry-blue-origin-pull-ca-secret
   maxVersion: VersionTLS13
   minVersion: VersionTLS13
   sniStrict: true
@@ -26,3 +30,12 @@ metadata:
 
 spec:
   itemPath: vaults/4mogpcwrvtvsnpooum4vcevwkm/items/neyppa4fdcfvags52umiawykt4
+
+---
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: starry-blue-origin-pull-ca-secret
+
+spec:
+  itemPath: vaults/4mogpcwrvtvsnpooum4vcevwkm/items/kz36bd55q62jvl2tlbryf6absy
