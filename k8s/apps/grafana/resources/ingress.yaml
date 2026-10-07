@@ -16,6 +16,26 @@ spec:
 
     - kind: Rule
       match: Host(`grafana.starry.blue`)
+      priority: 10
+      services:
+        - name: grafana
+          port: service
+
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
+    - kind: Rule
+      match: Host(`grafana.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: http
+
+    # 外形監視のため /api/health のみ認証を迂回させる。
+    - kind: Rule
+      match: Host(`grafana.starry.blue`) && Path(`/api/health`)
+      priority: 20
       services:
         - name: grafana
           port: service

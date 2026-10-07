@@ -54,3 +54,33 @@ spec:
         name: id.starry.blue
       subjectMode: HashedUserID
   slug: grafana
+
+---
+# Grafana 自体のログイン (OAuth2) とは別に、手前の forward auth 用の Application を置く。
+# Grafana の匿名アクセスやログイン画面をインターネットへ直接晒さないため。
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: grafana-forward-auth
+
+spec:
+  # Grafana の OAuth2 Application と同じく、全ユーザーがアクセスできる。
+  access:
+    public: true
+  name: grafana.starry.blue
+  provider:
+    name: grafana.starry.blue
+    flows:
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    proxy:
+      accessTokenValidity: days=1
+      forwardAuthSingle:
+        externalHost: https://grafana.starry.blue
+      interceptHeaderAuth: true
+      outpost:
+        name: authentik Embedded Outpost
+      refreshTokenValidity: days=30
+  slug: grafana-forward-auth
