@@ -128,10 +128,10 @@ ocsp:
   enabled: true
 
 ports:
+  # 平文 HTTP は公開しない。証明書は DNS-01 で取得し、Cloudflare からは websecure へ届く
   web:
     expose:
-      default: true
-    nodePort: 80
+      default: false
 
   websecure:
     asDefault: true
