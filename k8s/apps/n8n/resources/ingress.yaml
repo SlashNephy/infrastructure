@@ -16,6 +16,27 @@ spec:
 
     - kind: Rule
       match: Host(`n8n.starry.blue`)
+      priority: 10
+      services:
+        - name: n8n
+          port: http
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
+
+    - kind: Rule
+      match: Host(`n8n.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: http
+
+    # 外部サービスから呼ばれる本番の Webhook と、外形監視の /healthz は認証を迂回させる。
+    # Webhook の認証は各ワークフローの Webhook ノードで行う。
+    - kind: Rule
+      match: Host(`n8n.starry.blue`) && (PathPrefix(`/webhook/`) || Path(`/healthz`))
+      priority: 20
       services:
         - name: n8n
           port: http
