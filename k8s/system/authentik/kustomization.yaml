@@ -67,9 +67,21 @@ helmCharts:
             selector:
               matchLabels:
                 name: authentik-postgres
+          # BestEffort のままだとノードの CPU が混み合ったときに最も後回しにされ、
+          # クエリが遅れて server / worker の probe が揃って落ちる。
+          # working set は 30 日の日次最大の中央値が 311Mi、最大が 538Mi (page cache を含む)
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 320Mi
       server:
         ingress:
           enabled: false
+        # liveness の既定 timeout 3s では、ノードが混み合ったときに 2 台が揃って再起動される
+        livenessProbe:
+          timeoutSeconds: 10
         metrics:
           enabled: true
         # chart 既定の soft な podAntiAffinity により、ノードが複数あれば別ノードに分散される
@@ -78,6 +90,7 @@ helmCharts:
           limits:
             memory: 1536Mi
           requests:
+            cpu: 100m
             memory: 768Mi
         # Telegraf は Pod Annotation による検出しかサポートしていない
         # TODO: メトリックが正しく収集できていない
@@ -89,13 +102,21 @@ helmCharts:
         #   prometheus.io/port: "9300"
       worker:
         # probe の ak healthcheck は Django を起動する exec probe で、平常時でも 0.5s 前後、
-        # ノードが混み合うと 1s を超える。worker は resources 未指定で BestEffort のため、
-        # 既定の 3s ではタイムアウトして Unhealthy イベントが出る。
+        # ノードが混み合うと 1s を超える。既定の 3s ではタイムアウトして Unhealthy イベントが出る。
         livenessProbe:
           timeoutSeconds: 10
         readinessProbe:
           timeoutSeconds: 10
         replicas: 2
+        # working set は 30 日の日次最大の中央値が 319Mi、最大が 396Mi。
+        # requests はノードの requests の空きを残すため中央値より低く抑え、
+        # BestEffort から外して CPU の配分と OOM 時の優先度を確保することを主目的とする
+        resources:
+          limits:
+            memory: 768Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
         startupProbe:
           timeoutSeconds: 10
 
