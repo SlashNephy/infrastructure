@@ -1,0 +1,30 @@
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: n8n
+
+spec:
+  access:
+    rules:
+      - group:
+          name: Admin
+  group: Personal
+  icon: https://github.com/n8n-io.png
+  launchURL: https://n8n.starry.blue
+  name: n8n
+  provider:
+    name: n8n
+    flows:
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    proxy:
+      accessTokenValidity: days=1
+      forwardAuthSingle:
+        externalHost: https://n8n.starry.blue
+      interceptHeaderAuth: true
+      outpost:
+        name: authentik Embedded Outpost
+      refreshTokenValidity: days=30
+  slug: n8n
