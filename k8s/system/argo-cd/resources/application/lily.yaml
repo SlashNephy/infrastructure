@@ -84,10 +84,6 @@ spec:
             namespace: watch-k8s-events
             path: k8s/apps/watch-k8s-events
             project: apps
-          - name: adguard-home
-            namespace: adguard-home
-            path: k8s/apps/adguard-home
-            project: apps
           - name: samba
             namespace: samba
             path: k8s/apps/samba
@@ -159,10 +155,6 @@ spec:
           - name: tailscale-operator
             namespace: tailscale-operator
             path: k8s/system/tailscale-operator/lily
-            project: system
-          - name: reloader
-            namespace: reloader
-            path: k8s/system/reloader
             project: system
           - name: cloudnative-pg
             namespace: cnpg-system
