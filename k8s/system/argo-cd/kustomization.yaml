@@ -88,10 +88,6 @@ helmCharts:
           prometheus.io/port: "8083"
           prometheus.io/scheme: http
           prometheus.io/scrape: "true"
-        service:
-          nodePortHttp: 30000
-          nodePortHttps: 30001
-          type: NodePort
 resources:
   - ./resources/application/lily.yaml
   - ./resources/application/nebula.yaml
@@ -108,7 +104,7 @@ resources:
 
 patches:
   # chart の NetworkPolicy は ingress を全許可 ([{}]) にしており、他のポリシーを足しても
-  # 和集合で狭まらない。利用実態に合わせ、Traefik と LAN の端末 (NodePort) に絞る。
+  # 和集合で狭まらない。利用実態に合わせ、Traefik からの通信に絞る。
   # kubelet の probe は Cilium が host からの通信として常に許可する
   - target:
       group: networking.k8s.io
@@ -126,10 +122,6 @@ patches:
                 podSelector:
                   matchLabels:
                     app.kubernetes.io/name: traefik
-              # NodePort で直接使う。kube-proxy replacement の単一ノードでは
-              # NodePort 経由でも送信元 IP が保たれる
-              - ipBlock:
-                  cidr: 192.168.1.0/24
             ports:
               - port: 8080
                 protocol: TCP

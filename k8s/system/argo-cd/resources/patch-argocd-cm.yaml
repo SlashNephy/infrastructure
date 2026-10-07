@@ -8,7 +8,8 @@ metadata:
     app.kubernetes.io/part-of: argocd
 
 data:
-  # admin.enabled: "false"
+  # ログインは authentik の SSO に限る
+  admin.enabled: "false"
   dex.config: |
     connectors:
       - id: authentik
