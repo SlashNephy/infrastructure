@@ -36,6 +36,12 @@ apiServer:
       value: "5"
     - name: audit-log-maxage
       value: "7"
+  # GOGC の既定だけでは、生存ヒープ 500〜700MB に対して RSS が 1.6GB まで膨らむ。
+  # 上限を付けて GC を早めに走らせ、RSS を 1.2GB 程度に抑える (CPU は 1 コアの 5% ほど増える)。
+  # 生存ヒープが上限に近づくと GC が回り続けるので、そのときは値を引き上げる
+  extraEnvs:
+    - name: GOMEMLIMIT
+      value: 1200MiB
   extraVolumes:
     - name: audit-policy
       hostPath: /etc/kubernetes/audit-policy.yaml
