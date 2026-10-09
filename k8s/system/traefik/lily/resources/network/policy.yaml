@@ -1,0 +1,32 @@
+# Cloudflare を通らずに直結で届くアクセスを、国内と LAN からに限る。
+# 国外やクラウドの踏み台からの走査を落とすのが目的。国内の IPv6 は APNIC の割り当てで判定するので、
+# 国内のクラウド (AWS 東京など、登録国が JP でないもの) からの直結も落ちる。
+# Cloudflare 経由のアクセスは Cloudflare の送信元から届くので、国外の遮断は Cloudflare 側で行う。
+#
+# kube-proxy replacement の単一ノードでは NodePort 経由でも送信元 IP が保たれるため、fromCIDRSet で絞れる。
+# 参照する CiliumCIDRGroup が空だと、該当する送信元が全て落ちる。中身は cron-update-cidr-groups が保つ
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: traefik
+
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: traefik-traefik
+      app.kubernetes.io/name: traefik
+  ingress:
+    # kubelet の probe と、クラスタ内からの呼び出し (cert-manager の HTTP-01 の自己確認、メトリクスの収集など)
+    - fromEntities:
+        - host
+        - cluster
+    - fromCIDRSet:
+        - cidrGroupRef: cloudflare
+        - cidrGroupRef: jp-ipv6
+        - cidr: 192.168.1.0/24
+      toPorts:
+        - ports:
+            - port: "8443"
+              protocol: TCP
+            - port: "8443"
+              protocol: UDP
