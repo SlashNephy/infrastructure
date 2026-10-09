@@ -1,0 +1,31 @@
+# 書き換えるのは k8s/system/traefik/lily/resources/cidr-groups に置いた CiliumCIDRGroup だけ
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cron-update-cidr-groups-cluster-role
+
+rules:
+  - apiGroups:
+      - cilium.io
+    resources:
+      - ciliumcidrgroups
+    resourceNames:
+      - cloudflare
+      - jp-ipv6
+    verbs:
+      - get
+      - patch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cron-update-cidr-groups-cluster-role-binding
+
+roleRef:
+  name: cron-update-cidr-groups-cluster-role
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+subjects:
+  - name: service-account
+    kind: ServiceAccount

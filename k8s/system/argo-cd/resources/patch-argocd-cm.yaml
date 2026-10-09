@@ -40,6 +40,10 @@ data:
   resource.customizations.ignoreDifferences.apps_Deployment: |
     jqPathExpressions:
       - '.spec.template.spec.containers[]?.securityContext.sysctls'
+  # 中身は cron-update-cidr-groups が取得元の最新の一覧に書き換える。git の一覧は初回作成時の種でしかない
+  resource.customizations.ignoreDifferences.cilium.io_CiliumCIDRGroup: |
+    jsonPointers:
+      - /spec/externalCIDRs
 
   statusbadge.enabled: "true"
 
