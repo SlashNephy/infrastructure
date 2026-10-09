@@ -110,6 +110,10 @@ spec:
             namespace: cron-delete-failed-pods
             path: k8s/cron/delete-failed-pods
             project: cron
+          - name: cron-update-cidr-groups
+            namespace: cron-update-cidr-groups
+            path: k8s/cron/update-cidr-groups
+            project: cron
 
           # system
           - name: 1password-lily

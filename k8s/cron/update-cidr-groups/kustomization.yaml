@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: cron-update-cidr-groups
+
+resources:
+  - ./resources/cronjob.yaml
+  - ./resources/namespace.yaml
+  - ./resources/role.yaml
+  - ./resources/service-account.yaml
+
+configMapGenerator:
+  - name: scripts
+    files:
+      - ./scripts/update.sh

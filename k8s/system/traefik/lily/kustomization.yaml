@@ -13,6 +13,8 @@ helmCharts:
     valuesFile: ./values.yaml
 
 resources:
+  - ./resources/cidr-groups/cloudflare.yaml
+  - ./resources/cidr-groups/jp-ipv6.yaml
   - ./resources/middlewares/ban-robots.yaml
   - ./resources/middlewares/security-headers.yaml
   - ./resources/middlewares/trust-cloudflare-ips.yaml
