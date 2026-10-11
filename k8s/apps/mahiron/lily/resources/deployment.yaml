@@ -42,12 +42,16 @@ spec:
           #
           # チューナーは generic-device-plugin の拡張リソースとして割り当てる (拡張リソースは limits に書く)。
           # privileged だとホストの /dev が丸ごと見えるため外す
+          #
+          # メモリの requests は working set の日次最大の中央値から決めた。
+          # 2026-09-21 以降 (Go 製の mahiron) は中央値が約 150Mi、最大が約 530Mi。
+          # limits は付けないので、一時的に requests を超えても止まらない
           resources:
             limits:
               devic.es/pxtuners: 1
             requests:
               cpu: "2"
-              memory: 1Gi
+              memory: 256Mi
           securityContext:
             capabilities:
               add:
