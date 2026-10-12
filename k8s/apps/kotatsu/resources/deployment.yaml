@@ -1,0 +1,141 @@
+# Kotatsu の全ロール (tenban、neko、mikan、nekonote、kyusu) を 1 つの Pod で動かす。
+# 録画は EPGStation と同じ /mnt/pool/records に書く。EPGStation から取り込んだ録画も同じ場所にあるので、そのまま再生できる。
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+
+spec:
+  replicas: 1
+  # 録画中のファイルを 2 つの Pod から書かないよう、古い Pod を止めてから新しい Pod を作る。
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: kotatsu
+  template:
+    metadata:
+      labels:
+        app: kotatsu
+    spec:
+      initContainers:
+        # 起動する前に、スキーマを最新にする。Kotatsu は、スキーマが古いと起動しない。
+        - name: migrate
+          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:0f084682a52dc0e2f7949eda966bb20f704a03ec577e616695ff3a3aebc9290c
+          args:
+            - migrate
+          env:
+            - name: KOTATSU_DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: kotatsu-db-app
+                  key: uri
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              memory: 64Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+      containers:
+        - name: app
+          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:0f084682a52dc0e2f7949eda966bb20f704a03ec577e616695ff3a3aebc9290c
+          args:
+            - all
+          env:
+            - name: KOTATSU_DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: kotatsu-db-app
+                  key: uri
+            - name: KOTATSU_AUTH_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kotatsu
+                  key: secret-key
+            - name: KOTATSU_TUNER_URL
+              value: http://app.mahiron:40772/
+            - name: KOTATSU_STORAGE_POOLS
+              value: main=/records
+            # 外からは traefik を経て届き、認証の前段は authentik が担う。
+            # 送信元の判定は traefik (Pod のネットワーク) が付ける X-Forwarded-For に頼る。
+            - name: KOTATSU_SERVER_ALLOWED_NETWORKS
+              value: 0.0.0.0/0,::/0
+            - name: KOTATSU_SERVER_TRUSTED_PROXIES
+              value: 10.0.0.0/16
+            - name: KOTATSU_SERVER_LISTEN
+              value: :8080
+            - name: KOTATSU_METRICS_LISTEN
+              value: :9090
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: metrics
+              containerPort: 9090
+          volumeMounts:
+            - name: records
+              mountPath: /records
+            # kyusu の HLS と、FFmpeg の一時ファイルを置く。
+            - name: tmp
+              mountPath: /tmp
+          resources:
+            limits:
+              memory: 4Gi
+            requests:
+              cpu: 100m
+              memory: 512Mi
+          livenessProbe:
+            failureThreshold: 4
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+      volumes:
+        # /mnt/pool/records の持ち主は uid 1000 なので、同じ uid で書く。
+        # local の PV にすると、kubelet が fsGroup でディレクトリ全体の持ち主を書き換えうるので、hostPath で渡す。
+        - name: records
+          hostPath:
+            path: /mnt/pool/records
+            type: Directory
+        - name: tmp
+          emptyDir:
+            sizeLimit: 8Gi
+      restartPolicy: Always
+      # Kubernetes の API は使わない。
+      automountServiceAccountToken: false
+      imagePullSecrets:
+        - name: ghcr-io-credentials
+      priorityClassName: recording
+      securityContext:
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: kotatsu
+      # 録画を止めずに引き継ぐ時間を取る。
+      terminationGracePeriodSeconds: 300
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kotatsu
+automountServiceAccountToken: false

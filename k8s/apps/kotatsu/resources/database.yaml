@@ -1,0 +1,37 @@
+# Kotatsu の PostgreSQL。HA は目指さない (lily は単一ノードで PV も local のため)。
+# 接続先は、CloudNativePG が作る Secret kotatsu-db-app の uri を使う。
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: kotatsu-db
+
+spec:
+  bootstrap:
+    initdb:
+      database: kotatsu
+      encoding: UTF8
+      owner: kotatsu
+  # CNPG の webhook はタグを PostgreSQL の版として読むので、タグはメジャー版にする
+  imageName: ghcr.io/cloudnative-pg/postgresql:18@sha256:899d3ed526b659d77935dde0e6bf2d69dbbf17d3d8c6486ca8cfd04bd3c18533
+  instances: 1
+  postgresql:
+    parameters:
+      log_timezone: Asia/Tokyo
+      timezone: Asia/Tokyo
+  resources:
+    limits:
+      memory: 2Gi
+    requests:
+      cpu: 100m
+      memory: 512Mi
+  storage:
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 8Gi
+      selector:
+        matchLabels:
+          name: kotatsu-db-data
+      storageClassName: local
