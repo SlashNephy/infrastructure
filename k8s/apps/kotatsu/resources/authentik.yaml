@@ -1,0 +1,31 @@
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: kotatsu
+
+spec:
+  access:
+    rules:
+      - group:
+          name: Nerd
+  adopt: IfMatch
+  group: DTV
+  name: Kotatsu
+  provider:
+    name: Kotatsu
+    flows:
+      authentication:
+        slug: sign-in
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    proxy:
+      accessTokenValidity: days=7
+      forwardAuthSingle:
+        externalHost: https://kotatsu.starry.blue
+      interceptHeaderAuth: true
+      outpost:
+        name: authentik Embedded Outpost
+      refreshTokenValidity: days=30
+  slug: kotatsu
