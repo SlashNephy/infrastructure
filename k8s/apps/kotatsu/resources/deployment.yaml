@@ -1,5 +1,5 @@
 # Kotatsu の全ロール (tenban、neko、mikan、nekonote、kyusu) を 1 つの Pod で動かす。
-# 録画は EPGStation と同じ /mnt/pool/records に書く。EPGStation から取り込んだ録画も同じ場所にあるので、そのまま再生できる。
+# 録画は /mnt/pool/records に書く。EPGStation から取り込んだ録画も同じ場所にあるので、そのまま再生できる。
 apiVersion: apps/v1
 kind: Deployment
 metadata:
