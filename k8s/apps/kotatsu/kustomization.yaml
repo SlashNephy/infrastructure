@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: kotatsu
 
 resources:
-  - ./../../common/registry-ghcr-io/lily
   - ./resources/authentik.yaml
   - ./resources/database.yaml
   - ./resources/deployment.yaml

@@ -127,8 +127,6 @@ spec:
       restartPolicy: Always
       # Kubernetes の API は使わない。
       automountServiceAccountToken: false
-      imagePullSecrets:
-        - name: ghcr-io-credentials
       priorityClassName: recording
       securityContext:
         runAsGroup: 1000
