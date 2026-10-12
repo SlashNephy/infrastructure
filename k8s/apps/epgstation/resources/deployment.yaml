@@ -4,7 +4,9 @@ metadata:
   name: deployment
 
 spec:
-  replicas: 1
+  # Kotatsu へ移行したので止める。録画と予約は Kotatsu が引き継いだ。
+  # 元に戻せるよう、MariaDB とデータはしばらく残す。
+  replicas: 0
   strategy:
     type: Recreate
   selector:
