@@ -12,7 +12,7 @@ spec:
     matchLabels:
       app: default
   ingress:
-    # traefik・epgstation・konomitv など
+    # traefik・kotatsu・konomitv など
     - fromEntities:
         - cluster
       toPorts:
