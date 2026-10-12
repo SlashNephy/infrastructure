@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: epgstation-mariadb-data
+spec:
+  selector:
+    matchLabels:
+      name: epgstation-mariadb-data
+  storageClassName: local
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: epgstation-mariadb-data
+  labels:
+    name: epgstation-mariadb-data
+
+spec:
+  storageClassName: local
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 4Gi
+  local:
+    path: /mnt/local/epgstation/mariadb
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - lily
+  persistentVolumeReclaimPolicy: Retain
