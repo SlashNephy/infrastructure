@@ -52,11 +52,6 @@ spec:
                 secretKeyRef:
                   name: kotatsu-db-app
                   key: uri
-            - name: KOTATSU_AUTH_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: kotatsu
-                  key: secret-key
             - name: KOTATSU_TUNER_URL
               value: http://app.mahiron:40772/
             # local は、クラウドに同期しない録画の置き場所。EPGStation の「Drive 同期なし」にあたる。
@@ -72,6 +67,9 @@ spec:
               value: :8080
             - name: KOTATSU_METRICS_LISTEN
               value: :9090
+          envFrom:
+            - secretRef:
+                name: kotatsu
           ports:
             - name: http
               containerPort: 8080
