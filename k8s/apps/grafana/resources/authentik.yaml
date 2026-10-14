@@ -67,6 +67,7 @@ spec:
   # Grafana の OAuth2 Application と同じく、全ユーザーがアクセスできる。
   access:
     public: true
+  hideFromApplicationDashboard: true
   name: grafana.starry.blue
   provider:
     name: grafana.starry.blue
