@@ -67,6 +67,17 @@ spec:
               value: :8080
             - name: KOTATSU_METRICS_LISTEN
               value: :9090
+            # client ID と client secret は、Secret の kotatsu から読む (authentik.yaml の kotatsu-oidc)。
+            - name: KOTATSU_AUTH_OIDC_ISSUER
+              value: https://id.starry.blue/application/o/kotatsu-oidc/
+            - name: KOTATSU_AUTH_OIDC_DISPLAY_NAME
+              value: authentik
+            # Application に入れる人 (Nerd) は、初めてのログインでメンバーとして作る。
+            # 管理者は、既存のユーザーに kotatsu user link-oidc で紐付ける。
+            - name: KOTATSU_AUTH_OIDC_AUTO_CREATE_ENABLED
+              value: "true"
+            - name: KOTATSU_AUTH_OIDC_AUTO_CREATE_MEMBER_GROUPS
+              value: Nerd
           envFrom:
             - secretRef:
                 name: kotatsu

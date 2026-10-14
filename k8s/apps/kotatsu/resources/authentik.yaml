@@ -29,3 +29,61 @@ spec:
         name: authentik Embedded Outpost
       refreshTokenValidity: days=30
   slug: kotatsu
+
+---
+# 手前の forward auth とは別に、Kotatsu 自体のログイン (OIDC) 用の Application を置く。
+# Kotatsu は、IdP のグループからユーザーを自動で作る (KOTATSU_AUTH_OIDC_AUTO_CREATE_*)。
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: kotatsu-oidc
+
+spec:
+  # forward auth と同じグループに絞る。
+  access:
+    rules:
+      - group:
+          name: Nerd
+  group: DTV
+  launchURL: https://kotatsu.starry.blue
+  name: Kotatsu (OIDC)
+  provider:
+    name: Kotatsu (OIDC)
+    flows:
+      authentication:
+        slug: sign-in
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    oauth2:
+      accessCodeValidity: minutes=1
+      accessTokenValidity: hours=1
+      clientType: Confidential
+      # kotatsu の Secret (1Password) を client ID / client secret の source of truth にする。
+      # Kotatsu も envFrom で同じキーを読むので、ローテーションには Pod の再起動が要る。
+      credentials:
+        secretRef:
+          name: kotatsu
+          clientIDKey: KOTATSU_AUTH_OIDC_CLIENT_ID
+          clientSecretKey: KOTATSU_AUTH_OIDC_CLIENT_SECRET
+      grantTypes:
+        - AuthorizationCode
+      includeClaimsInIDToken: true
+      issuerMode: PerProvider
+      logoutMethod: BackChannel
+      redirectURIs:
+        - matchingMode: Strict
+          type: Authorization
+          url: https://kotatsu.starry.blue/auth/oidc/callback
+      refreshTokenThreshold: seconds=0
+      refreshTokenValidity: days=30
+      # profile のスコープが groups の claim を返し、Kotatsu はそれで自動作成とロールを決める。
+      scopes:
+        - scopeName: openid
+        - scopeName: email
+        - scopeName: profile
+      signingKey:
+        name: id.starry.blue
+      subjectMode: HashedUserID
+  slug: kotatsu-oidc
