@@ -69,9 +69,9 @@ spec:
               value: :9090
             # client ID と client secret は、operator が作る Secret の kotatsu-oidc から読む (authentik.yaml)。
             - name: KOTATSU_AUTH_OIDC_ISSUER
-              value: https://id.starry.blue/application/o/kotatsu-oidc/
+              value: https://id.starry.blue/application/o/kotatsu/
             - name: KOTATSU_AUTH_OIDC_DISPLAY_NAME
-              value: authentik
+              value: id.starry.blue
             # Application に入れる人 (Nerd) は、初めてのログインでメンバーとして作る。
             # 管理者は、既存のユーザーに kotatsu user link-oidc で紐付ける。
             - name: KOTATSU_AUTH_OIDC_AUTO_CREATE_ENABLED
