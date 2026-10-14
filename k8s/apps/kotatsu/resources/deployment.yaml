@@ -67,7 +67,7 @@ spec:
               value: :8080
             - name: KOTATSU_METRICS_LISTEN
               value: :9090
-            # client ID と client secret は、Secret の kotatsu から読む (authentik.yaml の kotatsu-oidc)。
+            # client ID と client secret は、operator が作る Secret の kotatsu-oidc から読む (authentik.yaml)。
             - name: KOTATSU_AUTH_OIDC_ISSUER
               value: https://id.starry.blue/application/o/kotatsu-oidc/
             - name: KOTATSU_AUTH_OIDC_DISPLAY_NAME
@@ -81,6 +81,8 @@ spec:
           envFrom:
             - secretRef:
                 name: kotatsu
+            - secretRef:
+                name: kotatsu-oidc
           ports:
             - name: http
               containerPort: 8080

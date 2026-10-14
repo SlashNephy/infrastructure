@@ -60,11 +60,11 @@ spec:
       accessCodeValidity: minutes=1
       accessTokenValidity: hours=1
       clientType: Confidential
-      # kotatsu の Secret (1Password) を client ID / client secret の source of truth にする。
-      # Kotatsu も envFrom で同じキーを読むので、ローテーションには Pod の再起動が要る。
+      # Secret の kotatsu-oidc はまだないので、operator が authentik の生成した値で作る。
+      # 以後はこの Secret が source of truth になる。Kotatsu は envFrom で読むので、ローテーションには Pod の再起動が要る。
       credentials:
         secretRef:
-          name: kotatsu
+          name: kotatsu-oidc
           clientIDKey: KOTATSU_AUTH_OIDC_CLIENT_ID
           clientSecretKey: KOTATSU_AUTH_OIDC_CLIENT_SECRET
       grantTypes:
