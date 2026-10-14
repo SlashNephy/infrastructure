@@ -1,7 +1,7 @@
 apiVersion: authentik.starry.blue/v1alpha1
 kind: AuthentikApplication
 metadata:
-  name: kotatsu
+  name: kotatsu-frontend
 
 spec:
   access:
@@ -10,9 +10,9 @@ spec:
           name: Nerd
   adopt: IfMatch
   group: DTV
-  name: Kotatsu
+  name: kotatsu.starry.blue
   provider:
-    name: Kotatsu
+    name: kotatsu.starry.blue
     flows:
       authentication:
         slug: sign-in
@@ -28,7 +28,7 @@ spec:
       outpost:
         name: authentik Embedded Outpost
       refreshTokenValidity: days=30
-  slug: kotatsu
+  slug: kotatsu-frontend
 
 ---
 # 手前の forward auth とは別に、Kotatsu 自体のログイン (OIDC) 用の Application を置く。
@@ -36,7 +36,7 @@ spec:
 apiVersion: authentik.starry.blue/v1alpha1
 kind: AuthentikApplication
 metadata:
-  name: kotatsu-oidc
+  name: kotatsu
 
 spec:
   # forward auth と同じグループに絞る。
@@ -46,9 +46,9 @@ spec:
           name: Nerd
   group: DTV
   launchURL: https://kotatsu.starry.blue
-  name: Kotatsu (OIDC)
+  name: Kotatsu
   provider:
-    name: Kotatsu (OIDC)
+    name: Kotatsu
     flows:
       authentication:
         slug: sign-in
@@ -86,4 +86,4 @@ spec:
       signingKey:
         name: id.starry.blue
       subjectMode: HashedUserID
-  slug: kotatsu-oidc
+  slug: kotatsu
