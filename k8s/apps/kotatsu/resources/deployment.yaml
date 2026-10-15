@@ -21,7 +21,7 @@ spec:
       initContainers:
         # 起動する前に、スキーマを最新にする。Kotatsu は、スキーマが古いと起動しない。
         - name: migrate
-          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:153bb9564b5b112e3b731b66cb4ddc73dae352e98d43bf2d028e123b2f41c76f
+          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:663de9358b674f2a5bcc163dcbcab07bd500ae3926e5ed5165b549b629abd204
           args:
             - migrate
           env:
@@ -43,7 +43,7 @@ spec:
             readOnlyRootFilesystem: true
       containers:
         - name: app
-          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:153bb9564b5b112e3b731b66cb4ddc73dae352e98d43bf2d028e123b2f41c76f
+          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:663de9358b674f2a5bcc163dcbcab07bd500ae3926e5ed5165b549b629abd204
           args:
             - all
           env:
@@ -57,6 +57,8 @@ spec:
             # local は、クラウドに同期しない録画の置き場所。EPGStation の「Drive 同期なし」にあたる。
             - name: KOTATSU_STORAGE_POOLS
               value: main=/records,local=/records_local
+            - name: KOTATSU_STORAGE_SIDECAR_DIR
+              value: /sidecar
             # 外からは traefik を経て届き、認証の前段は authentik が担う。
             # 送信元の判定は traefik (Pod のネットワーク) が付ける X-Forwarded-For に頼る。
             - name: KOTATSU_SERVER_ALLOWED_NETWORKS
@@ -93,6 +95,8 @@ spec:
               mountPath: /records
             - name: records-local
               mountPath: /records_local
+            - name: sidecar
+              mountPath: /sidecar
             # kyusu の HLS と、FFmpeg の一時ファイルを置く。
             - name: tmp
               mountPath: /tmp
@@ -132,6 +136,10 @@ spec:
           hostPath:
             path: /mnt/pool/records_local
             type: Directory
+        - name: sidecar
+          hostPath:
+            path: /mnt/local/kotatsu/sidecar
+            type: DirectoryOrCreate
         - name: tmp
           emptyDir:
             sizeLimit: 8Gi
