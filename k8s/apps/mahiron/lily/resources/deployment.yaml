@@ -71,7 +71,13 @@ spec:
       imagePullSecrets:
         - name: ghcr-io-credentials
       priorityClassName: recording
+      # イメージは UID/GID 10001 の非 root ユーザーで動く。
+      # hostPath には fsGroup が効かないため、ホストの /mnt/local/mahiron5 の所有者は手で 10001:10001 に揃えてある。
+      # チューナーのデバイス (/dev/px4video*) はホストでは root:video の 0664 だが、コンテナ内では 0666 で作られるため、グループの追加は要らない
       securityContext:
+        runAsGroup: 10001
+        runAsNonRoot: true
+        runAsUser: 10001
         seccompProfile:
           type: RuntimeDefault
       # Mahiron は tuner を `sh -c "recpt1 ..."` で起動するが、この sh は exec せず fork するため
