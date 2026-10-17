@@ -10,27 +10,26 @@ metadata:
 data:
   # ログインは authentik の SSO に限る
   admin.enabled: "false"
-  dex.config: |
-    connectors:
-      - id: authentik
-        name: Authentik
-        type: oidc
-        config:
-          issuer: https://id.starry.blue/application/o/argo-cd/
-          clientID: $dex.authentik.clientID
-          clientSecret: $dex.authentik.clientSecret
-          insecureEnableGroups: true
-          scopes:
-            - openid
-            - profile
-            - email
-
   exec.enabled: "true"
   exec.shells: zsh,bash,ash,sh
 
   helm.enabled: "true"
   kustomize.buildOptions: --enable-helm --load-restrictor LoadRestrictionsNone
   kustomize.enabled: "true"
+
+  # Dex を経由すると Dex 発行の ID トークンが切れた時点で再ログインになるため、authentik に直接つなぐ。
+  # authentik の ID トークン (1 時間) が切れる前に、リフレッシュトークンで自動更新する
+  oidc.config: |
+    name: Authentik
+    issuer: https://id.starry.blue/application/o/argo-cd/
+    clientID: $dex.authentik.clientID
+    clientSecret: $dex.authentik.clientSecret
+    requestedScopes:
+      - openid
+      - profile
+      - email
+      - offline_access
+    refreshTokenThreshold: 5m
 
   # TODO: Annotation で ignoreDifferences を管理できるようになったら移行したい
   # https://github.com/argoproj/argo-cd/issues/12686
