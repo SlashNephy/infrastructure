@@ -35,21 +35,9 @@ helmCharts:
             memory: 2Gi
           requests:
             memory: 1Gi
+      # authentik に OIDC で直接つなぎ、リフレッシュトークンでセッションを延長する
       dex:
-        initContainers:
-          - name: wait-for-authentik
-            args:
-              - --url
-              - https://id.starry.blue/application/o/argo-cd/
-            image: ghcr.io/slashnephy/wait-for:master@sha256:ec3fd028bac9d381251ed2d39dbd5ae6692fa4774ce10d36a85699b5a0cc3270
-        metrics:
-          enabled: true
-        # Telegraf は Pod Annotation による検出しかサポートしていない
-        podAnnotations:
-          prometheus.io/path: /metrics
-          prometheus.io/port: "5558"
-          prometheus.io/scheme: http
-          prometheus.io/scrape: "true"
+        enabled: false
       global:
         addPrometheusAnnotations: true
       notifications:

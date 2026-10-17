@@ -29,7 +29,7 @@ spec:
       accessTokenValidity: hours=1
       clientType: Confidential
       # argocd-secret を client ID / client secret の source of truth とする。
-      # dex も argocd-cm の $dex.authentik.* 経由で同じ Secret を読むため、
+      # argocd-server も argocd-cm の $dex.authentik.* 経由で同じ Secret を読むため、
       # ローテーションは 1Password の item を更新するだけで両側に行き渡る。
       credentials:
         secretRef:
@@ -38,6 +38,7 @@ spec:
           clientSecretKey: dex.authentik.clientSecret
       grantTypes:
         - AuthorizationCode
+        - RefreshToken
       includeClaimsInIDToken: true
       issuerMode: PerProvider
       logoutMethod: BackChannel
@@ -45,14 +46,13 @@ spec:
         - matchingMode: Strict
           type: Authorization
           url: https://argocd.starry.blue/auth/callback
-        - matchingMode: Strict
-          type: Authorization
-          url: https://argocd.starry.blue/api/dex/callback
       refreshTokenThreshold: seconds=0
       refreshTokenValidity: days=30
       scopes:
         - scopeName: openid
         - scopeName: email
+        # Argo CD がセッションを延長するためのリフレッシュトークンは offline_access でのみ発行される
+        - scopeName: offline_access
         - scopeName: profile
       signingKey:
         name: id.starry.blue
