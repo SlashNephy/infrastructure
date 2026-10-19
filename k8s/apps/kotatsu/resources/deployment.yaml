@@ -21,7 +21,7 @@ spec:
       initContainers:
         # 起動する前に、スキーマを最新にする。Kotatsu は、スキーマが古いと起動しない。
         - name: migrate
-          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:43786702b7ebdbdd971ab946522712fd5ca2f85be873f84cf402612b95b6f9dc
+          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:b0110fb3643b7ac936a56f5615ec6f8d7402264a7f3133d12d7f7e82077424d7
           args:
             - migrate
           env:
@@ -43,7 +43,7 @@ spec:
             readOnlyRootFilesystem: true
       containers:
         - name: app
-          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:43786702b7ebdbdd971ab946522712fd5ca2f85be873f84cf402612b95b6f9dc
+          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:b0110fb3643b7ac936a56f5615ec6f8d7402264a7f3133d12d7f7e82077424d7
           args:
             - all
           env:
