@@ -21,7 +21,7 @@ spec:
       initContainers:
         # 起動する前に、スキーマを最新にする。Kotatsu は、スキーマが古いと起動しない。
         - name: migrate
-          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:b0110fb3643b7ac936a56f5615ec6f8d7402264a7f3133d12d7f7e82077424d7
+          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:2fa4e0aa3b450e83472dab99b267e772c1d78b994a973930640fcf5e5a0aaf85
           args:
             - migrate
           env:
@@ -43,7 +43,7 @@ spec:
             readOnlyRootFilesystem: true
       containers:
         - name: app
-          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:b0110fb3643b7ac936a56f5615ec6f8d7402264a7f3133d12d7f7e82077424d7
+          image: ghcr.io/slashnephy/kotatsu:edge-ffmpeg@sha256:2fa4e0aa3b450e83472dab99b267e772c1d78b994a973930640fcf5e5a0aaf85
           args:
             - all
           env:
@@ -57,8 +57,9 @@ spec:
             # local は、クラウドに同期しない録画の置き場所。EPGStation の「Drive 同期なし」にあたる。
             - name: KOTATSU_STORAGE_POOLS
               value: main=/records,local=/records_local
-            - name: KOTATSU_STORAGE_SIDECAR_DIR
-              value: /sidecar
+            # 索引、代表画像、プレビュー画像などの生成物を、録画のセグメントの ID ごとに置く。プールがあれば必須。
+            - name: KOTATSU_STORAGE_DATA_DIR
+              value: /data
             # 外からは traefik を経て届き、認証の前段は authentik が担う。
             # 送信元の判定は traefik (Pod のネットワーク) が付ける X-Forwarded-For に頼る。
             - name: KOTATSU_SERVER_ALLOWED_NETWORKS
@@ -95,8 +96,8 @@ spec:
               mountPath: /records
             - name: records-local
               mountPath: /records_local
-            - name: sidecar
-              mountPath: /sidecar
+            - name: data
+              mountPath: /data
             # kyusu の HLS と、FFmpeg の一時ファイルを置く。
             - name: tmp
               mountPath: /tmp
@@ -136,10 +137,11 @@ spec:
           hostPath:
             path: /mnt/pool/records_local
             type: Directory
-        - name: sidecar
+        # 持ち主は uid 1000。DirectoryOrCreate だと root の持ち物で作られて書けないので、作ってあるものを使う。
+        - name: data
           hostPath:
-            path: /mnt/local/kotatsu/sidecar
-            type: DirectoryOrCreate
+            path: /mnt/local/kotatsu/data
+            type: Directory
         - name: tmp
           emptyDir:
             sizeLimit: 8Gi
