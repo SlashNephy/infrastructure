@@ -4,6 +4,13 @@
     'local>SlashNephy/renovate-config',
   ],
   packageRules: [
+    // 退役済みのマニフェストは更新しない
+    {
+      matchFileNames: [
+        'k8s/*/_retired/**',
+      ],
+      enabled: false,
+    },
     {
       matchDatasources: [
         'docker',
