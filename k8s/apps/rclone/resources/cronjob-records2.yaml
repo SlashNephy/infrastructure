@@ -16,7 +16,7 @@ spec:
               image: ghcr.io/neneka/rclone:sha-87b7add@sha256:f6f29f8bac1694d456ef5c8aefbabde4326c9c07973ff9c3d342a7a27148818e
               args:
                 - copy
-                - /mnt/pool/records_links
+                - /mnt/pool/records
                 - "boxc:atmos"
                 - --copy-links
                 - --order-by=name

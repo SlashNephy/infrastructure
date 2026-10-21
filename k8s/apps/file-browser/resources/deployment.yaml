@@ -39,9 +39,6 @@ spec:
               readOnly: true
             - name: music
               mountPath: /mnt/pool/music
-            - name: dtv-records-links
-              mountPath: /mnt/pool/records_links
-              readOnly: true
             - name: dtv-records
               mountPath: /mnt/pool/records
               readOnly: true
@@ -96,11 +93,6 @@ spec:
           hostPath:
             path: /mnt/pool/music
             type: Directory
-        - name: dtv-records-links
-          hostPath:
-            path: /mnt/pool/records_links
-            type: Directory
-        # シンボリックリンクの解決用
         - name: dtv-records
           hostPath:
             path: /mnt/pool/records
