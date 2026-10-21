@@ -2,13 +2,137 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kotatsu
 
+# Kotatsu を、ロールごとに Pod を分ける split で動かす。mikan を 2 つにして、更新の間も録画を途切れさせない。
+helmCharts:
+  - name: kotatsu
+    releaseName: kotatsu
+    namespace: kotatsu
+    version: 2026.10.1
+    repo: https://slashnephy.github.io/kotatsu
+    valuesInline:
+      config:
+        # Application に入れる人 (Nerd) は、初めてのログインでメンバーとして作る。
+        # 管理者は、既存のユーザーに kotatsu user link-oidc で紐付ける。
+        AUTH_OIDC_AUTO_CREATE_ENABLED: "true"
+        AUTH_OIDC_AUTO_CREATE_MEMBER_GROUPS: Nerd
+        AUTH_OIDC_DISPLAY_NAME: id.starry.blue
+        AUTH_OIDC_ISSUER: https://id.starry.blue/application/o/kotatsu/
+        # 外からは traefik を経て届き、認証の前段は authentik が担う。
+        # 送信元の判定は traefik (Pod のネットワーク) が付ける X-Forwarded-For に頼る。
+        SERVER_ALLOWED_NETWORKS: 0.0.0.0/0,::/0
+        SERVER_TRUSTED_PROXIES: 10.0.0.0/16
+        TUNER_URL: http://app.mahiron:40772/
+      # client ID と client secret は、operator が作る Secret の kotatsu-oidc から読む (authentik.yaml)。
+      extraEnvFrom:
+        - secretRef:
+            name: kotatsu-oidc
+      mode: split
+      # Chart の既定の uid (65532) では、録画の置き場所に書けない。fsGroup も合わせないと、Chart の既定の 65532 が残る。
+      podSecurityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      priorityClassName: recording
+      roles:
+        kyusu:
+          replicas: 1
+          resources:
+            limits:
+              memory: 2Gi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          # HLS のセグメントと FFmpeg の作業ファイルを置く。
+          workSizeLimit: 8Gi
+        mikan:
+          replicas: 2
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+        neko:
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi
+        nekonote:
+          resources:
+            limits:
+              memory: 2Gi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+        tenban:
+          replicas: 2
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              cpu: 50m
+              memory: 128Mi
+      secrets:
+        databaseURL:
+          name: kotatsu-db-app
+          key: uri
+        secretKey:
+          name: kotatsu
+          key: KOTATSU_AUTH_SECRET_KEY
+      storage:
+        # 索引、代表画像、プレビュー画像などの生成物。持ち主は uid 1000。
+        data:
+          volume:
+            hostPath:
+              path: /mnt/local/kotatsu/data
+              type: Directory
+        # /mnt/pool/records の持ち主は uid 1000 なので、同じ uid で書く。
+        # local の PV にすると、kubelet が fsGroup でディレクトリ全体の持ち主を書き換えうるので、hostPath で渡す。
+        pools:
+          - id: main
+            volume:
+              hostPath:
+                path: /mnt/pool/records
+                type: Directory
+          # local は、クラウドに同期しない録画の置き場所。EPGStation の「Drive 同期なし」にあたる。
+          - id: local
+            volume:
+              hostPath:
+                path: /mnt/pool/records_local
+                type: Directory
 resources:
   - ./resources/authentik.yaml
   - ./resources/database.yaml
-  - ./resources/deployment.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
-  - ./resources/service.yaml
   - ./resources/volume.yaml
+
+patches:
+  # Lily は CPU が飽和しがちなので、Chart の既定 (1 秒) より長く応答を待つ。
+  # Kubernetes の API は使わないので、ServiceAccount のトークンを渡さない。
+  - target:
+      kind: Deployment
+      labelSelector: app.kubernetes.io/name=kotatsu
+    patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/livenessProbe/timeoutSeconds
+        value: 5
+      - op: add
+        path: /spec/template/spec/containers/0/livenessProbe/periodSeconds
+        value: 30
+      - op: add
+        path: /spec/template/spec/containers/0/livenessProbe/failureThreshold
+        value: 4
+      - op: add
+        path: /spec/template/spec/containers/0/readinessProbe/timeoutSeconds
+        value: 5
+      - op: add
+        path: /spec/template/spec/automountServiceAccountToken
+        value: false

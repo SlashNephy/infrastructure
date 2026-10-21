@@ -18,7 +18,7 @@ spec:
       match: Host(`kotatsu.starry.blue`)
       priority: 10
       services:
-        - name: app
+        - name: kotatsu
           port: http
       middlewares:
         - name: forward-auth-authentik
@@ -38,7 +38,7 @@ spec:
       match: Host(`kotatsu.starry.blue`) && PathPrefix(`/api/`)
       priority: 20
       services:
-        - name: app
+        - name: kotatsu
           port: http
 
     # 外形監視のため、ヘルスチェックの端点だけ認証を迂回させる。中身を返さない。
@@ -46,5 +46,5 @@ spec:
       match: Host(`kotatsu.starry.blue`) && Path(`/healthz`)
       priority: 20
       services:
-        - name: app
+        - name: kotatsu
           port: http
