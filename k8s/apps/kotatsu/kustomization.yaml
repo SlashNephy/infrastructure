@@ -36,6 +36,8 @@ helmCharts:
         seccompProfile:
           type: RuntimeDefault
       priorityClassName: recording
+      # requests は、全ロールを 1 つの Pod で動かしていたときの実測 (プロセスのメモリが合わせて 100MB 未満) に寄せる。
+      # limits は、FFmpeg を使う nekonote と kyusu に余裕を持たせる。
       roles:
         kyusu:
           replicas: 1
@@ -43,8 +45,8 @@ helmCharts:
             limits:
               memory: 2Gi
             requests:
-              cpu: 100m
-              memory: 256Mi
+              cpu: 50m
+              memory: 128Mi
           # HLS のセグメントと FFmpeg の作業ファイルを置く。
           workSizeLimit: 8Gi
         mikan:
@@ -53,30 +55,31 @@ helmCharts:
             limits:
               memory: 1Gi
             requests:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 50m
+              memory: 64Mi
         neko:
           resources:
             limits:
               memory: 512Mi
             requests:
-              cpu: 50m
-              memory: 128Mi
+              cpu: 25m
+              memory: 64Mi
         nekonote:
           resources:
             limits:
               memory: 2Gi
             requests:
-              cpu: 100m
-              memory: 256Mi
+              cpu: 50m
+              memory: 128Mi
+        # tenban は 1 台にする。RollingUpdate なので、更新の間も新しい Pod が ready になってから古い Pod を止める。
         tenban:
-          replicas: 2
+          replicas: 1
           resources:
             limits:
               memory: 1Gi
             requests:
-              cpu: 50m
-              memory: 128Mi
+              cpu: 25m
+              memory: 64Mi
       secrets:
         databaseURL:
           name: kotatsu-db-app
