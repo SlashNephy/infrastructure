@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: nginxinc/nginx-unprivileged:1.31.6-trixie@sha256:1d26a516fb93b18f9c0214dc9c645054486e516f13ff09ef63d5bd5c622278a2
+          image: nginxinc/nginx-unprivileged:1.31.7-trixie@sha256:09b0d3eda2aa592d2487f284519419015cab010d7df16cd0fe224b585fc60eb6
           # 公式イメージの ENTRYPOINT は /etc/nginx 以下を書き換えようとして
           # readOnlyRootFilesystem で警告を出すため、nginx を直接起動する。
           command:
