@@ -2,6 +2,9 @@ $schema: https://raw.githubusercontent.com/stackrox/kube-linter/refs/heads/main/
 
 checks:
   addAllBuiltIn: true
+  # 退役済みのマニフェストは検査しない
+  ignorePaths:
+    - k8s/*/_retired/**
   exclude:
     - unset-cpu-requirements
     - unset-memory-requirements

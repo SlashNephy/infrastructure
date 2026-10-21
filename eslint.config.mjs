@@ -2,7 +2,7 @@ import { config } from '@slashnephy/eslint-config'
 
 export default config(
   {
-    ignores: ['**/charts/**', 'pnpm-lock.yaml'],
+    ignores: ['**/charts/**', 'k8s/*/_retired/**', 'pnpm-lock.yaml'],
   },
   {
     files: ['k8s/**/*.{yml,yaml}'],

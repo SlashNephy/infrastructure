@@ -10,7 +10,10 @@ import (
 	"github.com/sourcegraph/conc/pool"
 )
 
-const kubernetesRoot = "k8s"
+const (
+	kubernetesRoot = "k8s"
+	retiredDirName = "_retired"
+)
 
 func main() {
 	slog.SetDefault(slog.New(slog.NewTextHandler(os.Stdout, nil)))
@@ -54,6 +57,11 @@ func findKustomizationDirs(baseDir string) ([]string, error) {
 	err := filepath.Walk(baseDir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
+		}
+
+		if info.IsDir() && info.Name() == retiredDirName {
+			// 退役済みのマニフェストはビルドしない
+			return filepath.SkipDir
 		}
 
 		if info.Name() == "kustomization.yaml" && !info.IsDir() {
