@@ -3,14 +3,19 @@
   extends: [
     'local>SlashNephy/renovate-config',
   ],
-  packageRules: [
+  ignorePaths: [
     // 退役済みのマニフェストは更新しない
+    'k8s/*/_retired/**',
+  ],
+  packageRules: [
+    // 重要コンポーネントの更新を迅速化
     {
       matchFileNames: [
-        'k8s/*/_retired/**',
+        'k8s/system/**'
       ],
-      enabled: false,
+      minimumReleaseAge: null,
     },
+    // 自作イメージの更新を迅速化
     {
       matchDatasources: [
         'docker',
@@ -22,15 +27,6 @@
       minimumReleaseAge: null,
       versioning: 'loose',
     },
-    {
-      groupName: 'immich',
-      matchDatasources: [
-        'docker',
-      ],
-      matchPackageNames: [
-        'ghcr.io/immich-app/**',
-      ],
-    },
     // FileBrowser Quantum は stable と beta のタグを併走させているため、stable のみを追従する
     {
       matchDatasources: [
@@ -40,6 +36,24 @@
         'gtstef/filebrowser',
       ],
       versioning: 'regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-stable$',
+    },
+    // Go グループ化
+    {
+      groupName: 'Go',
+      matchPackageNames: [
+        'golang/go', // Docker イメージ
+        'golang', // mise
+      ],
+    },
+    // Immich グループ化
+    {
+      groupName: 'immich',
+      matchDatasources: [
+        'docker',
+      ],
+      matchPackageNames: [
+        'ghcr.io/immich-app/**',
+      ],
     },
     // OCI イメージで参照されるチャートで pinDigest を無効化する
     // https://github.com/renovatebot/renovate/discussions/38038
@@ -66,15 +80,9 @@
         enabled: false,
       },
     },
-    {
-      groupName: 'Go',
-      matchPackageNames: [
-        'golang/go',
-        'golang'
-      ]
-    },
   ],
   customManagers: [
+    // OpenClaw
     {
       customType: 'regex',
       managerFilePatterns: [
