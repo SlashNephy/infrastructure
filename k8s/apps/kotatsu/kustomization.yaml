@@ -7,7 +7,7 @@ helmCharts:
   - name: kotatsu
     releaseName: kotatsu
     namespace: kotatsu
-    version: 2026.10.1
+    version: 2026.10.2
     repo: https://slashnephy.github.io/kotatsu
     valuesInline:
       config:
@@ -36,6 +36,14 @@ helmCharts:
         seccompProfile:
           type: RuntimeDefault
       priorityClassName: recording
+      # Lily は CPU が飽和しがちなので、Chart の既定 (1 秒) より長く応答を待つ。
+      probes:
+        liveness:
+          failureThreshold: 4
+          periodSeconds: 30
+          timeoutSeconds: 5
+        readiness:
+          timeoutSeconds: 5
       # requests は、全ロールを 1 つの Pod で動かしていたときの実測 (プロセスのメモリが合わせて 100MB 未満) に寄せる。
       # limits は、FFmpeg を使う nekonote と kyusu に余裕を持たせる。
       roles:
@@ -116,26 +124,3 @@ resources:
   - ./resources/namespace.yaml
   - ./resources/secret.yaml
   - ./resources/volume.yaml
-
-patches:
-  # Lily は CPU が飽和しがちなので、Chart の既定 (1 秒) より長く応答を待つ。
-  # Kubernetes の API は使わないので、ServiceAccount のトークンを渡さない。
-  - target:
-      kind: Deployment
-      labelSelector: app.kubernetes.io/name=kotatsu
-    patch: |-
-      - op: add
-        path: /spec/template/spec/containers/0/livenessProbe/timeoutSeconds
-        value: 5
-      - op: add
-        path: /spec/template/spec/containers/0/livenessProbe/periodSeconds
-        value: 30
-      - op: add
-        path: /spec/template/spec/containers/0/livenessProbe/failureThreshold
-        value: 4
-      - op: add
-        path: /spec/template/spec/containers/0/readinessProbe/timeoutSeconds
-        value: 5
-      - op: add
-        path: /spec/template/spec/automountServiceAccountToken
-        value: false
