@@ -52,6 +52,11 @@ func updateManifests(images []string, digest string) error {
 			return err
 		}
 
+		if info.IsDir() && info.Name() == "_retired" {
+			// 退役済みのマニフェストは更新しない
+			return filepath.SkipDir
+		}
+
 		if !strings.HasSuffix(info.Name(), ".yaml") {
 			return nil
 		}
