@@ -10,13 +10,27 @@ helmCharts:
     version: 0.176.1
     repo: https://open-telemetry.github.io/opentelemetry-helm-charts
     valuesInline:
+      # kubeletstats の request / limit 使用率は kubelet の /pods から Pod の spec を読む。
+      # preset が付与するのは nodes/stats だけなので nodes/pods を足す。
+      clusterRole:
+        rules:
+          - apiGroups:
+              - ""
+            resources:
+              - nodes/pods
+            verbs:
+              - get
       config:
         exporters:
-          # chart は metrics/traces のパイプラインを既定で作り、debug exporter に
-          # 出力する。このリポジトリではログしか扱わず、メトリクスは
-          # mackerel-container-agent が別途送っているため、収集結果を捨てる。
+          # chart は traces のパイプラインを既定で作り、debug exporter に出力する。
+          # このリポジトリではトレースを扱わないため、収集結果を捨てる。
           # Helm のマージは null を無視するのでパイプラインごとは消せない。
           nop: {}
+          # ラベル付きメトリックの投稿先。ログの投稿先とはエンドポイントもプロトコルも異なる
+          otlp/mackerel-metrics:
+            endpoint: otlp.mackerelio.com:4317
+            headers:
+              Mackerel-Api-Key: ${env:MACKEREL_APIKEY}
           otlphttp/mackerel:
             endpoint: https://otlp-vaxila.mackerelio.com
             headers:
@@ -36,6 +50,13 @@ helmCharts:
                 # 属性名はアノテーションのキーそのものになる。k8s.pod.annotation. の
                 # 接頭辞は付かない。誤ると nil 比較になり静かに機能しなくなる。
                 - 'resource.attributes["mackerel.io/logs"] == "false"'
+          # kubeletstats の既定メトリクスは送らず、request / limit に対する使用率だけを残す。
+          # 使用量そのものは opt-in の mackerel-container-agent が送っている。
+          filter/utilization:
+            error_mode: ignore
+            metrics:
+              metric:
+                - 'not IsMatch(name, "^k8s\\.(container|pod)\\.(cpu|memory)_(limit|request)_utilization$")'
           probabilistic_sampler:
             attribute_source: record
             from_attribute: sample_key
@@ -78,6 +99,37 @@ helmCharts:
               # ノードの systemd ログはクラスタ単位で扱う
               - set(resource.attributes["service.namespace"], "lily")
               - set(resource.attributes["service.name"], "systemd")
+          transform/metrics_labels:
+            error_mode: ignore
+            metric_statements:
+              # Pod ログと同じ規則で service.name を決め、Pod の作り直しをまたいで
+              # ワークロード単位で追えるようにする
+              - context: resource
+                statements:
+                  - set(resource.attributes["service.namespace"],
+                        resource.attributes["k8s.namespace.name"])
+                  - set(resource.attributes["service.name"],
+                        resource.attributes["k8s.deployment.name"])
+                      where resource.attributes["k8s.deployment.name"] != nil
+                  - set(resource.attributes["service.name"],
+                        resource.attributes["k8s.daemonset.name"])
+                      where resource.attributes["service.name"] == nil
+                        and resource.attributes["k8s.daemonset.name"] != nil
+                  - set(resource.attributes["service.name"],
+                        resource.attributes["k8s.statefulset.name"])
+                      where resource.attributes["service.name"] == nil
+                        and resource.attributes["k8s.statefulset.name"] != nil
+                  - set(resource.attributes["service.name"],
+                        resource.attributes["k8s.cronjob.name"])
+                      where resource.attributes["service.name"] == nil
+                        and resource.attributes["k8s.cronjob.name"] != nil
+                  - set(resource.attributes["service.name"],
+                        resource.attributes["k8s.pod.name"])
+                      where resource.attributes["service.name"] == nil
+                  # k8sattributes preset は Pod のラベルとアノテーションを全て付ける。
+                  # ラベルとして送るには多すぎるため、識別に要るものだけ残す
+                  - keep_keys(resource.attributes, ["service.namespace", "service.name",
+                      "k8s.namespace.name", "k8s.pod.name", "k8s.container.name"])
           transform/sampling:
             error_mode: ignore
             log_statements:
@@ -258,6 +310,30 @@ helmCharts:
             #
             # 代償はログ到達が最大 0.8 秒遅れることだけで、この用途では問題にならない。
             poll_interval: 1s
+          kubeletstats:
+            collection_interval: 1m
+            # kubelet のサービング証明書は自己署名 (lily-ca) で、IP の SAN を持たない
+            insecure_skip_verify: true
+            metric_groups:
+              - container
+              - pod
+            metrics:
+              k8s.container.cpu_limit_utilization:
+                enabled: true
+              k8s.container.cpu_request_utilization:
+                enabled: true
+              k8s.container.memory_limit_utilization:
+                enabled: true
+              k8s.container.memory_request_utilization:
+                enabled: true
+              k8s.pod.cpu_limit_utilization:
+                enabled: true
+              k8s.pod.cpu_request_utilization:
+                enabled: true
+              k8s.pod.memory_limit_utilization:
+                enabled: true
+              k8s.pod.memory_request_utilization:
+                enabled: true
           # Alloy から journald ログを OTLP で受け取る。journalctl を実行できない
           # distroless イメージの代わりに、libsystemd を直接呼ぶ Alloy に読み取りを任せる。
           otlp:
@@ -306,7 +382,18 @@ helmCharts:
                 - otlp
             metrics:
               exporters:
-                - nop
+                - otlp/mackerel-metrics
+              processors:
+                # 配列は置換されるため、chart 既定の memory_limiter と batch を明示する
+                - memory_limiter
+                - filter/utilization
+                - k8sattributes
+                - transform/metrics_labels
+                - batch
+              # 明示しないと chart が otlp と prometheus を自動で足す。Alloy から届く
+              # OTLP やコレクタ自身のメトリクスを Mackerel に送らないよう kubeletstats に限る
+              receivers:
+                - kubeletstats
             traces:
               exporters:
                 - nop
@@ -346,6 +433,8 @@ helmCharts:
         zipkin:
           enabled: false
       presets:
+        kubeletMetrics:
+          enabled: true
         kubernetesAttributes:
           enabled: true
           extractAllPodAnnotations: true
