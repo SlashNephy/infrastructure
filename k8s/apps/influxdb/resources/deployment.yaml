@@ -62,17 +62,19 @@ spec:
             - name: admin-secret
               mountPath: /run/secrets/influxdb
               readOnly: true
-          # 12 GB / 322 shard の頃、memory limit 1536Mi ではページキャッシュが確保できず
-          # reclaim を繰り返して liveness probe が timeout していた。データ量に見合う limit を明示する。
+          # switchbot だけを残した後 (データ 327 MB) の実測: 定常 anon 628Mi、CPU 2m、
+          # 起動直後のピーク 1472Mi。かつて 12 GB / 322 shard の頃は limit 1536Mi で
+          # ページキャッシュが足りず liveness probe が timeout したので、limit は起動時の
+          # ピークに余裕を持たせる。データを増やすときは見直す。
           resources:
             limits:
               cpu: "2"
               ephemeral-storage: 2Gi
-              memory: 4Gi
-            requests:
-              cpu: 500m
-              ephemeral-storage: 50Mi
               memory: 2Gi
+            requests:
+              cpu: 50m
+              ephemeral-storage: 50Mi
+              memory: 768Mi
           livenessProbe:
             failureThreshold: 6
             httpGet:
