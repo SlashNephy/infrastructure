@@ -18,7 +18,7 @@ spec:
       containers:
         # https://github.com/sdr-enthusiasts/docker-adsb-ultrafeeder
         - name: ultrafeeder
-          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:telegraf@sha256:1719c322e10681f12b928d574700f1cf0f62721400b3fb7fb95d39633de0941e
+          image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder:latest@sha256:4955d6ef02c86e58a83919c4a1ef6d18c5f6007f18dd4dbb962331f3b5bba779
           env:
             - name: LOGLEVEL
               value: error
@@ -67,12 +67,6 @@ spec:
               value: "true"
             - name: GRAPHS1090_REDUCE_IO
               value: "true"
-            - name: INFLUXDBV2_URL
-              value: http://influxdb.influxdb:8086
-            - name: INFLUXDBV2_BUCKET
-              value: sdr-enthusiasts
-            - name: INFLUXDBV2_ORG
-              value: primary
           envFrom:
             - secretRef:
                 name: ultrafeeder
