@@ -10,34 +10,48 @@ auth:
       header: X-authentik-username
       logoutRedirectUrl: https://files.starry.blue/outpost.goauthentik.io/sign_out
 
+http:
+  port: 8080
+  # Traefik の背後にいるため、X-Forwarded-* からクライアントの IP を取る
+  trustProxyHeaders: true
+
 server:
   # インデックス用 SQLite とサムネイルの置き場。再起動のたびに再インデックスしないよう永続化する
   cacheDir: /data/cache
   # ルートファイルシステムが読み取り専用のため、書き込み先を hostPath に逃がす
-  database: /data/database.db
+  database:
+    # v1 の BoltDB。SQLite が空のときに限り、起動時にユーザーや共有リンクを取り込む
+    migrateFrom: /data/database.db
+    path: /data/filebrowser.sqlite
   logging:
     - levels: info|warning|error
-  port: 8080
-  # ソースが複数あるときは既定で有効にならないため、defaultEnabled を明示する
+  # ソースが複数あるときは既定で有効にならないため、defaultEnabled を明示する。
+  # ログインできるのは authentik を通過したユーザーのみなので、書き込みも既定で許可してよい
   sources:
     - name: pool
       config:
         defaultEnabled: true
+        defaultPermissions:
+          create: true
+          delete: true
+          download: true
+          modify: true
+          view: true
       path: /mnt/pool
     - name: konomitv-capture
       config:
         defaultEnabled: true
+        defaultPermissions:
+          create: true
+          delete: true
+          download: true
+          modify: true
+          view: true
       path: /capture
 
 userDefaults:
   account:
     loginMethod: proxy
-    # admin 権限だけでは書き込みが拒否されるため、個別に許可する。
-    # ログインできるのは authentik を通過したユーザーのみなので、既定値として付与してよい
     permissions:
-      create: true
-      delete: true
-      download: true
-      modify: true
       realtime: true
       share: true
