@@ -25,10 +25,6 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-            - name: HOST_IP
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.hostIP
           envFrom:
             - secretRef:
                 name: app-secret
@@ -55,6 +51,8 @@ spec:
             path: /mnt/local/telegraf/plugins
             type: Directory
       restartPolicy: Always
+      # switchbot の収集だけになり Kubernetes API を使わない
+      automountServiceAccountToken: false
       securityContext:
         seccompProfile:
           type: RuntimeDefault
