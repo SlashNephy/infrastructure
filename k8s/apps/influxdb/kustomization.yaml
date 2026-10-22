@@ -10,6 +10,10 @@ namespace: influxdb
 #     'export INFLUX_TOKEN=$(cat "$INFLUXDB_ADMIN_USER_TOKEN_FILE"); \
 #      influx bucket update --host http://127.0.0.1:8086 -i 9640aa1885903715 \
 #        --retention 90d --shard-group-duration 168h'
+#
+# 書き込み用のトークンはバケットの ID に紐付いている。バケットを作り直したり
+# 名前を入れ替えたりすると、書き手 (telegraf) が 403 になる。中身を減らすときは
+# バケットはそのままにして influx delete を使う。
 resources:
   - ./resources/authentik.yaml
   - ./resources/deployment.yaml
