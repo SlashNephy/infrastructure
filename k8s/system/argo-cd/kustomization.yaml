@@ -86,9 +86,6 @@ resources:
   - ./resources/namespace.yaml
   - ./resources/projects.yaml
   - ./resources/secret.yaml
-  # - ./resources/secret-bbc.yaml
-  # - ./resources/application/bbc.yaml
-  # - ./resources/service-bbc.yaml
 
 patches:
   # chart の NetworkPolicy は ingress を全許可 ([{}]) にしており、他のポリシーを足しても
