@@ -20,8 +20,6 @@ server:
   cacheDir: /data/cache
   # ルートファイルシステムが読み取り専用のため、書き込み先を hostPath に逃がす
   database:
-    # v1 の BoltDB。SQLite が空のときに限り、起動時にユーザーや共有リンクを取り込む
-    migrateFrom: /data/database.db
     path: /data/filebrowser.sqlite
   logging:
     - levels: info|warning|error
