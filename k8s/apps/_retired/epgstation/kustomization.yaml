@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: epgstation
 
 resources:
-  - ./../../common/registry-ghcr-io/lily
+  - ./../../common/registry-ghcr-io
   - ./resources/authentik.yaml
   - ./resources/configmap-mariadb.yaml
   - ./resources/cronjob-backup.yaml

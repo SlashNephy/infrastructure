@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: muni
 
 resources:
-  - ./../../common/registry-ghcr-io/lily
+  - ./../../common/registry-ghcr-io
   - ./resources/deployment.yaml
   - ./resources/dns.yaml
   - ./resources/ingress.yaml

@@ -30,7 +30,7 @@ spec:
             project: apps
           - name: mahiron-lily
             namespace: mahiron
-            path: k8s/apps/mahiron/lily
+            path: k8s/apps/mahiron
             project: apps
           - name: rclone
             namespace: rclone
@@ -118,7 +118,7 @@ spec:
             project: system
           - name: cert-manager
             namespace: cert-manager
-            path: k8s/system/cert-manager/lily
+            path: k8s/system/cert-manager
             project: system
           - name: generic-device-plugin
             namespace: generic-device-plugin
@@ -134,11 +134,11 @@ spec:
             project: system
           - name: traefik-lily
             namespace: traefik
-            path: k8s/system/traefik/lily
+            path: k8s/system/traefik
             project: system
           - name: cilium
             namespace: kube-system
-            path: k8s/system/cilium/lily
+            path: k8s/system/cilium
             project: system
           - name: authentik
             namespace: authentik
@@ -150,7 +150,7 @@ spec:
             project: system
           - name: tailscale-operator
             namespace: tailscale-operator
-            path: k8s/system/tailscale-operator/lily
+            path: k8s/system/tailscale-operator
             project: system
           - name: cloudnative-pg
             namespace: cnpg-system

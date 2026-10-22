@@ -47,7 +47,7 @@ helmCharts:
         resourcesPreset: nano
 
 resources:
-  - ./../../common/registry-ghcr-io/lily
+  - ./../../common/registry-ghcr-io
   - ./resources/deployment-infra.yaml
   - ./resources/deployment-worker.yaml
   - ./resources/deployment.yaml

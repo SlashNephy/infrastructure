@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: mahiron
 
 resources:
-  - ./../../../common/registry-ghcr-io/lily
+  - ./../../common/registry-ghcr-io
   - ./resources/authentik.yaml
   - ./resources/deployment.yaml
   - ./resources/dns.yaml
