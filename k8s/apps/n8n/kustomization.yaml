@@ -90,6 +90,9 @@ helmCharts:
           limits:
             memory: 1536Mi
           requests:
+            # 2026-10-23 の実測 (10 秒間隔、15 分間) で定常時の平均 15m、p90 45m、最大 103m。
+            # 起動直後は平均 480m まで上がるが、limits を付けずに空き CPU で吸収させる。
+            cpu: 50m
             memory: 640Mi
       secretRefs:
         env:
@@ -128,14 +131,13 @@ resources:
   - ./resources/volume-postgresql.yaml
 
 patches:
-  # チャート既定の CPU の requests / limits を外す。valuesInline の null は kustomize が落とすため、patch で消す。
+  # チャート既定の CPU の limits (1 コア) を外す。起動時に頭打ちになるため。
+  # valuesInline の null は kustomize が落とすため、patch で消す。
   - target:
       group: apps
       version: v1
       kind: Deployment
       name: n8n-main
     patch: |-
-      - path: /spec/template/spec/containers/0/resources/requests/cpu
-        op: remove
       - path: /spec/template/spec/containers/0/resources/limits/cpu
         op: remove
