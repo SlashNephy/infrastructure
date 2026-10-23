@@ -18,7 +18,7 @@ spec:
       match: Host(`n8n.starry.blue`)
       priority: 10
       services:
-        - name: n8n
+        - name: n8n-main
           port: http
       middlewares:
         - name: forward-auth-authentik
@@ -38,5 +38,5 @@ spec:
       match: Host(`n8n.starry.blue`) && (PathPrefix(`/webhook/`) || Path(`/healthz`))
       priority: 20
       services:
-        - name: n8n
+        - name: n8n-main
           port: http

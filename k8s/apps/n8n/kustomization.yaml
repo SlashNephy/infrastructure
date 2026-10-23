@@ -2,89 +2,113 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: n8n
 
-images:
-  # チャートの更新が遅いのでセルフアップデート
-  - name: n8nio/n8n
-    newTag: 2.44.3@sha256:5032941f437e1daa421cad0cc3ea57cd054f0d44a7256b38a0a3fca1b460834a
-
 helmCharts:
-  # https://github.com/8gears/n8n-helm-chart
+  # https://github.com/n8n-io/n8n-hosting/tree/main/charts/n8n
+  # イメージはチャートの appVersion に追従させる。チャートは週次で n8n の更新に追従する。
   - name: n8n
     releaseName: n8n
     namespace: n8n
-    version: 2.1.1
-    repo: oci://8gears.container-registry.com/library
+    version: 1.17.0
+    repo: oci://ghcr.io/n8n-io/n8n-helm-chart
     includeCRDs: true
     valuesInline:
-      main:
-        config:
-          db:
-            postgresdb:
-              database: n8n
-              host: postgresql
-              user: n8n
-            type: postgresdb
-          generic:
-            timezone: Asia/Tokyo
-          n8n:
-            diagnostics_enabled: "false"
-            host: n8n.starry.blue
-            protocol: https
-            proxy_hops: "1"
-            version_notifications_enabled: "false"
+      config:
         extraEnv:
-          DB_POSTGRESDB_PASSWORD:
-            valueFrom:
-              secretKeyRef:
-                name: postgresql-secret
-                key: password
-          N8N_ENCRYPTION_KEY:
-            valueFrom:
-              secretKeyRef:
-                name: n8n-secret
-                key: encryption_key
-          N8N_LICENSE_ACTIVATION_KEY:
-            valueFrom:
-              secretKeyRef:
-                name: n8n-secret
-                key: license_activation_key
-        # チャート既定は liveness / readiness とも /healthz を向いているが、これはプロセスの生存しか
-        # 見ないため、DB 接続が切れて n8n が自力で復帰できなくなっても Pod は Ready のまま放置される。
+          - name: GENERIC_TIMEZONE
+            value: Asia/Tokyo
+          - name: N8N_DIAGNOSTICS_ENABLED
+            value: "false"
+          - name: N8N_VERSION_NOTIFICATIONS_ENABLED
+            value: "false"
+          - name: N8N_PROXY_HOPS
+            value: "1"
+        timezone: Asia/Tokyo
+      database:
+        host: postgresql
+        passwordSecret:
+          name: postgresql-secret
+          key: password
+      editor:
+        url: https://n8n.starry.blue
+      extraVolumeMounts:
+        - name: n8n-secret
+          mountPath: /etc/n8n-secret
+          readOnly: true
+      extraVolumes:
+        - name: n8n-secret
+          secret:
+            items:
+              - key: encryption_key
+                path: encryption_key
+            secretName: n8n-secret
+      # チャート既定の docker.n8n.io は Scarf (gateway.scarf.sh) への CNAME で、DNS フィルタに遮断されて解決できない。
+      # 同じイメージを配布している Docker Hub から取得する。
+      image:
+        repository: n8nio/n8n
+      license:
+        enabled: true
+        existingSecret:
+          name: n8n-secret
+          key: license_activation_key
+      lifecycle:
+        main:
+          # チャート既定の preStop (sleep 10) は RollingUpdate でエンドポイントから外れるのを待つためのもの。
+          # Recreate では停止時間が 10 秒延びるだけなので無効にする。
+          preStop:
+            enabled: false
+      persistence:
+        enabled: true
+        existingClaim: n8n-data
+      probes:
+        # チャート既定の liveness は /healthz を向いているが、これはプロセスの生存しか
+        # 見ないため、DB 接続が切れて n8n が自力で復帰できなくなっても Pod は放置される。
         # 実際 2026-08-08 に PostgreSQL の再起動をきっかけに n8n の再接続機構が発火せず、
         # /rest/login が 503 Database is not ready! を返し続けた。
         # DB 接続まで見る /healthz/readiness を向けて、Kubernetes 側から検知・自己修復できるようにする。
-        livenessProbe:
-          # PostgreSQL の再起動やメンテナンスで一時的に落ちただけで再起動ループに入らないよう、
-          # 5 分 (10s × 30) の猶予を持たせる。チャート既定の failureThreshold と同値。
+        # PostgreSQL の再起動やメンテナンスで一時的に落ちただけで再起動ループに入らないよう、
+        # 5 分 (10s × 30) の猶予を持たせる。
+        liveness:
           failureThreshold: 30
-          httpGet:
-            path: /healthz/readiness
-            port: http
+          initialDelaySeconds: 0
+          path: /healthz/readiness
           periodSeconds: 10
-        persistence:
-          enabled: true
-          existingClaim: n8n-data
-          type: existing
-        readinessProbe:
-          # 疎通不能なうちにリクエストを流し込まないよう、readiness は liveness より早く落とす。
+        # 疎通不能なうちにリクエストを流し込まないよう、readiness は liveness より早く落とす。
+        readiness:
           failureThreshold: 3
-          httpGet:
-            path: /healthz/readiness
-            port: http
+          initialDelaySeconds: 0
           periodSeconds: 10
-        resources:
+      # worker と Redis を持たない standalone 構成で動かす。DB は外部の PostgreSQL を使う。
+      queueMode:
+        enabled: false
+      # チャート既定の Role は namespace 内の全 Secret の読み取りを許すが、n8n は Kubernetes API を使わない。
+      rbac:
+        create: false
+      redis:
+        enabled: false
+      resources:
+        main:
           limits:
             memory: 1536Mi
           requests:
             memory: 640Mi
-      # TODO: worker を分離
-      # worker:
-      #   enabled: true
-      #   replicaCount: 1
-      # valkey:
-      #   enabled: true
-      #   auth:
-      #     enabled: false
+      secretRefs:
+        env:
+          # n8n-secret のキー名はチャートの想定 (N8N_ENCRYPTION_KEY) と異なるため、ファイルとして渡す。
+          N8N_ENCRYPTION_KEY_FILE: /etc/n8n-secret/encryption_key
+          N8N_HOST: n8n.starry.blue
+          N8N_PROTOCOL: https
+      # RWO の PVC を使うため、新旧の Pod を並走させない。
+      strategy:
+        type: Recreate
+      # existingSecret が空だとチャートが毎回ランダムなトークンを生成し、Argo CD が常に差分を検出する。
+      # task runner の sidecar は無効なのでトークンは参照されない。有効化するときは n8n-secret に
+      # runners_auth_token を追加すること。
+      taskRunners:
+        authToken:
+          existingSecret: n8n-secret
+          existingSecretKey: runners_auth_token
+      webhook:
+        url: https://n8n.starry.blue
 
 resources:
   - ./resources/authentik.yaml
@@ -102,3 +126,16 @@ resources:
   - ./resources/volume-backup.yaml
   - ./resources/volume-data.yaml
   - ./resources/volume-postgresql.yaml
+
+patches:
+  # チャート既定の CPU の requests / limits を外す。valuesInline の null は kustomize が落とすため、patch で消す。
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: n8n-main
+    patch: |-
+      - path: /spec/template/spec/containers/0/resources/requests/cpu
+        op: remove
+      - path: /spec/template/spec/containers/0/resources/limits/cpu
+        op: remove
