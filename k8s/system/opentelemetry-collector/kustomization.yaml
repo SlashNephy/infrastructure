@@ -7,7 +7,7 @@ helmCharts:
   - name: opentelemetry-collector
     releaseName: otel-agent
     namespace: opentelemetry-collector
-    version: 0.176.1
+    version: 0.177.0
     repo: https://open-telemetry.github.io/opentelemetry-helm-charts
     valuesInline:
       # kubeletstats の request / limit 使用率は kubelet の /pods から Pod の spec を読む。
@@ -460,7 +460,7 @@ helmCharts:
   - name: opentelemetry-collector
     releaseName: otel-cluster
     namespace: opentelemetry-collector
-    version: 0.176.1
+    version: 0.177.0
     repo: https://open-telemetry.github.io/opentelemetry-helm-charts
     valuesInline:
       config:
