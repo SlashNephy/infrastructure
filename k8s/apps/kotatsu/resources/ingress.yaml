@@ -41,6 +41,16 @@ spec:
         - name: kotatsu
           port: http
 
+    # MCP サーバーと、MCP のクライアントがトークンを得るための OAuth の端点。クライアントはブラウザを持たずに
+    # 直接叩くので、Authentik の forward-auth を通さない。Kotatsu が自身の発行したトークンで認証し、
+    # MCP を無効にしているときは 404 を返す。同意の画面に送る /oauth/authorize は、ブラウザで開くので forward-auth を通す。
+    - kind: Rule
+      match: Host(`kotatsu.starry.blue`) && (Path(`/mcp`) || PathPrefix(`/.well-known/oauth-protected-resource`) || Path(`/.well-known/oauth-authorization-server`) || Path(`/oauth/token`) || Path(`/oauth/revoke`))
+      priority: 20
+      services:
+        - name: kotatsu
+          port: http
+
     # 外形監視のため、ヘルスチェックの端点だけ認証を迂回させる。中身を返さない。
     - kind: Rule
       match: Host(`kotatsu.starry.blue`) && Path(`/healthz`)
