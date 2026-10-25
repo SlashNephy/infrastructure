@@ -496,6 +496,12 @@ helmCharts:
                 - memory_limiter
                 - transform/service_name
                 - batch
+              # 明示しないと chart 既定の otlp receiver がこのパイプラインに残る。
+              # otlp receiver には認証がなく、到達できる Pod が送ったログが
+              # kubernetes-events として Mackerel API キーで送信されてしまう。
+              # kubernetesEvents preset が追加する k8sobjects だけに限る。
+              receivers:
+                - k8sobjects
             metrics:
               exporters:
                 - nop
