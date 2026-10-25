@@ -1,0 +1,29 @@
+# tar1090 には認証がなく、認証は Traefik の forward-auth で行っている。
+# クラスタ内から Pod に直接届くと、認証の内側に置いた受信機の座標 (/data/receiver.json) などを
+# 迂回して読めるため、ingress は Traefik からの tar1090 (80) に限る。
+# Beast の出力 (30005) は Pod 内の fr24feed が localhost で使い、fr24feed の画面 (8754) は
+# Service にも IngressRoute にも載せていない。
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: app
+
+spec:
+  endpointSelector:
+    matchLabels:
+      app: default
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/instance: traefik-traefik
+            app.kubernetes.io/name: traefik
+            k8s:io.kubernetes.pod.namespace: traefik
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+  # Cilium は既定でホスト (hostNetwork の Pod を含む) から Pod への通信を ingress のポリシーに
+  # 関わらず許可するため、明示的に拒否する。この Pod は kubelet の probe を使っていない
+  ingressDeny:
+    - fromEntities:
+        - host
