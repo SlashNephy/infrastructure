@@ -1,0 +1,29 @@
+# FileBrowser は X-authentik-username ヘッダーだけで利用者を決める。このヘッダーを信頼できるのは、
+# Traefik の forward-auth が付け直した場合だけなので、ingress は Traefik からの 8080 に限る。
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: app
+  annotations:
+    # probe を exec に替えた Pod への入れ替えが終わってから、ホストを拒否する
+    argocd.argoproj.io/sync-wave: "1"
+
+spec:
+  endpointSelector:
+    matchLabels:
+      app: default
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/instance: traefik-traefik
+            app.kubernetes.io/name: traefik
+            k8s:io.kubernetes.pod.namespace: traefik
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+  # Cilium は既定でホスト (hostNetwork の Pod を含む) から Pod への通信を ingress のポリシーに
+  # 関わらず許可するため、明示的に拒否する。probe は exec で行う
+  ingressDeny:
+    - fromEntities:
+        - host
