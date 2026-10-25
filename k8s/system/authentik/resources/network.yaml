@@ -1,0 +1,55 @@
+# authentik は X-Forwarded-For を右から走査し、trusted_proxy_cidrs に含まれない最初の IP をクライアント IP とする。
+# trusted_proxy_cidrs には Pod の CIDR が含まれるため、Pod から直接届くと任意の IP を名乗れる。
+# Traefik は Pod の IP から接続するので CIDR では絞れず、ここで server に届く送信元を限る。
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: authentik-server
+  annotations:
+    # probe を exec に替えた Pod への入れ替えが終わってから、ホストを拒否する
+    argocd.argoproj.io/sync-wave: "1"
+
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: authentik
+      app.kubernetes.io/name: authentik
+  ingress:
+    # IngressRoute と forward-auth の middleware
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/instance: traefik-traefik
+            app.kubernetes.io/name: traefik
+            k8s:io.kubernetes.pod.namespace: traefik
+      toPorts:
+        - ports:
+            - port: "9000"
+              protocol: TCP
+    # authentik-operator は Service に直接接続する
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/instance: authentik-operator
+            app.kubernetes.io/name: authentik-operator
+            k8s:io.kubernetes.pod.namespace: authentik-operator
+      toPorts:
+        - ports:
+            - port: "9000"
+              protocol: TCP
+    - fromEntities:
+        - cluster
+      toPorts:
+        - ports:
+            - port: "9300"
+              protocol: TCP
+  # Cilium は既定でホスト (hostNetwork の Pod を含む) から Pod への通信を ingress のポリシーに
+  # 関わらず許可する。ホストの IP も trusted_proxy_cidrs に含まれるため、明示的に拒否する。probe は exec で行う
+  ingressDeny:
+    - fromEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "9000"
+              protocol: TCP
+            - port: "9443"
+              protocol: TCP

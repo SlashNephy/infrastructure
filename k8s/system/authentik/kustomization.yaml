@@ -127,6 +127,7 @@ resources:
   - ./resources/ingress.yaml
   - ./resources/middleware.yaml
   - ./resources/namespace.yaml
+  - ./resources/network.yaml
   - ./resources/pv-postgres-backup.yaml
   - ./resources/pv-postgres.yaml
   - ./resources/secret.yaml
@@ -147,3 +148,50 @@ patches:
     patch: |-
       - path: /data
         op: remove
+  # kubelet の httpGet はホストからの通信になり、resources/network.yaml でホストを拒否しているため、Pod 内から確かめる。
+  # python の起動を含むので、timeout は liveness と同じ 10s に揃える
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: authentik-server
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/livenessProbe
+        value:
+          exec:
+            command:
+              - python
+              - -c
+              - 'import http.client,sys; c=http.client.HTTPConnection("127.0.0.1",9000,timeout=5); c.request("GET","/-/health/live/"); sys.exit(0 if c.getresponse().status<400 else 1)'
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
+      - op: replace
+        path: /spec/template/spec/containers/0/readinessProbe
+        value:
+          exec:
+            command:
+              - python
+              - -c
+              - 'import http.client,sys; c=http.client.HTTPConnection("127.0.0.1",9000,timeout=5); c.request("GET","/-/health/ready/"); sys.exit(0 if c.getresponse().status<400 else 1)'
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
+      - op: replace
+        path: /spec/template/spec/containers/0/startupProbe
+        value:
+          exec:
+            command:
+              - python
+              - -c
+              - 'import http.client,sys; c=http.client.HTTPConnection("127.0.0.1",9000,timeout=5); c.request("GET","/-/health/live/"); sys.exit(0 if c.getresponse().status<400 else 1)'
+          failureThreshold: 60
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
