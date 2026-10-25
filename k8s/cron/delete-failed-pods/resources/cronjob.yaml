@@ -23,14 +23,13 @@ spec:
                 - |
                   set -euo pipefail
                   threshold=$(( $(date -u +%s) - 86400 ))
-                  kubectl get pods -A --field-selector=status.phase=Failed -o jsonpath='{range .items[*]}{.metadata.namespace}|{.metadata.name}|{.metadata.ownerReferences[0].kind}|{.status.startTime}|{.status.containerStatuses[*].state.terminated.finishedAt}{"\n"}{end}' |
-                  while IFS='|' read -r namespace name owner started finished; do
-                    # Job の Pod は CronJob の failedJobsHistoryLimit に任せる。
-                    # 所有者の無い Pod や static Pod のミラー (所有者は Node) は手で作ったものなので残す
-                    case "$owner" in
-                      "" | Job | Node) continue ;;
-                    esac
-                    # 終了時刻はコンテナの finishedAt の最後のもの。起動前に弾かれた Pod には無い (jsonpath は null を出す) ので
+                  # Job の Pod は CronJob の failedJobsHistoryLimit に任せる。
+                  # 所有者の無い Pod や static Pod のミラー (所有者は Node) は手で作ったものなので残す。
+                  # 所有者の kind は Pod を作れる者が改行や | を含む任意の文字列にできるので、出力に混ぜると偽のレコードを差し込まれる。
+                  # そのためテンプレートの中で判定し、API サーバーが形式を保証する namespace・名前・時刻だけを出力する
+                  kubectl get pods -A --field-selector=status.phase=Failed -o go-template='{{range .items}}{{if .metadata.ownerReferences}}{{$kind := (index .metadata.ownerReferences 0).kind}}{{if and (ne $kind "Job") (ne $kind "Node")}}{{.metadata.namespace}}|{{.metadata.name}}|{{with .status.startTime}}{{.}}{{end}}|{{range .status.containerStatuses}}{{with .state.terminated.finishedAt}}{{.}} {{end}}{{end}}{{"\n"}}{{end}}{{end}}{{end}}' |
+                  while IFS='|' read -r namespace name started finished; do
+                    # 終了時刻はコンテナの finishedAt の最後のもの。起動前に弾かれた Pod には無いので
                     # startTime で代用する。Ready の lastTransitionTime はノードの再起動のたびに更新されるので使えない
                     ended=$(echo "$finished" | tr ' ' '\n' | grep -E '^[0-9]' | sort | tail -n 1 || true)
                     ended=${ended:-$started}
@@ -39,7 +38,7 @@ spec:
                     ended_at=$(date -u -D '%Y-%m-%dT%H:%M:%SZ' -d "$ended" +%s)
                     # 失敗直後の調査に使えるよう、終了から 1 日は残す
                     if [ "$ended_at" -le "$threshold" ]; then
-                      kubectl delete pod --namespace "$namespace" "$name" --wait=false
+                      kubectl delete pod --namespace "$namespace" --wait=false -- "$name"
                     fi
                   done
               env:
