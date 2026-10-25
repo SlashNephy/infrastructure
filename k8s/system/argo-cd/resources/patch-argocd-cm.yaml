@@ -44,7 +44,9 @@ data:
     jsonPointers:
       - /spec/externalCIDRs
 
-  statusbadge.enabled: "true"
+  # バッジ API (/api/badge) は認証なしで Application の有無・状態・リビジョンを返す。
+  # argocd.starry.blue は forward-auth を通さずに公開しているため、無効にする
+  statusbadge.enabled: "false"
 
   # Webhook のトリガーのみを使用する
   # https://argo-cd.readthedocs.io/en/latest/faq/#how-often-does-argo-cd-check-for-changes-to-my-git-or-helm-repository
