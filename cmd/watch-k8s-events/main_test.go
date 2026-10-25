@@ -2,10 +2,15 @@ package main
 
 import (
 	"errors"
+	"io"
+	"net/http"
+	"strings"
 	"testing"
 	"time"
 
+	"github.com/bwmarrin/discordgo"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	coreV1 "k8s.io/api/core/v1"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -305,6 +310,105 @@ func TestFilterEvent(t *testing.T) {
 			assert.Equal(t, tt.expected, filterEvent(tt.event, syncedAt))
 		})
 	}
+}
+
+func TestSendDiscordNotificationRedactsWebhookToken(t *testing.T) {
+	t.Parallel()
+
+	const (
+		webhookID    = "123456789012345678"
+		webhookToken = "fake-webhook-token"
+	)
+
+	errConnectionReset := errors.New("connection reset by peer")
+
+	tests := []struct {
+		name         string
+		webhookToken string
+		roundTrip    roundTripperFunc
+		// wantRequest はトークンを含む URL で Webhook を叩くところまで進むかどうか
+		wantRequest bool
+		assertError func(t *testing.T, err error)
+	}{
+		{
+			name:         "通信に失敗したときはトークンを伏せて原因を残す",
+			webhookToken: webhookToken,
+			roundTrip: func(*http.Request) (*http.Response, error) {
+				return nil, errConnectionReset
+			},
+			wantRequest: true,
+			assertError: func(t *testing.T, err error) {
+				assert.ErrorIs(t, err, errConnectionReset)
+			},
+		},
+		{
+			name:         "トークンが URL として不正なときもトークンを伏せる",
+			webhookToken: webhookToken + "\n",
+			roundTrip: func(*http.Request) (*http.Response, error) {
+				return nil, errors.New("unexpected request")
+			},
+			wantRequest: false,
+			assertError: func(t *testing.T, err error) {
+				assert.ErrorContains(t, err, "invalid control character in URL")
+			},
+		},
+		{
+			name:         "API が返したエラーはそのまま返す",
+			webhookToken: webhookToken,
+			roundTrip: func(req *http.Request) (*http.Response, error) {
+				return &http.Response{
+					Status:     "404 Not Found",
+					StatusCode: http.StatusNotFound,
+					Header:     http.Header{},
+					Body:       io.NopCloser(strings.NewReader(`{"message": "Unknown Webhook", "code": 10015}`)),
+					Request:    req,
+				}, nil
+			},
+			wantRequest: true,
+			assertError: func(t *testing.T, err error) {
+				var restError *discordgo.RESTError
+				assert.ErrorAs(t, err, &restError)
+				assert.EqualError(t, err, `HTTP 404 Not Found, {"message": "Unknown Webhook", "code": 10015}`)
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
+			session, err := discordgo.New("")
+			require.NoError(t, err)
+
+			var requestedURLs []string
+			session.Client = &http.Client{Transport: roundTripperFunc(func(req *http.Request) (*http.Response, error) {
+				requestedURLs = append(requestedURLs, req.URL.String())
+				return tt.roundTrip(req)
+			})}
+
+			event := &coreV1.Event{Type: coreV1.EventTypeWarning, Reason: "BackOff"}
+			err = sendDiscordNotification(session, webhookID, tt.webhookToken, event)
+
+			if tt.wantRequest {
+				require.Len(t, requestedURLs, 1)
+				assert.Contains(t, requestedURLs[0], webhookToken)
+			} else {
+				assert.Empty(t, requestedURLs)
+			}
+
+			require.Error(t, err)
+			assert.NotContains(t, err.Error(), webhookToken)
+			tt.assertError(t, err)
+		})
+	}
+}
+
+type roundTripperFunc func(*http.Request) (*http.Response, error)
+
+var _ http.RoundTripper = roundTripperFunc(nil)
+
+func (f roundTripperFunc) RoundTrip(req *http.Request) (*http.Response, error) {
+	return f(req)
 }
 
 func unhealthyPodEvent(namespace, name string) *coreV1.Event {

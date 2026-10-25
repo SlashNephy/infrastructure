@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
+	"net/url"
 	"os"
 	"os/signal"
 	"strings"
@@ -340,7 +342,19 @@ func sendDiscordNotification(session *discordgo.Session, webhookID, webhookToken
 	}
 
 	_, err := session.WebhookExecute(webhookID, webhookToken, false, params)
-	return err
+	return redactWebhookURL(err)
+}
+
+// redactWebhookURL はエラーから Webhook のリクエスト URL を取り除く。
+// discordgo は Webhook のトークンを URL のパスに埋め込み、net/http の *url.Error をそのまま返す。
+// *url.Error の Error() は URL を含むため、そのままログに出すとトークンが漏れる。
+func redactWebhookURL(err error) error {
+	var urlError *url.Error
+	if !errors.As(err, &urlError) {
+		return err
+	}
+
+	return fmt.Errorf("%s Discord webhook: %w", urlError.Op, urlError.Err)
 }
 
 // eventCount はイベントの発生回数を返す。
