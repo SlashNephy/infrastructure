@@ -45,7 +45,7 @@ data:
       - /spec/externalCIDRs
 
   # バッジ API (/api/badge) は認証なしで Application の有無・状態・リビジョンを返す。
-  # argocd.starry.blue は forward-auth を通さずに公開しているため、無効にする
+  # argocd.starry.blue は forward-auth の内側にあるが、多層防御として無効のままにする
   statusbadge.enabled: "false"
 
   # Webhook のトリガーのみを使用する
