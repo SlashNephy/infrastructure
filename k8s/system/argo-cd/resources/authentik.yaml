@@ -58,3 +58,39 @@ spec:
         name: id.starry.blue
       subjectMode: HashedUserID
   slug: argo-cd
+
+---
+# Argo CD 自体のログイン (OIDC) とは別に、手前の forward auth 用の Application を置く。
+# Proxy provider は redirect URI や署名鍵を authentik が固定値で上書きするため、
+# Argo CD の OIDC クライアントを兼ねられない。
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: argo-cd-forward-auth
+
+spec:
+  # Argo CD の OIDC Application と同じグループに限る。
+  access:
+    rules:
+      - group:
+          name: ArgoCD/Admin
+      - group:
+          name: ArgoCD/Viewer
+  hideFromApplicationDashboard: true
+  name: argocd.starry.blue
+  provider:
+    name: argocd.starry.blue
+    flows:
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    proxy:
+      accessTokenValidity: days=1
+      forwardAuthSingle:
+        externalHost: https://argocd.starry.blue
+      interceptHeaderAuth: true
+      outpost:
+        name: authentik Embedded Outpost
+      refreshTokenValidity: days=30
+  slug: argo-cd-forward-auth

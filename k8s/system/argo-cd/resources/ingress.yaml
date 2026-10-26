@@ -16,9 +16,32 @@ spec:
 
     - kind: Rule
       match: Host(`argocd.starry.blue`)
+      priority: 10
       services:
         - name: argo-cd-argocd-server
           # MEMO: リダイレクトループが発生するため、https を使用している
+          port: https
+          scheme: https
+          serversTransport: allow-insecure
+      middlewares:
+        - name: forward-auth-authentik
+          namespace: authentik
+
+    - kind: Rule
+      match: Host(`argocd.starry.blue`) && PathPrefix(`/outpost.goauthentik.io/`)
+      priority: 15
+      services:
+        - name: authentik-server
+          namespace: authentik
+          port: http
+
+    # GitHub からの Webhook と、外形監視の /healthz は認証を迂回させる。
+    # lily は Webhook でしか同期しないため、Webhook を塞ぐと同期が止まる。
+    - kind: Rule
+      match: Host(`argocd.starry.blue`) && (Path(`/api/webhook`) || Path(`/healthz`))
+      priority: 20
+      services:
+        - name: argo-cd-argocd-server
           port: https
           scheme: https
           serversTransport: allow-insecure
