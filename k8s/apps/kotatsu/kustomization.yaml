@@ -7,7 +7,7 @@ helmCharts:
   - name: kotatsu
     releaseName: kotatsu
     namespace: kotatsu
-    version: 2026.10.6
+    version: 2026.10.7
     repo: https://slashnephy.github.io/kotatsu
     valuesInline:
       config:
@@ -22,10 +22,31 @@ helmCharts:
         SERVER_ALLOWED_NETWORKS: 0.0.0.0/0,::/0
         SERVER_TRUSTED_PROXIES: 10.0.0.0/16
         TUNER_URL: http://app.mahiron:40772/
+      # メトリクスを OTLP で Mackerel に送るときのヘッダー。Secret の kotatsu-mackerel (secret.yaml) は API キーだけを持つので、
+      # Kubernetes の変数の展開で「名前=値」の形に組み立てる。展開する変数は、先に定義しておく。
+      # extraEnv はマイグレーションの Job (PreSync) にも入る。Job は Secret を作る OnePasswordItem より先に動くので、
+      # Secret がなくても起動できるよう optional にする。マイグレーションはメトリクスを送らない。
+      extraEnv:
+        - name: MACKEREL_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: kotatsu-mackerel
+              key: Mackerel-Api-Key
+              optional: true
+        - name: KOTATSU_TELEMETRY_OTLP_METRICS_HEADERS
+          value: Mackerel-Api-Key=$(MACKEREL_API_KEY)
       # client ID と client secret は、operator が作る Secret の kotatsu-oidc から読む (authentik.yaml)。
       extraEnvFrom:
         - secretRef:
             name: kotatsu-oidc
+      # メトリクスを、Mackerel のラベル付きメトリクスに OTLP/gRPC で直接送る (Kotatsu の設計書 11.3)。
+      # Mackerel は系列の数で課金されるので、Go のランタイムとプロセスのメトリクスは送らない。/metrics には残る。
+      metrics:
+        otlp:
+          endpoint: https://otlp.mackerelio.com:4317
+          exclude:
+            - go_*
+            - process_*
       mode: split
       # Chart の既定の uid (65532) では、録画の置き場所に書けない。fsGroup も合わせないと、Chart の既定の 65532 が残る。
       podSecurityContext:
