@@ -1,4 +1,5 @@
-# Kotatsu の PostgreSQL。HA は目指さない (lily は単一ノードで PV も local のため)。
+# Kotatsu の PostgreSQL。lily は単一ノードで PV も local なので、HA は目指さない。
+# レプリカを 1 つ置くのは、イメージや設定の更新で primary を作り直さず、更新済みのレプリカへ切り替えて、止まる時間を数秒にするため。
 # 接続先は、CloudNativePG が作る Secret kotatsu-db-app の uri を使う。
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
@@ -13,11 +14,13 @@ spec:
       owner: kotatsu
   # CNPG の webhook はタグを PostgreSQL の版として読むので、タグはメジャー版にする
   imageName: ghcr.io/cloudnative-pg/postgresql:18@sha256:899d3ed526b659d77935dde0e6bf2d69dbbf17d3d8c6486ca8cfd04bd3c18533
-  instances: 1
+  instances: 2
   postgresql:
     parameters:
       log_timezone: Asia/Tokyo
       timezone: Asia/Tokyo
+  # 更新では、レプリカを先に替えてから、primary をレプリカへ切り替える。既定の restart は、primary をその場で作り直す。
+  primaryUpdateMethod: switchover
   resources:
     limits:
       memory: 2Gi

@@ -1,4 +1,5 @@
-# PostgreSQL のデータを置くホストのディレクトリ。
+# PostgreSQL のデータを置くホストのディレクトリ。インスタンスごとに 1 つ用意する (database.yaml)。
+# Cluster の pvcTemplate は、ラベルの name: kotatsu-db-data で PV を選ぶ。
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -14,6 +15,31 @@ spec:
     storage: 8Gi
   local:
     path: /mnt/local/kotatsu/db
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - lily
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kotatsu-db-data-2
+  labels:
+    name: kotatsu-db-data
+
+spec:
+  storageClassName: local
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 8Gi
+  local:
+    path: /mnt/local/kotatsu/db-2
   nodeAffinity:
     required:
       nodeSelectorTerms:
