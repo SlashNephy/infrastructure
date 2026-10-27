@@ -7,7 +7,7 @@ helmCharts:
   - name: kotatsu
     releaseName: kotatsu
     namespace: kotatsu
-    version: 2026.10.7
+    version: 2026.10.8
     repo: https://slashnephy.github.io/kotatsu
     valuesInline:
       config:
@@ -137,6 +137,13 @@ helmCharts:
               hostPath:
                 path: /mnt/pool/records_local
                 type: Directory
+        # タイムシフトのバッファ (放送を保持時間だけ残すチャンク)。プールと同じファイルシステムに置くが、プールにはしない。
+        # 録画のプール (/mnt/pool/records) の外に置く。Kotatsu はプールやデータディレクトリと重なる場所を拒む。持ち主は uid 1000。
+        timeshift:
+          volume:
+            hostPath:
+              path: /mnt/pool/records_timeshift
+              type: Directory
 resources:
   - ./resources/authentik.yaml
   - ./resources/database.yaml
