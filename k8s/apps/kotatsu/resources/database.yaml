@@ -21,9 +21,10 @@ spec:
       timezone: Asia/Tokyo
   # 更新では、レプリカを先に替えてから、primary をレプリカへ切り替える。既定の restart は、primary をその場で作り直す。
   primaryUpdateMethod: switchover
+  # 7 日の実測で、メモリはピークでも 787MiB (ページキャッシュを含む)。レプリカの分も同じだけ要るので、limits を絞る。
   resources:
     limits:
-      memory: 2Gi
+      memory: 1Gi
     requests:
       cpu: 100m
       memory: 512Mi
