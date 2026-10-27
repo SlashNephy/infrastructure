@@ -82,6 +82,20 @@
     },
   ],
   customManagers: [
+    // CloudNativePG の Cluster の imageName
+    // https://github.com/cloudnative-pg/postgres-containers#automated-updates-with-renovate
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        '/\\.yaml$/',
+      ],
+      matchStrings: [
+        'imageName:[ \\t]*(?<depName>ghcr\\.io/cloudnative-pg/postgresql):(?<currentValue>[^\\s@]+)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?',
+      ],
+      datasourceTemplate: 'docker',
+      versioningTemplate: 'regex:^(?<major>\\d+)\\.(?<minor>\\d+)-(?<patch>\\d+)-(?<compatibility>\\S+)$',
+      autoReplaceStringTemplate: 'imageName: {{{depName}}}:{{{newValue}}}{{#if newDigest}}@{{{newDigest}}}{{/if}}',
+    },
     // OpenClaw
     {
       customType: 'regex',
