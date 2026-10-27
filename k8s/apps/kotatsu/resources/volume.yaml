@@ -3,11 +3,12 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
+  name: kotatsu-db-data
   labels:
     name: kotatsu-db-data
-  name: kotatsu-db-data
 
 spec:
+  storageClassName: local
   accessModes:
     - ReadWriteOnce
   capacity:
@@ -23,16 +24,16 @@ spec:
               values:
                 - lily
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
+  name: kotatsu-db-data-2
   labels:
     name: kotatsu-db-data
-  name: kotatsu-db-data-2
 
 spec:
+  storageClassName: local
   accessModes:
     - ReadWriteOnce
   capacity:
@@ -48,4 +49,3 @@ spec:
               values:
                 - lily
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local
