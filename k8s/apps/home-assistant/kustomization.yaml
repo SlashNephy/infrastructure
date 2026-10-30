@@ -7,7 +7,7 @@ helmCharts:
   - name: home-assistant
     releaseName: home-assistant
     namespace: home-assistant
-    version: 0.3.87
+    version: 0.3.88
     # README の pajikos.github.io は HTTPS でも平文 HTTP のこのホストへ 301 するため、リダイレクト先を HTTPS で直接参照する
     repo: https://blog.pavelsklenar.com/home-assistant-helm-chart
     includeCRDs: true
