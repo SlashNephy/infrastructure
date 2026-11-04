@@ -1,0 +1,110 @@
+# River UI で、Kotatsu の River のジョブとキューを見る。nebula の river-ui にならう。
+# River UI はジョブの取り消しや削除、キューの停止もできるので、Admin だけに開く (authentik.yaml の kotatsu-river)。
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: river-ui
+
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: river-ui
+  template:
+    metadata:
+      labels:
+        app: river-ui
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/riverqueue/riverui:0.22.0@sha256:6001798f4007c71a3cfa7dbc87d7ae78afc6b7d699acf39fcd8a59b40795c04b
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: kotatsu-db-app
+                  key: uri
+          ports:
+            - name: http
+              containerPort: 8080
+          # nebula の river-ui の実測 (ピーク 20Mi) に合わせる。CPU は書かない。
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              memory: 32Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+      automountServiceAccountToken: false
+      securityContext:
+        # runAsNonRoot を入れない。上流の riverui イメージは USER を指定しておらず root で動くため、入れると起動しない。
+        # namespace の Pod Security は warn と audit だけなので、警告は出るが拒まれない。
+        seccompProfile:
+          type: RuntimeDefault
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: river-ui
+
+spec:
+  selector:
+    app: river-ui
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+      protocol: TCP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: river-ui
+
+# River のジョブを読み書きするだけで、外に出る用事は PostgreSQL しかない。
+spec:
+  egress:
+    - ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+      to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+    - ports:
+        - port: 5432
+          protocol: TCP
+      to:
+        - podSelector:
+            matchLabels:
+              cnpg.io/cluster: kotatsu-db
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: traefik
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+      ports:
+        - port: 8080
+          protocol: TCP
+  podSelector:
+    matchLabels:
+      app: river-ui
+  policyTypes:
+    - Ingress
+    - Egress

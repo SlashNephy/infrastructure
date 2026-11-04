@@ -88,3 +88,38 @@ spec:
         name: id.starry.blue
       subjectMode: HashedUserID
   slug: kotatsu
+
+---
+# River UI の forward auth。River UI はジョブの取り消しや削除もできるので、Admin だけに絞る。
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: kotatsu-river
+
+spec:
+  access:
+    rules:
+      - group:
+          name: Admin
+  adopt: IfMatch
+  group: DTV
+  icon: https://github.com/riverqueue.png
+  name: Kotatsu (River UI)
+  provider:
+    name: kotatsu-river
+    flows:
+      authentication:
+        slug: sign-in
+      authorization:
+        slug: authorize
+      invalidation:
+        slug: default-provider-invalidation-flow
+    proxy:
+      accessTokenValidity: days=7
+      forwardAuthSingle:
+        externalHost: https://kotatsu-river.starry.blue
+      interceptHeaderAuth: true
+      outpost:
+        name: authentik Embedded Outpost
+      refreshTokenValidity: days=30
+  slug: kotatsu-river

@@ -13,6 +13,14 @@ spec:
       recordType: CNAME
       targets:
         - gateway.starry.blue
+    - dnsName: kotatsu-river.starry.blue
+      providerSpecific:
+        - name: external-dns.kubernetes.io/cloudflare-proxied
+          value: "true"
+      recordTTL: 1 # Auto
+      recordType: CNAME
+      targets:
+        - gateway.starry.blue
 
 ---
 apiVersion: mackerel.starry.blue/v1alpha1
