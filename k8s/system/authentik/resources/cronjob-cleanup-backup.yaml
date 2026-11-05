@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
             - name: app
-              image: public.ecr.aws/debian/debian:stable-slim@sha256:a090262ee273dedfef61295b066ce7880477f87285b01b07f4a98ab31fea4bd9
+              image: public.ecr.aws/debian/debian:stable-slim@sha256:2479de054f0f311b37bf6663ea9f4f463feabbb5c414a17b9fc8246bec427af8
               workingDir: /backup
               command:
                 - bash
