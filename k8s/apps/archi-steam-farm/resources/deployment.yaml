@@ -28,25 +28,28 @@ spec:
 
               rm -rf "$staging_dir"
 
-              if [ "$(cat "$plugin_dir/$marker" 2>/dev/null || true)" = "$FREE_PACKAGES_VERSION" ]; then
+              if [ "$(cat "$plugin_dir/$marker" 2>/dev/null || true)" = "$FREE_PACKAGES_SHA256" ]; then
                 echo "FreePackages $FREE_PACKAGES_VERSION is already installed"
                 exit 0
               fi
 
               mkdir "$staging_dir"
               wget -O /tmp/FreePackages.zip "https://github.com/Citrinate/FreePackages/releases/download/$FREE_PACKAGES_VERSION/FreePackages-V7.zip"
+              echo "$FREE_PACKAGES_SHA256  /tmp/FreePackages.zip" | sha256sum -c -
               unzip -q /tmp/FreePackages.zip -d "$staging_dir"
               rm /tmp/FreePackages.zip
               test -f "$staging_dir/FreePackages.dll"
-              echo "$FREE_PACKAGES_VERSION" > "$staging_dir/$marker"
+              echo "$FREE_PACKAGES_SHA256" > "$staging_dir/$marker"
 
               rm -rf "$plugin_dir"
               mv "$staging_dir" "$plugin_dir"
               echo "FreePackages $FREE_PACKAGES_VERSION has been installed"
           env:
-            # renovate: datasource=github-releases depName=Citrinate/FreePackages
+            # renovate: datasource=github-release-attachments depName=Citrinate/FreePackages
             - name: FREE_PACKAGES_VERSION
               value: 1.7.2.2
+            - name: FREE_PACKAGES_SHA256
+              value: d717eb5d24ec920c1dfea2a02a4998a8e408ec72e84f23938365dca9246e693c
           volumeMounts:
             - name: plugins
               mountPath: /plugins

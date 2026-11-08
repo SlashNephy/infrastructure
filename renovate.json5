@@ -97,7 +97,7 @@
         'k8s/apps/archi-steam-farm/resources/deployment.yaml',
       ],
       matchStrings: [
-        '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s*\\n\\s*- name: \\S+\\s*\\n\\s*value: (?<currentValue>\\S+)',
+        '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s*\\n\\s*- name: \\S+\\s*\\n\\s*value: (?<currentValue>\\S+)\\s*\\n\\s*- name: \\S+\\s*\\n\\s*value: (?<currentDigest>[a-f0-9]{64})',
       ],
       versioningTemplate: 'loose',
     },
