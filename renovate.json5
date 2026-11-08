@@ -55,6 +55,14 @@
         'ghcr.io/immich-app/**',
       ],
     },
+    // ArchiSteamFarm とプラグインは版が合わないと起動しないため、同じ PR で更新する
+    {
+      groupName: 'ArchiSteamFarm',
+      matchPackageNames: [
+        'ghcr.io/justarchinet/archisteamfarm',
+        'Citrinate/FreePackages',
+      ],
+    },
     // OCI イメージで参照されるチャートで pinDigest を無効化する
     // https://github.com/renovatebot/renovate/discussions/38038
     {
@@ -82,6 +90,17 @@
     },
   ],
   customManagers: [
+    // ArchiSteamFarm の FreePackages プラグイン
+    {
+      customType: 'regex',
+      managerFilePatterns: [
+        'k8s/apps/archi-steam-farm/resources/deployment.yaml',
+      ],
+      matchStrings: [
+        '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s*\\n\\s*- name: \\S+\\s*\\n\\s*value: (?<currentValue>\\S+)\\s*\\n\\s*- name: \\S+\\s*\\n\\s*value: (?<currentDigest>[a-f0-9]{64})',
+      ],
+      versioningTemplate: 'loose',
+    },
     // CloudNativePG の Cluster の imageName
     // https://github.com/cloudnative-pg/postgres-containers#automated-updates-with-renovate
     {

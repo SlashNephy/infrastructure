@@ -13,6 +13,61 @@ spec:
       labels:
         app: app
     spec:
+      initContainers:
+        # FreePackages を FREE_PACKAGES_VERSION の版に揃える。同じ版が導入済みならネットワークにアクセスしない。
+        # ASF は版の合わないプラグインがあると起動しないため、ASF のメジャー更新時は URL の V7 も変更する。
+        - name: install-free-packages
+          image: alpine:3.24@sha256:3f4d6b32e26703c6082839234f43769d5046b3ac7c910033911d1e71d8cd630a
+          command:
+            - sh
+            - -euc
+            - |
+              plugin_dir=/plugins/FreePackages
+              staging_dir=/plugins/.FreePackages.new
+              marker=.installed-version
+
+              rm -rf "$staging_dir"
+
+              if [ "$(cat "$plugin_dir/$marker" 2>/dev/null || true)" = "$FREE_PACKAGES_SHA256" ]; then
+                echo "FreePackages $FREE_PACKAGES_VERSION is already installed"
+                exit 0
+              fi
+
+              mkdir "$staging_dir"
+              wget -O /tmp/FreePackages.zip "https://github.com/Citrinate/FreePackages/releases/download/$FREE_PACKAGES_VERSION/FreePackages-V7.zip"
+              echo "$FREE_PACKAGES_SHA256  /tmp/FreePackages.zip" | sha256sum -c -
+              unzip -q /tmp/FreePackages.zip -d "$staging_dir"
+              rm /tmp/FreePackages.zip
+              test -f "$staging_dir/FreePackages.dll"
+              echo "$FREE_PACKAGES_SHA256" > "$staging_dir/$marker"
+
+              rm -rf "$plugin_dir"
+              mv "$staging_dir" "$plugin_dir"
+              echo "FreePackages $FREE_PACKAGES_VERSION has been installed"
+          env:
+            # renovate: datasource=github-release-attachments depName=Citrinate/FreePackages
+            - name: FREE_PACKAGES_VERSION
+              value: 1.7.2.2
+            - name: FREE_PACKAGES_SHA256
+              value: d717eb5d24ec920c1dfea2a02a4998a8e408ec72e84f23938365dca9246e693c
+          volumeMounts:
+            - name: plugins
+              mountPath: /plugins
+            - name: tmp
+              mountPath: /tmp
+          resources:
+            limits:
+              memory: 128Mi
+            requests:
+              memory: 16Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 1000
+            runAsUser: 1000
       containers:
         - name: app
           image: ghcr.io/justarchinet/archisteamfarm:7.0.0.7@sha256:02a4f00a1175c3b9d6136c32c722f005927e2d68605f93beb99ad87907b4eaf2
