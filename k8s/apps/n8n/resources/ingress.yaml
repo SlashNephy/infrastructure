@@ -40,3 +40,13 @@ spec:
       services:
         - name: n8n-main
           port: http
+
+    # MCP サーバー。クライアントはブラウザを持たずに呼ぶので forward-auth を通さない。
+    # 認証は n8n が Bearer トークンで行い、トークンが無ければ 401 を返す。
+    # /mcp-oauth/register は誰でもクライアントを登録できるため、OAuth の端点は公開せず forward-auth の内側に置く。
+    - kind: Rule
+      match: Host(`n8n.starry.blue`) && Path(`/mcp-server/http`)
+      priority: 20
+      services:
+        - name: n8n-main
+          port: http
