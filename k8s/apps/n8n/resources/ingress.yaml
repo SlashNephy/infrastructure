@@ -40,3 +40,13 @@ spec:
       services:
         - name: n8n-main
           port: http
+
+    # MCP サーバーと、MCP のクライアントがトークンを得るための OAuth の端点。クライアントはブラウザを持たずに
+    # 呼ぶので forward-auth を通さない。認証は n8n が Bearer トークンで行い、トークンが無ければ 401 を返す。
+    # 同意の画面に送る /mcp-oauth/authorize は、ブラウザで開くので forward-auth を通す。
+    - kind: Rule
+      match: Host(`n8n.starry.blue`) && (Path(`/mcp-server/http`) || PathPrefix(`/.well-known/oauth-protected-resource`) || Path(`/.well-known/oauth-authorization-server`) || Path(`/mcp-oauth/register`) || Path(`/mcp-oauth/token`) || Path(`/mcp-oauth/revoke`))
+      priority: 20
+      services:
+        - name: n8n-main
+          port: http
