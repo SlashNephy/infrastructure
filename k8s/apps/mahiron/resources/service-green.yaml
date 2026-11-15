@@ -125,6 +125,16 @@ spec:
             requests:
               cpu: 10m
               memory: 64Mi
+          livenessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -O
+                - /dev/null
+                - http://127.0.0.1:9002/healthz
+            periodSeconds: 30
+            timeoutSeconds: 5
           readinessProbe:
             exec:
               command:
