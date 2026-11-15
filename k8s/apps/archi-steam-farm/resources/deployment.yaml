@@ -114,5 +114,6 @@ spec:
       restartPolicy: Always
       hostname: archi-steam-farm
       securityContext:
+        runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault

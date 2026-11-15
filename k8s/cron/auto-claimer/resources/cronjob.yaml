@@ -36,6 +36,7 @@ spec:
                 type: Directory
           restartPolicy: Never
           securityContext:
+            runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
   concurrencyPolicy: Forbid

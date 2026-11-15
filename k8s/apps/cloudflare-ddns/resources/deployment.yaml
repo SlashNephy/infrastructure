@@ -40,5 +40,6 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       hostNetwork: true
       securityContext:
+        runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault

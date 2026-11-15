@@ -55,5 +55,6 @@ spec:
             type: DirectoryOrCreate
       restartPolicy: Always
       securityContext:
+        runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault
