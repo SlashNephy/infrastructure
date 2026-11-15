@@ -72,10 +72,29 @@ spec:
             requests:
               cpu: 10m
               memory: 16Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 5
           # デバイスの検出と kubelet の device-plugins ソケットへの登録に必要
           securityContext:
             privileged: true
             readOnlyRootFilesystem: true
+          startupProbe:
+            failureThreshold: 30
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 5
+            timeoutSeconds: 5
       volumes:
         - name: device-plugins
           hostPath:

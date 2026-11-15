@@ -42,10 +42,26 @@ spec:
               mountPath: /mnt/pool
             - name: local
               mountPath: /mnt/local
+          livenessProbe:
+            periodSeconds: 30
+            tcpSocket:
+              port: 445
+            timeoutSeconds: 5
+          readinessProbe:
+            periodSeconds: 10
+            tcpSocket:
+              port: 445
+            timeoutSeconds: 5
           securityContext:
             allowPrivilegeEscalation: false
             # /etc/passwd を動的に編集する必要がある
             readOnlyRootFilesystem: false
+          startupProbe:
+            failureThreshold: 30
+            periodSeconds: 5
+            tcpSocket:
+              port: 445
+            timeoutSeconds: 5
       volumes:
         - name: config
           configMap:
