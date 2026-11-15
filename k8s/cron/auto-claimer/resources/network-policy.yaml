@@ -1,0 +1,11 @@
+# この namespace の Pod は外から接続を受けない。ingress を全て拒否する。
+# kubelet の probe はホストから届き、Cilium はホストからの通信を既定で許可するため影響しない。
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-ingress
+
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress

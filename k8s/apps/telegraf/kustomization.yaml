@@ -5,6 +5,7 @@ namespace: telegraf
 resources:
   - ./resources/deployment.yaml
   - ./resources/namespace.yaml
+  - ./resources/network-policy.yaml
   - ./resources/secret.yaml
   - ./resources/service-account.yaml
 

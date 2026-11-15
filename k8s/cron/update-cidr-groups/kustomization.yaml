@@ -5,6 +5,7 @@ namespace: cron-update-cidr-groups
 resources:
   - ./resources/cronjob.yaml
   - ./resources/namespace.yaml
+  - ./resources/network-policy.yaml
   - ./resources/role.yaml
   - ./resources/service-account.yaml
 
