@@ -88,6 +88,20 @@
         enabled: false,
       },
     },
+    // kustomize のリモート参照 (github.com/...?ref=vX.Y.Z) は digest を書き込めず、
+    // pin の更新が毎回 update failure になるため pinDigest を無効化する
+    {
+      matchManagers: [
+        'kustomize',
+      ],
+      matchDatasources: [
+        'github-tags',
+        'git-tags',
+      ],
+      pinDigest: {
+        enabled: false,
+      },
+    },
   ],
   customManagers: [
     // ArchiSteamFarm の FreePackages プラグイン
