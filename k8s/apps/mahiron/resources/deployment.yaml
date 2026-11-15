@@ -52,6 +52,20 @@ spec:
             requests:
               cpu: "2"
               memory: 256Mi
+          # /api/tuners などはチューナーの状態を集めるため、軽い /api/version で生存を見る。
+          # 録画中の再起動を避けるため、liveness は 30 秒間隔で 3 回続けて失敗したときだけにする
+          livenessProbe:
+            httpGet:
+              path: /api/version
+              port: 40772
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /api/version
+              port: 40772
+            periodSeconds: 10
+            timeoutSeconds: 5
           # UID 10001 で動くため、add した capability は bounding set に載るだけで実効集合 (CapEff) には入らない。
           # 実測でも mahiron・recpt1 とも CapEff は 0 だったので、全て落とす。
           # ルート FS には書き込まない (データと設定は hostPath)。
@@ -61,6 +75,13 @@ spec:
               drop:
                 - ALL
             readOnlyRootFilesystem: true
+          startupProbe:
+            failureThreshold: 30
+            httpGet:
+              path: /api/version
+              port: 40772
+            periodSeconds: 5
+            timeoutSeconds: 5
       volumes:
         # 4 系の /mnt/local/mahiron/ は切り戻しの土台として残し、5 系は別ディレクトリを使う
         - name: data
