@@ -36,6 +36,8 @@ spec:
               readOnly: true
             - name: backup
               mountPath: /backup
+            - name: tmp
+              mountPath: /tmp
           livenessProbe:
             httpGet:
               path: /ping
@@ -48,8 +50,13 @@ spec:
               port: 4533
             periodSeconds: 10
             timeoutSeconds: 5
+          # 書き込み先は /data と /backup だけである。ffmpeg などの一時ファイルに備えて /tmp だけ書ける場所を用意する
           securityContext:
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
             runAsGroup: 1000
             runAsUser: 1000
           startupProbe:
@@ -72,6 +79,8 @@ spec:
           hostPath:
             path: /mnt/local/navidrome/backup
             type: DirectoryOrCreate
+        - name: tmp
+          emptyDir: {}
       restartPolicy: Always
       automountServiceAccountToken: false
       securityContext:
