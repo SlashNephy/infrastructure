@@ -115,5 +115,6 @@ spec:
       automountServiceAccountToken: false
       hostname: archi-steam-farm
       securityContext:
+        runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault

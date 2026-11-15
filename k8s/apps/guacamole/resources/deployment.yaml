@@ -112,5 +112,6 @@ spec:
       restartPolicy: Always
       hostname: guacamole
       securityContext:
+        runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault

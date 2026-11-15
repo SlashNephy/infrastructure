@@ -129,5 +129,6 @@ spec:
       restartPolicy: Always
       automountServiceAccountToken: false
       securityContext:
+        runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault

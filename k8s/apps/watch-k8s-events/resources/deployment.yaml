@@ -27,6 +27,7 @@ spec:
             readOnlyRootFilesystem: true
       restartPolicy: Always
       securityContext:
+        runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault
       serviceAccountName: watch-k8s-events

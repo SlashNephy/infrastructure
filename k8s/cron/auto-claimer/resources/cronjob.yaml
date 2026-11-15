@@ -37,6 +37,7 @@ spec:
           restartPolicy: Never
           automountServiceAccountToken: false
           securityContext:
+            runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
   concurrencyPolicy: Forbid
