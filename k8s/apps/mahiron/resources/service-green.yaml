@@ -134,10 +134,14 @@ spec:
                 - /dev/null
                 - http://127.0.0.1:9002/healthz
           # カーネルモードに要るのは tun と経路・iptables の操作だけである。tun は generic-device-plugin から割り当てる
+          # ルート FS は /tmp・/run・/var/lib/tailscale に書き込み、iptables も /run/xtables.lock を使うため読み取り専用にしない
           securityContext:
+            allowPrivilegeEscalation: false
             capabilities:
               add:
                 - NET_ADMIN
+              drop:
+                - ALL
       restartPolicy: Always
       securityContext:
         seccompProfile:
