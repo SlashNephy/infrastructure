@@ -50,8 +50,9 @@ spec:
             - name: dshm
               mountPath: /dev/shm
           resources:
+            # CPU の limit は付けない。平均の使用量は十数 m だが、クエリの瞬間的な burst が CFS quota に当たり、
+            # 150m では全期間の約 26% が throttling されていた。request で下限だけ確保する
             limits:
-              cpu: 150m
               ephemeral-storage: 2Gi
               # 18 に上げた後、ページキャッシュを含む使用量が 192Mi を超えていた (224MB)。余裕を持たせる
               memory: 512Mi
