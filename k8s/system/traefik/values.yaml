@@ -176,6 +176,7 @@ providers:
     allowExternalNameServices: true
     enabled: true
 service:
-  ipFamilyPolicy: PreferDualStack
+  # chart は service 直下の ipFamilyPolicy を読まず、42.4.0 からはスキーマで拒否する。spec に渡す
   spec:
+    ipFamilyPolicy: PreferDualStack
     type: NodePort
