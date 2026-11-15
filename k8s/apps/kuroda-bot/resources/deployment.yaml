@@ -26,6 +26,7 @@ spec:
                 - ALL
             readOnlyRootFilesystem: true
       restartPolicy: Always
+      automountServiceAccountToken: false
       securityContext:
         seccompProfile:
           type: RuntimeDefault

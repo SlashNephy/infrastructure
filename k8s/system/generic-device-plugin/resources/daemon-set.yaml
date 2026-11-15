@@ -85,6 +85,7 @@ spec:
           hostPath:
             path: /dev
             type: Directory
+      automountServiceAccountToken: false
       priorityClassName: system-node-critical
       securityContext:
         seccompProfile:
