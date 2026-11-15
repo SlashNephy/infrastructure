@@ -13,7 +13,7 @@ spec:
       owner: kotatsu
   # 拡張を使わず、照合順序も C なので、拡張やロケールを含まない minimal にする。
   # タグは PostgreSQL の版、ビルドの日時、種類、OS の順で、Renovate が版とビルドの両方を追う (renovate.json5)。
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.6-202611030838-minimal-trixie@sha256:26d15a12723510b0b416e8aec2bc65f2da7ac9b77ef3182a0911e4b8b991420a
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.7-202611122305-minimal-trixie@sha256:b98ae0b74a12f20ccff32219be0e33fdd35c7e2e8e73c8bff9173f1128e167d1
   instances: 1
   postgresql:
     parameters:
