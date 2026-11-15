@@ -110,6 +110,7 @@ spec:
         - name: guacd-home
           emptyDir: {}
       restartPolicy: Always
+      automountServiceAccountToken: false
       hostname: guacamole
       securityContext:
         runAsNonRoot: true
