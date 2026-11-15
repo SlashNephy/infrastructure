@@ -52,11 +52,15 @@ spec:
             requests:
               cpu: "2"
               memory: 256Mi
+          # UID 10001 で動くため、add した capability は bounding set に載るだけで実効集合 (CapEff) には入らない。
+          # 実測でも mahiron・recpt1 とも CapEff は 0 だったので、全て落とす。
+          # ルート FS には書き込まない (データと設定は hostPath)。
           securityContext:
+            allowPrivilegeEscalation: false
             capabilities:
-              add:
-                - SYS_ADMIN
-                - SYS_NICE
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
       volumes:
         # 4 系の /mnt/local/mahiron/ は切り戻しの土台として残し、5 系は別ディレクトリを使う
         - name: data
