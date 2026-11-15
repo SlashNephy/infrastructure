@@ -1,0 +1,22 @@
+# Web UI は traefik 経由でだけ使う。guacd へは同じ Pod の localhost から繋ぐので許可は要らない。
+# kubelet の probe はホストから届き、Cilium はホストからの通信を既定で許可するため書かない。
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ingress
+
+spec:
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: traefik
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+      ports:
+        - port: 8080
+          protocol: TCP
+  podSelector: {}
+  policyTypes:
+    - Ingress

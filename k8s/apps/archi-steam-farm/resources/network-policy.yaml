@@ -1,0 +1,22 @@
+# IPC の Web UI は traefik 経由でだけ使う。
+# kubelet の probe はホストから届き、Cilium はホストからの通信を既定で許可するため書かない。
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ingress
+
+spec:
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: traefik
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+      ports:
+        - port: 1242
+          protocol: TCP
+  podSelector: {}
+  policyTypes:
+    - Ingress
