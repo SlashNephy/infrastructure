@@ -68,6 +68,7 @@ spec:
             path: /mnt/local/mahiron5/config
             type: Directory
       restartPolicy: Always
+      automountServiceAccountToken: false
       imagePullSecrets:
         - name: ghcr-io-credentials
       priorityClassName: recording
