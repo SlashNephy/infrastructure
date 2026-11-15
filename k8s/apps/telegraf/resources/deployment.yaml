@@ -54,6 +54,10 @@ spec:
       # switchbot の収集だけになり Kubernetes API を使わない
       automountServiceAccountToken: false
       securityContext:
+        # hostPath の所有者 (UID/GID 1000) に合わせる
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
         seccompProfile:
           type: RuntimeDefault
       serviceAccountName: telegraf
