@@ -62,6 +62,7 @@ spec:
             path: /mnt/local
             type: Directory
       restartPolicy: Always
+      automountServiceAccountToken: false
       securityContext:
         seccompProfile:
           type: RuntimeDefault

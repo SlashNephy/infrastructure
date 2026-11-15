@@ -54,6 +54,7 @@ spec:
             path: /mnt/local/navidrome/backup
             type: DirectoryOrCreate
       restartPolicy: Always
+      automountServiceAccountToken: false
       securityContext:
         seccompProfile:
           type: RuntimeDefault

@@ -37,6 +37,7 @@ spec:
           secret:
             secretName: config
       restartPolicy: Always
+      automountServiceAccountToken: false
       dnsPolicy: ClusterFirstWithHostNet
       hostNetwork: true
       securityContext:

@@ -37,6 +37,7 @@ spec:
                 path: /mnt/local/annict2anilist/token
                 type: DirectoryOrCreate
           restartPolicy: Never
+          automountServiceAccountToken: false
           securityContext:
             seccompProfile:
               type: RuntimeDefault

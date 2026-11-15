@@ -127,6 +127,7 @@ spec:
         - name: tmp
           emptyDir: {}
       restartPolicy: Always
+      automountServiceAccountToken: false
       securityContext:
         seccompProfile:
           type: RuntimeDefault

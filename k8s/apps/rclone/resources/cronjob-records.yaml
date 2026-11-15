@@ -50,6 +50,7 @@ spec:
                 path: /mnt/local/rclone-config
                 type: Directory
           restartPolicy: Never
+          automountServiceAccountToken: false
           securityContext:
             seccompProfile:
               type: RuntimeDefault

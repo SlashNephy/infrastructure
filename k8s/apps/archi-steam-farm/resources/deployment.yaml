@@ -112,6 +112,7 @@ spec:
         - name: tmp
           emptyDir: {}
       restartPolicy: Always
+      automountServiceAccountToken: false
       hostname: archi-steam-farm
       securityContext:
         seccompProfile:

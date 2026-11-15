@@ -147,6 +147,7 @@ spec:
         - name: var-log
           emptyDir: {}
       restartPolicy: Always
+      automountServiceAccountToken: false
       dnsConfig:
         searches: []
       securityContext:

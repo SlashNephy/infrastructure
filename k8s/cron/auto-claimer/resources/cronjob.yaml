@@ -35,6 +35,7 @@ spec:
                 path: /mnt/local/auto-claimer
                 type: Directory
           restartPolicy: Never
+          automountServiceAccountToken: false
           securityContext:
             seccompProfile:
               type: RuntimeDefault
