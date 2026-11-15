@@ -36,10 +36,29 @@ spec:
               readOnly: true
             - name: backup
               mountPath: /backup
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 4533
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 4533
+            periodSeconds: 10
+            timeoutSeconds: 5
           securityContext:
             allowPrivilegeEscalation: false
             runAsGroup: 1000
             runAsUser: 1000
+          startupProbe:
+            failureThreshold: 30
+            httpGet:
+              path: /ping
+              port: 4533
+            periodSeconds: 5
+            timeoutSeconds: 5
       volumes:
         - name: data
           hostPath:

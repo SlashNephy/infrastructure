@@ -92,6 +92,18 @@ spec:
               memory: 1Gi
             requests:
               memory: 640Mi
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 1242
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 1242
+            periodSeconds: 10
+            timeoutSeconds: 5
           securityContext:
             allowPrivilegeEscalation: false
             capabilities:
@@ -100,6 +112,13 @@ spec:
             readOnlyRootFilesystem: true
             runAsGroup: 1000
             runAsUser: 1000
+          startupProbe:
+            failureThreshold: 30
+            httpGet:
+              path: /
+              port: 1242
+            periodSeconds: 5
+            timeoutSeconds: 5
       volumes:
         - name: config
           hostPath:
