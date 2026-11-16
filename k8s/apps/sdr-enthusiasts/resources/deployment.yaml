@@ -140,8 +140,12 @@ spec:
           hostPath:
             path: /sys/class/thermal/thermal_zone2
             type: Directory
+        # GRAPHS1090_REDUCE_IO で collectd の RRD を /run/collectd に置き、停止時と 1 日ごとに /var/lib/collectd へ書き戻す。
+        # ディスク上の emptyDir だと RRD の更新がノードのルート SSD に書き込まれ続けるため tmpfs にする
         - name: run
-          emptyDir: {}
+          emptyDir:
+            medium: Memory
+            sizeLimit: 128Mi
         - name: tmp
           emptyDir: {}
         - name: var-log
