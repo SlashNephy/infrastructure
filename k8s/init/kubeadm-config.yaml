@@ -1,7 +1,7 @@
 # https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta4/
 #
 # このファイルはクラスタ設定の唯一の情報源である。ConfigMap に書いていない設定
-# (failSwapOn, service-node-port-range 等) はアップグレードのたびに消えるため、手で足さず必ずここに書くこと。
+# (imageMaximumGCAge, service-node-port-range 等) はアップグレードのたびに消えるため、手で足さず必ずここに書くこと。
 #
 # kubeadm upgrade apply は --config の ClusterConfiguration を反映しない (クラスタ内の
 # kube-system/kubeadm-config ConfigMap をそのまま使う)。ClusterConfiguration を変えたら、
@@ -95,8 +95,6 @@ evictionHard:
   memory.available: 1Gi
   nodefs.available: 10%
   nodefs.inodesFree: 5%
-# lily は swap を有効にしているため、無いと kubelet が起動しない
-failSwapOn: false
 # イメージを 7 日で GC する。閾値ベースの GC は既定値 (high 85 / low 80) のまま。
 # 片方だけ下げると low > high になって kubelet が起動不能になる
 imageMaximumGCAge: 168h
