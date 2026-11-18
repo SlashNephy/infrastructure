@@ -186,6 +186,10 @@ spec:
             namespace: arc-systems
             path: k8s/system/actions-runner-controller
             project: system
+          - name: metrics-server
+            namespace: metrics-server
+            path: k8s/system/metrics-server
+            project: system
 
   template:
     metadata:

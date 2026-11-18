@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: metrics-server
+
+helmCharts:
+  # https://artifacthub.io/packages/helm/metrics-server/metrics-server
+  - name: metrics-server
+    releaseName: metrics-server
+    namespace: metrics-server
+    version: 3.14.0
+    repo: https://kubernetes-sigs.github.io/metrics-server
+    valuesInline:
+      # kube-apiserver → metrics-server の TLS は cert-manager の証明書で検証する。
+      # tls.type: helm は lookup に頼るため、kustomize でのレンダリングのたびに証明書が作り直されてしまう
+      apiService:
+        insecureSkipTLSVerify: false
+      # 実使用量の測定前の見積もり。単一ノードでは数十 Mi 程度に収まる想定
+      resources:
+        limits:
+          memory: 128Mi
+        requests:
+          cpu: 20m
+          memory: 64Mi
+      tls:
+        type: cert-manager
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/network-policy.yaml

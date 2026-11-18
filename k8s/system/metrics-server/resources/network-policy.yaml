@@ -1,0 +1,11 @@
+# metrics-server に接続するのは kube-apiserver だけで、kube-apiserver はホストネットワークで動く。
+# Cilium はホストからの通信を既定で許可するため、Pod からの ingress を全て拒否しても影響しない。
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-ingress
+
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
