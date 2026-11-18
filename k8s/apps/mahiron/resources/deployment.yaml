@@ -17,8 +17,8 @@ spec:
         agent.mackerel.starry.blue/apikey-secret-name: mackerel-agent-api-key
         agent.mackerel.starry.blue/roles: mahiron:app
       labels:
-        app: default
         agent.mackerel.starry.blue/inject: "true"
+        app: default
     spec:
       containers:
         - name: app
@@ -94,7 +94,6 @@ spec:
             type: Directory
       restartPolicy: Always
       automountServiceAccountToken: false
-      serviceAccountName: mackerel-container-agent
       imagePullSecrets:
         - name: ghcr-io-credentials
       priorityClassName: recording
@@ -107,6 +106,7 @@ spec:
         runAsUser: 10001
         seccompProfile:
           type: RuntimeDefault
+      serviceAccountName: mackerel-container-agent
       # Mahiron は tuner を `sh -c "recpt1 ..."` で起動するが、この sh は exec せず fork するため
       # recpt1 は孫プロセスになる。停止時に Wait されるのは直接の子である sh だけで、
       # 孤児になった recpt1 はコンテナ内 PID 1 (= mahiron 自身) に reparent されて reap されない。

@@ -26,17 +26,17 @@ kind: ClusterRoleBinding
 metadata:
   name: kotatsu-mackerel-container-agent
 roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
   # infrastructure の mackerel-operator chart が作る。nodes/pods, nodes/stats, nodes/spec の get だけを持つ
   name: mackerel-operator-agent
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
 subjects:
-  - kind: ServiceAccount
-    name: mackerel-container-agent
+  - name: mackerel-container-agent
+    kind: ServiceAccount
     namespace: kotatsu
   # PostgreSQL は CNPG が Cluster と同名で作る ServiceAccount のまま注入する
-  - kind: ServiceAccount
-    name: kotatsu-db
+  - name: kotatsu-db
+    kind: ServiceAccount
     namespace: kotatsu
 
 ---
@@ -50,11 +50,6 @@ metadata:
   name: mackerel-container-agent
 
 spec:
-  endpointSelector:
-    matchLabels:
-      agent.mackerel.starry.blue/inject: "true"
-  enableDefaultDeny:
-    egress: false
   egress:
     - toEndpoints:
         - matchLabels:
@@ -81,3 +76,8 @@ spec:
         - ports:
             - port: "10250"
               protocol: TCP
+  enableDefaultDeny:
+    egress: false
+  endpointSelector:
+    matchLabels:
+      agent.mackerel.starry.blue/inject: "true"
