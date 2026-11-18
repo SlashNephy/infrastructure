@@ -1,0 +1,83 @@
+# mackerel-container-agent の注入先が共通で使うリソース。
+# 注入は infrastructure の mackerel-operator (MutatingAdmissionPolicy) が行い、
+# Pod には label agent.mackerel.starry.blue/inject と annotation で API キーの Secret とロールを指定する。
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: mackerel-agent-api-key
+
+spec:
+  itemPath: vaults/wflepc7eihbf6xt7ilwnb7ddam/items/bvj6ygycgxyw7sanyodu3k6jjy
+
+---
+# agent は kubelet からメトリクスを読むので、注入先の Pod には kubelet を読める ServiceAccount を使う。
+# default に権限を付けると、注入しない Pod (CronJob) まで同じ権限を持つので分ける。
+# トークンは injector が agent のコンテナにだけ projected volume で渡すため、
+# Pod 側の automountServiceAccountToken: false はそのままでよい。
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mackerel-container-agent
+automountServiceAccountToken: false
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kotatsu-mackerel-container-agent
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  # infrastructure の mackerel-operator chart が作る。nodes/pods, nodes/stats, nodes/spec の get だけを持つ
+  name: mackerel-operator-agent
+subjects:
+  - kind: ServiceAccount
+    name: mackerel-container-agent
+    namespace: kotatsu
+  # PostgreSQL は CNPG が Cluster と同名で作る ServiceAccount のまま注入する
+  - kind: ServiceAccount
+    name: kotatsu-db
+    namespace: kotatsu
+
+---
+# agent の通信を、注入先の Pod の NetworkPolicy に足す。
+# enableDefaultDeny: false で、egress を制限していない Pod (server、worker、axis、PostgreSQL、Redis) を
+# このポリシーだけで既定拒否に変えないようにしている。
+# ただし toFQDNs のために DNS を L7 で見るので、それらの Pod の名前解決も DNS プロキシを通るようになる。
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: mackerel-container-agent
+
+spec:
+  endpointSelector:
+    matchLabels:
+      agent.mackerel.starry.blue/inject: "true"
+  enableDefaultDeny:
+    egress: false
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"
+    # メトリクスとホストの登録の送信先
+    - toFQDNs:
+        - matchName: api.mackerelio.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    # agent は status.hostIP の kubelet (HTTPS) に接続する
+    - toEntities:
+        - host
+      toPorts:
+        - ports:
+            - port: "10250"
+              protocol: TCP

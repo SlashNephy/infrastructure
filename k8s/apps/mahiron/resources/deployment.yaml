@@ -12,8 +12,13 @@ spec:
       app: default
   template:
     metadata:
+      # mackerel-container-agent を注入する (resources/mackerel-agent.yaml)
+      annotations:
+        agent.mackerel.starry.blue/apikey-secret-name: mackerel-agent-api-key
+        agent.mackerel.starry.blue/roles: mahiron:app
       labels:
         app: default
+        agent.mackerel.starry.blue/inject: "true"
     spec:
       containers:
         - name: app
@@ -89,6 +94,7 @@ spec:
             type: Directory
       restartPolicy: Always
       automountServiceAccountToken: false
+      serviceAccountName: mackerel-container-agent
       imagePullSecrets:
         - name: ghcr-io-credentials
       priorityClassName: recording

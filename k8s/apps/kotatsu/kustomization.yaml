@@ -144,6 +144,7 @@ helmCharts:
             hostPath:
               path: /mnt/pool/records_timeshift
               type: Directory
+
 resources:
   - ./resources/authentik.yaml
   - ./resources/database.yaml
@@ -153,3 +154,4 @@ resources:
   - ./resources/river-ui.yaml
   - ./resources/secret.yaml
   - ./resources/volume.yaml
+  - ./resources/mackerel-agent.yaml
