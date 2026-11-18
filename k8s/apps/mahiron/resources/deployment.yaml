@@ -27,7 +27,7 @@ spec:
             - name: data
               mountPath: /var/db/mahiron
             - name: config
-              mountPath: /app/config
+              mountPath: /config
               readOnly: true
           # requests を指定せず BestEffort になっていると、cgroup v2 の
           # kubepods-besteffort.slice は cpu.weight=1 で kubepods-burstable.slice (197) に
