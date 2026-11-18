@@ -18,10 +18,6 @@ spec:
       containers:
         - name: app
           image: ghcr.io/starrybluesky/mahiron:main@sha256:cbc6a09c925f0b5467e03d56462f4ea2ca084b20d30bf7ede1a72d67c0c5e9d3
-          # イメージ既定の設定ディレクトリは /app/config のため、明示的に上書きする
-          args:
-            - -config-dir
-            - /etc/mahiron
           env:
             - name: TZ
               value: Asia/Tokyo
@@ -31,7 +27,7 @@ spec:
             - name: data
               mountPath: /var/db/mahiron
             - name: config
-              mountPath: /etc/mahiron
+              mountPath: /app/config
               readOnly: true
           # requests を指定せず BestEffort になっていると、cgroup v2 の
           # kubepods-besteffort.slice は cpu.weight=1 で kubepods-burstable.slice (197) に
@@ -83,7 +79,6 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 5
       volumes:
-        # 4 系の /mnt/local/mahiron/ は切り戻しの土台として残し、5 系は別ディレクトリを使う
         - name: data
           hostPath:
             path: /mnt/local/mahiron5/data
