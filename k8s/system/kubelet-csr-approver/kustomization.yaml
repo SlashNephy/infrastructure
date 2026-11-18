@@ -1,0 +1,36 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kubelet-csr-approver
+
+helmCharts:
+  # https://github.com/postfinance/kubelet-csr-approver
+  # kubelet の serverTLSBootstrap で発行される serving 証明書の CSR を承認する
+  - name: kubelet-csr-approver
+    releaseName: kubelet-csr-approver
+    namespace: kubelet-csr-approver
+    version: 1.2.15
+    repo: https://postfinance.github.io/kubelet-csr-approver
+    valuesInline:
+      # CSR の IP SAN にはノードの全 InternalIP が入り、DNS 名 lily の解決結果と一致しなければ拒否される。
+      # クラスタ内の DNS で lily が IPv4 と IPv6 の両方に解決されることは前提にできないため、解決による検査は行わない
+      bypassDnsResolution: true
+      leaderElection: false
+      # IPv6 の InternalIP は ISP から委任されたプレフィックスで変わりうるため、グローバルユニキャスト全体を許可する
+      providerIpPrefixes:
+        - 192.168.1.0/24
+        - 2000::/3
+      providerRegex: ^lily$
+      replicas: 1
+      # 実使用量の測定前の見積もり
+      resources:
+        limits:
+          memory: 64Mi
+        requests:
+          cpu: 10m
+          memory: 32Mi
+    # helm test 用の Job を常駐リソースとして同期させない
+    skipTests: true
+
+resources:
+  - ./resources/namespace.yaml
+  - ./resources/network-policy.yaml

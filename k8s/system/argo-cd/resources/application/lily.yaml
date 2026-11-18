@@ -120,6 +120,10 @@ spec:
             namespace: cert-manager
             path: k8s/system/cert-manager
             project: system
+          - name: kubelet-csr-approver
+            namespace: kubelet-csr-approver
+            path: k8s/system/kubelet-csr-approver
+            project: system
           - name: generic-device-plugin
             namespace: generic-device-plugin
             path: k8s/system/generic-device-plugin
