@@ -8,7 +8,7 @@ helmCharts:
   - name: kubelet-csr-approver
     releaseName: kubelet-csr-approver
     namespace: kubelet-csr-approver
-    version: 1.2.15
+    version: 1.2.16
     repo: https://postfinance.github.io/kubelet-csr-approver
     valuesInline:
       # CSR の IP SAN にはノードの全 InternalIP が入り、DNS 名 lily の解決結果と一致しなければ拒否される。
