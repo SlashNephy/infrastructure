@@ -98,6 +98,10 @@ evictionHard:
 # イメージを 7 日で GC する。閾値ベースの GC は既定値 (high 85 / low 80) のまま。
 # 片方だけ下げると low > high になって kubelet が起動不能になる
 imageMaximumGCAge: 168h
+# kubelet の serving 証明書を CSR で発行させる (承認は kubelet-csr-approver)。
+# 無いと kubelet は自己署名の証明書を使い続ける。これは更新されないので、
+# 失効すると metrics-server が kubelet から値を取れなくなる
+serverTLSBootstrap: true
 # Pod 全体 (kubepods.slice) の memory.max を、ホストの常駐分を除いた値に下げる。
 # 無いと Pod がノードのメモリを使い切り、ページキャッシュが空になって
 # crio や kubelet まで I/O 待ちで詰まる (crio が watchdog で落ちた)。
