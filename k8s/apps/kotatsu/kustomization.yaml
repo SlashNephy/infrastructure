@@ -17,6 +17,10 @@ helmCharts:
         AUTH_OIDC_AUTO_CREATE_MEMBER_GROUPS: Nerd
         AUTH_OIDC_DISPLAY_NAME: id.starry.blue
         AUTH_OIDC_ISSUER: https://id.starry.blue/application/o/kotatsu/
+        # kyusu のライブ視聴の変換を、ソフトウェアの x264 から Lily の Intel の GPU (VAAPI) に移す。
+        # x264 では BS4K を実時間で変換できず、Mahiron の受け手のキューが溢れて再生が止まっていた。
+        # 録画の MP4 への変換 (nekonote) も同じ設定を使うので、GPU は generic-device-plugin の devic.es/dri で kyusu と nekonote に渡す。
+        KYUSU_ENCODER: vaapi
         # 外からは traefik を経て届き、認証の前段は authentik が担う。
         # 送信元の判定は traefik (Pod のネットワーク) が付ける X-Forwarded-For に頼る。
         SERVER_ALLOWED_NETWORKS: 0.0.0.0/0,::/0
@@ -72,6 +76,8 @@ helmCharts:
           replicas: 1
           resources:
             limits:
+              # VAAPI の render ノード (/dev/dri/renderD128)。拡張リソースは limits に書く
+              devic.es/dri: 1
               memory: 2Gi
             requests:
               cpu: 50m
@@ -96,6 +102,8 @@ helmCharts:
         nekonote:
           resources:
             limits:
+              # 録画の MP4 への変換も、kyusu と同じエンコーダーの設定 (KYUSU_ENCODER) を使うので、GPU を渡す
+              devic.es/dri: 1
               memory: 2Gi
             requests:
               cpu: 50m

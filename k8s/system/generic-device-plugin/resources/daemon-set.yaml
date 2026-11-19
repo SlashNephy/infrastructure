@@ -49,6 +49,15 @@ spec:
                     - path: /dev/pxmlt8video5
                     - path: /dev/pxmlt8video6
                     - path: /dev/pxmlt8video7
+            # Intel の GPU (HD Graphics 530) の VAAPI 用 (kotatsu の kyusu と nekonote のトランスコード)。
+            # render ノードだけを渡す。kyusu と nekonote に 1 つずつ渡し、更新で新旧の Pod が並ぶ間も割り当てられるよう count を 4 にする
+            - --device
+            - |
+              name: dri
+              groups:
+                - count: 4
+                  paths:
+                    - path: /dev/dri/renderD128
             # カーネルモードの VPN / tailscale 用。複数の Pod で共有する
             - --device
             - |
