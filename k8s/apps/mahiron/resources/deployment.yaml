@@ -34,6 +34,8 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+            - name: tmp
+              mountPath: /tmp
           # requests を指定せず BestEffort になっていると、cgroup v2 の
           # kubepods-besteffort.slice は cpu.weight=1 で kubepods-burstable.slice (197) に
           # 200:1 で劣後する。recpt1 は USB のリングバッファを一定間隔で読み出す必要があるため、
@@ -92,6 +94,10 @@ spec:
           hostPath:
             path: /mnt/local/mahiron5/config
             type: Directory
+        - name: tmp
+          emptyDir:
+            medium: Memory
+            sizeLimit: 32Mi
       restartPolicy: Always
       automountServiceAccountToken: false
       imagePullSecrets:
