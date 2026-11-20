@@ -32,10 +32,6 @@ spec:
             namespace: mahiron
             path: k8s/apps/mahiron
             project: apps
-          - name: rclone
-            namespace: rclone
-            path: k8s/apps/rclone
-            project: apps
           - name: telegraf
             namespace: telegraf
             path: k8s/apps/telegraf
@@ -90,10 +86,6 @@ spec:
             project: apps
 
           # cron
-          - name: cron-backup-volumes
-            namespace: cron-backup-volumes
-            path: k8s/cron/backup-volumes
-            project: cron
           - name: auto-claimer
             namespace: auto-claimer
             path: k8s/cron/auto-claimer
