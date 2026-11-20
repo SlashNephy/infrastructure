@@ -37,3 +37,20 @@ spec:
         matchLabels:
           name: kotatsu-db-data
       storageClassName: local
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+
+spec:
+  type: NodePort
+  selector:
+    cnpg.io/cluster: kotatsu-db
+    cnpg.io/instanceRole: primary
+  ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: 5432
+      nodePort: 5433
