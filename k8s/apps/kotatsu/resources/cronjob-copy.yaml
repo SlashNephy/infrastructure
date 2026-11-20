@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: copy
+
+spec:
+  schedule: "*/5 * * * *"
+  timeZone: Asia/Tokyo
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: app
+              image: rclone/rclone:1.76.0@sha256:7cbeec24a44f206067597c0368be4de90ae19a64d5113c7d1938bd737a81e466
+              args:
+                - copy
+                - /target
+                - "upstream:"
+                - --drive-stop-on-upload-limit
+                - --copy-links
+                - --order-by=name
+                - --ignore-existing
+                - --min-age=1m
+                - --config=/config/rclone.conf
+                - --log-level=INFO
+              volumeMounts:
+                - name: target
+                  mountPath: /target
+                  readOnly: true
+                - name: config
+                  mountPath: /config
+                  readOnly: true
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsGroup: 1000
+                runAsUser: 1000
+          volumes:
+            - name: target
+              hostPath:
+                path: /mnt/pool/records
+                type: Directory
+            - name: config
+              hostPath:
+                path: /mnt/local/kotatsu/rclone
+                type: Directory
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          securityContext:
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1

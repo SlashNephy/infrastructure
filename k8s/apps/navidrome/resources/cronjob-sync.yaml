@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sync
+
+spec:
+  schedule: "*/15 * * * *"
+  timeZone: Asia/Tokyo
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: app
+              image: rclone/rclone:1.76.0@sha256:7cbeec24a44f206067597c0368be4de90ae19a64d5113c7d1938bd737a81e466
+              args:
+                - sync
+                - "upstream:"
+                - /target
+                - --order-by=name
+                - --config=/config/rclone.conf
+                - --log-level=INFO
+              volumeMounts:
+                - name: target
+                  mountPath: /target
+                - name: config
+                  mountPath: /config
+                  readOnly: true
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsGroup: 1000
+                runAsUser: 1000
+          volumes:
+            - name: target
+              hostPath:
+                path: /mnt/pool/music/sync
+                type: DirectoryOrCreate
+            - name: config
+              hostPath:
+                path: /mnt/local/navidrome/rclone
+                type: Directory
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          securityContext:
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  suspend: true
