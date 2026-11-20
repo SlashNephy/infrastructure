@@ -8,16 +8,19 @@ metadata:
   name: backup-database
 
 spec:
-  concurrencyPolicy: Forbid
-  failedJobsHistoryLimit: 1
+  schedule: "20 * * * *"
+  timeZone: Asia/Tokyo
   jobTemplate:
     spec:
       backoffLimit: 0
       template:
         spec:
-          automountServiceAccountToken: false
           containers:
-            - command:
+            - name: app
+              # pg_dump はサーバーと同じメジャーの版を使う (database.yaml の imageName)
+              image: public.ecr.aws/docker/library/postgres:18.7-bookworm@sha256:194e55feb2597b1465dbee81cc9fd8d204566cd2eb42c8d22fd6c931a38781b1
+              workingDir: /backup
+              command:
                 - bash
                 - -c
                 - |
@@ -39,18 +42,18 @@ spec:
                 - name: PGPASSWORD
                   valueFrom:
                     secretKeyRef:
-                      key: password
                       name: kotatsu-db-app
+                      key: password
                 - name: PGUSER
                   valueFrom:
                     secretKeyRef:
-                      key: username
                       name: kotatsu-db-app
+                      key: username
                 - name: TZ
                   value: Asia/Tokyo
-              # pg_dump はサーバーと同じメジャーの版を使う (database.yaml の imageName)
-              image: public.ecr.aws/docker/library/postgres:18.7-bookworm@sha256:194e55feb2597b1465dbee81cc9fd8d204566cd2eb42c8d22fd6c931a38781b1
-              name: app
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
@@ -59,21 +62,18 @@ spec:
                 readOnlyRootFilesystem: true
                 runAsGroup: 1000
                 runAsUser: 1000
-              volumeMounts:
-                - mountPath: /backup
-                  name: backup
-              workingDir: /backup
+          volumes:
+            # 持ち主は uid 1000
+            - name: backup
+              hostPath:
+                path: /mnt/local/kotatsu/db-backup
+                type: Directory
           restartPolicy: Never
+          automountServiceAccountToken: false
           securityContext:
             runAsNonRoot: true
             seccompProfile:
               type: RuntimeDefault
-          volumes:
-            # 持ち主は uid 1000
-            - hostPath:
-                path: /mnt/local/kotatsu/db-backup
-                type: Directory
-              name: backup
-  schedule: "20 * * * *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
   successfulJobsHistoryLimit: 1
-  timeZone: Asia/Tokyo
