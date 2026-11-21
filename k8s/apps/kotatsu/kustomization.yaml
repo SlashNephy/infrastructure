@@ -10,6 +10,16 @@ helmCharts:
     version: 2026.11.5
     repo: https://slashnephy.github.io/kotatsu
     valuesInline:
+      # nekonote が、DB とキャプチャの画像を暗号化して定期に書き出す先 (Kotatsu の設計書 11.4)。
+      # 公開鍵、間隔、残す世代の数は、管理者の画面 (/admin/backup) で決める。公開鍵を登録するまでは書き出さない。
+      # 稼働中の DB のデータディレクトリ (/mnt/local/kotatsu/db) は、生のファイルでは整合が取れないので、Lily のホストのバックアップ
+      # (maintenance-backup-local、毎日 04:30) から外してある。代わりに、ここに書き出したファイルがホストのバックアップに入り、pool とオフサイトに送られる。
+      # 持ち主は uid 1000。前の pg_dump の CronJob が残した kotatsu-*.dump は、Kotatsu が消さないので残る。
+      backup:
+        volume:
+          hostPath:
+            path: /mnt/local/kotatsu/db-backup
+            type: Directory
       config:
         # Application に入れる人 (Nerd) は、初めてのログインでメンバーとして作る。
         # 管理者は、既存のユーザーに kotatsu user link-oidc で紐付ける。
@@ -53,6 +63,16 @@ helmCharts:
             - go_*
             - process_*
       mode: split
+      # Pod への Ingress を絞る (Cilium が NetworkPolicy を実装する)。tenban の http は traefik からだけ受け、
+      # kyusu の http は tenban からだけ受ける。ほかのロールの http と、全ロールの metrics は誰からも受けない。
+      # メトリクスは OTLP で Mackerel に送り、/metrics を読む相手はいないので、metricsFrom は空にする。
+      # kubelet のプローブは、Cilium がホストからの通信として通す。
+      networkPolicy:
+        enabled: true
+        httpFrom:
+          - namespaceSelector:
+              matchLabels:
+                kubernetes.io/metadata.name: traefik
       # mackerel-container-agent を全ロールの Pod に注入する (resources/mackerel-agent.yaml)。
       # 注入は mackerel-operator が Pod の label と annotation を見て行う。マイグレーションの Job には Chart が付けない。
       podAnnotations:
@@ -76,8 +96,8 @@ helmCharts:
           timeoutSeconds: 5
         readiness:
           timeoutSeconds: 5
-      # requests は、全ロールを 1 つの Pod で動かしていたときの実測 (プロセスのメモリが合わせて 100MB 未満) に寄せる。
-      # limits は、FFmpeg を使う nekonote と kyusu に余裕を持たせる。
+      # resources は Chart の既定値 (本番の split の実測に寄せた値) を使う。FFmpeg を使う kyusu と nekonote だけ、
+      # GPU を足し、メモリの limits を Chart の既定 (4Gi) より小さい 2Gi にする。
       roles:
         kyusu:
           podAnnotations:
@@ -88,30 +108,15 @@ helmCharts:
               # VAAPI の render ノード (/dev/dri/renderD128)。拡張リソースは limits に書く
               devic.es/dri: 1
               memory: 2Gi
-            requests:
-              cpu: 50m
-              memory: 128Mi
           # HLS のセグメントと FFmpeg の作業ファイルを置く。
           workSizeLimit: 8Gi
         mikan:
           podAnnotations:
             agent.mackerel.starry.blue/roles: kotatsu:mikan
           replicas: 2
-          resources:
-            limits:
-              memory: 1Gi
-            requests:
-              cpu: 50m
-              memory: 64Mi
         neko:
           podAnnotations:
             agent.mackerel.starry.blue/roles: kotatsu:neko
-          resources:
-            limits:
-              memory: 512Mi
-            requests:
-              cpu: 25m
-              memory: 64Mi
         nekonote:
           podAnnotations:
             agent.mackerel.starry.blue/roles: kotatsu:nekonote
@@ -120,20 +125,11 @@ helmCharts:
               # 録画の MP4 への変換も、kyusu と同じエンコーダーの設定 (KYUSU_ENCODER) を使うので、GPU を渡す
               devic.es/dri: 1
               memory: 2Gi
-            requests:
-              cpu: 50m
-              memory: 128Mi
         # tenban は 1 台にする。RollingUpdate なので、更新の間も新しい Pod が ready になってから古い Pod を止める。
         tenban:
           podAnnotations:
             agent.mackerel.starry.blue/roles: kotatsu:tenban
           replicas: 1
-          resources:
-            limits:
-              memory: 1Gi
-            requests:
-              cpu: 25m
-              memory: 64Mi
       secrets:
         databaseURL:
           name: kotatsu-db-app
@@ -174,7 +170,6 @@ helmCharts:
 
 resources:
   - ./resources/authentik.yaml
-  - ./resources/cronjob-backup-database.yaml
   - ./resources/cronjob-copy.yaml
   - ./resources/database.yaml
   - ./resources/dns.yaml
