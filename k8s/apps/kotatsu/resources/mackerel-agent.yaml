@@ -41,7 +41,7 @@ subjects:
 
 ---
 # agent の通信を、注入先の Pod の NetworkPolicy に足す。
-# enableDefaultDeny: false で、egress を制限していない Pod (Kotatsu の各ロール) を
+# enableDefaultDeny: false で、egress を制限していない Pod (Kotatsu の各ロールと PostgreSQL) を
 # このポリシーだけで既定拒否に変えないようにしている。
 # ただし toFQDNs のために DNS を L7 で見るので、それらの Pod の名前解決も DNS プロキシを通るようになる。
 apiVersion: cilium.io/v2
