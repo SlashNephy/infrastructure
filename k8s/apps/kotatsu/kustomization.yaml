@@ -7,7 +7,7 @@ helmCharts:
   - name: kotatsu
     releaseName: kotatsu
     namespace: kotatsu
-    version: 2026.11.4
+    version: 2026.11.5
     repo: https://slashnephy.github.io/kotatsu
     valuesInline:
       config:
@@ -23,7 +23,8 @@ helmCharts:
         KYUSU_ENCODER: vaapi
         # 外からは traefik を経て届き、認証の前段は authentik が担う。
         # 送信元の判定は traefik (Pod のネットワーク) が付ける X-Forwarded-For に頼る。
-        SERVER_ALLOWED_NETWORKS: 0.0.0.0/0,::/0
+        # 2026.11.5 で SERVER_ALLOWED_NETWORKS が家の中と外に分かれた。家の中 (RFC 1918 など) の範囲は既定で受けるので、外の範囲だけを書く。
+        SERVER_ALLOWED_EXTERNAL_NETWORKS: 0.0.0.0/0,::/0
         SERVER_TRUSTED_PROXIES: 10.0.0.0/16
         TUNER_URL: http://app.mahiron:40772/
       # メトリクスを OTLP で Mackerel に送るときのヘッダー。Secret の kotatsu-mackerel (secret.yaml) は API キーだけを持つので、
@@ -52,6 +53,12 @@ helmCharts:
             - go_*
             - process_*
       mode: split
+      # mackerel-container-agent を全ロールの Pod に注入する (resources/mackerel-agent.yaml)。
+      # 注入は mackerel-operator が Pod の label と annotation を見て行う。マイグレーションの Job には Chart が付けない。
+      podAnnotations:
+        agent.mackerel.starry.blue/apikey-secret-name: mackerel-agent-api-key
+      podLabels:
+        agent.mackerel.starry.blue/inject: "true"
       # Chart の既定の uid (65532) では、録画の置き場所に書けない。fsGroup も合わせないと、Chart の既定の 65532 が残る。
       podSecurityContext:
         fsGroup: 1000
@@ -73,6 +80,8 @@ helmCharts:
       # limits は、FFmpeg を使う nekonote と kyusu に余裕を持たせる。
       roles:
         kyusu:
+          podAnnotations:
+            agent.mackerel.starry.blue/roles: kotatsu:kyusu
           replicas: 1
           resources:
             limits:
@@ -85,6 +94,8 @@ helmCharts:
           # HLS のセグメントと FFmpeg の作業ファイルを置く。
           workSizeLimit: 8Gi
         mikan:
+          podAnnotations:
+            agent.mackerel.starry.blue/roles: kotatsu:mikan
           replicas: 2
           resources:
             limits:
@@ -93,6 +104,8 @@ helmCharts:
               cpu: 50m
               memory: 64Mi
         neko:
+          podAnnotations:
+            agent.mackerel.starry.blue/roles: kotatsu:neko
           resources:
             limits:
               memory: 512Mi
@@ -100,6 +113,8 @@ helmCharts:
               cpu: 25m
               memory: 64Mi
         nekonote:
+          podAnnotations:
+            agent.mackerel.starry.blue/roles: kotatsu:nekonote
           resources:
             limits:
               # 録画の MP4 への変換も、kyusu と同じエンコーダーの設定 (KYUSU_ENCODER) を使うので、GPU を渡す
@@ -110,6 +125,8 @@ helmCharts:
               memory: 128Mi
         # tenban は 1 台にする。RollingUpdate なので、更新の間も新しい Pod が ready になってから古い Pod を止める。
         tenban:
+          podAnnotations:
+            agent.mackerel.starry.blue/roles: kotatsu:tenban
           replicas: 1
           resources:
             limits:
@@ -124,6 +141,8 @@ helmCharts:
         secretKey:
           name: kotatsu
           key: KOTATSU_AUTH_SECRET_KEY
+      # agent が kubelet を読むための ServiceAccount (resources/mackerel-agent.yaml)。Kotatsu 自体は Kubernetes の API を使わない。
+      serviceAccountName: mackerel-container-agent
       storage:
         # 索引、代表画像、プレビュー画像などの生成物。持ち主は uid 1000。
         data:

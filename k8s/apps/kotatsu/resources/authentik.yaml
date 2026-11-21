@@ -78,7 +78,7 @@ spec:
       redirectURIs:
         - matchingMode: Strict
           type: Authorization
-          url: https://kotatsu.starry.blue/auth/oidc/callback
+          url: https://kotatsu.starry.blue/internal/auth/oidc/callback
       refreshTokenThreshold: seconds=0
       refreshTokenValidity: days=30
       # profile のスコープが groups の claim を返し、Kotatsu はそれで自動作成とロールを決める。
