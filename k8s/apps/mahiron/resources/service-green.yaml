@@ -55,6 +55,7 @@ roleRef:
 subjects:
   - name: tailnet-green
     kind: ServiceAccount
+
 ---
 apiVersion: onepassword.com/v1
 kind: OnePasswordItem
@@ -165,6 +166,7 @@ spec:
             value: "1"
 
       serviceAccountName: tailnet-green
+
 ---
 apiVersion: v1
 kind: Service
@@ -179,6 +181,10 @@ spec:
     - name: "40772"
       port: 40772
       targetPort: 40772
+      protocol: TCP
+    - name: "40773"
+      port: 40773
+      targetPort: 40773
       protocol: TCP
 
 ---
@@ -199,4 +205,7 @@ spec:
       toPorts:
         - ports:
             - port: "40772"
+              protocol: TCP
+        - ports:
+            - port: "40773"
               protocol: TCP
