@@ -29,11 +29,11 @@ spec:
           ports:
             - containerPort: 40772
           volumeMounts:
-            - name: data
-              mountPath: /var/db/mahiron
             - name: config
-              mountPath: /config
+              mountPath: /app/config
               readOnly: true
+            - name: db
+              mountPath: /app/db
             - name: tmp
               mountPath: /tmp
           # requests を指定せず BestEffort になっていると、cgroup v2 の
@@ -86,13 +86,13 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 5
       volumes:
-        - name: data
-          hostPath:
-            path: /mnt/local/mahiron5/data
-            type: DirectoryOrCreate
         - name: config
           hostPath:
             path: /mnt/local/mahiron5/config
+            type: Directory
+        - name: db
+          hostPath:
+            path: /mnt/local/mahiron5/data
             type: Directory
         - name: tmp
           emptyDir:
