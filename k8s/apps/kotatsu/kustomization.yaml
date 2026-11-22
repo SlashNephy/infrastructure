@@ -117,7 +117,7 @@ helmCharts:
         neko:
           podAnnotations:
             agent.mackerel.starry.blue/roles: kotatsu:neko
-          # Chart の既定 (512Mi) では、2026-11-21 に 20 時間で 5 回 OOMKilled になった。
+          # Chart の既定 (512Mi) では、2026-11-21 に 20 時間で 5 回再起動し、直近の 1 回は OOMKilled だった。
           # 原因を調べ終えるまで、limits を 1Gi に上げて落ちないようにする。
           resources:
             limits:
