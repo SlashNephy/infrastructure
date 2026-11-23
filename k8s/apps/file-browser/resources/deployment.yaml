@@ -37,16 +37,12 @@ spec:
             - name: public
               mountPath: /mnt/pool/public
               readOnly: true
-            - name: music
-              mountPath: /mnt/pool/music
             - name: dtv-records
               mountPath: /mnt/pool/records
               readOnly: true
             - name: dtv-records-local
               mountPath: /mnt/pool/records_local
               readOnly: true
-            - name: dtv-konomitv-capture
-              mountPath: /capture
             - name: tmp
               mountPath: /tmp
           # kubelet の httpGet はホストからの通信になり、network.yaml でホストを拒否しているため、Pod 内から確かめる
@@ -103,14 +99,10 @@ spec:
         - name: data
           hostPath:
             path: /mnt/local/file-browser/data
-            type: DirectoryOrCreate
+            type: Directory
         - name: public
           hostPath:
-            path: /mnt/pool/public
-            type: DirectoryOrCreate
-        - name: music
-          hostPath:
-            path: /mnt/pool/music
+            path: /mnt/local/file-browser/public
             type: Directory
         - name: dtv-records
           hostPath:
@@ -119,10 +111,6 @@ spec:
         - name: dtv-records-local
           hostPath:
             path: /mnt/pool/records_local
-            type: Directory
-        - name: dtv-konomitv-capture
-          hostPath:
-            path: /mnt/local/konomitv/data/capture
             type: Directory
         - name: tmp
           emptyDir: {}

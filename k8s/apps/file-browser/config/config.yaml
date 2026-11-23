@@ -30,22 +30,12 @@ server:
       config:
         defaultEnabled: true
         defaultPermissions:
-          create: true
-          delete: true
+          create: false
+          delete: false
           download: true
-          modify: true
+          modify: false
           view: true
       path: /mnt/pool
-    - name: konomitv-capture
-      config:
-        defaultEnabled: true
-        defaultPermissions:
-          create: true
-          delete: true
-          download: true
-          modify: true
-          view: true
-      path: /capture
 
 userDefaults:
   account:

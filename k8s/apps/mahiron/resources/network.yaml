@@ -8,7 +8,7 @@ spec:
     matchLabels:
       app: default
   ingress:
-    # traefik・kotatsu・konomitv など
+    # traefik・kotatsu など
     - fromEntities:
         - cluster
       toPorts:
