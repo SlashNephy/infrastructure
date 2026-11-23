@@ -33,7 +33,7 @@ spec:
               mountPath: /app/config
               readOnly: true
             - name: db
-              mountPath: /app/db
+              mountPath: /var/db/mahiron
             - name: tmp
               mountPath: /tmp
           # requests を指定せず BestEffort になっていると、cgroup v2 の
@@ -88,11 +88,11 @@ spec:
       volumes:
         - name: config
           hostPath:
-            path: /mnt/local/mahiron5/config
+            path: /mnt/local/mahiron/config
             type: Directory
         - name: db
           hostPath:
-            path: /mnt/local/mahiron5/data
+            path: /mnt/local/mahiron/data
             type: Directory
         - name: tmp
           emptyDir:
