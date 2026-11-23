@@ -76,14 +76,6 @@ spec:
             namespace: samba
             path: k8s/apps/samba
             project: apps
-          - name: home-assistant
-            namespace: home-assistant
-            path: k8s/apps/home-assistant
-            project: apps
-          - name: guacamole
-            namespace: guacamole
-            path: k8s/apps/guacamole
-            project: apps
 
           # cron
           - name: auto-claimer
