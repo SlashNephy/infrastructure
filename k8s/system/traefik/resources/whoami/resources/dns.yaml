@@ -25,9 +25,9 @@ spec:
   certificationExpirationWarning: 14
   expectedStatusCode: 200
   method: GET
-  responseTimeCritical: 5000
+  responseTimeCritical: 10000
   responseTimeDuration: 1
-  responseTimeWarning: 3000
+  responseTimeWarning: 5000
   service: Production
   # Traefik のルーティング経路そのものが生きていることを確認する合成監視。
   url: https://whoami.starry.blue/

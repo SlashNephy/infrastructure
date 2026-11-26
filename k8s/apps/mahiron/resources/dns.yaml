@@ -34,8 +34,8 @@ spec:
   expectedStatusCode: 200
   maxCheckAttempts: 3
   method: GET
-  responseTimeCritical: 5000
+  responseTimeCritical: 10000
   responseTimeDuration: 1
-  responseTimeWarning: 3000
+  responseTimeWarning: 5000
   service: mahiron
   url: https://mahiron.starry.blue/api/version
