@@ -33,15 +33,12 @@ spec:
   slug: kotatsu-frontend
 
 ---
-# 手前の forward auth とは別に、Kotatsu 自体のログイン (OIDC) 用の Application を置く。
-# Kotatsu は、IdP のグループからユーザーを自動で作る (KOTATSU_AUTH_OIDC_AUTO_CREATE_*)。
 apiVersion: authentik.starry.blue/v1alpha1
 kind: AuthentikApplication
 metadata:
   name: kotatsu
 
 spec:
-  # forward auth と同じグループに絞る。
   access:
     rules:
       - group:
@@ -63,8 +60,6 @@ spec:
       accessCodeValidity: minutes=1
       accessTokenValidity: hours=1
       clientType: Confidential
-      # Secret の kotatsu-oidc はまだないので、operator が authentik の生成した値で作る。
-      # 以後はこの Secret が source of truth になる。Kotatsu は envFrom で読むので、ローテーションには Pod の再起動が要る。
       credentials:
         secretRef:
           name: kotatsu-oidc
@@ -81,7 +76,6 @@ spec:
           url: https://kotatsu.starry.blue/internal/auth/oidc/callback
       refreshTokenThreshold: seconds=0
       refreshTokenValidity: days=30
-      # profile のスコープが groups の claim を返し、Kotatsu はそれで自動作成とロールを決める。
       scopes:
         - scopeName: openid
         - scopeName: email
@@ -90,38 +84,3 @@ spec:
         name: id.starry.blue
       subjectMode: HashedUserID
   slug: kotatsu
-
----
-# River UI の forward auth。River UI はジョブの取り消しや削除もできるので、Admin だけに絞る。
-apiVersion: authentik.starry.blue/v1alpha1
-kind: AuthentikApplication
-metadata:
-  name: kotatsu-river
-
-spec:
-  access:
-    rules:
-      - group:
-          name: Admin
-  adopt: IfMatch
-  group: DTV
-  icon: https://github.com/riverqueue.png
-  name: Kotatsu (River UI)
-  provider:
-    name: kotatsu-river
-    flows:
-      authentication:
-        slug: sign-in
-      authorization:
-        slug: authorize
-      invalidation:
-        slug: default-provider-invalidation-flow
-    proxy:
-      accessTokenValidity: days=7
-      forwardAuthSingle:
-        externalHost: https://kotatsu-river.starry.blue
-      interceptHeaderAuth: true
-      outpost:
-        name: authentik Embedded Outpost
-      refreshTokenValidity: days=30
-  slug: kotatsu-river
