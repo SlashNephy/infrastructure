@@ -8,7 +8,7 @@ spec:
     - dnsName: kotatsu.starry.blue
       providerSpecific:
         - name: external-dns.kubernetes.io/cloudflare-proxied
-          value: "true"
+          value: "false"
       recordTTL: 1 # Auto
       recordType: CNAME
       targets:
@@ -23,6 +23,7 @@ metadata:
 spec:
   certificationExpirationCritical: 7
   certificationExpirationWarning: 14
+  dualstack: ipv6
   expectedStatusCode: 200
   maxCheckAttempts: 3
   method: GET

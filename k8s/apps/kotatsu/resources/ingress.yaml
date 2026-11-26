@@ -38,3 +38,8 @@ spec:
       services:
         - name: kotatsu
           port: http
+
+  tls:
+    options:
+      name: gateway
+      namespace: traefik
