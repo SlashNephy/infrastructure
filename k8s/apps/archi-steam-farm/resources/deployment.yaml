@@ -70,7 +70,7 @@ spec:
             runAsUser: 1000
       containers:
         - name: app
-          image: ghcr.io/justarchinet/archisteamfarm:7.0.0.9@sha256:8bd6ca41ad7fb192300380f047a2951d41bf92936b316036a7aa3f8a38797159
+          image: ghcr.io/justarchinet/archisteamfarm:7.0.0.10@sha256:900e556d49c7247a9b987311bf0ac2de9a3724d8898a49ecb07cd18d2ce0b168
           env:
             - name: TZ
               value: Asia/Tokyo
