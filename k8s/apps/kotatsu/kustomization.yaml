@@ -36,9 +36,6 @@ helmCharts:
         - secretRef:
             name: kotatsu-oidc
       metrics:
-        # neko のメモリの使い方を調査する間だけ、metrics のポートで /debug/pprof/ を返す。
-        # metrics のポートは NetworkPolicy でどこからも受けないので、port-forward で読む。調査を終えたら外す。
-        pprof: true
         otlp:
           endpoint: https://otlp.mackerelio.com:4317
           exclude:
