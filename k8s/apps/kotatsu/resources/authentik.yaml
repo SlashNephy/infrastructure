@@ -12,9 +12,9 @@ spec:
   group: DTV
   hideFromApplicationDashboard: true
   icon: https://raw.githubusercontent.com/SlashNephy/kotatsu/main/frontend/public/icons/icon-512.png
-  name: kotatsu.starry.blue
+  name: kotatsu.gateway.starry.blue
   provider:
-    name: kotatsu.starry.blue
+    name: kotatsu.gateway.starry.blue
     flows:
       authentication:
         slug: sign-in
@@ -25,7 +25,7 @@ spec:
     proxy:
       accessTokenValidity: days=7
       forwardAuthSingle:
-        externalHost: https://kotatsu.starry.blue
+        externalHost: https://kotatsu.gateway.starry.blue
       interceptHeaderAuth: true
       outpost:
         name: authentik Embedded Outpost
@@ -45,7 +45,7 @@ spec:
           name: Nerd
   group: DTV
   icon: https://raw.githubusercontent.com/SlashNephy/kotatsu/main/frontend/public/icons/icon-512.png
-  launchURL: https://kotatsu.starry.blue
+  launchURL: https://kotatsu.gateway.starry.blue
   name: Kotatsu
   provider:
     name: Kotatsu
@@ -73,7 +73,7 @@ spec:
       redirectURIs:
         - matchingMode: Strict
           type: Authorization
-          url: https://kotatsu.starry.blue/internal/auth/oidc/callback
+          url: https://kotatsu.gateway.starry.blue/internal/auth/oidc/callback
       refreshTokenThreshold: seconds=0
       refreshTokenValidity: days=30
       scopes:
