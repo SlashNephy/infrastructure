@@ -115,6 +115,7 @@ helmCharts:
 
 resources:
   - ./resources/authentik.yaml
+  - ./resources/configmap-postgresql-upgrade.yaml
   - ./resources/configmap-postgresql.yaml
   - ./resources/cronjob-backup.yaml
   - ./resources/cronjob-cleanup-backup.yaml
