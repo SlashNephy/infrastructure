@@ -8,6 +8,7 @@ spec:
   # 認証をかけると目的と衝突する。Provider を持たせず、library のリンクだけを管理する。
   access:
     public: true
+  deletionPolicy: Delete
   launchURL: https://whoami.starry.blue
   name: whoami
   slug: whoami

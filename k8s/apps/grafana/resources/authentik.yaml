@@ -10,6 +10,7 @@ spec:
   # 既存の Application を取り込む。CR の内容が authentik の現状と一致したときだけ
   # マーカーを付ける。差異があれば Ready=False で止まり、書き込みは起きない。
   adopt: IfMatch
+  deletionPolicy: Delete
   group: Observability
   icon: https://github.com/grafana.png
   launchURL: https://grafana.starry.blue
@@ -67,6 +68,7 @@ spec:
   # Grafana の OAuth2 Application と同じく、全ユーザーがアクセスできる。
   access:
     public: true
+  deletionPolicy: Delete
   hideFromApplicationDashboard: true
   name: grafana.starry.blue
   provider:

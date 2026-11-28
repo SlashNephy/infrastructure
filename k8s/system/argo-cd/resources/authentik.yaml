@@ -11,6 +11,7 @@ spec:
       - group:
           name: ArgoCD/Viewer
   adopt: IfMatch
+  deletionPolicy: Delete
   group: System
   icon: https://github.com/argoproj.png
   launchURL: https://argocd.starry.blue/auth/login
@@ -76,6 +77,7 @@ spec:
           name: ArgoCD/Admin
       - group:
           name: ArgoCD/Viewer
+  deletionPolicy: Delete
   hideFromApplicationDashboard: true
   name: argocd.starry.blue
   provider:
