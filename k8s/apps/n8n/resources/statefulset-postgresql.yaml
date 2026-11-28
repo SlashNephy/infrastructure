@@ -20,7 +20,7 @@ spec:
     spec:
       initContainers:
         - name: dump-pg18
-          image: public.ecr.aws/docker/library/postgres:18.7-bookworm@sha256:e742a2668255221388004f3a42b6150a2103f5054ab3a4a93ae9e4f01e551c35
+          image: public.ecr.aws/docker/library/postgres:19.0-bookworm@sha256:f8b826440669ad283328d2ac8326682539eddd91867904ad5abf4ec19269d241
           command: [bash, /upgrade/dump.sh]
           volumeMounts:
             - name: data
