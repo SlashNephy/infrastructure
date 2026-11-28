@@ -78,7 +78,9 @@ spec:
       - group:
           name: ArgoCD/Viewer
   deletionPolicy: Delete
+  group: System
   hideFromApplicationDashboard: true
+  icon: https://github.com/argoproj.png
   name: argocd.starry.blue
   provider:
     name: argocd.starry.blue
