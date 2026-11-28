@@ -18,42 +18,6 @@ spec:
         app.kubernetes.io/instance: postgresql
         app.kubernetes.io/name: postgresql
     spec:
-      initContainers:
-        - name: dump-pg18
-          image: public.ecr.aws/docker/library/postgres:18.7-bookworm@sha256:e742a2668255221388004f3a42b6150a2103f5054ab3a4a93ae9e4f01e551c35
-          command: [bash, /upgrade/dump.sh]
-          volumeMounts:
-            - name: data
-              mountPath: /bitnami/postgresql
-            - name: config
-              mountPath: /etc/postgresql
-              readOnly: true
-            - name: upgrade
-              mountPath: /upgrade
-              readOnly: true
-            - name: restore
-              mountPath: /restore
-            - name: dump-tmp
-              mountPath: /tmp
-            - name: run
-              mountPath: /var/run/postgresql
-          resources:
-            limits:
-              ephemeral-storage: 2Gi
-              memory: 512Mi
-            requests:
-              cpu: 100m
-              ephemeral-storage: 50Mi
-              memory: 128Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: true
-            runAsGroup: 1001
-            runAsNonRoot: true
-            runAsUser: 1001
       containers:
         - name: postgresql
           # bookworm (glibc 2.36) に固定する。既存 DB は libc の en_US.UTF-8 照合で collation version 2.36 が
@@ -65,15 +29,9 @@ spec:
             - -c
             - hba_file=/etc/postgresql/pg_hba.conf
           env:
-            # 18 のデータディレクトリ (/bitnami/postgresql/data18) は切り戻し用に残し、19 は隣に作る
+            # 18 からはダンプと流し込みで移行した (#11424)。そのときに作った 19 のデータディレクトリ
             - name: PGDATA
               value: /bitnami/postgresql/data19
-            # 空の PGDATA を initdb するときにだけ使う。既存のロールのパスワードはダンプの値で上書きされる
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgresql-secret
-                  key: postgres-password
             - name: TZ
               value: Asia/Tokyo
           ports:
@@ -91,12 +49,6 @@ spec:
               mountPath: /tmp
             - name: dshm
               mountPath: /dev/shm
-            - name: restore
-              mountPath: /restore
-              readOnly: true
-            - name: upgrade
-              mountPath: /docker-entrypoint-initdb.d/restore.sh
-              subPath: restore.sh
           resources:
             # CPU の limit は付けない。平均の使用量は十数 m だが、クエリの瞬間的な burst が CFS quota に当たり、
             # 150m では全期間の約 26% が throttling されていた。request で下限だけ確保する
@@ -130,12 +82,11 @@ spec:
             runAsGroup: 1001
             runAsNonRoot: true
             runAsUser: 1001
-          # 初回の起動はダンプの流し込みを含むので、終わるまでは startupProbe だけで見る (最大 10 分)。
-          # 途中で liveness に落とされると .restored が置かれず、やり直しを繰り返してしまう。
+          # クラッシュリカバリで起動が長引いても liveness に落とされないよう、起動完了までは startupProbe だけで見る (最大 5 分)
           startupProbe:
             exec:
               command: [pg_isready, -U, n8n, -d, dbname=n8n, -h, 127.0.0.1, -p, "5432"]
-            failureThreshold: 60
+            failureThreshold: 30
             periodSeconds: 10
             timeoutSeconds: 5
       volumes:
@@ -152,13 +103,6 @@ spec:
         - name: dshm
           emptyDir:
             medium: Memory
-        - name: upgrade
-          configMap:
-            name: postgresql-upgrade
-        - name: restore
-          emptyDir: {}
-        - name: dump-tmp
-          emptyDir: {}
       automountServiceAccountToken: false
       securityContext:
         fsGroup: 1001
