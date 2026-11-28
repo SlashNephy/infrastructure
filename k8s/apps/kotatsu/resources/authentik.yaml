@@ -9,6 +9,7 @@ spec:
       - group:
           name: Nerd
   adopt: IfMatch
+  deletionPolicy: Delete
   group: DTV
   hideFromApplicationDashboard: true
   icon: https://raw.githubusercontent.com/SlashNephy/kotatsu/main/frontend/public/icons/icon-512.png
@@ -43,6 +44,7 @@ spec:
     rules:
       - group:
           name: Nerd
+  deletionPolicy: Delete
   group: DTV
   icon: https://raw.githubusercontent.com/SlashNephy/kotatsu/main/frontend/public/icons/icon-512.png
   launchURL: https://kotatsu.gateway.starry.blue

@@ -9,6 +9,7 @@ spec:
       - group:
           name: Admin
   adopt: IfMatch
+  deletionPolicy: Delete
   group: System
   icon: https://github.com/cilium.png
   name: Cilium (Hubble UI)

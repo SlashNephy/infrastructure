@@ -9,6 +9,7 @@ spec:
       - group:
           name: Admin
   adopt: IfMatch
+  deletionPolicy: Delete
   group: System
   icon: https://raw.githubusercontent.com/traefik/traefik/master/docs/content/assets/img/traefik.logo.png
   name: Traefik
@@ -43,6 +44,7 @@ spec:
     rules:
       - group:
           name: Admin
+  deletionPolicy: Delete
   group: System
   name: Router
   provider:

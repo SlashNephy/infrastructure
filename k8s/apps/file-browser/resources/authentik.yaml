@@ -11,6 +11,7 @@ spec:
   # 既存の Application を取り込む。CR の内容が authentik の現状と一致したときだけ
   # マーカーを付ける。差異があれば Ready=False で止まり、書き込みは起きない。
   adopt: IfMatch
+  deletionPolicy: Delete
   group: Multimedia
   icon: https://raw.githubusercontent.com/gtsteffaniak/filebrowser/main/frontend/public/img/icons/favicon.svg
   name: FileBrowser

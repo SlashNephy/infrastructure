@@ -9,6 +9,7 @@ spec:
       - group:
           name: Admin
   adopt: IfMatch
+  deletionPolicy: Delete
   group: Observability
   icon: https://github.com/grafana.png
   name: Grafana Alloy
