@@ -13,7 +13,7 @@ spec:
       owner: kotatsu
   # 拡張を使わず、照合順序も C なので、拡張やロケールを含まない minimal にする。
   # タグは PostgreSQL の版、ビルドの日時、種類、OS の順で、Renovate が版とビルドの両方を追う (renovate.json5)。
-  imageName: ghcr.io/cloudnative-pg/postgresql:18.7-202611230809-minimal-trixie@sha256:c8caac9817d2b5e5e66297a3ccf86d9fcbd68f097aa6cc00161d83f9635e88cc
+  imageName: ghcr.io/cloudnative-pg/postgresql:19.0-202611230809-minimal-trixie@sha256:12688a494f25aa0b7e1e3cd1800abe85b427fd1a09c991668a48162e3431a2af
   # mackerel-container-agent を注入する (mackerel-agent.yaml)。CNPG は、この metadata を Pod のほか Service や PVC にも付ける。
   # 注入は Pod を作るときだけなので、変えた後は Pod を作り直す。ServiceAccount (kotatsu-db) の権限は mackerel-agent.yaml で付けている。
   inheritedMetadata:
